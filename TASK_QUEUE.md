@@ -11,7 +11,7 @@
 
 ## In-Progress
 
-- [IN_PROGRESS][Codex] Publish verified source to new public GitHub repo `openultracode`.
+- None.
 
 ## Done
 
@@ -26,3 +26,4 @@
 - [Codex] Added `cuc status <run-id> --json` for machine-readable local run state.
 - [Codex] Added `cuc plan "<goal>" --json` for machine-readable plan creation output.
 - [Codex] Added `cuc plan` validation for missing `--run-id` values.
+- [Codex] Published the verified source to public GitHub repo `https://github.com/AryaVora621/openultracode`.

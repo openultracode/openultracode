@@ -2,6 +2,8 @@
 
 Timestamp: 2026-06-05 13:32 EDT
 
+GitHub: https://github.com/AryaVora621/openultracode
+
 ## Current Draft Scope
 
 Phase 1 foundation is implemented as a local TypeScript CLI package.
