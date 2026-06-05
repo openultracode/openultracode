@@ -1,6 +1,6 @@
 # Build Draft
 
-Timestamp: 2026-06-05 16:52 EDT
+Timestamp: 2026-06-05 16:58 EDT
 
 GitHub: https://github.com/AryaVora621/openultracode
 
@@ -32,6 +32,8 @@ Included:
 - `ouc run` refuses to overwrite an existing `final-report.md`.
 - Preflight `limits.maxTasks` and `limits.maxCostUsd` enforcement for fake runs.
 - Blocked-run JSON, ledger, and final report artifacts for limit stops.
+- `--stop-after-task` stopped-run reporting for fake runs.
+- Partial-run final reports that show succeeded, remaining, and not-run tasks.
 - Deterministic edit-goal splitting into edit and dependent test tasks.
 - Edit task source scopes prefer implementation files over docs and tracker files.
 - JSON output modes for `ouc plan ... --json` and `ouc status <run-id> --json`.
@@ -56,12 +58,13 @@ node dist/bin/ouc.js plan "implement JSON output and test it" --run-id run_smoke
 node dist/bin/ouc.js status run_smoke_artifacts_20260605_1322 --json
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_fake --json
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_budget_success --json
+node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_stopped --stop-after-task 1 --json
 npm pack --dry-run
 ```
 
 Observed results:
 
-- `npm test`: 8 test files, 23 tests passed.
+- `npm test`: 8 test files, 24 tests passed.
 - `npm run typecheck`: exit 0.
 - `npm run build`: exit 0.
 - `node dist/bin/ouc.js --help`: printed the CLI help with `plan`, `run`, `status`, and `report`.
@@ -74,9 +77,10 @@ Observed results:
 - `node dist/bin/ouc.js status run_smoke_artifacts_20260605_1322 --json`: printed machine-readable local run state with ledger and final report presence.
 - `node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_fake --json`: executed two fake tasks, wrote worker artifacts, task ledger events, and `final-report.md`.
 - Built blocked-run smoke against a temporary fixture returned exit 1 with status `blocked`, wrote `run_blocked` ledger state, and did not execute workers when `limits.maxTasks` was exceeded.
+- `node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_stopped --stop-after-task 1 --json`: returned exit 1 with status `stopped`, wrote one worker result, one remaining task, `run_stopped` ledger state, and a partial final report.
 - `ouc plan` argument validation rejects a missing `--run-id` value.
 - `npm pack --dry-run`: package is named `openultracode`, includes 12 runtime files, and only emits `dist/bin/ouc.js` for the CLI binary.
 
 ## Next Step
 
-Continue Phase 2 by adding cancellation and partial-run reporting before any external model calls.
+Continue Phase 2 by extracting a worker-pool abstraction behind fake runs before any external model calls.

@@ -5,7 +5,7 @@ import { FakeBackend } from "./backends/fake.js";
 import { loadConfig } from "./config.js";
 import { createDryRunPlan, type DryRunPlan } from "./planner.js";
 import { inspectRepository } from "./repo-inspector.js";
-import { createRunArtifacts } from "./run-artifacts.js";
+import { createRunArtifacts, type RunArtifacts } from "./run-artifacts.js";
 import type { CucConfig, Task, WorkerResult } from "./types.js";
 
 export type CliRuntime = {
@@ -210,6 +210,18 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
     return 1;
   }
 
+  if (parsed.stopAfterTask === 0 && plan.tasks.length > 0) {
+    return writeStoppedRun({
+      artifacts,
+      plan,
+      results,
+      ledgerEntries,
+      reason: stopAfterTaskReason(0),
+      json: parsed.json,
+      runtime
+    });
+  }
+
   for (const task of plan.tasks) {
     const startedAt = new Date().toISOString();
     ledgerEntries.push({
@@ -234,6 +246,22 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
       costUsd: result.costUsd,
       finishedAt: new Date().toISOString()
     });
+
+    if (
+      parsed.stopAfterTask !== undefined &&
+      results.length >= parsed.stopAfterTask &&
+      results.length < plan.tasks.length
+    ) {
+      return writeStoppedRun({
+        artifacts,
+        plan,
+        results,
+        ledgerEntries,
+        reason: stopAfterTaskReason(results.length),
+        json: parsed.json,
+        runtime
+      });
+    }
   }
 
   const succeeded = results.filter((result) => result.status === "succeeded").length;
@@ -414,7 +442,8 @@ function renderPlanReport(plan: DryRunPlan): string {
 function renderExecutionReport(
   plan: DryRunPlan,
   results: WorkerResult[],
-  status: string
+  status: string,
+  stopReason?: string
 ): string {
   const resultByTask = new Map(results.map((result) => [result.taskId, result]));
   const taskLines = plan.tasks.map((task) => {
@@ -426,6 +455,7 @@ function renderExecutionReport(
   });
   const succeeded = results.filter((result) => result.status === "succeeded").length;
   const failed = results.length - succeeded;
+  const remaining = plan.tasks.length - results.length;
 
   return [
     "# OpenUltraCode Run Report",
@@ -437,6 +467,8 @@ function renderExecutionReport(
     `- Planned tasks: ${plan.tasks.length}`,
     `- Succeeded tasks: ${succeeded}`,
     `- Failed tasks: ${failed}`,
+    ...(remaining > 0 ? [`- Remaining tasks: ${remaining}`] : []),
+    ...(stopReason ? [`- Stop reason: ${stopReason}`] : []),
     `- Total cost: $${sumCosts(results).toFixed(2)}`,
     "",
     "## Tasks",
@@ -445,7 +477,9 @@ function renderExecutionReport(
     "",
     "## Execution",
     "",
-    "Fake backend execution completed locally."
+    status === "stopped"
+      ? "Run stopped before all planned tasks completed."
+      : "Fake backend execution completed locally."
   ].join("\n");
 }
 
@@ -489,6 +523,72 @@ async function writeWorkerArtifacts(
   await writeFile(join(taskDir, "result.json"), `${JSON.stringify(result, null, 2)}\n`);
 }
 
+async function writeStoppedRun(input: {
+  artifacts: RunArtifacts;
+  plan: DryRunPlan;
+  results: WorkerResult[];
+  ledgerEntries: Array<Record<string, unknown>>;
+  reason: string;
+  json: boolean;
+  runtime: CliRuntime;
+}): Promise<number> {
+  const succeeded = input.results.filter((result) => (
+    result.status === "succeeded"
+  )).length;
+  const failed = input.results.length - succeeded;
+  const remaining = input.plan.tasks.length - input.results.length;
+
+  input.ledgerEntries.push({
+    event: "run_stopped",
+    runId: input.artifacts.runId,
+    status: "stopped",
+    reason: input.reason,
+    taskCount: input.plan.tasks.length,
+    succeeded,
+    failed,
+    remaining,
+    totalCostUsd: sumCosts(input.results),
+    stoppedAt: new Date().toISOString()
+  });
+
+  await writeLedger(input.artifacts.ledgerPath, input.ledgerEntries);
+  const report = renderExecutionReport(
+    input.plan,
+    input.results,
+    "stopped",
+    input.reason
+  );
+  await writeFile(input.artifacts.finalReportPath, `${report}\n`);
+
+  if (input.json) {
+    input.runtime.stdout(
+      JSON.stringify(
+        {
+          runId: input.artifacts.runId,
+          status: "stopped",
+          reason: input.reason,
+          taskCount: input.plan.tasks.length,
+          succeeded,
+          failed,
+          remaining,
+          totalCostUsd: sumCosts(input.results),
+          planPath: input.artifacts.planPath,
+          ledgerPath: input.artifacts.ledgerPath,
+          finalReportPath: input.artifacts.finalReportPath
+        },
+        null,
+        2
+      )
+    );
+    return 1;
+  }
+
+  input.runtime.stdout(`Run ${input.artifacts.runId} stopped`);
+  input.runtime.stdout(input.reason);
+  input.runtime.stdout(input.artifacts.finalReportPath);
+  return 1;
+}
+
 async function writeLedger(
   ledgerPath: string,
   entries: Array<Record<string, unknown>>
@@ -497,6 +597,14 @@ async function writeLedger(
     ledgerPath,
     `${entries.map((entry) => JSON.stringify(entry)).join("\n")}\n`
   );
+}
+
+function stopAfterTaskReason(taskCount: number): string {
+  if (taskCount === 0) {
+    return "Stopped before task execution by --stop-after-task.";
+  }
+
+  return `Stopped after task ${taskCount} by --stop-after-task.`;
 }
 
 function findRunLimitViolation(
@@ -576,12 +684,14 @@ function parseRunArgs(args: string[]): {
   runId?: string;
   backend: "fake";
   json: boolean;
+  stopAfterTask?: number;
   error?: string;
 } {
   const goalParts: string[] = [];
   let runId: string | undefined;
   let backend: "fake" = "fake";
   let json = false;
+  let stopAfterTask: number | undefined;
 
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
@@ -601,6 +711,30 @@ function parseRunArgs(args: string[]): {
         };
       }
       runId = args[index + 1];
+      index += 1;
+      continue;
+    }
+
+    if (arg === "--stop-after-task") {
+      const rawValue = args[index + 1];
+      const parsedValue = Number(rawValue);
+
+      if (
+        !rawValue ||
+        rawValue.startsWith("--") ||
+        !Number.isInteger(parsedValue) ||
+        parsedValue < 0
+      ) {
+        return {
+          goal: goalParts.join(" ").trim(),
+          backend,
+          json,
+          stopAfterTask,
+          error: "--stop-after-task requires a nonnegative integer value"
+        };
+      }
+
+      stopAfterTask = parsedValue;
       index += 1;
       continue;
     }
@@ -626,7 +760,8 @@ function parseRunArgs(args: string[]): {
     goal: goalParts.join(" ").trim(),
     runId,
     backend,
-    json
+    json,
+    stopAfterTask
   };
 }
 

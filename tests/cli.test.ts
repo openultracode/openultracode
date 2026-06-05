@@ -537,3 +537,82 @@ test("runCli run blocks plans that exceed maxCostUsd before worker execution", a
     "run_blocked"
   ]);
 });
+
+test("runCli run can stop after a fake task and report partial execution", async () => {
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-stopped-"));
+  await mkdir(join(projectRoot, "src"), { recursive: true });
+  await mkdir(join(projectRoot, "tests"), { recursive: true });
+  await writeFile(join(projectRoot, "package.json"), "{}");
+  await writeFile(join(projectRoot, "src", "cli.ts"), "export {};");
+  await writeFile(join(projectRoot, "tests", "cli.test.ts"), "test('ok', () => {});");
+
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+
+  const exitCode = await runCli(
+    [
+      "node",
+      "ouc",
+      "run",
+      "implement report command and test it",
+      "--backend",
+      "fake",
+      "--run-id",
+      "run_stopped",
+      "--stop-after-task",
+      "1",
+      "--json"
+    ],
+    {
+      cwd: projectRoot,
+      stdout: (line) => stdout.push(line),
+      stderr: (line) => stderr.push(line)
+    }
+  );
+  const output = JSON.parse(stdout.join("\n")) as {
+    status: string;
+    reason: string;
+    succeeded: number;
+    remaining: number;
+    finalReportPath: string;
+  };
+  const runDir = join(projectRoot, ".ouc", "runs", "run_stopped");
+  const ledgerLines = (await readFile(join(runDir, "ledger.jsonl"), "utf8"))
+    .trim()
+    .split("\n")
+    .map((line) => JSON.parse(line) as { event: string; taskId?: string });
+  const report = await readFile(output.finalReportPath, "utf8");
+  const firstWorkerResponse = await readFile(
+    join(runDir, "workers", "task_1", "response.md"),
+    "utf8"
+  );
+
+  expect(exitCode).toBe(1);
+  expect(stderr).toEqual([]);
+  expect(output).toMatchObject({
+    status: "stopped",
+    reason: "Stopped after task 1 by --stop-after-task.",
+    succeeded: 1,
+    remaining: 1
+  });
+  expect(ledgerLines.map((line) => line.event)).toEqual([
+    "plan_created",
+    "task_started",
+    "task_finished",
+    "run_stopped"
+  ]);
+  expect(ledgerLines.filter((line) => line.taskId).map((line) => line.taskId)).toEqual([
+    "task_1",
+    "task_1"
+  ]);
+  expect(firstWorkerResponse).toContain("Fake backend fake-model completed task_1.");
+  await expect(stat(join(runDir, "workers", "task_2", "response.md"))).rejects.toMatchObject({
+    code: "ENOENT"
+  });
+  expect(report).toContain("- Status: stopped");
+  expect(report).toContain("- Succeeded tasks: 1");
+  expect(report).toContain("- Remaining tasks: 1");
+  expect(report).toContain("- Stop reason: Stopped after task 1 by --stop-after-task.");
+  expect(report).toContain("task_2");
+  expect(report).toContain("not run");
+});

@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 16:52 EDT
+Timestamp: 2026-06-05 16:58 EDT
 
 ## Completed
 
@@ -67,14 +67,19 @@ Timestamp: 2026-06-05 16:52 EDT
 - Added blocked-run JSON output, `run_blocked` ledger events, and blocked final reports.
 - Verified focused CLI tests, full tests, typecheck, build, built success smoke, and built blocked-run smoke.
 - Verified `npm pack --dry-run`, secret scans excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, and `git diff --check`.
+- Committed and pushed budget enforcement as `1b3b72c` with message `Enforce fake run limits`.
+- Added `--stop-after-task` stopped-run reporting for fake runs.
+- Added `run_stopped` ledger events, stopped JSON output, and partial final reports with not-run tasks.
+- Verified focused CLI tests, full tests, typecheck, build, and built stopped-run smoke.
+- Verified `npm pack --dry-run`, secret scans excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, and `git diff --check`.
 
 ## Current In-Progress State
 
-- None. Budget and max-task enforcement is implemented and verified locally.
+- None. Stopped-run reporting is implemented and verified locally.
 
 ## Next Action
 
-- Commit and push budget enforcement, then start cancellation and partial-run reporting.
+- Commit and push stopped-run reporting, then extract a worker-pool abstraction behind fake runs.
 
 ## Human Decisions Needed
 

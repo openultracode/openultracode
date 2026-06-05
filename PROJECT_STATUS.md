@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 16:52 EDT
+Last updated: 2026-06-05 16:58 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -28,6 +28,8 @@ Implemented:
 - Refusal to overwrite an existing final report during `ouc run`.
 - Preflight `limits.maxTasks` and `limits.maxCostUsd` enforcement for fake runs.
 - Blocked-run JSON, ledger, and final report artifacts for limit stops.
+- `--stop-after-task` stopped-run reporting for fake runs.
+- Partial-run final reports that show succeeded, remaining, and not-run tasks.
 - Test suite covering current behavior.
 
 Not implemented yet:
@@ -38,7 +40,7 @@ Not implemented yet:
 - Codex CLI backend.
 - Worktree manager.
 - Diff reconciliation.
-- Cancellation handling.
+- Real cancellation and signal handling.
 - Real cost and token accounting.
 
 ## Verification Snapshot
@@ -50,29 +52,31 @@ npm test
 npm run typecheck
 npm run build
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_budget_success --json
+node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_stopped --stop-after-task 1 --json
 npm pack --dry-run
 ```
 
 Latest known result:
 
 - 8 test files passed.
-- 23 tests passed.
+- 24 tests passed.
 - Typecheck passed.
 - Build passed.
 - Package dry-run passed.
 - Built CLI success smoke passed with `node dist/bin/ouc.js run ... --backend fake --json`.
 - Built CLI blocked-run smoke against a temporary fixture returned status `blocked` with exit 1 when `limits.maxTasks` was exceeded.
+- Built CLI stopped-run smoke returned status `stopped`, succeeded 1 task, and left 1 task remaining.
 
 ## Next Best Task
 
-Add cancellation and partial-run reporting to fake runs before any real external model integration.
+Extract a worker-pool abstraction behind fake runs before any real external model integration.
 
 Expected slice:
 
-- Introduce an internal run stop status that can represent partial execution.
-- Record cancellation or stop reasons in `ledger.jsonl`.
-- Generate final reports for partial and stopped runs.
-- Add tests for stop reporting with no real backend calls.
+- Move task execution sequencing out of `src/cli.ts`.
+- Keep current fake-run behavior unchanged.
+- Preserve `run_blocked`, `run_stopped`, and `run_finished` artifacts.
+- Add tests around worker-pool result aggregation.
 - Keep real backend calls out of scope.
 
 ## Human Decisions Needed
