@@ -55,10 +55,11 @@ Timestamp: 2026-06-05 16:36 EDT
 - Updated tests, docs, package metadata, and CLI output for `ouc`.
 - Verified stale old-name search is clean.
 - Verified `npm test`, `npm run typecheck`, `npm run build`, built `ouc` plan/status smokes, and `npm pack --dry-run`.
+- Committed and pushed the rename/docs update as `7ca9648` with message `Rename CLI to ouc and add contributor docs`.
 
 ## Current In-Progress State
 
-- Rename is verified locally. Next step is commit, push, and local folder rename to `ouc`.
+- None. Rename is committed and pushed. Local folder rename to `ouc` remains as the final filesystem step.
 
 ## Next Action
 
