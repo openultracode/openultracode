@@ -25,6 +25,7 @@ export type CliRuntime = {
   env?: Record<string, string | undefined>;
   fetchImpl?: OpenRouterFetch;
   commandRunner?: CliCommandRunner;
+  abortSignal?: AbortSignal;
   stdout: (line: string) => void;
   stderr: (line: string) => void;
 };
@@ -231,6 +232,7 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
     tasks: plan.tasks,
     workersDir: artifacts.workersDir,
     stopAfterTask: parsed.stopAfterTask,
+    abortSignal: runtime.abortSignal,
     prepareTask: (task) => prepareTaskWorkspace({
       projectRoot: runtime.cwd,
       runDir: artifacts.runDir,
@@ -662,7 +664,7 @@ function createRunTaskRunner(
 ): {
   runTask: (
     task: Task,
-    context: { worktreePath?: string }
+    context: { worktreePath?: string; abortSignal?: AbortSignal }
   ) => Promise<WorkerResult>;
   backendLabel: string;
   error?: string;
@@ -685,7 +687,7 @@ function createRunTaskRunner(
         cwd: context.worktreePath ?? runtime.cwd,
         runner: runtime.commandRunner,
         env: runtime.env
-      }).run(task)
+      }).run(task, context.abortSignal)
     };
   }
 
@@ -699,7 +701,7 @@ function createRunTaskRunner(
         cwd: context.worktreePath ?? runtime.cwd,
         runner: runtime.commandRunner,
         env: runtime.env
-      }).run(task)
+      }).run(task, context.abortSignal)
     };
   }
 

@@ -7,7 +7,9 @@ test("CodexCliBackend runs codex exec in read-only mode and maps stdout", async 
     args: string[];
     input: string;
     cwd: string;
+    abortSignal?: AbortSignal;
   }> = [];
+  const controller = new AbortController();
   const backend = new CodexCliBackend({
     model: "gpt-5.3-codex",
     cwd: "/tmp/project",
@@ -16,7 +18,8 @@ test("CodexCliBackend runs codex exec in read-only mode and maps stdout", async 
         command,
         args,
         input: options.input,
-        cwd: options.cwd
+        cwd: options.cwd,
+        abortSignal: options.abortSignal
       });
       return {
         exitCode: 0,
@@ -26,7 +29,7 @@ test("CodexCliBackend runs codex exec in read-only mode and maps stdout", async 
     }
   });
 
-  const result = await backend.run(makeTask());
+  const result = await backend.run(makeTask(), controller.signal);
 
   expect(result).toMatchObject({
     taskId: "task_1",
@@ -38,6 +41,7 @@ test("CodexCliBackend runs codex exec in read-only mode and maps stdout", async 
   expect(calls).toHaveLength(1);
   expect(calls[0].command).toBe("codex");
   expect(calls[0].cwd).toBe("/tmp/project");
+  expect(calls[0].abortSignal).toBe(controller.signal);
   expect(calls[0].args).toEqual([
     "exec",
     "--model",

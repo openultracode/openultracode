@@ -1063,3 +1063,63 @@ test("runCli run can stop after a fake task and report partial execution", async
   expect(report).toContain("task_2");
   expect(report).toContain("not run");
 });
+
+test("runCli run preserves stopped artifacts when the runtime is already aborted", async () => {
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-aborted-"));
+  await mkdir(join(projectRoot, "src"), { recursive: true });
+  await writeFile(join(projectRoot, "package.json"), "{}");
+  await writeFile(join(projectRoot, "src", "cli.ts"), "export {};");
+  const controller = new AbortController();
+  controller.abort();
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+
+  const exitCode = await runCli(
+    [
+      "node",
+      "ouc",
+      "run",
+      "implement report command",
+      "--backend",
+      "fake",
+      "--run-id",
+      "run_aborted",
+      "--json"
+    ],
+    {
+      cwd: projectRoot,
+      abortSignal: controller.signal,
+      stdout: (line) => stdout.push(line),
+      stderr: (line) => stderr.push(line)
+    }
+  );
+  const output = JSON.parse(stdout.join("\n")) as {
+    status: string;
+    reason: string;
+    remaining: number;
+    finalReportPath: string;
+  };
+  const runDir = join(projectRoot, ".ouc", "runs", "run_aborted");
+  const ledgerLines = (await readFile(join(runDir, "ledger.jsonl"), "utf8"))
+    .trim()
+    .split("\n")
+    .map((line) => JSON.parse(line) as { event: string; reason?: string });
+  const report = await readFile(output.finalReportPath, "utf8");
+
+  expect(exitCode).toBe(1);
+  expect(stderr).toEqual([]);
+  expect(output).toMatchObject({
+    status: "stopped",
+    reason: "Run canceled before task execution.",
+    remaining: 2
+  });
+  expect(ledgerLines).toMatchObject([
+    { event: "plan_created" },
+    { event: "run_stopped", reason: "Run canceled before task execution." }
+  ]);
+  expect(report).toContain("- Status: stopped");
+  expect(report).toContain("- Stop reason: Run canceled before task execution.");
+  await expect(stat(join(runDir, "workers", "task_1", "result.json"))).rejects.toMatchObject({
+    code: "ENOENT"
+  });
+});

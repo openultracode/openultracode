@@ -4,7 +4,7 @@ OpenUltraCode is an open-source local CLI for parallel coding agents with adapti
 
 The goal is simple: make multi-agent coding workflows cheaper, safer, and more controllable than sending every worker to the same expensive premium model.
 
-Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, capture per-worker reconciliation metadata, and expose status/report commands. The next milestone is production-grade cancellation and cost accounting.
+Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, capture per-worker reconciliation metadata, stop cleanly on cancellation, and expose status/report commands. The next milestone is real cost and token accounting.
 
 ## Why This Should Exist
 
@@ -60,6 +60,7 @@ Current implemented surface:
 - Edit tasks in git repos get isolated worktrees under the run artifact directory.
 - Worker reconciliation artifacts preserve `diff.patch`, `changed-files.json`, and `reconciliation.json`.
 - Final reports include a reconciliation section with clean, changed, skipped, failed, or conflict status.
+- `SIGINT` and `SIGTERM` cancellation are converted into stopped runs that preserve partial artifacts.
 - `final-report.md` creation, execution summaries, and preservation.
 - Machine-readable JSON output for plan, run, and status.
 - Deterministic fake backend for local execution and tests.
@@ -150,7 +151,7 @@ Status: mostly implemented.
 
 ### Milestone 2: Fake-Backend Runs
 
-Status: fake local execution, preflight limit blocking, and stopped-run reporting implemented. Real signal cancellation is still planned.
+Status: fake local execution, preflight limit blocking, stopped-run reporting, and signal cancellation are implemented.
 
 - Implemented `ouc run` using fake workers first.
 - Writes worker responses and results under run artifacts.
@@ -160,7 +161,7 @@ Status: fake local execution, preflight limit blocking, and stopped-run reportin
 - Stops before worker execution when `maxTasks` or `maxCostUsd` would be exceeded.
 - Writes blocked ledger events and final reports for limit stops.
 - Writes stopped ledger events and final reports for partial fake runs.
-- Add real cancellation and signal handling.
+- Converts `SIGINT` and `SIGTERM` into stopped runs with preserved artifacts.
 
 ### Milestone 3: Real Backends
 

@@ -78,4 +78,4 @@ node dist/bin/ouc.js plan "audit this repo for TODOs" --json
 
 ## Current Priority
 
-The next major implementation task is real cancellation and signal handling. Do not make live external model calls by default.
+The next major implementation task is real cost and token accounting. Do not make live external model calls by default.

@@ -9,6 +9,7 @@ export type CliCommandRunner = (
     cwd: string;
     input: string;
     env?: Record<string, string | undefined>;
+    abortSignal?: AbortSignal;
   }
 ) => Promise<{
   exitCode: number;
@@ -36,7 +37,7 @@ export class CodexCliBackend {
     this.env = options.env;
   }
 
-  async run(task: Task): Promise<WorkerResult> {
+  async run(task: Task, abortSignal?: AbortSignal): Promise<WorkerResult> {
     const prompt = renderTaskPrompt(task);
     const result = await this.runner(
       "codex",
@@ -56,7 +57,8 @@ export class CodexCliBackend {
       {
         cwd: this.cwd,
         input: prompt,
-        env: this.env
+        env: this.env,
+        abortSignal
       }
     );
 
@@ -105,7 +107,7 @@ export class ClaudeCliBackend {
     this.env = options.env;
   }
 
-  async run(task: Task): Promise<WorkerResult> {
+  async run(task: Task, abortSignal?: AbortSignal): Promise<WorkerResult> {
     const prompt = renderTaskPrompt(task);
     const result = await this.runner(
       "claude",
@@ -122,7 +124,8 @@ export class ClaudeCliBackend {
       {
         cwd: this.cwd,
         input: prompt,
-        env: this.env
+        env: this.env,
+        abortSignal
       }
     );
 
@@ -199,12 +202,21 @@ async function defaultCommandRunner(
     cwd: string;
     input: string;
     env?: Record<string, string | undefined>;
+    abortSignal?: AbortSignal;
   }
 ): Promise<{
   exitCode: number;
   stdout: string;
   stderr: string;
 }> {
+  if (options.abortSignal?.aborted) {
+    return {
+      exitCode: 130,
+      stdout: "",
+      stderr: "Command canceled before start"
+    };
+  }
+
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, {
       cwd: options.cwd,
@@ -216,6 +228,11 @@ async function defaultCommandRunner(
     });
     let stdout = "";
     let stderr = "";
+    let settled = false;
+    const abort = () => {
+      stderr += stderr ? "\nCommand canceled by signal" : "Command canceled by signal";
+      child.kill("SIGTERM");
+    };
 
     child.stdout.setEncoding("utf8");
     child.stderr.setEncoding("utf8");
@@ -226,9 +243,15 @@ async function defaultCommandRunner(
       stderr += chunk;
     });
     child.on("error", reject);
+    options.abortSignal?.addEventListener("abort", abort, { once: true });
     child.on("close", (code) => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      options.abortSignal?.removeEventListener("abort", abort);
       resolve({
-        exitCode: code ?? 1,
+        exitCode: options.abortSignal?.aborted ? 130 : code ?? 1,
         stdout,
         stderr
       });

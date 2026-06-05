@@ -3,7 +3,6 @@
 ## Open
 
 - Decide package license for public release if MIT default should change.
-- Implement real cancellation and signal handling.
 - Implement real cost and token accounting.
 - Implement opt-in clean patch application after reconciliation.
 
@@ -36,3 +35,4 @@
 - [Codex] Implemented richer deterministic planner decomposition for mixed code/test/docs goals and docs-only goals.
 - [Codex] Implemented explicit Codex CLI and Claude CLI worker backends with mocked tests and non-mutating command modes.
 - [Codex] Implemented isolated edit-task worktrees, diff capture, reconciliation artifacts, conflict classification, and report summaries.
+- [Codex] Implemented real cancellation and signal handling with stopped-run artifact preservation.

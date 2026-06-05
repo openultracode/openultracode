@@ -28,12 +28,13 @@ export type RunFakeWorkerPoolInput = {
   tasks: Task[];
   workersDir: string;
   stopAfterTask?: number;
+  abortSignal?: AbortSignal;
 };
 
 export type RunWorkerPoolInput = RunFakeWorkerPoolInput & {
   runTask: (
     task: Task,
-    context: { worktreePath?: string }
+    context: { worktreePath?: string; abortSignal?: AbortSignal }
   ) => Promise<WorkerResult>;
   prepareTask?: (task: Task) => Promise<TaskWorkspace>;
   finalizeTask?: (
@@ -48,6 +49,17 @@ export async function runWorkerPool(input: RunWorkerPoolInput): Promise<WorkerPo
   const reconciliations: TaskReconciliation[] = [];
   const taskEvents: WorkerPoolEvent[] = [];
 
+  if (input.abortSignal?.aborted && input.tasks.length > 0) {
+    return summarizeWorkerPool({
+      status: "stopped",
+      tasks: input.tasks,
+      results,
+      reconciliations,
+      taskEvents,
+      stopReason: "Run canceled before task execution."
+    });
+  }
+
   if (input.stopAfterTask === 0 && input.tasks.length > 0) {
     return summarizeWorkerPool({
       status: "stopped",
@@ -60,6 +72,19 @@ export async function runWorkerPool(input: RunWorkerPoolInput): Promise<WorkerPo
   }
 
   for (const task of input.tasks) {
+    if (input.abortSignal?.aborted) {
+      return summarizeWorkerPool({
+        status: "stopped",
+        tasks: input.tasks,
+        results,
+        reconciliations,
+        taskEvents,
+        stopReason: results.length === 0
+          ? "Run canceled before task execution."
+          : "Run canceled by signal."
+      });
+    }
+
     const workspace = input.prepareTask
       ? await input.prepareTask(task)
       : skippedWorkspace(task, "Workspace preparation is not configured.");
@@ -75,7 +100,10 @@ export async function runWorkerPool(input: RunWorkerPoolInput): Promise<WorkerPo
 
     const result = workspace.status === "failed"
       ? failedWorkspaceResult(task, workspace.reason ?? "Workspace preparation failed.")
-      : await input.runTask(task, { worktreePath: workspace.worktreePath });
+      : await input.runTask(task, {
+        worktreePath: workspace.worktreePath,
+        abortSignal: input.abortSignal
+      });
     results.push(result);
     await writeWorkerArtifacts(input.workersDir, task, result);
 

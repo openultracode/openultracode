@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 17:46 EDT
+Timestamp: 2026-06-05 17:53 EDT
 
 ## Completed
 
@@ -123,14 +123,22 @@ Timestamp: 2026-06-05 17:46 EDT
 - Updated README, AGENTS, build draft, project status, and task queue for the worktree reconciliation slice.
 - Verified `npm test`, `npm run typecheck`, `npm run build`, built fake-run worktree reconciliation smoke, and `npm pack --dry-run`.
 - Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, `.env` ignore and permissions, and `git diff --check`.
+- Committed and pushed worktree reconciliation as `ff6a91c` with message `Add worktree reconciliation artifacts`.
+- Added worker-pool cancellation before task execution and between tasks.
+- Added stopped-run artifact preservation for aborted CLI runs.
+- Added `SIGINT` and `SIGTERM` handling in the `ouc` bin entrypoint through an `AbortController`.
+- Added abort-signal propagation into Codex CLI and Claude CLI command backends.
+- Added cancellation tests for worker-pool aborts, CLI stopped artifacts, signal handler cleanup, and command backend signal propagation.
+- Updated README, AGENTS, build draft, project status, and task queue for the cancellation slice.
+- Verified focused cancellation tests, full `npm test`, `npm run typecheck`, `npm run build`, built cancellation smoke, and `npm pack --dry-run`.
 
 ## Current In-Progress State
 
-- None. The worktree reconciliation and reporting slice is implemented and verified.
+- None. The cancellation and signal handling slice is implemented and verified.
 
 ## Next Action
 
-- Implement real cancellation and signal handling.
+- Implement real cost and token accounting.
 
 ## Human Decisions Needed
 

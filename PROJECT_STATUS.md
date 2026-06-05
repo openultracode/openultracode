@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 17:46 EDT
+Last updated: 2026-06-05 17:53 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, and edit tasks in git repos now get isolated worktree and reconciliation artifacts.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get isolated worktree and reconciliation artifacts, and cancellation now preserves stopped-run artifacts.
 
 Implemented:
 
@@ -43,13 +43,15 @@ Implemented:
 - Worker `diff.patch`, `changed-files.json`, and `reconciliation.json` artifacts.
 - Final-report reconciliation sections for clean, changed, skipped, failed, and conflict states.
 - Conflict classification with `git apply --check`.
+- Real `SIGINT` and `SIGTERM` cancellation through an `AbortController`.
+- Worker-pool cancellation before execution and between tasks.
+- Canceled CLI runs preserve stopped-run ledger and final report artifacts.
 - Test suite covering current behavior.
 
 Not implemented yet:
 
 - Automatic application of clean patches.
 - File ownership enforcement.
-- Real cancellation and signal handling.
 - Real cost and token accounting.
 
 ## Verification Snapshot
@@ -72,13 +74,14 @@ node dist/bin/ouc.js run "implement report command and test it" --backend fake -
 node dist/bin/ouc.js run "inspect this repo" --backend codex-cli --run-id run_smoke_codex_cli_parser_20260605_1736 --stop-after-task 0 --json
 node dist/bin/ouc.js run "inspect this repo" --backend claude-cli --run-id run_smoke_claude_cli_parser_20260605_1736 --stop-after-task 0 --json
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_worktree_reconcile_20260605_1746 --json
+node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built cancellation smoke */'
 npm pack --dry-run
 ```
 
 Latest known result:
 
-- 12 test files passed.
-- 43 tests passed.
+- 13 test files passed.
+- 47 tests passed.
 - Typecheck passed.
 - Build passed.
 - Package dry-run passed.
@@ -97,16 +100,18 @@ Latest known result:
 - Built CLI Codex and Claude backend parser smokes stopped before task execution and made no real worker calls.
 - Worktree reconciliation tests verified isolated git worktree command mapping, diff artifact capture, and conflict classification.
 - Built CLI worktree reconciliation smoke wrote edit-task `reconciliation.json`, empty `diff.patch`, skipped test-task reconciliation, and a final-report reconciliation section.
+- Cancellation tests verified worker-pool aborts, CLI stopped artifacts, signal handler cleanup, and abort-signal propagation into CLI command backends.
+- Built cancellation smoke returned exit 1 with status `stopped`, reason `Run canceled before task execution.`, and preserved stopped-run artifact paths.
 
 ## Next Best Task
 
-Implement real cancellation and signal handling.
+Implement real cost and token accounting.
 
 Expected slice:
 
-- Add signal handling around `ouc run`.
-- Preserve partial artifacts on interruption.
-- Keep stopped-run reports consistent with `--stop-after-task`.
+- Normalize usage and cost totals across fake, OpenRouter, Codex CLI, and Claude CLI results.
+- Record cost and token totals in ledger events and reports consistently.
+- Keep hard cost limits enforceable from real backend results.
 
 ## Human Decisions Needed
 

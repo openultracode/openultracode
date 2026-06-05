@@ -1,6 +1,6 @@
 # Build Draft
 
-Timestamp: 2026-06-05 17:46 EDT
+Timestamp: 2026-06-05 17:53 EDT
 
 GitHub: https://github.com/AryaVora621/openultracode
 
@@ -45,6 +45,9 @@ Included:
 - Worker `diff.patch`, `changed-files.json`, and `reconciliation.json` artifacts.
 - Final-report reconciliation sections for clean, changed, skipped, failed, and conflict states.
 - Conflict classification with `git apply --check`.
+- `SIGINT` and `SIGTERM` cancellation through an `AbortController`.
+- Worker-pool cancellation before execution and between tasks.
+- Canceled CLI runs preserve stopped-run ledger and final report artifacts.
 - Deterministic edit-goal splitting into edit and dependent test tasks.
 - Mixed implementation, test, and docs goals split into dependent code, verification, and docs tasks.
 - Documentation-only goals stay scoped to README and `docs/` files.
@@ -82,12 +85,13 @@ node dist/bin/ouc.js run "implement report command and test it" --backend fake -
 node dist/bin/ouc.js run "inspect this repo" --backend codex-cli --run-id run_smoke_codex_cli_parser_20260605_1736 --stop-after-task 0 --json
 node dist/bin/ouc.js run "inspect this repo" --backend claude-cli --run-id run_smoke_claude_cli_parser_20260605_1736 --stop-after-task 0 --json
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_worktree_reconcile_20260605_1746 --json
+node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built cancellation smoke */'
 npm pack --dry-run
 ```
 
 Observed results:
 
-- `npm test`: 12 test files, 43 tests passed.
+- `npm test`: 13 test files, 47 tests passed.
 - `npm run typecheck`: exit 0.
 - `npm run build`: exit 0.
 - `node dist/bin/ouc.js --help`: printed the CLI help with `plan`, `run`, `status`, and `report`.
@@ -117,9 +121,11 @@ Observed results:
 - `node dist/bin/ouc.js run "inspect this repo" --backend claude-cli --run-id run_smoke_claude_cli_parser_20260605_1736 --stop-after-task 0 --json`: returned expected stopped status before any Claude worker command executed.
 - Worktree reconciliation tests verified isolated git worktree command mapping, diff artifact capture, and conflict classification.
 - `node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_worktree_reconcile_20260605_1746 --json`: wrote edit-task `reconciliation.json`, empty `diff.patch`, skipped test-task reconciliation, and a final-report reconciliation section.
+- Cancellation tests verified worker-pool aborts, stopped CLI artifacts, signal handler cleanup, and abort-signal propagation into CLI command backends.
+- Built cancellation smoke returned exit 1 with status `stopped`, reason `Run canceled before task execution.`, and preserved stopped-run artifact paths.
 - `ouc plan` argument validation rejects a missing `--run-id` value.
-- `npm pack --dry-run`: package is named `openultracode`, includes 13 built runtime files, 16 files total, and only emits `dist/bin/ouc.js` for the CLI binary.
+- `npm pack --dry-run`: package is named `openultracode`, includes 14 built runtime files, 17 files total, and only emits `dist/bin/ouc.js` for the CLI binary.
 
 ## Next Step
 
-Continue Phase 2 by implementing real cancellation and signal handling.
+Continue Phase 2 by implementing real cost and token accounting.
