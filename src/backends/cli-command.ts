@@ -52,6 +52,7 @@ export class CodexCliBackend {
         "read-only",
         "--ask-for-approval",
         "never",
+        "--json",
         "-"
       ],
       {
@@ -69,20 +70,16 @@ export class CodexCliBackend {
       );
     }
 
-    const response = result.stdout.trim();
-    const inputTokens = countTokens(prompt);
-    const outputTokens = countTokens(response);
+    const output = parseStructuredCliOutput(result.stdout, result.stderr);
+    const response = output.response ?? result.stdout.trim();
+    const usage = output.usage ?? fallbackUsage(prompt, response);
 
     return {
       taskId: task.id,
       status: "succeeded",
       response,
-      usage: {
-        inputTokens,
-        outputTokens,
-        totalTokens: inputTokens + outputTokens
-      },
-      costUsd: 0
+      usage,
+      costUsd: output.costUsd ?? 0
     };
   }
 }
@@ -118,7 +115,7 @@ export class ClaudeCliBackend {
         "--permission-mode",
         "plan",
         "--output-format",
-        "text",
+        "json",
         "--no-session-persistence"
       ],
       {
@@ -136,20 +133,16 @@ export class ClaudeCliBackend {
       );
     }
 
-    const response = result.stdout.trim();
-    const inputTokens = countTokens(prompt);
-    const outputTokens = countTokens(response);
+    const output = parseStructuredCliOutput(result.stdout, result.stderr);
+    const response = output.response ?? result.stdout.trim();
+    const usage = output.usage ?? fallbackUsage(prompt, response);
 
     return {
       taskId: task.id,
       status: "succeeded",
       response,
-      usage: {
-        inputTokens,
-        outputTokens,
-        totalTokens: inputTokens + outputTokens
-      },
-      costUsd: 0
+      usage,
+      costUsd: output.costUsd ?? 0
     };
   }
 }
@@ -193,6 +186,149 @@ function formatCommandError(result: {
 function countTokens(text: string): number {
   const words = text.trim().split(/\s+/).filter(Boolean);
   return Math.max(1, words.length);
+}
+
+function fallbackUsage(prompt: string, response: string): WorkerResult["usage"] {
+  const inputTokens = countTokens(prompt);
+  const outputTokens = countTokens(response);
+
+  return {
+    inputTokens,
+    outputTokens,
+    totalTokens: inputTokens + outputTokens
+  };
+}
+
+function parseStructuredCliOutput(
+  stdout: string,
+  stderr: string
+): {
+  response?: string;
+  usage?: WorkerResult["usage"];
+  costUsd?: number;
+} {
+  const records = [
+    ...parseJsonRecords(stdout),
+    ...parseJsonRecords(stderr)
+  ];
+  let response: string | undefined;
+  let usage: WorkerResult["usage"] | undefined;
+  let costUsd: number | undefined;
+
+  for (const record of records) {
+    response = readResponse(record) ?? response;
+    usage = readUsage(record) ?? usage;
+    costUsd = readCostUsd(record) ?? costUsd;
+  }
+
+  return {
+    response,
+    usage,
+    costUsd
+  };
+}
+
+function parseJsonRecords(text: string): Record<string, unknown>[] {
+  const trimmed = text.trim();
+  if (!trimmed) {
+    return [];
+  }
+
+  const parsedWhole = tryParseJson(trimmed);
+  if (isRecord(parsedWhole)) {
+    return [parsedWhole];
+  }
+  if (Array.isArray(parsedWhole)) {
+    return parsedWhole.filter(isRecord);
+  }
+
+  return trimmed
+    .split(/\r?\n/)
+    .map((line) => tryParseJson(line.trim()))
+    .filter(isRecord);
+}
+
+function readResponse(record: Record<string, unknown>): string | undefined {
+  for (const key of ["result", "response", "output", "text", "content"]) {
+    const value = record[key];
+    if (typeof value === "string" && value.trim()) {
+      return value.trim();
+    }
+  }
+
+  const message = record.message;
+  if (isRecord(message) && typeof message.content === "string") {
+    return message.content.trim();
+  }
+
+  return undefined;
+}
+
+function readUsage(record: Record<string, unknown>): WorkerResult["usage"] | undefined {
+  const usage = isRecord(record.usage) ? record.usage : undefined;
+  if (!usage) {
+    return undefined;
+  }
+
+  const inputTokens = readNumber(
+    usage.inputTokens,
+    usage.input_tokens,
+    usage.prompt_tokens
+  );
+  const outputTokens = readNumber(
+    usage.outputTokens,
+    usage.output_tokens,
+    usage.completion_tokens
+  );
+  const explicitTotal = readNumber(usage.totalTokens, usage.total_tokens);
+  const totalTokens = explicitTotal || inputTokens + outputTokens;
+
+  if (inputTokens === 0 && outputTokens === 0 && totalTokens === 0) {
+    return undefined;
+  }
+
+  return {
+    inputTokens,
+    outputTokens,
+    totalTokens
+  };
+}
+
+function readCostUsd(record: Record<string, unknown>): number | undefined {
+  const usage = isRecord(record.usage) ? record.usage : {};
+  const value = readNumber(
+    record.costUsd,
+    record.cost_usd,
+    record.totalCostUsd,
+    record.total_cost_usd,
+    usage.cost,
+    usage.costUsd,
+    usage.cost_usd,
+    usage.total_cost_usd
+  );
+
+  return value > 0 ? value : undefined;
+}
+
+function readNumber(...values: unknown[]): number {
+  for (const value of values) {
+    if (typeof value === "number" && Number.isFinite(value)) {
+      return value;
+    }
+  }
+  return 0;
+}
+
+function tryParseJson(text: string): unknown {
+  try {
+    return JSON.parse(text) as unknown;
+  } catch {
+    return undefined;
+  }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 async function defaultCommandRunner(

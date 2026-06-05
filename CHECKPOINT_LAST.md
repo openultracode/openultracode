@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 18:19 EDT
+Timestamp: 2026-06-05 18:24 EDT
 
 ## Completed
 
@@ -155,14 +155,23 @@ Timestamp: 2026-06-05 18:19 EDT
 - Updated README, AGENTS, build draft, project status, and task queue for the ownership slice.
 - Verified `npm test`, `npm run typecheck`, `npm run build`, built file-ownership block smoke, and `npm pack --dry-run`.
 - Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, `.env` ignore and permissions, and `git diff --check`.
+- Committed and pushed file ownership preflight as `bb027dd` with message `Add file ownership preflight`.
+- Added Codex CLI JSONL usage parsing for structured output events.
+- Added Claude CLI JSON usage parsing for structured result output.
+- Switched Codex CLI command mapping to request `--json` output and Claude CLI command mapping to request `--output-format json`.
+- Preserved heuristic token counting fallback for plain-text CLI output.
+- Added tests for structured usage, cost mapping, command output modes, and fallback behavior.
+- Updated README, AGENTS, build draft, project status, and task queue for the CLI usage parsing slice.
+- Verified `npm test`, `npm run typecheck`, `npm run build`, built CLI usage parsing smoke, and `npm pack --dry-run`.
+- Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, `.env` ignore and permissions, and `git diff --check`.
 
 ## Current In-Progress State
 
-- None. The file ownership enforcement slice is implemented and verified.
+- None. The provider-specific CLI usage parsing slice is implemented and verified.
 
 ## Next Action
 
-- Add provider-specific usage parsing for local CLI backends when structured usage is available.
+- Add contributor issue templates and release-readiness examples.
 
 ## Human Decisions Needed
 

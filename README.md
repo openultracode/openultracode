@@ -4,7 +4,7 @@ OpenUltraCode is an open-source local CLI for parallel coding agents with adapti
 
 The goal is simple: make multi-agent coding workflows cheaper, safer, and more controllable than sending every worker to the same expensive premium model.
 
-Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, enforce file ownership for mutating tasks, capture per-worker reconciliation metadata, apply clean patches only after explicit opt-in, enforce actual cost caps, stop cleanly on cancellation, and expose status/report commands. The next milestone is provider-specific usage parsing for local CLI backends.
+Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, enforce file ownership for mutating tasks, capture per-worker reconciliation metadata, apply clean patches only after explicit opt-in, parse structured usage from local CLI backends when available, enforce actual cost caps, stop cleanly on cancellation, and expose status/report commands. The next milestone is release-readiness polish for contributors.
 
 ## Why This Should Exist
 
@@ -57,6 +57,9 @@ Current implemented surface:
 - OpenRouter model fallback attempts after failed mocked backend responses.
 - Opt-in `ouc run --backend codex-cli` execution through `codex exec` in read-only sandbox mode.
 - Opt-in `ouc run --backend claude-cli` execution through Claude print mode with plan permissions.
+- Codex CLI JSONL usage parsing when structured events are available.
+- Claude CLI JSON usage parsing when structured results are available.
+- Heuristic token counting fallback when local CLIs return plain text.
 - Worker result artifacts preserve backend attempt history.
 - Edit tasks in git repos get isolated worktrees under the run artifact directory.
 - Worker reconciliation artifacts preserve `diff.patch`, `changed-files.json`, and `reconciliation.json`.
@@ -179,7 +182,7 @@ Status: fake local execution, preflight limit blocking, stopped-run reporting, a
 
 ### Milestone 3: Real Backends
 
-Status: OpenRouter, Codex CLI, and Claude CLI are wired behind explicit opt-in. CLI backends still use conservative command modes by default, and patch application only acts on captured worktree diffs.
+Status: OpenRouter, Codex CLI, and Claude CLI are wired behind explicit opt-in. CLI backends still use conservative command modes by default, parse structured usage when available, and patch application only acts on captured worktree diffs.
 
 - OpenRouter chat completion backend.
 - Claude CLI backend using `claude -p`.
@@ -227,11 +230,11 @@ The implementation is not all there yet. The repo currently contains the plannin
 Useful contributions right now:
 
 - Add fixture repos that stress deterministic planning heuristics.
-- Add provider-specific usage parsing for local CLI backends when structured usage is available.
+- Add contributor issue templates and release-readiness examples.
 - Add fixture repos for integration tests.
 - Harden config validation and error messages.
 - Improve docs for model routing and safety.
-- Add provider-specific usage parsing for local CLI backends when structured usage is available.
+- Add issue templates and contribution labels for public collaboration.
 
 Good first issue shape:
 

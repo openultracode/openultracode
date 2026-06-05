@@ -1,6 +1,6 @@
 # Build Draft
 
-Timestamp: 2026-06-05 18:19 EDT
+Timestamp: 2026-06-05 18:24 EDT
 
 GitHub: https://github.com/AryaVora621/openultracode
 
@@ -42,6 +42,9 @@ Included:
 - Worker `result.json` artifacts preserve backend attempt history.
 - Opt-in `ouc run --backend codex-cli` execution through `codex exec` in read-only sandbox mode.
 - Opt-in `ouc run --backend claude-cli` execution through Claude print mode with plan permissions.
+- Codex CLI JSONL usage parsing when structured events are available.
+- Claude CLI JSON usage parsing when structured results are available.
+- Heuristic token counting fallback for plain-text CLI output.
 - Isolated git worktree creation for edit tasks.
 - Worker `diff.patch`, `changed-files.json`, and `reconciliation.json` artifacts.
 - Final-report reconciliation sections for clean, changed, skipped, failed, and conflict states.
@@ -98,12 +101,13 @@ node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* buil
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built actual-cost cap smoke */'
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built clean-patch application smoke */'
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built file-ownership block smoke */'
+node --input-type=module -e 'import { CodexCliBackend, ClaudeCliBackend } from "./dist/src/backends/cli-command.js"; /* built CLI usage parsing smoke */'
 npm pack --dry-run
 ```
 
 Observed results:
 
-- `npm test`: 14 test files, 57 tests passed.
+- `npm test`: 14 test files, 59 tests passed.
 - `npm run typecheck`: exit 0.
 - `npm run build`: exit 0.
 - `node dist/bin/ouc.js --help`: printed the CLI help with `plan`, `run`, `status`, and `report`.
@@ -141,9 +145,11 @@ Observed results:
 - Built clean-patch application smoke applied a mocked worktree change to the main checkout only when `--apply-clean-patches` was present.
 - File ownership tests verified edit-task ownership metadata, conflict detection, `plan_created` ledger metadata, and pre-worker blocking for overlapping edit scopes.
 - Built file-ownership block smoke returned exit 1 with status `blocked`, `limit` `fileOwnership`, and no worker result artifacts.
+- CLI usage parsing tests verified Codex JSONL usage events, Claude JSON result usage, cost mapping, and plain-text fallback behavior.
+- Built CLI usage parsing smoke mapped mocked Codex and Claude structured output into worker usage and cost totals.
 - `ouc plan` argument validation rejects a missing `--run-id` value.
 - `npm pack --dry-run`: package is named `openultracode`, includes 14 built runtime files, 17 files total, and only emits `dist/bin/ouc.js` for the CLI binary.
 
 ## Next Step
 
-Continue Phase 2 by adding provider-specific usage parsing for local CLI backends when structured usage is available.
+Continue Phase 2 by adding contributor issue templates and release-readiness examples.

@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 18:19 EDT
+Last updated: 2026-06-05 18:24 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, cancellation preserves stopped-run artifacts, and worker result accounting now drives token and cost totals.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, and worker result accounting now drives token and cost totals.
 
 Implemented:
 
@@ -40,6 +40,9 @@ Implemented:
 - Worker `result.json` artifacts preserve backend attempt history.
 - Codex CLI backend using `codex exec` in read-only sandbox mode.
 - Claude CLI backend using `claude -p` with plan permissions.
+- Codex CLI JSONL usage parsing when structured events are available.
+- Claude CLI JSON usage parsing when structured results are available.
+- Heuristic token counting fallback for plain-text CLI output.
 - Pre-execution blocking for overlapping edit file ownership.
 - File ownership metadata in `plan_created` ledger events.
 - Isolated git worktree creation for edit tasks.
@@ -60,7 +63,7 @@ Implemented:
 
 Not implemented yet:
 
-- Provider-specific CLI usage parsing if local CLIs expose structured usage.
+- Contributor issue templates and release-readiness examples.
 
 ## Verification Snapshot
 
@@ -86,13 +89,14 @@ node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* buil
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built actual-cost cap smoke */'
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built clean-patch application smoke */'
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built file-ownership block smoke */'
+node --input-type=module -e 'import { CodexCliBackend, ClaudeCliBackend } from "./dist/src/backends/cli-command.js"; /* built CLI usage parsing smoke */'
 npm pack --dry-run
 ```
 
 Latest known result:
 
 - 13 test files passed.
-- 57 tests passed.
+- 59 tests passed.
 - Typecheck passed.
 - Build passed.
 - Package dry-run passed.
@@ -119,16 +123,18 @@ Latest known result:
 - Built clean-patch application smoke applied a mocked worktree change to the main checkout only when `--apply-clean-patches` was present.
 - File ownership tests verified edit-task ownership metadata, conflict detection, `plan_created` ledger metadata, and pre-worker blocking for overlapping edit scopes.
 - Built file-ownership block smoke returned exit 1 with status `blocked`, `limit` `fileOwnership`, and no worker result artifacts.
+- CLI usage parsing tests verified Codex JSONL usage events, Claude JSON result usage, cost mapping, and plain-text fallback behavior.
+- Built CLI usage parsing smoke mapped mocked Codex and Claude structured output into worker usage and cost totals.
 
 ## Next Best Task
 
-Add provider-specific usage parsing for local CLI backends when structured usage is available.
+Add contributor issue templates and release-readiness examples.
 
 Expected slice:
 
-- Parse structured usage output from Codex CLI or Claude CLI when available.
-- Preserve parsed usage and cost estimates in worker results and attempts.
-- Keep current heuristic token counting as a fallback when structured usage is absent.
+- Add GitHub issue templates for bug reports, feature requests, and task proposals.
+- Add a short release-readiness checklist for contributors.
+- Keep public docs aligned with the current CLI surface.
 
 ## Human Decisions Needed
 

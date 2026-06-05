@@ -53,10 +53,52 @@ test("CodexCliBackend runs codex exec in read-only mode and maps stdout", async 
     "read-only",
     "--ask-for-approval",
     "never",
+    "--json",
     "-"
   ]);
   expect(calls[0].input).toContain("Task: Implement report command");
   expect(calls[0].input).toContain("Files: src/cli.ts");
+});
+
+test("CodexCliBackend maps structured JSONL usage when available", async () => {
+  const backend = new CodexCliBackend({
+    model: "gpt-5.3-codex",
+    cwd: "/tmp/project",
+    runner: async () => ({
+      exitCode: 0,
+      stdout: [
+        JSON.stringify({
+          type: "message",
+          role: "assistant",
+          content: "Codex structured response."
+        }),
+        JSON.stringify({
+          type: "usage",
+          usage: {
+            input_tokens: 11,
+            output_tokens: 7,
+            total_tokens: 18
+          },
+          cost_usd: 0.0123
+        })
+      ].join("\n"),
+      stderr: ""
+    })
+  });
+
+  const result = await backend.run(makeTask());
+
+  expect(result).toMatchObject({
+    taskId: "task_1",
+    status: "succeeded",
+    response: "Codex structured response.",
+    usage: {
+      inputTokens: 11,
+      outputTokens: 7,
+      totalTokens: 18
+    },
+    costUsd: 0.0123
+  });
 });
 
 test("CodexCliBackend returns a failed worker result when codex exits nonzero", async () => {
@@ -129,10 +171,44 @@ test("ClaudeCliBackend runs claude print mode with plan permissions", async () =
     "--permission-mode",
     "plan",
     "--output-format",
-    "text",
+    "json",
     "--no-session-persistence"
   ]);
   expect(calls[0].input).toContain("Task: Implement report command");
+});
+
+test("ClaudeCliBackend maps structured JSON usage when available", async () => {
+  const backend = new ClaudeCliBackend({
+    model: "opus",
+    cwd: "/tmp/project",
+    runner: async () => ({
+      exitCode: 0,
+      stdout: JSON.stringify({
+        type: "result",
+        result: "Claude structured response.",
+        usage: {
+          input_tokens: 12,
+          output_tokens: 8
+        },
+        total_cost_usd: 0.045
+      }),
+      stderr: ""
+    })
+  });
+
+  const result = await backend.run(makeTask());
+
+  expect(result).toMatchObject({
+    taskId: "task_1",
+    status: "succeeded",
+    response: "Claude structured response.",
+    usage: {
+      inputTokens: 12,
+      outputTokens: 8,
+      totalTokens: 20
+    },
+    costUsd: 0.045
+  });
 });
 
 function makeTask(): Task {
