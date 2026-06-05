@@ -8,9 +8,10 @@ OpenUltraCode is early. The best contributions are small, tested slices that mak
 2. Read `PROJECT_STATUS.md`.
 3. Read `TASK_QUEUE.md`.
 4. Check `docs/RELEASE_CHECKLIST.md` if the change affects packaging or release readiness.
-5. Pick one narrow behavior.
-6. Write the test first for behavior changes.
-7. Run the full verification commands before opening a PR.
+5. Check `docs/RELEASE_DECISIONS.md` before release or package work.
+6. Pick one narrow behavior.
+7. Write the test first for behavior changes.
+8. Run the full verification commands before opening a PR.
 
 ## Development Setup
 
@@ -45,7 +46,7 @@ npm run build
 npm pack --dry-run
 ```
 
-The GitHub CI workflow runs these core checks on pushes and pull requests.
+The GitHub CI workflow runs these core checks on pushes, pull requests, and manual workflow dispatch.
 
 If your change touches the CLI, include the command you used for a smoke test.
 

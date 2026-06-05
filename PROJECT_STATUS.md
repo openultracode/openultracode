@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 19:23 EDT
+Last updated: 2026-06-05 19:29 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, contributor issue templates plus a PR template and release checklist are present, issue-template labels exist on GitHub, a security policy directs private reports, Dependabot is configured, and the final release audit is recorded.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, contributor issue templates plus a PR template and release checklist are present, issue-template labels exist on GitHub, a security policy directs private reports, Dependabot is configured, and the final release audit plus release decision record are recorded.
 
 Implemented:
 
@@ -66,9 +66,11 @@ Implemented:
 - Dependabot config for weekly npm and GitHub Actions update PRs.
 - Dev dependency updates from Dependabot PRs `#1` and `#2` folded into `main`: `typescript` `^6.0.3` and `@types/node` `^25.9.2`.
 - Dependabot PRs `#1` and `#2` closed as superseded by commit `e09c016`.
-- GitHub Actions CI for tests, typecheck, build, and package dry-run on Node 20, 22, and 24.
+- GitHub Actions CI for tests, typecheck, build, and package dry-run on Node 20, 22, and 24, including manual workflow dispatch.
 - Release-readiness checklist in `docs/RELEASE_CHECKLIST.md`.
+- Release decision record in `docs/RELEASE_DECISIONS.md`.
 - Release audit in `docs/RELEASE_AUDIT.md`.
+- Package file allowlist includes `docs/` so README-linked release docs ship in the package tarball.
 - Test suite covering current behavior.
 
 Not implemented yet:
@@ -114,7 +116,7 @@ Latest known result:
 - 59 tests passed.
 - Typecheck passed.
 - Build passed.
-- Package dry-run passed for `openultracode@0.1.0`, 18 files, package size `20.7 kB`.
+- Package dry-run passed for `openultracode@0.1.0`, 21 files, package size `24.4 kB`.
 - GitHub workflow YAML parsed successfully.
 - Repo secret-prefix scan excluding `.env` had no matches.
 - Em dash scan had no matches.
@@ -122,6 +124,10 @@ Latest known result:
 - Built CLI success smoke passed with `node dist/bin/ouc.js run ... --backend fake --json`.
 - Completion audit fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_completion_fake_20260605_1924 --json`.
 - Completion audit plan smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_completion_audit_20260605_1924 --json`.
+- Release decision package smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_release_decisions_final_fake_20260605_1928 --json`.
+- Release decision plan smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_release_decisions_final_20260605_1928 --json`.
+- Manual dispatch package smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_release_dispatch_fake_20260605_1929 --json`.
+- Manual dispatch plan smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_release_dispatch_20260605_1929 --json`.
 - Built CLI blocked-run smoke against a temporary fixture returned status `blocked` with exit 1 when `limits.maxTasks` was exceeded.
 - Built CLI stopped-run smoke returned status `stopped`, succeeded 1 task, and left 1 task remaining.
 - Built CLI success and stopped smokes passed through the worker-pool path.

@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 19:23 EDT
+Timestamp: 2026-06-05 19:29 EDT
 
 ## Objective
 
@@ -34,9 +34,10 @@ Concrete success criteria:
 | Security policy exists | `SECURITY.md` directs sensitive reports to GitHub Security Advisories and lists project-specific safety areas | Complete |
 | Dependency update automation exists | `.github/dependabot.yml` checks npm and GitHub Actions weekly | Complete |
 | Dependabot PRs reviewed | PRs `#1` and `#2` passed isolated local verification, the combined dev dependency update was applied to `main`, and both PRs were closed as superseded | Complete |
-| Contributor CI exists | `.github/workflows/ci.yml` runs tests, typecheck, build, and package dry-run on Node 20, 22, and 24 | Configured |
+| Contributor CI exists | `.github/workflows/ci.yml` runs tests, typecheck, build, and package dry-run on Node 20, 22, and 24 for pushes, pull requests, and manual dispatch | Configured |
 | Remote CI run starts | `gh run list --repo AryaVora621/openultracode --limit 5` and `gh run view <latest-run-id> --repo AryaVora621/openultracode` | Blocked by GitHub billing/account lock |
 | Release checklist exists | `docs/RELEASE_CHECKLIST.md` | Complete |
+| Release decision record exists | `docs/RELEASE_DECISIONS.md` | Complete |
 | Local CLI package metadata is set | `package.json` has name `openultracode`, version `0.1.0`, bin aliases `ouc` and `openultracode` | Complete |
 | License file exists | `LICENSE` is MIT | Needs human confirmation before package release |
 | Planning command works | `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id release_audit_plan_20260605_1831 --json` | Complete |
@@ -45,7 +46,7 @@ Concrete success criteria:
 | Test suite passes | `npm test`: 14 files, 59 tests | Complete |
 | Typecheck passes | `npm run typecheck` | Complete |
 | Build passes | `npm run build` | Complete |
-| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 18 files | Complete |
+| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 21 files, including release docs | Complete |
 | Secret is not committed | `git check-ignore -v .env`, `ls -l .env`, repo secret scan excluding `.env`, shell history scan | Complete |
 | Generated folders are not committed | `git status --short --ignored` shows only ignored `.env`, `.ouc`, `dist`, `node_modules` after push | Complete |
 
@@ -57,6 +58,8 @@ Concrete success criteria:
 - File ownership metadata and pre-worker blocking for overlapping edit scopes.
 - Codex CLI JSONL and Claude CLI JSON usage parsing with heuristic fallback.
 - Contributor issue templates and release checklist.
+- Release decision record for license, CI, release channel, and package publication.
+- Package file allowlist includes `docs/` so release docs linked from `README.md` ship with the package.
 - Contributor labels used by issue templates verified in the public repo.
 - Pull request template for verification and safety checks.
 - Security policy for private reports.
@@ -65,6 +68,7 @@ Concrete success criteria:
 - Combined Dependabot dev dependency update applied to `main`.
 - Dependabot PRs `#1` and `#2` closed as superseded by the folded dependency update.
 - GitHub Actions CI for contributor verification.
+- Manual CI rerun through `workflow_dispatch` after the GitHub account billing lock is resolved.
 
 ## Remaining Blocker
 
@@ -78,17 +82,19 @@ The repo is ready for collaborator-oriented source use, but final package releas
 
 Timestamp: 2026-06-05 19:23 EDT
 
-Fresh checks on the pushed `a6a00a4` state:
+Fresh checks on the current release-readiness state:
 
 - `npm test`: 14 files, 59 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 18 files, package size `20.7 kB`.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 21 files, package size `24.4 kB`.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
 - `gh run view 27045180433 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - `node dist/bin/ouc.js --help`: passed.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_completion_audit_20260605_1924 --json`: passed.
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_completion_fake_20260605_1924 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
+- `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_release_dispatch_20260605_1929 --json`: passed.
+- `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_release_dispatch_fake_20260605_1929 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
 - Secret-prefix scans excluding `.env` and known shell history/session scans found no matches.
 - Em dash scan found no matches.
 - `git diff --check`: passed.

@@ -2,6 +2,8 @@
 
 Use this checklist before tagging or publishing OpenUltraCode.
 
+For the current release decision status, read `docs/RELEASE_DECISIONS.md`.
+
 ## Human Decisions
 
 - Confirm the package license for public release.
@@ -21,7 +23,7 @@ npm run build
 npm pack --dry-run
 ```
 
-CI runs the same core checks on pushes to `main` and pull requests across Node 20, 22, and 24.
+CI runs the same core checks on pushes to `main`, pull requests, and manual workflow dispatch across Node 20, 22, and 24.
 
 For CLI changes, run at least one built smoke:
 

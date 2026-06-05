@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 19:23 EDT
+Timestamp: 2026-06-05 19:29 EDT
 
 ## Completed
 
@@ -208,14 +208,19 @@ Timestamp: 2026-06-05 19:23 EDT
 - Pushed the tracker refresh as `1f3b251` and checked GitHub Actions run `27045180433`; Node 20, 22, and 24 jobs again failed before startup because the GitHub account is locked due to a billing issue.
 - Refreshed the completion audit on the current pushed state with `npm test`, `npm run typecheck`, YAML parsing, GitHub Actions run inspection, `.github` file inventory, contributor-doc search, `npm run build`, secret-prefix scan excluding `.env`, shell history secret scan, em dash scan, `git diff --check`, `.env` ignore and mode check, `npm pack --dry-run`, built help smoke, built plan smoke, and built fake-run smoke.
 - Confirmed the fresh completion audit still leaves only the MIT license confirmation and GitHub account billing lock open.
+- Added `docs/RELEASE_DECISIONS.md` to make the remaining license, CI, release channel, tag, and npm publication decisions explicit before final release.
+- Added `docs` to the package file allowlist so the packaged README links to shipped release docs, and verified `npm pack --dry-run` includes 21 files with package size `24.4 kB`.
+- Verified the release decision record and package allowlist with `npm test`, `npm run typecheck`, `npm run build`, YAML parsing, secret-prefix scan excluding `.env`, shell history secret scan, em dash scan, `git diff --check`, `npm pack --dry-run`, built help smoke, built plan smoke, built fake-run smoke, and `.env` ignore and mode check.
+- Added `workflow_dispatch` to `.github/workflows/ci.yml` so CI can be rerun manually after the GitHub account billing lock is fixed.
+- Reverified after the manual CI dispatch change with `npm test`, `npm run typecheck`, `npm run build`, YAML parsing, secret-prefix scan excluding `.env`, shell history secret scan, em dash scan, `git diff --check`, `npm pack --dry-run`, built help smoke, built plan smoke `run_release_dispatch_20260605_1929`, built fake-run smoke `run_release_dispatch_fake_20260605_1929`, and `.env` ignore and mode check.
 
 ## Current In-Progress State
 
-- None. CI is added, Dependabot PRs are resolved, and package release remains blocked on license confirmation plus the GitHub account billing lock.
+- None. Release decision record, package allowlist, and manual CI dispatch are verified. Dependabot PRs are resolved, and package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions.
+- Push the release decision record, package allowlist, and manual CI dispatch, then resolve the public release license decision and GitHub account billing lock.
 
 ## Human Decisions Needed
 

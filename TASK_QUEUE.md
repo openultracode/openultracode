@@ -47,3 +47,6 @@
 - [Codex] Added Dependabot config for npm and GitHub Actions updates.
 - [Codex] Folded the Dependabot dev dependency updates into `main` after combined local verification.
 - [Codex] Closed Dependabot PRs `#1` and `#2` as superseded by the folded dependency update on `main`.
+- [Codex] Added a release decision record for license, CI, release channel, and package publication.
+- [Codex] Added `docs/` to the package file allowlist so README-linked release docs ship with the package.
+- [Codex] Added manual GitHub Actions dispatch for rerunning CI after the billing lock is resolved.

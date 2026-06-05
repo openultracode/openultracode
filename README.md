@@ -141,6 +141,12 @@ Before release work, use the checklist:
 cat docs/RELEASE_CHECKLIST.md
 ```
 
+For the current release blockers and recommended release channel, read:
+
+```bash
+cat docs/RELEASE_DECISIONS.md
+```
+
 Example artifact layout:
 
 ```text
@@ -219,6 +225,7 @@ Status: contributor issue templates, labels, PR template, security policy, Depen
 - Security policy for private reports.
 - Weekly npm and GitHub Actions dependency update checks.
 - Release-readiness checklist.
+- Release decision record for license, CI, and package publication.
 
 ## Architecture
 
@@ -245,6 +252,7 @@ Useful contributions right now:
 - Improve docs for model routing and safety.
 - Add more release examples and package publishing notes.
 - Keep CI green across Node 20, 22, and 24.
+- Review `docs/RELEASE_DECISIONS.md` once the license and CI blockers are resolved.
 
 Good first issue shape:
 
