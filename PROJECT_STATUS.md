@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 17:22 EDT
+Last updated: 2026-06-05 17:29 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -17,6 +17,8 @@ Implemented:
 - Local run artifact layout.
 - Repo inspection.
 - Deterministic dry-run planning.
+- Mixed implementation, test, and docs task decomposition.
+- Documentation-only goals scoped to contributor docs.
 - Model-tier routing.
 - `ouc plan`, `ouc run`, `ouc status`, and `ouc report`.
 - JSON output for `plan`, `run`, and `status`.
@@ -60,13 +62,15 @@ node dist/bin/ouc.js run "implement report command and test it" --backend fake -
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_pool_stopped --stop-after-task 1 --json
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_openrouter_wiring_fake --json
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_fallback_chains_fake --json
+node dist/bin/ouc.js plan "implement report command, add tests, and update README docs" --run-id run_smoke_planner_docs_20260605_1729 --json
+node dist/bin/ouc.js plan "update README docs" --run-id run_smoke_docs_only_20260605_1729 --json
 npm pack --dry-run
 ```
 
 Latest known result:
 
 - 10 test files passed.
-- 32 tests passed.
+- 34 tests passed.
 - Typecheck passed.
 - Build passed.
 - Package dry-run passed.
@@ -77,16 +81,18 @@ Latest known result:
 - OpenRouter backend tests used mocked fetch only and made no live API calls.
 - OpenRouter CLI wiring tests used mocked fetch only and made no live API calls.
 - OpenRouter fallback tests used mocked fetch only and verified failed attempt preservation.
+- Built CLI mixed planner smoke returned 3 tasks with a `$0.03` estimate.
+- Built CLI docs-only planner smoke returned 1 task with a `$0.01` estimate.
 
 ## Next Best Task
 
-Implement richer orchestrator plan parsing beyond deterministic local heuristics.
+Implement worker execution backends.
 
 Expected slice:
 
-- Add more realistic goal decomposition tests.
-- Improve task intent detection without live model calls.
-- Keep planner behavior deterministic and cheap by default.
+- Add a Codex CLI or Claude CLI backend behind explicit opt-in.
+- Keep fake backend as the default test path.
+- Preserve worker artifacts and ledger events across backend types.
 
 ## Human Decisions Needed
 

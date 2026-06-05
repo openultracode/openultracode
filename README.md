@@ -38,6 +38,8 @@ Current implemented surface:
 - Deterministic repo inspection.
 - Dry-run planning with task routing.
 - Edit goals split into edit and dependent test tasks.
+- Mixed implementation, test, and docs goals split into dependent code, verification, and documentation tasks.
+- Documentation-only goals stay scoped to README and `docs/` files.
 - Source scopes prefer implementation files over docs and tracker files.
 - Free-first routing with cheap fallback for low-risk tasks.
 - Strong routing for edit and test tasks.
@@ -124,6 +126,8 @@ Status: mostly implemented.
 - Config schema and defaults.
 - Repo inspection.
 - Deterministic task planning.
+- Mixed code, test, and docs task decomposition.
+- Documentation-only planning scope.
 - Model-tier routing.
 - Local artifact layout.
 - Status and report commands.
@@ -191,7 +195,7 @@ The implementation is not all there yet. The repo currently contains the plannin
 
 Useful contributions right now:
 
-- Improve deterministic planning heuristics.
+- Add fixture repos that stress deterministic planning heuristics.
 - Add real token and cost accounting once external backends land.
 - Add real cancellation and signal handling.
 - Add fixture repos for integration tests.

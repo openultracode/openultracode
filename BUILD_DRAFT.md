@@ -1,6 +1,6 @@
 # Build Draft
 
-Timestamp: 2026-06-05 17:22 EDT
+Timestamp: 2026-06-05 17:29 EDT
 
 GitHub: https://github.com/AryaVora621/openultracode
 
@@ -40,6 +40,8 @@ Included:
 - OpenRouter model fallback attempts after failed mocked backend responses.
 - Worker `result.json` artifacts preserve backend attempt history.
 - Deterministic edit-goal splitting into edit and dependent test tasks.
+- Mixed implementation, test, and docs goals split into dependent code, verification, and docs tasks.
+- Documentation-only goals stay scoped to README and `docs/` files.
 - Edit task source scopes prefer implementation files over docs and tracker files.
 - JSON output modes for `ouc plan ... --json` and `ouc status <run-id> --json`.
 - `ouc plan` rejects `--run-id` when the value is missing.
@@ -68,12 +70,14 @@ node dist/bin/ouc.js run "implement report command and test it" --backend fake -
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_pool_stopped --stop-after-task 1 --json
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_openrouter_wiring_fake --json
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_fallback_chains_fake --json
+node dist/bin/ouc.js plan "implement report command, add tests, and update README docs" --run-id run_smoke_planner_docs_20260605_1729 --json
+node dist/bin/ouc.js plan "update README docs" --run-id run_smoke_docs_only_20260605_1729 --json
 npm pack --dry-run
 ```
 
 Observed results:
 
-- `npm test`: 10 test files, 32 tests passed.
+- `npm test`: 10 test files, 34 tests passed.
 - `npm run typecheck`: exit 0.
 - `npm run build`: exit 0.
 - `node dist/bin/ouc.js --help`: printed the CLI help with `plan`, `run`, `status`, and `report`.
@@ -94,9 +98,11 @@ Observed results:
 - `node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_openrouter_wiring_fake --json`: verified the default fake execution path still works after OpenRouter wiring.
 - OpenRouter fallback tests verified a failed primary model can fall back to another configured OpenRouter model and preserve attempt history with mocked fetch only.
 - `node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_fallback_chains_fake --json`: verified the default fake execution path still works after fallback handling.
+- `node dist/bin/ouc.js plan "implement report command, add tests, and update README docs" --run-id run_smoke_planner_docs_20260605_1729 --json`: returned three planned tasks and a `$0.03` estimate.
+- `node dist/bin/ouc.js plan "update README docs" --run-id run_smoke_docs_only_20260605_1729 --json`: returned one planned task and a `$0.01` estimate.
 - `ouc plan` argument validation rejects a missing `--run-id` value.
 - `npm pack --dry-run`: package is named `openultracode`, includes 12 runtime files, and only emits `dist/bin/ouc.js` for the CLI binary.
 
 ## Next Step
 
-Continue Phase 2 by implementing richer orchestrator plan parsing beyond deterministic local heuristics.
+Continue Phase 2 by implementing worker execution backends behind explicit opt-in.

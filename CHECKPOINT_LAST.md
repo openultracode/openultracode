@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 17:22 EDT
+Timestamp: 2026-06-05 17:29 EDT
 
 ## Completed
 
@@ -99,14 +99,21 @@ Timestamp: 2026-06-05 17:22 EDT
 - Verified CLI fallback tests, full tests, typecheck, build, built fake-run smoke, and `npm pack --dry-run`.
 - Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, and `git diff --check`.
 - Confirmed `.env` remains ignored with `0600` permissions.
+- Committed and pushed fallback handling as `4091697` with message `Add OpenRouter fallback attempts`.
+- Added deterministic planner decomposition for mixed implementation, test, and docs goals.
+- Added deterministic docs-only planning scoped to README and `docs/` files.
+- Added planner tests for mixed code/test/docs goals and docs-only goals.
+- Updated README, build draft, project status, and task queue for the planner slice.
+- Verified `npm test`, `npm run typecheck`, `npm run build`, built mixed/docs-only planner smokes, and `npm pack --dry-run`.
+- Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, `.env` ignore and permissions, and `git diff --check`.
 
 ## Current In-Progress State
 
-- None. OpenRouter fallback handling is implemented and verified locally with mocked tests.
+- None. The deterministic planner decomposition slice is implemented and verified.
 
 ## Next Action
 
-- Commit and push fallback handling, then implement richer deterministic planner decomposition.
+- Implement worker execution backends behind explicit opt-in while keeping fake backend as the default test path.
 
 ## Human Decisions Needed
 

@@ -44,9 +44,26 @@ export function createDryRunPlan(input: CreateDryRunPlanInput): DryRunPlan {
 function createInitialTasks(goal: string, inspection: RepositoryInspection): Task[] {
   const intent = inferIntent(goal);
   const importance = intent === "edit" || intent === "test" ? "normal" : "normal";
+  const features = inferGoalFeatures(goal);
 
   if (intent === "edit") {
-    return [
+    if (features.docsOnly) {
+      return [{
+        id: "task_1",
+        title: `Document: ${summarizeGoal(goal)}`,
+        intent: "edit",
+        importance,
+        modelTier: classifyTask({ intent: "edit", importance }),
+        fileScope: documentationFiles(inspection.files),
+        dependsOn: [],
+        instructions: [
+          `Goal: ${goal}`,
+          "Update contributor-facing documentation for the requested behavior."
+        ].join("\n")
+      }];
+    }
+
+    const tasks: Task[] = [
       {
         id: "task_1",
         title: `Implement: ${summarizeGoal(goal)}`,
@@ -74,6 +91,24 @@ function createInitialTasks(goal: string, inspection: RepositoryInspection): Tas
         ].join("\n")
       }
     ];
+
+    if (features.needsDocs) {
+      tasks.push({
+        id: "task_3",
+        title: `Document: ${summarizeGoal(goal)}`,
+        intent: "edit",
+        importance,
+        modelTier: classifyTask({ intent: "edit", importance }),
+        fileScope: documentationFiles(inspection.files),
+        dependsOn: ["task_1", "task_2"],
+        instructions: [
+          `Goal: ${goal}`,
+          "Update contributor-facing documentation for the implemented and verified behavior."
+        ].join("\n")
+      });
+    }
+
+    return tasks;
   }
 
   return [{
@@ -109,6 +144,18 @@ function inferIntent(goal: string): Task["intent"] {
   return "research";
 }
 
+function inferGoalFeatures(goal: string): { needsDocs: boolean; docsOnly: boolean } {
+  const normalized = goal.toLowerCase();
+  const needsDocs = /\b(docs?|documentation|readme|document)\b/.test(normalized);
+  const needsTests = /\b(tests?|specs?|verify|coverage)\b/.test(normalized);
+  const needsSourceChanges = /\b(implement|fix|feature|command|cli|api|backend|worker|source|src|code|bug|refactor|route|model)\b/.test(normalized);
+
+  return {
+    needsDocs,
+    docsOnly: needsDocs && !needsTests && !needsSourceChanges
+  };
+}
+
 function summarizeGoal(goal: string): string {
   const trimmed = goal.trim();
   if (trimmed.length <= 80) {
@@ -134,6 +181,11 @@ function testFiles(files: string[]): string[] {
   return scoped.length > 0 ? scoped : files.slice(0, 30);
 }
 
+function documentationFiles(files: string[]): string[] {
+  const scoped = files.filter(isDocumentationFile).slice(0, 30);
+  return scoped.length > 0 ? scoped : files.slice(0, 30);
+}
+
 function isTestFile(file: string): boolean {
   return /(^|\/)(tests?|__tests__)\//.test(file) || /\.test\.[cm]?[jt]sx?$/.test(file);
 }
@@ -143,6 +195,22 @@ function isImplementationFile(file: string): boolean {
     /^(bin|src)\//.test(file) ||
     /(^|\/)(package|tsconfig|vite|vitest|eslint|prettier)\.[\w.-]+$/.test(file)
   );
+}
+
+function isDocumentationFile(file: string): boolean {
+  const normalized = file.toLowerCase();
+  if (isProjectTrackerFile(normalized)) {
+    return false;
+  }
+  return (
+    normalized === "readme.md" ||
+    normalized === "contributing.md" ||
+    /^docs\//.test(normalized)
+  );
+}
+
+function isProjectTrackerFile(file: string): boolean {
+  return /(^|\/)(agents|build_draft|checkpoint_last|checkpoint_step_\d+|project_status|task_queue|blocked)\.md$/.test(file);
 }
 
 function estimatePlanCost(routes: TaskRoute[]): number {
