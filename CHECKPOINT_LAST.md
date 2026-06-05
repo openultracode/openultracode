@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 19:06 EDT
+Timestamp: 2026-06-05 19:12 EDT
 
 ## Completed
 
@@ -199,17 +199,18 @@ Timestamp: 2026-06-05 19:06 EDT
 - Verified both Dependabot PRs in isolated temporary worktrees with `npm ci`, `npm test`, `npm run typecheck`, `npm run build`, and `npm pack --dry-run`; both passed locally.
 - Removed the temporary Dependabot review worktrees from `/tmp/ouc-dependabot-checks-97872`.
 - Checked Dependabot PR CI runs `27044654614` and `27044658334`; both failed before job startup because the GitHub account is locked due to a billing issue.
+- Verified the combined `typescript` `^6.0.3` and `@types/node` `^25.9.2` update in a separate temporary worktree with `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, YAML parsing, secret-prefix scan, em dash scan, and `git diff --check`.
+- Applied the combined dev dependency update to `main` with npm and verified `npm test`, `npm run typecheck`, `npm run build`, and `npm pack --dry-run`.
 
 ## Current In-Progress State
 
-- None. CI is added, and package release remains blocked on license confirmation plus the GitHub account billing lock.
+- Combined Dependabot dev dependency update is ready to commit. CI is added, and package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions and handle Dependabot PRs `#1` and `#2`.
+- Commit and push the combined dev dependency update, then resolve the public release license decision and GitHub account billing lock.
 
 ## Human Decisions Needed
 
 - Confirm before public release if the MIT default license should change.
 - Resolve the GitHub account billing lock so remote CI can run.
-- Review and merge or close Dependabot PRs `#1` and `#2` after remote CI can run.

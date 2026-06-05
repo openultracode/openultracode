@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 19:06 EDT
+Timestamp: 2026-06-05 19:12 EDT
 
 ## Objective
 
@@ -33,7 +33,7 @@ Concrete success criteria:
 | Pull request template exists | `.github/PULL_REQUEST_TEMPLATE.md` captures summary, scope, verification, safety checks, and reviewer notes | Complete |
 | Security policy exists | `SECURITY.md` directs sensitive reports to GitHub Security Advisories and lists project-specific safety areas | Complete |
 | Dependency update automation exists | `.github/dependabot.yml` checks npm and GitHub Actions weekly | Complete |
-| Dependabot PRs reviewed | PRs `#1` and `#2` passed isolated local verification; remote CI is billing-blocked | Blocked by GitHub billing/account lock |
+| Dependabot PRs reviewed | PRs `#1` and `#2` passed isolated local verification, then the combined dev dependency update was applied to `main` and passed local verification | Complete |
 | Contributor CI exists | `.github/workflows/ci.yml` runs tests, typecheck, build, and package dry-run on Node 20, 22, and 24 | Configured |
 | Remote CI run starts | `gh run list --repo AryaVora621/openultracode --limit 5` and `gh run view <latest-run-id> --repo AryaVora621/openultracode` | Blocked by GitHub billing/account lock |
 | Release checklist exists | `docs/RELEASE_CHECKLIST.md` | Complete |
@@ -62,6 +62,7 @@ Concrete success criteria:
 - Security policy for private reports.
 - Dependabot config for npm and GitHub Actions updates.
 - Isolated local verification of Dependabot PRs `#1` and `#2`.
+- Combined Dependabot dev dependency update applied to `main`.
 - GitHub Actions CI for contributor verification.
 
 ## Remaining Blocker
@@ -71,8 +72,7 @@ The repo is ready for collaborator-oriented source use, but final package releas
 - Current license: MIT.
 - Required decision: confirm MIT is acceptable, or replace it before package publication.
 - Required account action: resolve the GitHub billing/account lock so CI can run on GitHub-hosted runners.
-- Required follow-up: after CI can run, review and merge or close Dependabot PRs `#1` and `#2`.
 
 ## Audit Decision
 
-Do not mark the overall project objective complete yet. The implementation, tests, docs, and public push are current, but final release readiness still has the license decision, GitHub Actions billing/account blocker, and Dependabot PR follow-up open.
+Do not mark the overall project objective complete yet. The implementation, tests, docs, and public push are current, but final release readiness still has the license decision and GitHub Actions billing/account blocker open.

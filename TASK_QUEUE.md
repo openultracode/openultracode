@@ -4,7 +4,6 @@
 
 - Decide package license for public release if MIT default should change.
 - Resolve the GitHub account billing lock so CI can run.
-- Review and merge or close Dependabot PRs `#1` and `#2` after remote CI can run.
 
 ## In-Progress
 
@@ -46,3 +45,4 @@
 - [Codex] Added a pull request template with verification and safety checks.
 - [Codex] Added a security policy for private reports.
 - [Codex] Added Dependabot config for npm and GitHub Actions updates.
+- [Codex] Folded the Dependabot dev dependency updates into `main` after combined local verification.

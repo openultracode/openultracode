@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 19:06 EDT
+Last updated: 2026-06-05 19:12 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -64,6 +64,7 @@ Implemented:
 - GitHub pull request template for verification and safety checks.
 - Security policy for private reports through GitHub Security Advisories.
 - Dependabot config for weekly npm and GitHub Actions update PRs.
+- Dev dependency updates from Dependabot PRs `#1` and `#2` folded into `main`: `typescript` `^6.0.3` and `@types/node` `^25.9.2`.
 - GitHub Actions CI for tests, typecheck, build, and package dry-run on Node 20, 22, and 24.
 - Release-readiness checklist in `docs/RELEASE_CHECKLIST.md`.
 - Release audit in `docs/RELEASE_AUDIT.md`.
@@ -73,7 +74,6 @@ Not implemented yet:
 
 - Human license decision before package release.
 - Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27044221945` and documented in `BLOCKED.md`.
-- Dependabot PRs `#1` and `#2` are open for semver-major dev dependency updates. Local worktree verification passed for both, but their remote CI checks are also blocked by the GitHub account billing lock.
 
 ## Verification Snapshot
 
@@ -151,6 +151,7 @@ Latest known result:
 - Dependabot PR `#1` updates `typescript` from `5.9.3` to `6.0.3`; isolated local verification passed `npm ci`, `npm test`, `npm run typecheck`, `npm run build`, and `npm pack --dry-run`.
 - Dependabot PR `#2` updates `@types/node` from `24.13.0` to `25.9.2`; isolated local verification passed `npm ci`, `npm test`, `npm run typecheck`, `npm run build`, and `npm pack --dry-run`.
 - Remote CI runs `27044654614` and `27044658334` for Dependabot PRs `#1` and `#2` failed before job startup because the GitHub account is locked due to a billing issue.
+- Combined dev dependency update on `main` passed `npm test`, `npm run typecheck`, `npm run build`, and `npm pack --dry-run`.
 
 ## Next Best Task
 
@@ -167,4 +168,3 @@ Expected slice:
 
 - Confirm the MIT license is acceptable for public release.
 - Resolve the GitHub account billing lock so remote CI can run.
-- Review and merge or close Dependabot PRs `#1` and `#2` after remote CI can run.
