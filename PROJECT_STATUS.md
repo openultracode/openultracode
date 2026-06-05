@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 19:12 EDT
+Last updated: 2026-06-05 19:18 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -65,6 +65,7 @@ Implemented:
 - Security policy for private reports through GitHub Security Advisories.
 - Dependabot config for weekly npm and GitHub Actions update PRs.
 - Dev dependency updates from Dependabot PRs `#1` and `#2` folded into `main`: `typescript` `^6.0.3` and `@types/node` `^25.9.2`.
+- Dependabot PRs `#1` and `#2` closed as superseded by commit `e09c016`.
 - GitHub Actions CI for tests, typecheck, build, and package dry-run on Node 20, 22, and 24.
 - Release-readiness checklist in `docs/RELEASE_CHECKLIST.md`.
 - Release audit in `docs/RELEASE_AUDIT.md`.
@@ -73,7 +74,7 @@ Implemented:
 Not implemented yet:
 
 - Human license decision before package release.
-- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27044221945` and documented in `BLOCKED.md`.
+- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27045092200` and documented in `BLOCKED.md`.
 
 ## Verification Snapshot
 
@@ -113,7 +114,7 @@ Latest known result:
 - 59 tests passed.
 - Typecheck passed.
 - Build passed.
-- Package dry-run passed for `openultracode@0.1.0`, 18 files, package size `20.6 kB`.
+- Package dry-run passed for `openultracode@0.1.0`, 18 files, package size `20.7 kB`.
 - GitHub workflow YAML parsed successfully.
 - Repo secret-prefix scan excluding `.env` had no matches.
 - Em dash scan had no matches.
@@ -143,7 +144,7 @@ Latest known result:
 - Built file-ownership block smoke returned exit 1 with status `blocked`, `limit` `fileOwnership`, and no worker result artifacts.
 - CLI usage parsing tests verified Codex JSONL usage events, Claude JSON result usage, cost mapping, and plain-text fallback behavior.
 - Built CLI usage parsing smoke mapped mocked Codex and Claude structured output into worker usage and cost totals.
-- GitHub Actions run `27044221945` created the Node 20, 22, and 24 jobs, but each job failed before starting because the GitHub account is locked due to a billing issue.
+- GitHub Actions run `27045092200` created the Node 20, 22, and 24 jobs, but each job failed before starting because the GitHub account is locked due to a billing issue.
 - `gh label list --repo AryaVora621/openultracode --limit 100` showed the labels referenced by issue templates exist: `bug`, `enhancement`, and `good first issue`.
 - `.github/PULL_REQUEST_TEMPLATE.md` now asks contributors for exact verification results, CLI smoke output when relevant, and safety checks for secrets, live backends, generated folders, and final-report preservation.
 - `SECURITY.md` directs sensitive reports to GitHub Security Advisories and names project-specific safety areas.
@@ -152,6 +153,7 @@ Latest known result:
 - Dependabot PR `#2` updates `@types/node` from `24.13.0` to `25.9.2`; isolated local verification passed `npm ci`, `npm test`, `npm run typecheck`, `npm run build`, and `npm pack --dry-run`.
 - Remote CI runs `27044654614` and `27044658334` for Dependabot PRs `#1` and `#2` failed before job startup because the GitHub account is locked due to a billing issue.
 - Combined dev dependency update on `main` passed `npm test`, `npm run typecheck`, `npm run build`, and `npm pack --dry-run`.
+- Dependabot PRs `#1` and `#2` were closed as superseded after the combined update was pushed to `main`.
 
 ## Next Best Task
 

@@ -46,3 +46,4 @@
 - [Codex] Added a security policy for private reports.
 - [Codex] Added Dependabot config for npm and GitHub Actions updates.
 - [Codex] Folded the Dependabot dev dependency updates into `main` after combined local verification.
+- [Codex] Closed Dependabot PRs `#1` and `#2` as superseded by the folded dependency update on `main`.

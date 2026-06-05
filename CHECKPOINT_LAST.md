@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 19:12 EDT
+Timestamp: 2026-06-05 19:18 EDT
 
 ## Completed
 
@@ -201,14 +201,18 @@ Timestamp: 2026-06-05 19:12 EDT
 - Checked Dependabot PR CI runs `27044654614` and `27044658334`; both failed before job startup because the GitHub account is locked due to a billing issue.
 - Verified the combined `typescript` `^6.0.3` and `@types/node` `^25.9.2` update in a separate temporary worktree with `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, YAML parsing, secret-prefix scan, em dash scan, and `git diff --check`.
 - Applied the combined dev dependency update to `main` with npm and verified `npm test`, `npm run typecheck`, `npm run build`, and `npm pack --dry-run`.
+- Reverified the main checkout after applying the dependency update with `npm test`, `npm run typecheck`, YAML parsing, secret-prefix scan excluding `.env`, em dash scan, `git diff --check`, `.env` ignore and mode check, shell history secret scan, `npm run build`, `npm pack --dry-run`, built help smoke, and built plan smoke.
+- Committed and pushed the combined dev dependency update as `e09c016`.
+- Checked GitHub Actions run `27045092200`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- Closed Dependabot PRs `#1` and `#2` as superseded by the folded dependency update on `main`.
 
 ## Current In-Progress State
 
-- Combined Dependabot dev dependency update is ready to commit. CI is added, and package release remains blocked on license confirmation plus the GitHub account billing lock.
+- None. CI is added, Dependabot PRs are resolved, and package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Commit and push the combined dev dependency update, then resolve the public release license decision and GitHub account billing lock.
+- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions.
 
 ## Human Decisions Needed
 
