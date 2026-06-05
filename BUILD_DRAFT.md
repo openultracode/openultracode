@@ -1,6 +1,6 @@
 # Build Draft
 
-Timestamp: 2026-06-05 17:58 EDT
+Timestamp: 2026-06-05 18:10 EDT
 
 GitHub: https://github.com/AryaVora621/openultracode
 
@@ -45,6 +45,9 @@ Included:
 - Worker `diff.patch`, `changed-files.json`, and `reconciliation.json` artifacts.
 - Final-report reconciliation sections for clean, changed, skipped, failed, and conflict states.
 - Conflict classification with `git apply --check`.
+- Opt-in clean patch application through `--apply-clean-patches` or `patchApplication.applyCleanPatches`.
+- Worker `patch-application.json` artifacts for applied, skipped, and failed application states.
+- Patch application ledger events and final-report sections.
 - `SIGINT` and `SIGTERM` cancellation through an `AbortController`.
 - Worker-pool cancellation before execution and between tasks.
 - Canceled CLI runs preserve stopped-run ledger and final report artifacts.
@@ -90,12 +93,13 @@ node dist/bin/ouc.js run "inspect this repo" --backend claude-cli --run-id run_s
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_worktree_reconcile_20260605_1746 --json
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built cancellation smoke */'
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built actual-cost cap smoke */'
+node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built clean-patch application smoke */'
 npm pack --dry-run
 ```
 
 Observed results:
 
-- `npm test`: 13 test files, 49 tests passed.
+- `npm test`: 13 test files, 54 tests passed.
 - `npm run typecheck`: exit 0.
 - `npm run build`: exit 0.
 - `node dist/bin/ouc.js --help`: printed the CLI help with `plan`, `run`, `status`, and `report`.
@@ -129,9 +133,11 @@ Observed results:
 - Built cancellation smoke returned exit 1 with status `stopped`, reason `Run canceled before task execution.`, and preserved stopped-run artifact paths.
 - Cost accounting tests verified worker-pool token totals, runtime actual-cost stopping, stopped-run token/cost JSON, ledger totals, and final-report totals.
 - Built actual-cost cap smoke returned exit 1 after one mocked OpenRouter call with status `stopped`, total cost `$0.04`, and total tokens `18`.
+- Patch application tests verified default no-apply behavior, CLI flag opt-in, config opt-in, `patch-application.json`, ledger events, final-report metadata, and safe refusal for conflict states.
+- Built clean-patch application smoke applied a mocked worktree change to the main checkout only when `--apply-clean-patches` was present.
 - `ouc plan` argument validation rejects a missing `--run-id` value.
 - `npm pack --dry-run`: package is named `openultracode`, includes 14 built runtime files, 17 files total, and only emits `dist/bin/ouc.js` for the CLI binary.
 
 ## Next Step
 
-Continue Phase 2 by implementing opt-in clean patch application after reconciliation.
+Continue Phase 2 by implementing file ownership enforcement for overlapping worker scopes.

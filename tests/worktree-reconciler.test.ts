@@ -1,8 +1,9 @@
-import { mkdtemp, readFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 import {
+  applyCleanPatch,
   captureTaskReconciliation,
   prepareTaskWorkspace
 } from "../src/worktree-reconciler.js";
@@ -142,6 +143,87 @@ test("captureTaskReconciliation reports patches that cannot apply cleanly", asyn
   ).toMatchObject({
     status: "conflict",
     reason: "patch does not apply"
+  });
+});
+
+test("applyCleanPatch applies changed reconciliation patches to the project root", async () => {
+  const runDir = await mkdtemp(join(tmpdir(), "ouc-apply-patch-"));
+  const workerDir = join(runDir, "workers", "task_1");
+  const diffPath = join(workerDir, "diff.patch");
+  const calls: string[][] = [];
+  await mkdir(workerDir, { recursive: true });
+  await writeFile(diffPath, "diff --git a/src/cli.ts b/src/cli.ts\n", {
+    encoding: "utf8",
+    flag: "w"
+  });
+
+  const application = await applyCleanPatch({
+    projectRoot: "/tmp/project",
+    workerDir,
+    reconciliation: {
+      taskId: "task_1",
+      status: "changed",
+      changedFiles: ["src/cli.ts"],
+      diffPath
+    },
+    gitRunner: async (args) => {
+      calls.push(args);
+      return { exitCode: 0, stdout: "", stderr: "" };
+    }
+  });
+
+  expect(application).toMatchObject({
+    taskId: "task_1",
+    status: "applied",
+    changedFiles: ["src/cli.ts"],
+    patchPath: diffPath
+  });
+  expect(calls).toEqual([
+    ["-C", "/tmp/project", "apply", diffPath]
+  ]);
+  await expect(
+    JSON.parse(await readFile(join(workerDir, "patch-application.json"), "utf8"))
+  ).toMatchObject({
+    taskId: "task_1",
+    status: "applied",
+    changedFiles: ["src/cli.ts"],
+    patchPath: diffPath
+  });
+});
+
+test("applyCleanPatch refuses reconciliation states that are not safe to apply", async () => {
+  const runDir = await mkdtemp(join(tmpdir(), "ouc-apply-refuse-"));
+  const workerDir = join(runDir, "workers", "task_1");
+  const calls: string[][] = [];
+
+  const application = await applyCleanPatch({
+    projectRoot: "/tmp/project",
+    workerDir,
+    reconciliation: {
+      taskId: "task_1",
+      status: "conflict",
+      changedFiles: ["src/cli.ts"],
+      reason: "patch does not apply"
+    },
+    gitRunner: async (args) => {
+      calls.push(args);
+      return { exitCode: 0, stdout: "", stderr: "" };
+    }
+  });
+
+  expect(application).toMatchObject({
+    taskId: "task_1",
+    status: "skipped",
+    changedFiles: ["src/cli.ts"],
+    reason: "Reconciliation status conflict is not safe to apply."
+  });
+  expect(calls).toEqual([]);
+  await expect(
+    JSON.parse(await readFile(join(workerDir, "patch-application.json"), "utf8"))
+  ).toMatchObject({
+    taskId: "task_1",
+    status: "skipped",
+    reason: "Reconciliation status conflict is not safe to apply."
   });
 });
 

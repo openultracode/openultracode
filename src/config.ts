@@ -31,11 +31,16 @@ const limitsSchema = z.object({
   requirePlanApproval: z.boolean()
 });
 
+const patchApplicationSchema = z.object({
+  applyCleanPatches: z.boolean()
+});
+
 export const configSchema = z
   .object({
     activeProfile: z.string().min(1),
     profiles: z.record(z.string(), profileSchema),
-    limits: limitsSchema
+    limits: limitsSchema,
+    patchApplication: patchApplicationSchema
   })
   .superRefine((config, context) => {
     if (!config.profiles[config.activeProfile]) {
@@ -84,6 +89,9 @@ export const DEFAULT_CONFIG = {
     maxCostUsd: 5,
     maxTasks: 100,
     requirePlanApproval: true
+  },
+  patchApplication: {
+    applyCleanPatches: false
   }
 } satisfies CucConfig;
 

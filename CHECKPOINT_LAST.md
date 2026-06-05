@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 17:58 EDT
+Timestamp: 2026-06-05 18:10 EDT
 
 ## Completed
 
@@ -139,14 +139,23 @@ Timestamp: 2026-06-05 17:58 EDT
 - Updated README, AGENTS, build draft, project status, and task queue for the cost-accounting slice.
 - Verified `npm test`, `npm run typecheck`, `npm run build`, built actual-cost cap smoke, and `npm pack --dry-run`.
 - Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, `.env` ignore and permissions, and `git diff --check`.
+- Committed and pushed cost accounting as `3b5a733` with message `Add runtime cost accounting`.
+- Added opt-in clean patch application behind `--apply-clean-patches`.
+- Added config opt-in through `patchApplication.applyCleanPatches`.
+- Added worker `patch-application.json` artifacts for applied, skipped, and failed patch application states.
+- Added patch application ledger events and final-report sections.
+- Added tests for default no-apply behavior, CLI flag opt-in, config opt-in, and refusal for unsafe reconciliation states.
+- Updated README, AGENTS, build draft, project status, and task queue for the patch-application slice.
+- Verified `npm test`, `npm run typecheck`, `npm run build`, built clean-patch application smoke, and `npm pack --dry-run`.
+- Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, `.env` ignore and permissions, and `git diff --check`.
 
 ## Current In-Progress State
 
-- None. The cost and token accounting slice is implemented and verified.
+- None. The opt-in clean patch application slice is implemented and verified.
 
 ## Next Action
 
-- Implement opt-in clean patch application after reconciliation.
+- Implement file ownership enforcement for overlapping worker scopes.
 
 ## Human Decisions Needed
 

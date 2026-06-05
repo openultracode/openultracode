@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 17:58 EDT
+Last updated: 2026-06-05 18:10 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get isolated worktree and reconciliation artifacts, cancellation preserves stopped-run artifacts, and worker result accounting now drives token and cost totals.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, cancellation preserves stopped-run artifacts, and worker result accounting now drives token and cost totals.
 
 Implemented:
 
@@ -43,6 +43,10 @@ Implemented:
 - Worker `diff.patch`, `changed-files.json`, and `reconciliation.json` artifacts.
 - Final-report reconciliation sections for clean, changed, skipped, failed, and conflict states.
 - Conflict classification with `git apply --check`.
+- Opt-in `--apply-clean-patches` flag for applying clean changed worker patches.
+- Opt-in `patchApplication.applyCleanPatches` config switch.
+- Worker `patch-application.json` artifacts for applied, skipped, and failed application states.
+- Patch application ledger events and final-report sections.
 - Real `SIGINT` and `SIGTERM` cancellation through an `AbortController`.
 - Worker-pool cancellation before execution and between tasks.
 - Canceled CLI runs preserve stopped-run ledger and final report artifacts.
@@ -53,7 +57,6 @@ Implemented:
 
 Not implemented yet:
 
-- Automatic application of clean patches.
 - File ownership enforcement.
 - Provider-specific CLI usage parsing if local CLIs expose structured usage.
 
@@ -79,13 +82,14 @@ node dist/bin/ouc.js run "inspect this repo" --backend claude-cli --run-id run_s
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_worktree_reconcile_20260605_1746 --json
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built cancellation smoke */'
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built actual-cost cap smoke */'
+node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built clean-patch application smoke */'
 npm pack --dry-run
 ```
 
 Latest known result:
 
 - 13 test files passed.
-- 49 tests passed.
+- 54 tests passed.
 - Typecheck passed.
 - Build passed.
 - Package dry-run passed.
@@ -108,16 +112,18 @@ Latest known result:
 - Built cancellation smoke returned exit 1 with status `stopped`, reason `Run canceled before task execution.`, and preserved stopped-run artifact paths.
 - Cost accounting tests verified worker-pool token totals, runtime actual-cost stopping, stopped-run token/cost JSON, ledger totals, and final-report totals.
 - Built actual-cost cap smoke returned exit 1 after one mocked OpenRouter call with status `stopped`, total cost `$0.04`, and total tokens `18`.
+- Patch application tests verified default no-apply behavior, CLI flag opt-in, config opt-in, `patch-application.json`, ledger events, final-report metadata, and safe refusal for conflict states.
+- Built clean-patch application smoke applied a mocked worktree change to the main checkout only when `--apply-clean-patches` was present.
 
 ## Next Best Task
 
-Implement opt-in clean patch application after reconciliation.
+Implement file ownership enforcement for overlapping worker scopes.
 
 Expected slice:
 
-- Apply clean worker diffs only behind an explicit CLI/config opt-in.
-- Refuse automatic application for conflict or failed reconciliation states.
-- Preserve applied patch metadata in the run report and ledger.
+- Detect planned edit tasks with overlapping file scopes before execution.
+- Record ownership metadata in the plan and ledger.
+- Refuse or serialize unsafe overlaps before mutating workers run.
 
 ## Human Decisions Needed
 

@@ -3,7 +3,7 @@
 ## Open
 
 - Decide package license for public release if MIT default should change.
-- Implement opt-in clean patch application after reconciliation.
+- Implement file ownership enforcement for overlapping worker scopes.
 
 ## In-Progress
 
@@ -36,3 +36,4 @@
 - [Codex] Implemented isolated edit-task worktrees, diff capture, reconciliation artifacts, conflict classification, and report summaries.
 - [Codex] Implemented real cancellation and signal handling with stopped-run artifact preservation.
 - [Codex] Implemented runtime token and cost accounting with actual-cost cap stopping.
+- [Codex] Implemented opt-in clean patch application after reconciliation.

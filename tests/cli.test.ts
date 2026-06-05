@@ -1216,3 +1216,198 @@ test("runCli run preserves stopped artifacts when the runtime is already aborted
     code: "ENOENT"
   });
 });
+
+test("runCli run does not apply clean worker patches without opt-in", async () => {
+  const projectRoot = await createGitPatchFixture("ouc-cli-run-no-apply-");
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+
+  const exitCode = await runCli(
+    [
+      "node",
+      "ouc",
+      "run",
+      "implement report command and test it",
+      "--backend",
+      "codex-cli",
+      "--run-id",
+      "run_no_apply",
+      "--json"
+    ],
+    {
+      cwd: projectRoot,
+      commandRunner: mutateFirstTaskWorker,
+      stdout: (line) => stdout.push(line),
+      stderr: (line) => stderr.push(line)
+    }
+  );
+  const output = JSON.parse(stdout.join("\n")) as {
+    status: string;
+    ledgerPath: string;
+    finalReportPath: string;
+  };
+  const runDir = join(projectRoot, ".ouc", "runs", "run_no_apply");
+  const ledgerLines = (await readFile(output.ledgerPath, "utf8"))
+    .trim()
+    .split("\n")
+    .map((line) => JSON.parse(line) as { event: string });
+  const report = await readFile(output.finalReportPath, "utf8");
+
+  expect(exitCode).toBe(0);
+  expect(stderr).toEqual([]);
+  expect(output.status).toBe("succeeded");
+  expect(await readFile(join(projectRoot, "src", "cli.ts"), "utf8")).toBe(
+    "export {};\n"
+  );
+  expect(
+    await readFile(join(runDir, "workers", "task_1", "diff.patch"), "utf8")
+  ).toContain("applied = true");
+  expect(ledgerLines.map((line) => line.event)).not.toContain(
+    "task_patch_application"
+  );
+  expect(report).not.toContain("## Patch Application");
+});
+
+test("runCli run applies clean worker patches when the CLI flag opts in", async () => {
+  const projectRoot = await createGitPatchFixture("ouc-cli-run-apply-flag-");
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+
+  const exitCode = await runCli(
+    [
+      "node",
+      "ouc",
+      "run",
+      "implement report command and test it",
+      "--backend",
+      "codex-cli",
+      "--run-id",
+      "run_apply_flag",
+      "--apply-clean-patches",
+      "--json"
+    ],
+    {
+      cwd: projectRoot,
+      commandRunner: mutateFirstTaskWorker,
+      stdout: (line) => stdout.push(line),
+      stderr: (line) => stderr.push(line)
+    }
+  );
+  const output = JSON.parse(stdout.join("\n")) as {
+    status: string;
+    ledgerPath: string;
+    finalReportPath: string;
+  };
+  const runDir = join(projectRoot, ".ouc", "runs", "run_apply_flag");
+  const ledgerLines = (await readFile(output.ledgerPath, "utf8"))
+    .trim()
+    .split("\n")
+    .map((line) => JSON.parse(line) as {
+      event: string;
+      taskId?: string;
+      status?: string;
+      changedFiles?: string[];
+    });
+  const application = JSON.parse(
+    await readFile(join(runDir, "workers", "task_1", "patch-application.json"), "utf8")
+  ) as {
+    status: string;
+    changedFiles: string[];
+  };
+  const report = await readFile(output.finalReportPath, "utf8");
+
+  expect(exitCode).toBe(0);
+  expect(stderr).toEqual([]);
+  expect(output.status).toBe("succeeded");
+  expect(await readFile(join(projectRoot, "src", "cli.ts"), "utf8")).toBe(
+    "export const applied = true;\n"
+  );
+  expect(application).toMatchObject({
+    status: "applied",
+    changedFiles: ["src/cli.ts"]
+  });
+  expect(
+    ledgerLines.find((line) => (
+      line.event === "task_patch_application" && line.taskId === "task_1"
+    ))
+  ).toMatchObject({
+    status: "applied",
+    changedFiles: ["src/cli.ts"]
+  });
+  expect(report).toContain("## Patch Application");
+  expect(report).toContain("- task_1: applied src/cli.ts");
+});
+
+test("runCli run applies clean worker patches when project config opts in", async () => {
+  const projectRoot = await createGitPatchFixture("ouc-cli-run-apply-config-");
+  await mkdir(join(projectRoot, ".ouc"), { recursive: true });
+  await writeFile(
+    join(projectRoot, ".ouc", "config.json"),
+    JSON.stringify({ patchApplication: { applyCleanPatches: true } }, null, 2)
+  );
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+
+  const exitCode = await runCli(
+    [
+      "node",
+      "ouc",
+      "run",
+      "implement report command and test it",
+      "--backend",
+      "codex-cli",
+      "--run-id",
+      "run_apply_config",
+      "--json"
+    ],
+    {
+      cwd: projectRoot,
+      commandRunner: mutateFirstTaskWorker,
+      stdout: (line) => stdout.push(line),
+      stderr: (line) => stderr.push(line)
+    }
+  );
+  const output = JSON.parse(stdout.join("\n")) as { status: string };
+
+  expect(exitCode).toBe(0);
+  expect(stderr).toEqual([]);
+  expect(output.status).toBe("succeeded");
+  expect(await readFile(join(projectRoot, "src", "cli.ts"), "utf8")).toBe(
+    "export const applied = true;\n"
+  );
+});
+
+async function createGitPatchFixture(prefix: string): Promise<string> {
+  const projectRoot = await mkdtemp(join(tmpdir(), prefix));
+  await mkdir(join(projectRoot, "src"), { recursive: true });
+  await mkdir(join(projectRoot, "tests"), { recursive: true });
+  await writeFile(join(projectRoot, "package.json"), "{}");
+  await writeFile(join(projectRoot, "src", "cli.ts"), "export {};\n");
+  await writeFile(join(projectRoot, "tests", "cli.test.ts"), "test('ok', () => {});\n");
+  await execFileAsync("git", ["init"], { cwd: projectRoot });
+  await execFileAsync("git", ["config", "user.email", "ouc@example.test"], {
+    cwd: projectRoot
+  });
+  await execFileAsync("git", ["config", "user.name", "OUC Test"], {
+    cwd: projectRoot
+  });
+  await execFileAsync("git", ["add", "."], { cwd: projectRoot });
+  await execFileAsync("git", ["commit", "-m", "fixture"], { cwd: projectRoot });
+  return projectRoot;
+}
+
+async function mutateFirstTaskWorker(
+  _command: string,
+  _args: string[],
+  options: { cwd: string; input: string }
+): Promise<{ exitCode: number; stdout: string; stderr: string }> {
+  if (options.input.includes("Task: Implement")) {
+    await writeFile(join(options.cwd, "src", "cli.ts"), "export const applied = true;\n");
+  }
+
+  return {
+    exitCode: 0,
+    stdout: "mocked worker completed task",
+    stderr: ""
+  };
+}

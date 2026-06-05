@@ -4,7 +4,7 @@ OpenUltraCode is an open-source local CLI for parallel coding agents with adapti
 
 The goal is simple: make multi-agent coding workflows cheaper, safer, and more controllable than sending every worker to the same expensive premium model.
 
-Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, capture per-worker reconciliation metadata, enforce actual cost caps, stop cleanly on cancellation, and expose status/report commands. The next milestone is opt-in clean patch application.
+Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, capture per-worker reconciliation metadata, apply clean patches only after explicit opt-in, enforce actual cost caps, stop cleanly on cancellation, and expose status/report commands. The next milestone is file ownership enforcement.
 
 ## Why This Should Exist
 
@@ -60,6 +60,8 @@ Current implemented surface:
 - Edit tasks in git repos get isolated worktrees under the run artifact directory.
 - Worker reconciliation artifacts preserve `diff.patch`, `changed-files.json`, and `reconciliation.json`.
 - Final reports include a reconciliation section with clean, changed, skipped, failed, or conflict status.
+- `--apply-clean-patches` and `patchApplication.applyCleanPatches` opt in to applying clean changed patches.
+- Patch application writes `patch-application.json`, ledger events, and final-report metadata.
 - `SIGINT` and `SIGTERM` cancellation are converted into stopped runs that preserve partial artifacts.
 - Run JSON, ledgers, and final reports include total token and cost accounting from worker results.
 - Actual backend cost can stop a run before the next task when `limits.maxCostUsd` is exceeded.
@@ -113,6 +115,12 @@ node dist/bin/ouc.js run "inspect this repo" --backend codex-cli --json
 node dist/bin/ouc.js run "inspect this repo" --backend claude-cli --json
 ```
 
+Opt in to applying clean worker patches after reconciliation:
+
+```bash
+node dist/bin/ouc.js run "implement a small change and test it" --backend codex-cli --apply-clean-patches --json
+```
+
 Inspect a run:
 
 ```bash
@@ -131,6 +139,7 @@ Example artifact layout:
 .ouc/runs/<run-id>/workers/<task-id>/diff.patch
 .ouc/runs/<run-id>/workers/<task-id>/changed-files.json
 .ouc/runs/<run-id>/workers/<task-id>/reconciliation.json
+.ouc/runs/<run-id>/workers/<task-id>/patch-application.json
 .ouc/runs/<run-id>/worktrees/<task-id>/
 .ouc/runs/<run-id>/final-report.md
 ```
@@ -167,7 +176,7 @@ Status: fake local execution, preflight limit blocking, stopped-run reporting, a
 
 ### Milestone 3: Real Backends
 
-Status: OpenRouter, Codex CLI, and Claude CLI are wired behind explicit opt-in. CLI backends avoid direct mutation until isolated worktrees land.
+Status: OpenRouter, Codex CLI, and Claude CLI are wired behind explicit opt-in. CLI backends still use conservative command modes by default, and patch application only acts on captured worktree diffs.
 
 - OpenRouter chat completion backend.
 - Claude CLI backend using `claude -p`.
@@ -177,13 +186,13 @@ Status: OpenRouter, Codex CLI, and Claude CLI are wired behind explicit opt-in. 
 
 ### Milestone 4: Safe Mutating Work
 
-Status: isolated worktree creation, diff capture, changed-file metadata, and conflict classification are implemented. Automatic patch application is still planned.
+Status: isolated worktree creation, diff capture, changed-file metadata, conflict classification, and opt-in clean patch application are implemented. File ownership enforcement is still planned.
 
 - Isolated git worktrees for edit tasks.
-- Worker file ownership.
 - Diff capture per worker.
-- Clean patch application.
+- Clean patch application behind explicit CLI or config opt-in.
 - Conflict reporting.
+- Worker file ownership.
 
 ### Milestone 5: Polish And Packaging
 
@@ -204,7 +213,7 @@ OpenUltraCode is intentionally modular:
 - `WorkerPool`: runs tasks with concurrency, cost, and task limits.
 - `Backends`: wraps OpenRouter, Claude CLI, Codex CLI, and fake workers.
 - `WorktreeManager`: isolates mutating tasks.
-- `Reconciler`: captures worker diffs, changed files, and conflict status before patches are applied.
+- `Reconciler`: captures worker diffs, changed files, conflict status, and opt-in clean patch application.
 - `Ledger`: records run and task events.
 - `Reporter`: creates human and machine-readable outputs.
 
@@ -215,12 +224,12 @@ The implementation is not all there yet. The repo currently contains the plannin
 Useful contributions right now:
 
 - Add fixture repos that stress deterministic planning heuristics.
-- Add real token and cost accounting once external backends land.
-- Add real cancellation and signal handling.
+- Add file ownership enforcement for overlapping worker scopes.
+- Add provider-specific usage parsing for local CLI backends when structured usage is available.
 - Add fixture repos for integration tests.
 - Harden config validation and error messages.
 - Improve docs for model routing and safety.
-- Implement opt-in clean patch application after reconciliation.
+- Implement file ownership enforcement for overlapping worker scopes.
 
 Good first issue shape:
 

@@ -3,18 +3,27 @@ import { join } from "node:path";
 
 import { FakeBackend } from "./backends/fake.js";
 import type { Task, WorkerResult } from "./types.js";
-import type { TaskReconciliation, TaskWorkspace } from "./worktree-reconciler.js";
+import type {
+  TaskPatchApplication,
+  TaskReconciliation,
+  TaskWorkspace
+} from "./worktree-reconciler.js";
 
 export type WorkerPoolStatus = "succeeded" | "stopped";
 
 export type WorkerPoolEvent = Record<string, unknown> & {
-  event: "task_started" | "task_finished" | "task_reconciled";
+  event:
+    | "task_started"
+    | "task_finished"
+    | "task_reconciled"
+    | "task_patch_application";
 };
 
 export type WorkerPoolResult = {
   status: WorkerPoolStatus;
   results: WorkerResult[];
   reconciliations: TaskReconciliation[];
+  patchApplications: TaskPatchApplication[];
   taskEvents: WorkerPoolEvent[];
   succeeded: number;
   failed: number;
@@ -44,11 +53,17 @@ export type RunWorkerPoolInput = RunFakeWorkerPoolInput & {
     result: WorkerResult,
     workspace: TaskWorkspace
   ) => Promise<TaskReconciliation>;
+  applyPatch?: (
+    task: Task,
+    result: WorkerResult,
+    reconciliation: TaskReconciliation
+  ) => Promise<TaskPatchApplication>;
 };
 
 export async function runWorkerPool(input: RunWorkerPoolInput): Promise<WorkerPoolResult> {
   const results: WorkerResult[] = [];
   const reconciliations: TaskReconciliation[] = [];
+  const patchApplications: TaskPatchApplication[] = [];
   const taskEvents: WorkerPoolEvent[] = [];
 
   if (input.abortSignal?.aborted && input.tasks.length > 0) {
@@ -57,6 +72,7 @@ export async function runWorkerPool(input: RunWorkerPoolInput): Promise<WorkerPo
       tasks: input.tasks,
       results,
       reconciliations,
+      patchApplications,
       taskEvents,
       stopReason: "Run canceled before task execution."
     });
@@ -68,6 +84,7 @@ export async function runWorkerPool(input: RunWorkerPoolInput): Promise<WorkerPo
       tasks: input.tasks,
       results,
       reconciliations,
+      patchApplications,
       taskEvents,
       stopReason: stopAfterTaskReason(0)
     });
@@ -80,6 +97,7 @@ export async function runWorkerPool(input: RunWorkerPoolInput): Promise<WorkerPo
         tasks: input.tasks,
         results,
         reconciliations,
+        patchApplications,
         taskEvents,
         stopReason: results.length === 0
           ? "Run canceled before task execution."
@@ -124,6 +142,21 @@ export async function runWorkerPool(input: RunWorkerPoolInput): Promise<WorkerPo
         diffPath: reconciliation.diffPath,
         reconciledAt: new Date().toISOString()
       });
+
+      if (input.applyPatch) {
+        const application = await input.applyPatch(task, result, reconciliation);
+        patchApplications.push(application);
+        taskEvents.push({
+          event: "task_patch_application",
+          runId: input.runId,
+          taskId: task.id,
+          status: application.status,
+          changedFiles: application.changedFiles,
+          patchPath: application.patchPath,
+          reason: application.reason,
+          appliedAt: new Date().toISOString()
+        });
+      }
     }
 
     taskEvents.push({
@@ -147,6 +180,7 @@ export async function runWorkerPool(input: RunWorkerPoolInput): Promise<WorkerPo
         tasks: input.tasks,
         results,
         reconciliations,
+        patchApplications,
         taskEvents,
         stopReason: stopAfterTaskReason(results.length)
       });
@@ -162,6 +196,7 @@ export async function runWorkerPool(input: RunWorkerPoolInput): Promise<WorkerPo
         tasks: input.tasks,
         results,
         reconciliations,
+        patchApplications,
         taskEvents,
         stopReason: `Run stopped after actual cost ${formatUsd(sumCosts(results))} exceeded maxCostUsd ${formatUsd(input.maxCostUsd)}.`
       });
@@ -173,6 +208,7 @@ export async function runWorkerPool(input: RunWorkerPoolInput): Promise<WorkerPo
     tasks: input.tasks,
     results,
     reconciliations,
+    patchApplications,
     taskEvents
   });
 }
@@ -204,6 +240,7 @@ function summarizeWorkerPool(input: {
   tasks: Task[];
   results: WorkerResult[];
   reconciliations: TaskReconciliation[];
+  patchApplications: TaskPatchApplication[];
   taskEvents: WorkerPoolEvent[];
   stopReason?: string;
 }): WorkerPoolResult {
@@ -216,6 +253,7 @@ function summarizeWorkerPool(input: {
     status: input.status,
     results: input.results,
     reconciliations: input.reconciliations,
+    patchApplications: input.patchApplications,
     taskEvents: input.taskEvents,
     succeeded,
     failed,

@@ -15,8 +15,10 @@ import { createRunArtifacts, type RunArtifacts } from "./run-artifacts.js";
 import type { CucConfig, Task, WorkerAttempt, WorkerResult } from "./types.js";
 import { runWorkerPool } from "./worker-pool.js";
 import {
+  applyCleanPatch,
   captureTaskReconciliation,
   prepareTaskWorkspace,
+  type TaskPatchApplication,
   type TaskReconciliation
 } from "./worktree-reconciler.js";
 
@@ -46,7 +48,8 @@ Usage:
   ouc report <run-id>
 
 Options:
-  --help       Show this help.
+  --apply-clean-patches  Apply clean worker diffs after reconciliation.
+  --help                 Show this help.
 `;
 
 export async function runCli(
@@ -246,6 +249,13 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
       workerDir: join(artifacts.workersDir, task.id),
       workspace
     }),
+    applyPatch: shouldApplyCleanPatches(parsed, config)
+      ? (task, result, reconciliation) => applyCleanPatch({
+        projectRoot: runtime.cwd,
+        workerDir: join(artifacts.workersDir, task.id),
+        reconciliation
+      })
+      : undefined,
     runTask: runner.runTask
   });
   ledgerEntries.push(...poolResult.taskEvents);
@@ -258,6 +268,7 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
       ledgerEntries,
       reason: poolResult.stopReason ?? "Run stopped before completion.",
       reconciliations: poolResult.reconciliations,
+      patchApplications: poolResult.patchApplications,
       json: parsed.json,
       runtime,
       backendLabel: runner.backendLabel
@@ -288,7 +299,8 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
     status,
     undefined,
     runner.backendLabel,
-    poolResult.reconciliations
+    poolResult.reconciliations,
+    poolResult.patchApplications
   );
   await writeFile(artifacts.finalReportPath, `${report}\n`);
 
@@ -456,7 +468,8 @@ function renderExecutionReport(
   status: string,
   stopReason?: string,
   backendLabel = "Fake",
-  reconciliations: TaskReconciliation[] = []
+  reconciliations: TaskReconciliation[] = [],
+  patchApplications: TaskPatchApplication[] = []
 ): string {
   const resultByTask = new Map(results.map((result) => [result.taskId, result]));
   const taskLines = plan.tasks.map((task) => {
@@ -492,6 +505,14 @@ function renderExecutionReport(
     "## Reconciliation",
     "",
     ...renderReconciliationLines(plan, reconciliations),
+    ...(patchApplications.length > 0
+      ? [
+        "",
+        "## Patch Application",
+        "",
+        ...renderPatchApplicationLines(plan, patchApplications)
+      ]
+      : []),
     "",
     "## Execution",
     "",
@@ -531,6 +552,30 @@ function renderReconciliationLines(
   });
 }
 
+function renderPatchApplicationLines(
+  plan: DryRunPlan,
+  patchApplications: TaskPatchApplication[]
+): string[] {
+  const applicationByTask = new Map(
+    patchApplications.map((application) => [application.taskId, application])
+  );
+
+  return plan.tasks.map((task) => {
+    const application = applicationByTask.get(task.id);
+
+    if (!application) {
+      return `- ${task.id}: not evaluated`;
+    }
+    if (application.status === "applied") {
+      return `- ${task.id}: applied ${application.changedFiles.join(", ")}`;
+    }
+    if (application.status === "skipped") {
+      return `- ${task.id}: skipped${application.reason ? ` - ${application.reason}` : ""}`;
+    }
+    return `- ${task.id}: failed${application.reason ? ` - ${application.reason}` : ""}`;
+  });
+}
+
 function renderBlockedReport(
   plan: DryRunPlan,
   violation: RunLimitViolation
@@ -565,6 +610,7 @@ async function writeStoppedRun(input: {
   plan: DryRunPlan;
   results: WorkerResult[];
   reconciliations: TaskReconciliation[];
+  patchApplications: TaskPatchApplication[];
   ledgerEntries: Array<Record<string, unknown>>;
   reason: string;
   json: boolean;
@@ -598,7 +644,8 @@ async function writeStoppedRun(input: {
     "stopped",
     input.reason,
     input.backendLabel,
-    input.reconciliations
+    input.reconciliations,
+    input.patchApplications
   );
   await writeFile(input.artifacts.finalReportPath, `${report}\n`);
 
@@ -895,6 +942,7 @@ type ParsedRunArgs = {
   model?: string;
   json: boolean;
   stopAfterTask?: number;
+  applyCleanPatches: boolean;
   error?: string;
 };
 
@@ -905,6 +953,7 @@ function parseRunArgs(args: string[]): ParsedRunArgs {
   let model: string | undefined;
   let json = false;
   let stopAfterTask: number | undefined;
+  let applyCleanPatches = false;
 
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index];
@@ -914,12 +963,18 @@ function parseRunArgs(args: string[]): ParsedRunArgs {
       continue;
     }
 
+    if (arg === "--apply-clean-patches") {
+      applyCleanPatches = true;
+      continue;
+    }
+
     if (arg === "--run-id") {
       if (!args[index + 1] || args[index + 1].startsWith("--")) {
         return {
           goal: goalParts.join(" ").trim(),
           backend,
           json,
+          applyCleanPatches,
           error: "--run-id requires a value"
         };
       }
@@ -943,6 +998,7 @@ function parseRunArgs(args: string[]): ParsedRunArgs {
           backend,
           json,
           stopAfterTask,
+          applyCleanPatches,
           error: "--stop-after-task requires a nonnegative integer value"
         };
       }
@@ -959,6 +1015,7 @@ function parseRunArgs(args: string[]): ParsedRunArgs {
           backend,
           json,
           stopAfterTask,
+          applyCleanPatches,
           error: "--model requires a value"
         };
       }
@@ -979,6 +1036,7 @@ function parseRunArgs(args: string[]): ParsedRunArgs {
           goal: goalParts.join(" ").trim(),
           backend,
           json,
+          applyCleanPatches,
           error: "Only --backend fake, --backend openrouter, --backend codex-cli, or --backend claude-cli is implemented right now."
         };
       }
@@ -996,8 +1054,16 @@ function parseRunArgs(args: string[]): ParsedRunArgs {
     backend,
     model,
     json,
-    stopAfterTask
+    stopAfterTask,
+    applyCleanPatches
   };
+}
+
+function shouldApplyCleanPatches(
+  parsed: ParsedRunArgs,
+  config: CucConfig
+): boolean {
+  return parsed.applyCleanPatches || config.patchApplication.applyCleanPatches;
 }
 
 function parseStatusArgs(args: string[]): { runId?: string; json: boolean } {

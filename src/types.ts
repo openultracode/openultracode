@@ -42,10 +42,15 @@ export type Limits = {
   requirePlanApproval: boolean;
 };
 
+export type PatchApplicationConfig = {
+  applyCleanPatches: boolean;
+};
+
 export type CucConfig = {
   activeProfile: string;
   profiles: Record<string, Profile>;
   limits: Limits;
+  patchApplication: PatchApplicationConfig;
 };
 
 export type ModelAssignment = SingleModelEndpoint;

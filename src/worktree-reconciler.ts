@@ -28,6 +28,14 @@ export type TaskReconciliation = {
   reason?: string;
 };
 
+export type TaskPatchApplication = {
+  taskId: string;
+  status: "applied" | "skipped" | "failed";
+  changedFiles: string[];
+  patchPath?: string;
+  reason?: string;
+};
+
 export async function prepareTaskWorkspace(input: {
   projectRoot: string;
   runDir: string;
@@ -172,6 +180,56 @@ export async function captureTaskReconciliation(input: {
   return writeReconciliation(input.workerDir, reconciliation);
 }
 
+export async function applyCleanPatch(input: {
+  projectRoot: string;
+  workerDir: string;
+  reconciliation: TaskReconciliation;
+  gitRunner?: GitRunner;
+}): Promise<TaskPatchApplication> {
+  if (input.reconciliation.status !== "changed") {
+    return writePatchApplication(input.workerDir, {
+      taskId: input.reconciliation.taskId,
+      status: "skipped",
+      changedFiles: input.reconciliation.changedFiles,
+      reason: `Reconciliation status ${input.reconciliation.status} is not safe to apply.`
+    });
+  }
+
+  if (!input.reconciliation.diffPath) {
+    return writePatchApplication(input.workerDir, {
+      taskId: input.reconciliation.taskId,
+      status: "skipped",
+      changedFiles: input.reconciliation.changedFiles,
+      reason: "Changed reconciliation does not include a patch path."
+    });
+  }
+
+  const patchPath = input.reconciliation.diffPath;
+  const result = await (input.gitRunner ?? defaultGitRunner)([
+    "-C",
+    input.projectRoot,
+    "apply",
+    patchPath
+  ]);
+
+  if (result.exitCode !== 0) {
+    return writePatchApplication(input.workerDir, {
+      taskId: input.reconciliation.taskId,
+      status: "failed",
+      changedFiles: input.reconciliation.changedFiles,
+      patchPath,
+      reason: formatGitError(result)
+    });
+  }
+
+  return writePatchApplication(input.workerDir, {
+    taskId: input.reconciliation.taskId,
+    status: "applied",
+    changedFiles: input.reconciliation.changedFiles,
+    patchPath
+  });
+}
+
 async function writeReconciliation(
   workerDir: string,
   reconciliation: TaskReconciliation
@@ -182,6 +240,18 @@ async function writeReconciliation(
     `${JSON.stringify(reconciliation, null, 2)}\n`
   );
   return reconciliation;
+}
+
+async function writePatchApplication(
+  workerDir: string,
+  application: TaskPatchApplication
+): Promise<TaskPatchApplication> {
+  await mkdir(workerDir, { recursive: true });
+  await writeFile(
+    join(workerDir, "patch-application.json"),
+    `${JSON.stringify(application, null, 2)}\n`
+  );
+  return application;
 }
 
 function safePathPart(value: string): string {
