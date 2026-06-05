@@ -30,7 +30,7 @@ npm run build
 - Add fixture repos for integration tests.
 - Improve docs around routing and safety.
 
-Issue templates are available for bugs, feature requests, and scoped task proposals.
+Issue templates are available for bugs, feature requests, and scoped task proposals. Pull requests use `.github/PULL_REQUEST_TEMPLATE.md` so verification and safety checks stay visible in review.
 
 ## Before You Submit
 
@@ -46,6 +46,8 @@ npm pack --dry-run
 The GitHub CI workflow runs these core checks on pushes and pull requests.
 
 If your change touches the CLI, include the command you used for a smoke test.
+
+Before opening the PR, fill out the template with exact command results and note any release blocker that remains.
 
 ## Design Principles
 

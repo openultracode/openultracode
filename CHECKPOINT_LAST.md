@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 18:56 EDT
+Timestamp: 2026-06-05 18:54 EDT
 
 ## Completed
 
@@ -189,6 +189,8 @@ Timestamp: 2026-06-05 18:56 EDT
 - Committed and pushed `e3981e2` with the contributor-label readiness tracker update.
 - Checked GitHub Actions run `27044221945`; Node 20, 22, and 24 jobs again failed before starting because the GitHub account is locked due to a billing issue.
 - Updated `BLOCKED.md`, `PROJECT_STATUS.md`, and `docs/RELEASE_AUDIT.md` with the current blocker and label-readiness evidence.
+- Added `.github/PULL_REQUEST_TEMPLATE.md` with summary, scope, verification, safety checks, and reviewer notes.
+- Updated `README.md`, `CONTRIBUTING.md`, `TASK_QUEUE.md`, `PROJECT_STATUS.md`, and `docs/RELEASE_AUDIT.md` to record PR template readiness.
 
 ## Current In-Progress State
 

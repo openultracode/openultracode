@@ -4,7 +4,7 @@ OpenUltraCode is an open-source local CLI for parallel coding agents with adapti
 
 The goal is simple: make multi-agent coding workflows cheaper, safer, and more controllable than sending every worker to the same expensive premium model.
 
-Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, enforce file ownership for mutating tasks, capture per-worker reconciliation metadata, apply clean patches only after explicit opt-in, parse structured usage from local CLI backends when available, enforce actual cost caps, stop cleanly on cancellation, and expose status/report commands. The next milestone is a final release-readiness audit.
+Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, enforce file ownership for mutating tasks, capture per-worker reconciliation metadata, apply clean patches only after explicit opt-in, parse structured usage from local CLI backends when available, enforce actual cost caps, stop cleanly on cancellation, and expose status/report commands. Contributor issue templates, labels, a PR template, a release checklist, and a release audit are in place.
 
 ## Why This Should Exist
 
@@ -208,13 +208,14 @@ Status: isolated worktree creation, file ownership enforcement, diff capture, ch
 
 ### Milestone 5: Polish And Packaging
 
-Status: contributor issue templates and release checklist are implemented. Packaging polish remains open.
+Status: contributor issue templates, labels, PR template, release checklist, and release audit are implemented. Packaging polish remains open.
 
 - Richer docs and examples.
 - Better default config.
 - Local install docs.
 - More integration tests.
 - Contributor-friendly issue templates.
+- Contributor-friendly PR template.
 - Release-readiness checklist.
 
 ## Architecture

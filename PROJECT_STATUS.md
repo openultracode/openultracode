@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 18:56 EDT
+Last updated: 2026-06-05 18:54 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, contributor issue templates plus a release checklist are present, issue-template labels exist on GitHub, and the final release audit is recorded.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, contributor issue templates plus a PR template and release checklist are present, issue-template labels exist on GitHub, and the final release audit is recorded.
 
 Implemented:
 
@@ -61,6 +61,7 @@ Implemented:
 - Runtime `limits.maxCostUsd` enforcement from actual backend result costs.
 - GitHub issue templates for bugs, feature requests, and scoped task proposals.
 - GitHub labels used by issue templates verified in the public repo.
+- GitHub pull request template for verification and safety checks.
 - GitHub Actions CI for tests, typecheck, build, and package dry-run on Node 20, 22, and 24.
 - Release-readiness checklist in `docs/RELEASE_CHECKLIST.md`.
 - Release audit in `docs/RELEASE_AUDIT.md`.
@@ -141,6 +142,7 @@ Latest known result:
 - Built CLI usage parsing smoke mapped mocked Codex and Claude structured output into worker usage and cost totals.
 - GitHub Actions run `27044221945` created the Node 20, 22, and 24 jobs, but each job failed before starting because the GitHub account is locked due to a billing issue.
 - `gh label list --repo AryaVora621/openultracode --limit 100` showed the labels referenced by issue templates exist: `bug`, `enhancement`, and `good first issue`.
+- `.github/PULL_REQUEST_TEMPLATE.md` now asks contributors for exact verification results, CLI smoke output when relevant, and safety checks for secrets, live backends, generated folders, and final-report preservation.
 
 ## Next Best Task
 
