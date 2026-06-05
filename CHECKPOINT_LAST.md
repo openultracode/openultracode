@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 19:42 EDT
+Timestamp: 2026-06-05 19:46 EDT
 
 ## Completed
 
@@ -223,14 +223,18 @@ Timestamp: 2026-06-05 19:42 EDT
 - Set public GitHub repo discovery metadata: description, README homepage, and topics matching the package keywords.
 - Verified repo metadata with `gh repo view AryaVora621/openultracode --json nameWithOwner,description,homepageUrl,repositoryTopics,visibility,viewerPermission`.
 - Reverified the metadata status refresh with `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, repo secret-prefix scan excluding `.env`, shell history secret scan, em dash scan, `git diff --check`, and `.env` ignore and mode check.
+- Added `docs/ARCHITECTURE.md` with runtime flow, module map, artifact contract, backend boundaries, safety model, extension points, and release constraints.
+- Linked the architecture guide from `README.md` and `CONTRIBUTING.md`.
+- Verified the architecture guide docs slice with `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, repo secret-prefix scan excluding `.env`, shell history secret scan, em dash scan, `git diff --check`, and `.env` ignore plus mode checks.
+- `npm pack --dry-run` now includes `docs/ARCHITECTURE.md`, 23 total files, and package size `27.6 kB`.
 
 ## Current In-Progress State
 
-- None. npm metadata, changelog, public repo metadata, publish dry-run, packaged install smoke, release decision record, package allowlist, and manual CI dispatch are verified. Dependabot PRs are resolved, and package release remains blocked on license confirmation plus the GitHub account billing lock.
+- None. Architecture guide, npm metadata, changelog, public repo metadata, publish dry-run, packaged install smoke, release decision record, package allowlist, and manual CI dispatch are verified. Dependabot PRs are resolved, and package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Commit and push the repo metadata status refresh, then resolve the public release license decision and GitHub account billing lock.
+- Commit and push the architecture guide docs slice, then resolve the public release license decision and GitHub account billing lock.
 
 ## Human Decisions Needed
 

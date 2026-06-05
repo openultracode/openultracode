@@ -153,6 +153,12 @@ For release notes, read:
 cat CHANGELOG.md
 ```
 
+For the internal module map and extension points, read:
+
+```bash
+cat docs/ARCHITECTURE.md
+```
+
 Example artifact layout:
 
 ```text
@@ -247,7 +253,7 @@ OpenUltraCode is intentionally modular:
 - `Ledger`: records run and task events.
 - `Reporter`: creates human and machine-readable outputs.
 
-The implementation is not all there yet. The repo currently contains the planning foundation, local artifact flow, and fake execution harness needed to build those pieces safely.
+The high-level module map, runtime flow, artifact contract, backend boundaries, and extension points live in `docs/ARCHITECTURE.md`.
 
 ## Help Wanted
 

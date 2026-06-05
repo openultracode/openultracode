@@ -6,12 +6,13 @@ OpenUltraCode is early. The best contributions are small, tested slices that mak
 
 1. Read `README.md`.
 2. Read `PROJECT_STATUS.md`.
-3. Read `TASK_QUEUE.md`.
-4. Check `docs/RELEASE_CHECKLIST.md` if the change affects packaging or release readiness.
-5. Check `docs/RELEASE_DECISIONS.md` before release or package work.
-6. Pick one narrow behavior.
-7. Write the test first for behavior changes.
-8. Run the full verification commands before opening a PR.
+3. Read `docs/ARCHITECTURE.md`.
+4. Read `TASK_QUEUE.md`.
+5. Check `docs/RELEASE_CHECKLIST.md` if the change affects packaging or release readiness.
+6. Check `docs/RELEASE_DECISIONS.md` before release or package work.
+7. Pick one narrow behavior.
+8. Write the test first for behavior changes.
+9. Run the full verification commands before opening a PR.
 
 ## Development Setup
 
@@ -30,6 +31,7 @@ npm run build
 - Add fake-backend run artifacts.
 - Add fixture repos for integration tests.
 - Improve docs around routing and safety.
+- Improve module docs and artifact schema examples.
 
 Issue templates are available for bugs, feature requests, and scoped task proposals. Pull requests use `.github/PULL_REQUEST_TEMPLATE.md` so verification and safety checks stay visible in review.
 
