@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 18:31 EDT
+Timestamp: 2026-06-05 18:56 EDT
 
 ## Objective
 
@@ -25,12 +25,13 @@ Concrete success criteria:
 | Requirement | Evidence | Status |
 | --- | --- | --- |
 | Read local project state | `AGENTS.md`, `PROJECT_STATUS.md`, `TASK_QUEUE.md`, `CHECKPOINT_LAST.md` | Complete |
-| Public repo exists and is current | `git rev-parse HEAD origin/main` returned matching `426248a635a26d4b903ef79f4101b73debfcc8e5` | Complete |
+| Public repo exists and is current | `git rev-parse HEAD origin/main` returned matching local and remote commit hashes during the audit | Complete |
 | README entices contributors and reflects actual behavior | `README.md` documents current commands, safety model, artifacts, roadmap, help-wanted items | Complete |
 | Contributor guide exists | `CONTRIBUTING.md` includes setup, testing, issue-template guidance, release checklist pointer | Complete |
 | Issue templates exist | `.github/ISSUE_TEMPLATE/{bug_report,feature_request,task_proposal,config}.yml` | Complete |
+| Issue-template labels exist | `gh label list --repo AryaVora621/openultracode --limit 100` showed `bug`, `enhancement`, and `good first issue` | Complete |
 | Contributor CI exists | `.github/workflows/ci.yml` runs tests, typecheck, build, and package dry-run on Node 20, 22, and 24 | Configured |
-| Remote CI run starts | `gh run view 27043801167 --repo AryaVora621/openultracode` | Blocked by GitHub billing/account lock |
+| Remote CI run starts | `gh run view 27044221945 --repo AryaVora621/openultracode` | Blocked by GitHub billing/account lock |
 | Release checklist exists | `docs/RELEASE_CHECKLIST.md` | Complete |
 | Local CLI package metadata is set | `package.json` has name `openultracode`, version `0.1.0`, bin aliases `ouc` and `openultracode` | Complete |
 | License file exists | `LICENSE` is MIT | Needs human confirmation before package release |
@@ -52,6 +53,7 @@ Concrete success criteria:
 - File ownership metadata and pre-worker blocking for overlapping edit scopes.
 - Codex CLI JSONL and Claude CLI JSON usage parsing with heuristic fallback.
 - Contributor issue templates and release checklist.
+- Contributor labels used by issue templates verified in the public repo.
 - GitHub Actions CI for contributor verification.
 
 ## Remaining Blocker
