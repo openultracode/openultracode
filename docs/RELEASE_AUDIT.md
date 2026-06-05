@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 19:20 EDT
+Timestamp: 2026-06-05 19:23 EDT
 
 ## Objective
 
@@ -73,6 +73,26 @@ The repo is ready for collaborator-oriented source use, but final package releas
 - Current license: MIT.
 - Required decision: confirm MIT is acceptable, or replace it before package publication.
 - Required account action: resolve the GitHub billing/account lock so CI can run on GitHub-hosted runners.
+
+## Completion Audit Refresh
+
+Timestamp: 2026-06-05 19:23 EDT
+
+Fresh checks on the pushed `a6a00a4` state:
+
+- `npm test`: 14 files, 59 tests passed.
+- `npm run typecheck`: passed.
+- `npm run build`: passed.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 18 files, package size `20.7 kB`.
+- `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
+- `gh run view 27045180433 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- `node dist/bin/ouc.js --help`: passed.
+- `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_completion_audit_20260605_1924 --json`: passed.
+- `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_completion_fake_20260605_1924 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
+- Secret-prefix scans excluding `.env` and known shell history/session scans found no matches.
+- Em dash scan found no matches.
+- `git diff --check`: passed.
+- `.env` remains ignored by `.gitignore` and has `0600` permissions.
 
 ## Audit Decision
 

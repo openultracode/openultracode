@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 19:20 EDT
+Last updated: 2026-06-05 19:23 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -120,6 +120,8 @@ Latest known result:
 - Em dash scan had no matches.
 - `git diff --check` reported no whitespace errors.
 - Built CLI success smoke passed with `node dist/bin/ouc.js run ... --backend fake --json`.
+- Completion audit fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_completion_fake_20260605_1924 --json`.
+- Completion audit plan smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_completion_audit_20260605_1924 --json`.
 - Built CLI blocked-run smoke against a temporary fixture returned status `blocked` with exit 1 when `limits.maxTasks` was exceeded.
 - Built CLI stopped-run smoke returned status `stopped`, succeeded 1 task, and left 1 task remaining.
 - Built CLI success and stopped smokes passed through the worker-pool path.
