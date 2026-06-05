@@ -64,6 +64,7 @@ export async function runWorkerPool(input: RunWorkerPoolInput): Promise<WorkerPo
       runId: input.runId,
       taskId: task.id,
       status: result.status,
+      attemptCount: result.attempts?.length ?? 1,
       totalTokens: result.usage.totalTokens,
       costUsd: result.costUsd,
       finishedAt: new Date().toISOString()

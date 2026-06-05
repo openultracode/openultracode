@@ -78,4 +78,4 @@ node dist/bin/ouc.js plan "audit this repo for TODOs" --json
 
 ## Current Priority
 
-The next major implementation task is expanding router fallback chains for real backend failure modes. Do not make live external model calls by default.
+The next major implementation task is richer deterministic planner decomposition. Do not make live external model calls by default.

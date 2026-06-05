@@ -4,7 +4,7 @@ OpenUltraCode is an open-source local CLI for parallel coding agents with adapti
 
 The goal is simple: make multi-agent coding workflows cheaper, safer, and more controllable than sending every worker to the same expensive premium model.
 
-Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, and expose status/report commands. The next milestone is richer backend failure handling.
+Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, and expose status/report commands. The next milestone is richer orchestrator planning.
 
 ## Why This Should Exist
 
@@ -51,6 +51,8 @@ Current implemented surface:
 - Worker-pool sequencing behind fake runs.
 - OpenRouter backend module with env-key loading and mocked HTTP tests.
 - Opt-in `ouc run --backend openrouter` execution wiring.
+- OpenRouter model fallback attempts after failed mocked backend responses.
+- Worker result artifacts preserve backend attempt history.
 - `final-report.md` creation, execution summaries, and preservation.
 - Machine-readable JSON output for plan, run, and status.
 - Deterministic fake backend for local execution and tests.
@@ -190,7 +192,6 @@ The implementation is not all there yet. The repo currently contains the plannin
 Useful contributions right now:
 
 - Improve deterministic planning heuristics.
-- Expand router fallback chains for real backend failure modes.
 - Add real token and cost accounting once external backends land.
 - Add real cancellation and signal handling.
 - Add fixture repos for integration tests.

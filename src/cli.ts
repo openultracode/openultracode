@@ -7,7 +7,7 @@ import { loadConfig } from "./config.js";
 import { createDryRunPlan, type DryRunPlan } from "./planner.js";
 import { inspectRepository } from "./repo-inspector.js";
 import { createRunArtifacts, type RunArtifacts } from "./run-artifacts.js";
-import type { CucConfig, Task, WorkerResult } from "./types.js";
+import type { CucConfig, Task, WorkerAttempt, WorkerResult } from "./types.js";
 import { runWorkerPool } from "./worker-pool.js";
 
 export type CliRuntime = {
@@ -611,9 +611,10 @@ function createRunTaskRunner(
   }
 
   try {
-    const backend = OpenRouterBackend.fromEnv({
+    const models = openRouterModelChain(parsed, config);
+    OpenRouterBackend.fromEnv({
       env: runtime.env,
-      model: parsed.model ?? defaultOpenRouterModel(config),
+      model: models[0],
       fetchImpl: runtime.fetchImpl,
       appTitle: "OpenUltraCode",
       httpReferer: "https://github.com/AryaVora621/openultracode"
@@ -621,7 +622,7 @@ function createRunTaskRunner(
 
     return {
       backendLabel: "OpenRouter",
-      runTask: (task) => backend.run(task)
+      runTask: (task) => runOpenRouterWithFallbacks(task, models, runtime)
     };
   } catch (error) {
     return {
@@ -632,8 +633,62 @@ function createRunTaskRunner(
   }
 }
 
-function defaultOpenRouterModel(config: CucConfig): string {
-  return config.profiles[config.activeProfile].cheap.model;
+async function runOpenRouterWithFallbacks(
+  task: Task,
+  models: string[],
+  runtime: CliRuntime
+): Promise<WorkerResult> {
+  const attempts: WorkerAttempt[] = [];
+  let lastResult: WorkerResult | undefined;
+
+  for (const model of models) {
+    const backend = OpenRouterBackend.fromEnv({
+      env: runtime.env,
+      model,
+      fetchImpl: runtime.fetchImpl,
+      appTitle: "OpenUltraCode",
+      httpReferer: "https://github.com/AryaVora621/openultracode"
+    });
+    const result = await backend.run(task);
+    attempts.push({
+      backend: "openrouter",
+      model,
+      status: result.status,
+      usage: result.usage,
+      costUsd: result.costUsd,
+      error: result.error
+    });
+
+    if (result.status === "succeeded") {
+      return {
+        ...result,
+        attempts
+      };
+    }
+
+    lastResult = result;
+  }
+
+  return {
+    ...(lastResult ?? failedRunnerResult(task, "OpenRouter fallback chain was empty")),
+    attempts
+  };
+}
+
+function openRouterModelChain(parsed: ParsedRunArgs, config: CucConfig): string[] {
+  const profile = config.profiles[config.activeProfile];
+  const primary = parsed.model ?? profile.cheap.model;
+  const candidates = [
+    ...(profile.free.backend === "openrouter" ? profile.free.models : []),
+    ...(profile.cheap.backend === "openrouter" ? [profile.cheap.model] : []),
+    ...(profile.strong.backend === "openrouter" ? [profile.strong.model] : []),
+    ...(profile.critical.backend === "openrouter" ? [profile.critical.model] : [])
+  ];
+
+  return [
+    primary,
+    ...candidates.filter((model) => model !== primary)
+  ];
 }
 
 function failedRunnerResult(task: Task, error: unknown): WorkerResult {

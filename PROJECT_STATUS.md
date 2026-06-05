@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 17:17 EDT
+Last updated: 2026-06-05 17:22 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -33,6 +33,8 @@ Implemented:
 - Worker-pool sequencing module behind fake runs.
 - OpenRouter backend module with `OPENROUTER_API_KEY` env loading, request headers, response mapping, and mocked fetch tests.
 - Opt-in `ouc run --backend openrouter` execution wiring, covered with mocked CLI tests.
+- OpenRouter model fallback attempts for failed worker results.
+- Worker `result.json` artifacts preserve backend attempt history.
 - Test suite covering current behavior.
 
 Not implemented yet:
@@ -57,13 +59,14 @@ node dist/bin/ouc.js run "implement report command and test it" --backend fake -
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_pool_success --json
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_pool_stopped --stop-after-task 1 --json
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_openrouter_wiring_fake --json
+node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_fallback_chains_fake --json
 npm pack --dry-run
 ```
 
 Latest known result:
 
 - 10 test files passed.
-- 31 tests passed.
+- 32 tests passed.
 - Typecheck passed.
 - Build passed.
 - Package dry-run passed.
@@ -73,16 +76,17 @@ Latest known result:
 - Built CLI success and stopped smokes passed through the worker-pool path.
 - OpenRouter backend tests used mocked fetch only and made no live API calls.
 - OpenRouter CLI wiring tests used mocked fetch only and made no live API calls.
+- OpenRouter fallback tests used mocked fetch only and verified failed attempt preservation.
 
 ## Next Best Task
 
-Expand router fallback chains for real backend failure modes.
+Implement richer orchestrator plan parsing beyond deterministic local heuristics.
 
 Expected slice:
 
-- Define retry and fallback behavior for failed OpenRouter worker results.
-- Preserve failed worker artifacts and ledger events.
-- Keep live calls out of default tests.
+- Add more realistic goal decomposition tests.
+- Improve task intent detection without live model calls.
+- Keep planner behavior deterministic and cheap by default.
 
 ## Human Decisions Needed
 

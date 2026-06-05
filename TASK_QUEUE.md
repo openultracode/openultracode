@@ -3,7 +3,6 @@
 ## Open
 
 - Decide package license for public release if MIT default should change.
-- Expand router fallback chains for real backend failure modes.
 - Implement richer orchestrator plan parsing beyond deterministic local heuristics.
 - Implement worker execution backends.
 - Implement worktree reconciliation and reporting.
@@ -33,3 +32,4 @@
 - [Codex] Extracted worker-pool sequencing behind fake runs with unit coverage and unchanged CLI artifacts.
 - [Codex] Added OpenRouter backend configuration and mocked tests without live API calls or committed secrets.
 - [Codex] Wired OpenRouter into `ouc run` behind explicit `--backend openrouter` with mocked CLI tests and no default live calls.
+- [Codex] Added OpenRouter model fallback attempts with preserved attempt history in worker results.

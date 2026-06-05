@@ -508,6 +508,100 @@ test("runCli run requires OPENROUTER_API_KEY for the OpenRouter backend", async 
   ).rejects.toMatchObject({ code: "ENOENT" });
 });
 
+test("runCli run falls back to another OpenRouter model after a failed attempt", async () => {
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-openrouter-fallback-"));
+  await writeFile(join(projectRoot, "README.md"), "# Fixture");
+  await writeFile(join(projectRoot, "package.json"), "{}");
+  const requests: Array<{ init: { body: string } }> = [];
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+
+  const exitCode = await runCli(
+    [
+      "node",
+      "ouc",
+      "run",
+      "audit this repo",
+      "--backend",
+      "openrouter",
+      "--model",
+      "openrouter/primary-fail",
+      "--run-id",
+      "run_openrouter_fallback",
+      "--json"
+    ],
+    {
+      cwd: projectRoot,
+      env: { OPENROUTER_API_KEY: "test-openrouter-key" },
+      fetchImpl: async (_url, init) => {
+        requests.push({ init });
+        if (requests.length === 1) {
+          return {
+            ok: false,
+            status: 429,
+            text: async () => JSON.stringify({ error: { message: "rate limited" } })
+          };
+        }
+        return {
+          ok: true,
+          status: 200,
+          text: async () => JSON.stringify({
+            choices: [{ message: { content: "Fallback model completed task." } }],
+            usage: {
+              prompt_tokens: 5,
+              completion_tokens: 4,
+              total_tokens: 9
+            }
+          })
+        };
+      },
+      stdout: (line) => stdout.push(line),
+      stderr: (line) => stderr.push(line)
+    }
+  );
+  const output = JSON.parse(stdout.join("\n")) as {
+    status: string;
+    succeeded: number;
+  };
+  const runDir = join(projectRoot, ".ouc", "runs", "run_openrouter_fallback");
+  const requestModels = requests.map((request) => (
+    JSON.parse(request.init.body) as { model: string }
+  ).model);
+  const result = JSON.parse(
+    await readFile(join(runDir, "workers", "task_1", "result.json"), "utf8")
+  ) as {
+    status: string;
+    attempts: Array<{ model: string; status: string; error?: string }>;
+  };
+  const ledgerLines = (await readFile(join(runDir, "ledger.jsonl"), "utf8"))
+    .trim()
+    .split("\n")
+    .map((line) => JSON.parse(line) as { event: string; attemptCount?: number });
+
+  expect(exitCode).toBe(0);
+  expect(stderr).toEqual([]);
+  expect(output).toMatchObject({ status: "succeeded", succeeded: 1 });
+  expect(requestModels).toEqual([
+    "openrouter/primary-fail",
+    "qwen/qwen3-coder:free"
+  ]);
+  expect(result.status).toBe("succeeded");
+  expect(result.attempts).toMatchObject([
+    {
+      model: "openrouter/primary-fail",
+      status: "failed",
+      error: "OpenRouter request failed with status 429: rate limited"
+    },
+    {
+      model: "qwen/qwen3-coder:free",
+      status: "succeeded"
+    }
+  ]);
+  expect(
+    ledgerLines.find((line) => line.event === "task_finished")
+  ).toMatchObject({ attemptCount: 2 });
+});
+
 test("runCli run refuses to overwrite an existing final report", async () => {
   const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-existing-"));
   const runDir = join(projectRoot, ".ouc", "runs", "run_existing");

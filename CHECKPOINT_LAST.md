@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 17:17 EDT
+Timestamp: 2026-06-05 17:22 EDT
 
 ## Completed
 
@@ -92,14 +92,21 @@ Timestamp: 2026-06-05 17:17 EDT
 - Verified built OpenRouter missing-key smoke exits before network use.
 - Verified `npm pack --dry-run`, secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, and `git diff --check`.
 - Confirmed `.env` remains ignored with `0600` permissions.
+- Committed and pushed OpenRouter execution wiring as `6d09276` with message `Wire OpenRouter run backend`.
+- Added OpenRouter model fallback attempts for failed worker results.
+- Preserved backend attempt history in worker `result.json` artifacts.
+- Added task ledger `attemptCount` for worker-pool task completion events.
+- Verified CLI fallback tests, full tests, typecheck, build, built fake-run smoke, and `npm pack --dry-run`.
+- Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, and `git diff --check`.
+- Confirmed `.env` remains ignored with `0600` permissions.
 
 ## Current In-Progress State
 
-- None. OpenRouter worker execution wiring is implemented and verified locally with mocked tests.
+- None. OpenRouter fallback handling is implemented and verified locally with mocked tests.
 
 ## Next Action
 
-- Commit and push OpenRouter execution wiring, then expand router fallback chains for real backend failure modes.
+- Commit and push fallback handling, then implement richer deterministic planner decomposition.
 
 ## Human Decisions Needed
 

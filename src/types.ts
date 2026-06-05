@@ -62,6 +62,15 @@ export type WorkerUsage = {
   totalTokens: number;
 };
 
+export type WorkerAttempt = {
+  backend: BackendKind;
+  model: string;
+  status: "succeeded" | "failed";
+  usage: WorkerUsage;
+  costUsd: number;
+  error?: string;
+};
+
 export type WorkerResult = {
   taskId: string;
   status: "succeeded" | "failed";
@@ -69,4 +78,5 @@ export type WorkerResult = {
   usage: WorkerUsage;
   costUsd: number;
   error?: string;
+  attempts?: WorkerAttempt[];
 };
