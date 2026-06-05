@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 17:10 EDT
+Timestamp: 2026-06-05 17:17 EDT
 
 ## Completed
 
@@ -85,14 +85,21 @@ Timestamp: 2026-06-05 17:10 EDT
 - Verified OpenRouter tests, full tests, typecheck, build, and `npm pack --dry-run`.
 - Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, and `git diff --check`.
 - Confirmed `.env` remains ignored with `0600` permissions.
+- Added explicit `--backend openrouter` handling in `ouc run`.
+- Added mocked CLI tests for OpenRouter execution and missing `OPENROUTER_API_KEY` refusal before artifacts are created.
+- Kept live OpenRouter calls out of default tests and smokes.
+- Verified CLI tests, full tests, typecheck, build, and built fake-run smoke after OpenRouter wiring.
+- Verified built OpenRouter missing-key smoke exits before network use.
+- Verified `npm pack --dry-run`, secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, and `git diff --check`.
+- Confirmed `.env` remains ignored with `0600` permissions.
 
 ## Current In-Progress State
 
-- None. OpenRouter backend configuration and mocked tests are implemented and verified locally.
+- None. OpenRouter worker execution wiring is implemented and verified locally with mocked tests.
 
 ## Next Action
 
-- Commit and push OpenRouter backend prep, then wire OpenRouter into worker execution behind an explicit opt-in.
+- Commit and push OpenRouter execution wiring, then expand router fallback chains for real backend failure modes.
 
 ## Human Decisions Needed
 

@@ -4,7 +4,7 @@ OpenUltraCode is an open-source local CLI for parallel coding agents with adapti
 
 The goal is simple: make multi-agent coding workflows cheaper, safer, and more controllable than sending every worker to the same expensive premium model.
 
-Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, and expose status/report commands. The next milestone is opt-in OpenRouter execution wiring without making live calls the default.
+Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, and expose status/report commands. The next milestone is richer backend failure handling.
 
 ## Why This Should Exist
 
@@ -50,6 +50,7 @@ Current implemented surface:
 - `run_blocked` and `run_stopped` ledger events.
 - Worker-pool sequencing behind fake runs.
 - OpenRouter backend module with env-key loading and mocked HTTP tests.
+- Opt-in `ouc run --backend openrouter` execution wiring.
 - `final-report.md` creation, execution summaries, and preservation.
 - Machine-readable JSON output for plan, run, and status.
 - Deterministic fake backend for local execution and tests.
@@ -85,6 +86,12 @@ Simulate a stopped fake run:
 
 ```bash
 node dist/bin/ouc.js run "implement a small change and test it" --backend fake --stop-after-task 1 --json
+```
+
+Run OpenRouter explicitly:
+
+```bash
+OPENROUTER_API_KEY=... node dist/bin/ouc.js run "implement a small change and test it" --backend openrouter --json
 ```
 
 Inspect a run:
@@ -183,7 +190,7 @@ The implementation is not all there yet. The repo currently contains the plannin
 Useful contributions right now:
 
 - Improve deterministic planning heuristics.
-- Wire OpenRouter into worker execution behind an explicit opt-in.
+- Expand router fallback chains for real backend failure modes.
 - Add real token and cost accounting once external backends land.
 - Add real cancellation and signal handling.
 - Add fixture repos for integration tests.

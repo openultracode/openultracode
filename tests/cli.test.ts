@@ -385,6 +385,129 @@ test("runCli run executes planned tasks with the fake backend and writes run art
   expect(report).toContain("task_2");
 });
 
+test("runCli run executes planned tasks with the OpenRouter backend when explicitly selected", async () => {
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-openrouter-"));
+  await mkdir(join(projectRoot, "src"), { recursive: true });
+  await mkdir(join(projectRoot, "tests"), { recursive: true });
+  await writeFile(join(projectRoot, "package.json"), "{}");
+  await writeFile(join(projectRoot, "src", "cli.ts"), "export {};");
+  await writeFile(join(projectRoot, "tests", "cli.test.ts"), "test('ok', () => {});");
+  const requests: Array<{
+    url: string;
+    init: { method: string; headers: Record<string, string>; body: string };
+  }> = [];
+
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+
+  const exitCode = await runCli(
+    [
+      "node",
+      "ouc",
+      "run",
+      "implement report command and test it",
+      "--backend",
+      "openrouter",
+      "--run-id",
+      "run_openrouter",
+      "--json"
+    ],
+    {
+      cwd: projectRoot,
+      env: { OPENROUTER_API_KEY: "test-openrouter-key" },
+      fetchImpl: async (url, init) => {
+        requests.push({ url, init });
+        return {
+          ok: true,
+          status: 200,
+          text: async () => JSON.stringify({
+            choices: [
+              {
+                message: {
+                  content: `OpenRouter mocked task ${requests.length}.`
+                }
+              }
+            ],
+            usage: {
+              prompt_tokens: 11,
+              completion_tokens: 7,
+              total_tokens: 18
+            }
+          })
+        };
+      },
+      stdout: (line) => stdout.push(line),
+      stderr: (line) => stderr.push(line)
+    }
+  );
+  const output = JSON.parse(stdout.join("\n")) as {
+    runId: string;
+    status: string;
+    taskCount: number;
+    succeeded: number;
+    finalReportPath: string;
+  };
+  const runDir = join(projectRoot, ".ouc", "runs", "run_openrouter");
+  const firstBody = JSON.parse(requests[0].init.body) as { model: string };
+  const workerResponse = await readFile(
+    join(runDir, "workers", "task_1", "response.md"),
+    "utf8"
+  );
+  const report = await readFile(output.finalReportPath, "utf8");
+
+  expect(exitCode).toBe(0);
+  expect(stderr).toEqual([]);
+  expect(output).toMatchObject({
+    runId: "run_openrouter",
+    status: "succeeded",
+    taskCount: 2,
+    succeeded: 2
+  });
+  expect(requests).toHaveLength(2);
+  expect(requests[0].url).toBe("https://openrouter.ai/api/v1/chat/completions");
+  expect(requests[0].init.headers.Authorization).toBe("Bearer test-openrouter-key");
+  expect(firstBody.model).toBe("deepseek/deepseek-v4-flash");
+  expect(workerResponse).toContain("OpenRouter mocked task 1.");
+  expect(report).toContain("- Status: succeeded");
+  expect(report).toContain("OpenRouter backend execution completed locally.");
+});
+
+test("runCli run requires OPENROUTER_API_KEY for the OpenRouter backend", async () => {
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-openrouter-key-"));
+  await mkdir(join(projectRoot, "src"), { recursive: true });
+  await writeFile(join(projectRoot, "package.json"), "{}");
+  await writeFile(join(projectRoot, "src", "cli.ts"), "export {};");
+
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+
+  const exitCode = await runCli(
+    [
+      "node",
+      "ouc",
+      "run",
+      "implement report command",
+      "--backend",
+      "openrouter",
+      "--run-id",
+      "run_openrouter_missing_key"
+    ],
+    {
+      cwd: projectRoot,
+      env: {},
+      stdout: (line) => stdout.push(line),
+      stderr: (line) => stderr.push(line)
+    }
+  );
+
+  expect(exitCode).toBe(1);
+  expect(stdout).toEqual([]);
+  expect(stderr).toEqual(["OPENROUTER_API_KEY is required"]);
+  await expect(
+    stat(join(projectRoot, ".ouc", "runs", "run_openrouter_missing_key"))
+  ).rejects.toMatchObject({ code: "ENOENT" });
+});
+
 test("runCli run refuses to overwrite an existing final report", async () => {
   const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-existing-"));
   const runDir = join(projectRoot, ".ouc", "runs", "run_existing");

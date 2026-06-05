@@ -1,18 +1,24 @@
 import { access, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
+import { FakeBackend } from "./backends/fake.js";
+import { OpenRouterBackend, type OpenRouterFetch } from "./backends/openrouter.js";
 import { loadConfig } from "./config.js";
 import { createDryRunPlan, type DryRunPlan } from "./planner.js";
 import { inspectRepository } from "./repo-inspector.js";
 import { createRunArtifacts, type RunArtifacts } from "./run-artifacts.js";
-import type { CucConfig, WorkerResult } from "./types.js";
-import { runFakeWorkerPool } from "./worker-pool.js";
+import type { CucConfig, Task, WorkerResult } from "./types.js";
+import { runWorkerPool } from "./worker-pool.js";
 
 export type CliRuntime = {
   cwd: string;
+  env?: Record<string, string | undefined>;
+  fetchImpl?: OpenRouterFetch;
   stdout: (line: string) => void;
   stderr: (line: string) => void;
 };
+
+type RunBackend = "fake" | "openrouter";
 
 type RunLimitViolation = {
   kind: "maxTasks" | "maxCostUsd";
@@ -133,12 +139,13 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
     return 1;
   }
 
-  if (parsed.backend !== "fake") {
-    runtime.stderr("Only --backend fake is implemented right now.");
+  const config = await loadConfig(runtime.cwd);
+  const runner = createRunTaskRunner(parsed, config, runtime);
+  if (runner.error) {
+    runtime.stderr(runner.error);
     return 1;
   }
 
-  const config = await loadConfig(runtime.cwd);
   const inspection = await inspectRepository(runtime.cwd);
   const artifacts = await createRunArtifacts(runtime.cwd, parsed.runId);
 
@@ -208,11 +215,12 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
     return 1;
   }
 
-  const poolResult = await runFakeWorkerPool({
+  const poolResult = await runWorkerPool({
     runId: artifacts.runId,
     tasks: plan.tasks,
     workersDir: artifacts.workersDir,
-    stopAfterTask: parsed.stopAfterTask
+    stopAfterTask: parsed.stopAfterTask,
+    runTask: runner.runTask
   });
   ledgerEntries.push(...poolResult.taskEvents);
 
@@ -224,7 +232,8 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
       ledgerEntries,
       reason: poolResult.stopReason ?? "Run stopped before completion.",
       json: parsed.json,
-      runtime
+      runtime,
+      backendLabel: runner.backendLabel
     });
   }
 
@@ -235,6 +244,7 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
   ledgerEntries.push({
     event: "run_finished",
     runId: artifacts.runId,
+    backend: parsed.backend,
     status,
     taskCount: plan.tasks.length,
     succeeded,
@@ -244,7 +254,13 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
   });
 
   await writeLedger(artifacts.ledgerPath, ledgerEntries);
-  const report = renderExecutionReport(plan, results, status);
+  const report = renderExecutionReport(
+    plan,
+    results,
+    status,
+    undefined,
+    runner.backendLabel
+  );
   await writeFile(artifacts.finalReportPath, `${report}\n`);
 
   if (parsed.json) {
@@ -408,7 +424,8 @@ function renderExecutionReport(
   plan: DryRunPlan,
   results: WorkerResult[],
   status: string,
-  stopReason?: string
+  stopReason?: string,
+  backendLabel = "Fake"
 ): string {
   const resultByTask = new Map(results.map((result) => [result.taskId, result]));
   const taskLines = plan.tasks.map((task) => {
@@ -444,7 +461,7 @@ function renderExecutionReport(
     "",
     status === "stopped"
       ? "Run stopped before all planned tasks completed."
-      : "Fake backend execution completed locally."
+      : `${backendLabel} backend execution completed locally.`
   ].join("\n");
 }
 
@@ -485,6 +502,7 @@ async function writeStoppedRun(input: {
   reason: string;
   json: boolean;
   runtime: CliRuntime;
+  backendLabel?: string;
 }): Promise<number> {
   const succeeded = input.results.filter((result) => (
     result.status === "succeeded"
@@ -510,7 +528,8 @@ async function writeStoppedRun(input: {
     input.plan,
     input.results,
     "stopped",
-    input.reason
+    input.reason,
+    input.backendLabel
   );
   await writeFile(input.artifacts.finalReportPath, `${report}\n`);
 
@@ -574,6 +593,64 @@ function findRunLimitViolation(
   return undefined;
 }
 
+function createRunTaskRunner(
+  parsed: ParsedRunArgs,
+  config: CucConfig,
+  runtime: CliRuntime
+): {
+  runTask: (task: Task) => Promise<WorkerResult>;
+  backendLabel: string;
+  error?: string;
+} {
+  if (parsed.backend === "fake") {
+    const backend = new FakeBackend({ backend: "fake", model: "fake-model" });
+    return {
+      backendLabel: "Fake",
+      runTask: (task) => backend.run(task)
+    };
+  }
+
+  try {
+    const backend = OpenRouterBackend.fromEnv({
+      env: runtime.env,
+      model: parsed.model ?? defaultOpenRouterModel(config),
+      fetchImpl: runtime.fetchImpl,
+      appTitle: "OpenUltraCode",
+      httpReferer: "https://github.com/AryaVora621/openultracode"
+    });
+
+    return {
+      backendLabel: "OpenRouter",
+      runTask: (task) => backend.run(task)
+    };
+  } catch (error) {
+    return {
+      backendLabel: "OpenRouter",
+      runTask: async (task) => failedRunnerResult(task, error),
+      error: error instanceof Error ? error.message : "OpenRouter backend failed"
+    };
+  }
+}
+
+function defaultOpenRouterModel(config: CucConfig): string {
+  return config.profiles[config.activeProfile].cheap.model;
+}
+
+function failedRunnerResult(task: Task, error: unknown): WorkerResult {
+  return {
+    taskId: task.id,
+    status: "failed",
+    response: "",
+    usage: {
+      inputTokens: 0,
+      outputTokens: 0,
+      totalTokens: 0
+    },
+    costUsd: 0,
+    error: error instanceof Error ? error.message : "Worker backend failed"
+  };
+}
+
 function sumCosts(results: WorkerResult[]): number {
   return Number(
     results.reduce((sum, result) => sum + result.costUsd, 0).toFixed(6)
@@ -625,17 +702,21 @@ function parsePlanArgs(args: string[]): {
   };
 }
 
-function parseRunArgs(args: string[]): {
+type ParsedRunArgs = {
   goal: string;
   runId?: string;
-  backend: "fake";
+  backend: RunBackend;
+  model?: string;
   json: boolean;
   stopAfterTask?: number;
   error?: string;
-} {
+};
+
+function parseRunArgs(args: string[]): ParsedRunArgs {
   const goalParts: string[] = [];
   let runId: string | undefined;
-  let backend: "fake" = "fake";
+  let backend: RunBackend = "fake";
+  let model: string | undefined;
   let json = false;
   let stopAfterTask: number | undefined;
 
@@ -685,16 +766,32 @@ function parseRunArgs(args: string[]): {
       continue;
     }
 
-    if (arg === "--backend") {
-      if (args[index + 1] !== "fake") {
+    if (arg === "--model") {
+      if (!args[index + 1] || args[index + 1].startsWith("--")) {
         return {
           goal: goalParts.join(" ").trim(),
           backend,
           json,
-          error: "Only --backend fake is implemented right now."
+          stopAfterTask,
+          error: "--model requires a value"
         };
       }
-      backend = "fake";
+      model = args[index + 1];
+      index += 1;
+      continue;
+    }
+
+    if (arg === "--backend") {
+      const backendValue = args[index + 1];
+      if (backendValue !== "fake" && backendValue !== "openrouter") {
+        return {
+          goal: goalParts.join(" ").trim(),
+          backend,
+          json,
+          error: "Only --backend fake or --backend openrouter is implemented right now."
+        };
+      }
+      backend = backendValue;
       index += 1;
       continue;
     }
@@ -706,6 +803,7 @@ function parseRunArgs(args: string[]): {
     goal: goalParts.join(" ").trim(),
     runId,
     backend,
+    model,
     json,
     stopAfterTask
   };

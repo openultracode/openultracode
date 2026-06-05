@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 17:10 EDT
+Last updated: 2026-06-05 17:17 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -32,11 +32,11 @@ Implemented:
 - Partial-run final reports that show succeeded, remaining, and not-run tasks.
 - Worker-pool sequencing module behind fake runs.
 - OpenRouter backend module with `OPENROUTER_API_KEY` env loading, request headers, response mapping, and mocked fetch tests.
+- Opt-in `ouc run --backend openrouter` execution wiring, covered with mocked CLI tests.
 - Test suite covering current behavior.
 
 Not implemented yet:
 
-- OpenRouter-backed `ouc run` execution.
 - Claude CLI backend.
 - Codex CLI backend.
 - Worktree manager.
@@ -56,13 +56,14 @@ node dist/bin/ouc.js run "implement report command and test it" --backend fake -
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_stopped --stop-after-task 1 --json
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_pool_success --json
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_pool_stopped --stop-after-task 1 --json
+node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_openrouter_wiring_fake --json
 npm pack --dry-run
 ```
 
 Latest known result:
 
 - 10 test files passed.
-- 29 tests passed.
+- 31 tests passed.
 - Typecheck passed.
 - Build passed.
 - Package dry-run passed.
@@ -71,17 +72,17 @@ Latest known result:
 - Built CLI stopped-run smoke returned status `stopped`, succeeded 1 task, and left 1 task remaining.
 - Built CLI success and stopped smokes passed through the worker-pool path.
 - OpenRouter backend tests used mocked fetch only and made no live API calls.
+- OpenRouter CLI wiring tests used mocked fetch only and made no live API calls.
 
 ## Next Best Task
 
-Wire OpenRouter into worker execution behind an explicit opt-in.
+Expand router fallback chains for real backend failure modes.
 
 Expected slice:
 
-- Add `--backend openrouter` handling that requires explicit selection.
-- Keep `.env` ignored and read `OPENROUTER_API_KEY` from the environment only.
-- Add CLI tests with mocked backend behavior.
-- Do not make live calls in default tests.
+- Define retry and fallback behavior for failed OpenRouter worker results.
+- Preserve failed worker artifacts and ledger events.
+- Keep live calls out of default tests.
 
 ## Human Decisions Needed
 

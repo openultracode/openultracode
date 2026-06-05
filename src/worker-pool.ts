@@ -28,9 +28,11 @@ export type RunFakeWorkerPoolInput = {
   stopAfterTask?: number;
 };
 
-export async function runFakeWorkerPool(
-  input: RunFakeWorkerPoolInput
-): Promise<WorkerPoolResult> {
+export type RunWorkerPoolInput = RunFakeWorkerPoolInput & {
+  runTask: (task: Task) => Promise<WorkerResult>;
+};
+
+export async function runWorkerPool(input: RunWorkerPoolInput): Promise<WorkerPoolResult> {
   const results: WorkerResult[] = [];
   const taskEvents: WorkerPoolEvent[] = [];
 
@@ -53,8 +55,7 @@ export async function runFakeWorkerPool(
       startedAt: new Date().toISOString()
     });
 
-    const backend = new FakeBackend({ backend: "fake", model: "fake-model" });
-    const result = await backend.run(task);
+    const result = await input.runTask(task);
     results.push(result);
     await writeWorkerArtifacts(input.workersDir, task, result);
 
@@ -88,6 +89,17 @@ export async function runFakeWorkerPool(
     tasks: input.tasks,
     results,
     taskEvents
+  });
+}
+
+export async function runFakeWorkerPool(
+  input: RunFakeWorkerPoolInput
+): Promise<WorkerPoolResult> {
+  const backend = new FakeBackend({ backend: "fake", model: "fake-model" });
+
+  return runWorkerPool({
+    ...input,
+    runTask: (task) => backend.run(task)
   });
 }
 
