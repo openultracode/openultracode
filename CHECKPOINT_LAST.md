@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 19:33 EDT
+Timestamp: 2026-06-05 19:35 EDT
 
 ## Completed
 
@@ -215,14 +215,16 @@ Timestamp: 2026-06-05 19:33 EDT
 - Reverified after the manual CI dispatch change with `npm test`, `npm run typecheck`, `npm run build`, YAML parsing, secret-prefix scan excluding `.env`, shell history secret scan, em dash scan, `git diff --check`, `npm pack --dry-run`, built help smoke, built plan smoke `run_release_dispatch_20260605_1929`, built fake-run smoke `run_release_dispatch_fake_20260605_1929`, and `.env` ignore and mode check.
 - Added npm discovery metadata to `package.json` and a `CHANGELOG.md` release-candidate note for `0.1.0`.
 - Verified npm metadata and changelog with `npm install --package-lock-only`, `npm test`, `npm run typecheck`, `npm run build`, YAML parsing, shell history secret scan, `git diff --check`, `npm pack --dry-run`, built help smoke, built plan smoke `run_metadata_changelog_20260605_1934`, built fake-run smoke `run_metadata_changelog_fake_20260605_1934`, repo secret-prefix scan excluding `.env`, em dash scan, and `.env` ignore and mode check.
+- Verified the packaged tarball in a clean temporary consumer project: `npm pack --pack-destination`, `npm install <tarball>`, packaged `./node_modules/.bin/ouc --help`, and packaged `./node_modules/.bin/ouc plan "audit this repo for TODOs" --run-id package_smoke --json` passed.
+- Removed the temporary package-smoke directory from `/tmp`.
 
 ## Current In-Progress State
 
-- None. npm metadata, changelog, release decision record, package allowlist, and manual CI dispatch are verified. Dependabot PRs are resolved, and package release remains blocked on license confirmation plus the GitHub account billing lock.
+- None. npm metadata, changelog, packaged install smoke, release decision record, package allowlist, and manual CI dispatch are verified. Dependabot PRs are resolved, and package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Push npm metadata plus changelog, then resolve the public release license decision and GitHub account billing lock.
+- Push packaged install smoke evidence, then resolve the public release license decision and GitHub account billing lock.
 
 ## Human Decisions Needed
 
