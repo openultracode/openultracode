@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 18:35 EDT
+Last updated: 2026-06-05 18:44 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -68,7 +68,7 @@ Implemented:
 Not implemented yet:
 
 - Human license decision before package release.
-- Remote CI execution is blocked by a GitHub account billing lock, documented in `BLOCKED.md`.
+- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27043801167` and documented in `BLOCKED.md`.
 
 ## Verification Snapshot
 
@@ -78,6 +78,11 @@ Latest verified commands:
 npm test
 npm run typecheck
 npm run build
+npm pack --dry-run
+ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); puts "workflow yaml ok"'
+# repo secret-prefix scan excluding .env, node_modules, dist, .ouc, and .git
+rg -n '\x{2014}|\x{2013}' . -g '!node_modules' -g '!dist' -g '!.ouc' -g '!.git'
+git diff --check
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_budget_success --json
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_stopped --stop-after-task 1 --json
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_pool_success --json
@@ -95,16 +100,19 @@ node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* buil
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built clean-patch application smoke */'
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built file-ownership block smoke */'
 node --input-type=module -e 'import { CodexCliBackend, ClaudeCliBackend } from "./dist/src/backends/cli-command.js"; /* built CLI usage parsing smoke */'
-npm pack --dry-run
 ```
 
 Latest known result:
 
-- 13 test files passed.
+- 14 test files passed.
 - 59 tests passed.
 - Typecheck passed.
 - Build passed.
-- Package dry-run passed.
+- Package dry-run passed for `openultracode@0.1.0`, 18 files, package size `20.6 kB`.
+- GitHub workflow YAML parsed successfully.
+- Repo secret-prefix scan excluding `.env` had no matches.
+- Em dash scan had no matches.
+- `git diff --check` reported no whitespace errors.
 - Built CLI success smoke passed with `node dist/bin/ouc.js run ... --backend fake --json`.
 - Built CLI blocked-run smoke against a temporary fixture returned status `blocked` with exit 1 when `limits.maxTasks` was exceeded.
 - Built CLI stopped-run smoke returned status `stopped`, succeeded 1 task, and left 1 task remaining.
@@ -130,6 +138,7 @@ Latest known result:
 - Built file-ownership block smoke returned exit 1 with status `blocked`, `limit` `fileOwnership`, and no worker result artifacts.
 - CLI usage parsing tests verified Codex JSONL usage events, Claude JSON result usage, cost mapping, and plain-text fallback behavior.
 - Built CLI usage parsing smoke mapped mocked Codex and Claude structured output into worker usage and cost totals.
+- GitHub Actions run `27043801167` created the Node 20, 22, and 24 jobs, but each job failed before starting because the GitHub account is locked due to a billing issue.
 
 ## Next Best Task
 
