@@ -147,6 +147,12 @@ For the current release blockers and recommended release channel, read:
 cat docs/RELEASE_DECISIONS.md
 ```
 
+For the current prompt-to-artifact completion audit, read:
+
+```bash
+cat docs/COMPLETION_AUDIT.md
+```
+
 For release notes, read:
 
 ```bash

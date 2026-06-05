@@ -33,6 +33,7 @@ Status: source-ready after local verification. Final package release is still bl
 - Public GitHub repo description, README homepage, and discovery topics for contributor discovery.
 - Architecture guide covering runtime flow, module boundaries, artifact contracts, safety model, and extension points.
 - Code of conduct for public contributor spaces.
+- Completion audit mapping the active objective to concrete artifacts and blockers.
 
 ### Changed
 

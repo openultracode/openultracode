@@ -55,3 +55,4 @@
 - [Codex] Set public GitHub repo description, README homepage, and discovery topics for contributor discovery.
 - [Codex] Added `docs/ARCHITECTURE.md` with runtime flow, module map, artifact contract, safety model, and extension points.
 - [Codex] Added `CODE_OF_CONDUCT.md` and included it in package dry-run contents.
+- [Codex] Added `docs/COMPLETION_AUDIT.md` mapping the active objective to artifacts, verification evidence, and remaining blockers.

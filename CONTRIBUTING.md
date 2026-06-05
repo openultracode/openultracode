@@ -9,10 +9,11 @@ OpenUltraCode is early. The best contributions are small, tested slices that mak
 3. Read `docs/ARCHITECTURE.md`.
 4. Read `TASK_QUEUE.md`.
 5. Check `docs/RELEASE_CHECKLIST.md` if the change affects packaging or release readiness.
-6. Check `docs/RELEASE_DECISIONS.md` before release or package work.
-7. Pick one narrow behavior.
-8. Write the test first for behavior changes.
-9. Run the full verification commands before opening a PR.
+6. Check `docs/COMPLETION_AUDIT.md` when evaluating release completeness.
+7. Check `docs/RELEASE_DECISIONS.md` before release or package work.
+8. Pick one narrow behavior.
+9. Write the test first for behavior changes.
+10. Run the full verification commands before opening a PR.
 
 ## Development Setup
 
