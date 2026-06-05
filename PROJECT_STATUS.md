@@ -68,6 +68,7 @@ Implemented:
 Not implemented yet:
 
 - Human license decision before package release.
+- Remote CI execution is blocked by a GitHub account billing lock, documented in `BLOCKED.md`.
 
 ## Verification Snapshot
 
@@ -138,7 +139,8 @@ Expected slice:
 
 - Confirm MIT is acceptable for public release, or choose a replacement.
 - Update `LICENSE`, `package.json`, and public docs if the license changes.
-- Tag or publish only after this decision is complete.
+- Resolve the GitHub account billing lock and rerun CI.
+- Tag or publish only after these decisions are complete.
 
 ## Human Decisions Needed
 

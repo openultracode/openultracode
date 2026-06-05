@@ -29,7 +29,8 @@ Concrete success criteria:
 | README entices contributors and reflects actual behavior | `README.md` documents current commands, safety model, artifacts, roadmap, help-wanted items | Complete |
 | Contributor guide exists | `CONTRIBUTING.md` includes setup, testing, issue-template guidance, release checklist pointer | Complete |
 | Issue templates exist | `.github/ISSUE_TEMPLATE/{bug_report,feature_request,task_proposal,config}.yml` | Complete |
-| Contributor CI exists | `.github/workflows/ci.yml` runs tests, typecheck, build, and package dry-run on Node 20, 22, and 24 | Complete |
+| Contributor CI exists | `.github/workflows/ci.yml` runs tests, typecheck, build, and package dry-run on Node 20, 22, and 24 | Configured |
+| Remote CI run starts | `gh run view 27043729557 --repo AryaVora621/openultracode` | Blocked by GitHub billing/account lock |
 | Release checklist exists | `docs/RELEASE_CHECKLIST.md` | Complete |
 | Local CLI package metadata is set | `package.json` has name `openultracode`, version `0.1.0`, bin aliases `ouc` and `openultracode` | Complete |
 | License file exists | `LICENSE` is MIT | Needs human confirmation before package release |
@@ -55,11 +56,12 @@ Concrete success criteria:
 
 ## Remaining Blocker
 
-The repo is ready for collaborator-oriented source use, but final package release should wait for a human license decision:
+The repo is ready for collaborator-oriented source use, but final package release should wait for two human actions:
 
 - Current license: MIT.
 - Required decision: confirm MIT is acceptable, or replace it before package publication.
+- Required account action: resolve the GitHub billing/account lock so CI can run on GitHub-hosted runners.
 
 ## Audit Decision
 
-Do not mark the overall project objective complete yet. The implementation, tests, docs, and public push are current, but final release readiness still has one human decision open.
+Do not mark the overall project objective complete yet. The implementation, tests, docs, and public push are current, but final release readiness still has the license decision and GitHub Actions billing/account blocker open.

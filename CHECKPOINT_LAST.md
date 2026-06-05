@@ -178,14 +178,17 @@ Timestamp: 2026-06-05 18:35 EDT
 - Recorded the remaining release blocker as the human license decision.
 - Added `.github/workflows/ci.yml` to run tests, typecheck, build, and package dry-run on pushes and pull requests across Node 20, 22, and 24.
 - Updated contributor and release docs to mention CI coverage.
+- Pushed CI workflow as `284c974` with message `Add CI verification workflow`.
+- Checked GitHub Actions run `27043729557`; all CI jobs were created but did not start because the GitHub account is locked due to a billing issue.
+- Recorded the remote CI blocker in `BLOCKED.md`.
 
 ## Current In-Progress State
 
-- None. CI is added, and package release remains blocked on license confirmation.
+- None. CI is added, and package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Resolve the public release license decision.
+- Resolve the public release license decision and GitHub account billing lock.
 
 ## Human Decisions Needed
 

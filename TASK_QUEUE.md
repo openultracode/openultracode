@@ -3,6 +3,7 @@
 ## Open
 
 - Decide package license for public release if MIT default should change.
+- Resolve the GitHub account billing lock so CI can run.
 
 ## In-Progress
 
