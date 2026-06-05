@@ -6,7 +6,7 @@ import { mkdtemp } from "node:fs/promises";
 import { DEFAULT_CONFIG, loadConfig } from "../src/config.js";
 
 async function makeTempProject(): Promise<string> {
-  return mkdtemp(join(tmpdir(), "cuc-config-"));
+  return mkdtemp(join(tmpdir(), "ouc-config-"));
 }
 
 test("loadConfig returns safe defaults when no config file exists", async () => {
@@ -27,7 +27,7 @@ test("loadConfig returns safe defaults when no config file exists", async () => 
 
 test("loadConfig deeply merges project config over defaults", async () => {
   const projectRoot = await makeTempProject();
-  const configDir = join(projectRoot, ".codexultracode");
+  const configDir = join(projectRoot, ".ouc");
   await mkdir(configDir, { recursive: true });
   await writeFile(
     join(configDir, "config.json"),
@@ -63,7 +63,7 @@ test("loadConfig deeply merges project config over defaults", async () => {
 
 test("loadConfig rejects invalid backend names", async () => {
   const projectRoot = await makeTempProject();
-  const configDir = join(projectRoot, ".codexultracode");
+  const configDir = join(projectRoot, ".ouc");
   await mkdir(configDir, { recursive: true });
   await writeFile(
     join(configDir, "config.json"),

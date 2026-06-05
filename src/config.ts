@@ -88,7 +88,7 @@ export const DEFAULT_CONFIG = {
 } satisfies CucConfig;
 
 export async function loadConfig(projectRoot: string): Promise<CucConfig> {
-  const configPath = join(projectRoot, ".codexultracode", "config.json");
+  const configPath = join(projectRoot, ".ouc", "config.json");
   const projectConfig = await readProjectConfig(configPath);
   const merged = deepMerge(DEFAULT_CONFIG, projectConfig);
   const parsed = configSchema.safeParse(merged);

@@ -1,4 +1,4 @@
-# CodexUltraCode Project Plan
+# OpenUltraCode Project Plan
 
 ## Summary
 
@@ -19,15 +19,15 @@ V1 is a local CLI MVP, not a daemon, dashboard, or hosted platform. The CLI shou
 
 The CLI should expose two binary names:
 
-- `codexultracode`
-- `cuc`
+- `openultracode`
+- `ouc`
 
 Primary commands:
 
-- `cuc plan "<goal>"` creates a dry-run task plan with model assignments and estimated cost.
-- `cuc run "<goal>"` plans, asks for approval when configured, executes workers, reconciles outputs, and writes a final report.
-- `cuc status <run-id>` prints run progress from local artifacts.
-- `cuc report <run-id>` prints or opens the final run report.
+- `ouc plan "<goal>"` creates a dry-run task plan with model assignments and estimated cost.
+- `ouc run "<goal>"` plans, asks for approval when configured, executes workers, reconciles outputs, and writes a final report.
+- `ouc status <run-id>` prints run progress from local artifacts.
+- `ouc report <run-id>` prints or opens the final run report.
 
 The default workflow should be:
 
@@ -107,7 +107,7 @@ Routing rules:
 - Workers must receive explicit file ownership and should not write outside their scoped worktree.
 - The main checkout should not be edited directly by workers.
 - Applying patches on `main` or `master` should be refused unless the user passes `--allow-main`.
-- Every run should be resumable from `.codexultracode/runs/<run-id>/`.
+- Every run should be resumable from `.ouc/runs/<run-id>/`.
 - Failed, canceled, or conflicting worker outputs should remain inspectable.
 - No leaked Claude Code source or unauthorized implementation material should be used.
 
@@ -153,11 +153,11 @@ type Task = {
 Run artifact layout:
 
 ```text
-.codexultracode/runs/<run-id>/plan.json
-.codexultracode/runs/<run-id>/ledger.jsonl
-.codexultracode/runs/<run-id>/workers/<task-id>/response.md
-.codexultracode/runs/<run-id>/workers/<task-id>/diff.patch
-.codexultracode/runs/<run-id>/final-report.md
+.ouc/runs/<run-id>/plan.json
+.ouc/runs/<run-id>/ledger.jsonl
+.ouc/runs/<run-id>/workers/<task-id>/response.md
+.ouc/runs/<run-id>/workers/<task-id>/diff.patch
+.ouc/runs/<run-id>/final-report.md
 ```
 
 ## Implementation Phases
@@ -165,7 +165,7 @@ Run artifact layout:
 ### Phase 1: Project Foundation
 
 - Initialize a TypeScript Node CLI package.
-- Add `cuc` and `codexultracode` binary aliases.
+- Add `ouc` and `openultracode` binary aliases.
 - Add config loading, typed schemas, and local run artifact directories.
 - Add fake backends for deterministic tests.
 
@@ -218,10 +218,10 @@ Integration tests:
 Manual smoke tests:
 
 ```bash
-cuc plan "audit this repo for TODOs"
-cuc run "make a tiny safe edit in a fixture repo" --max-cost 1 --max-workers 4
-cuc status <run-id>
-cuc report <run-id>
+ouc plan "audit this repo for TODOs"
+ouc run "make a tiny safe edit in a fixture repo" --max-cost 1 --max-workers 4
+ouc status <run-id>
+ouc report <run-id>
 ```
 
 ## Open Decisions
@@ -232,5 +232,5 @@ cuc report <run-id>
 
 ## Current Stop Point
 
-The project is intentionally stopped at planning artifacts. No implementation has started.
-
+The initial CLI foundation and local planning artifact commands are implemented.
+See `PROJECT_STATUS.md`, `TASK_QUEUE.md`, and `CHECKPOINT_LAST.md` for the current live handoff state.

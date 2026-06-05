@@ -12,13 +12,13 @@ export type CliRuntime = {
   stderr: (line: string) => void;
 };
 
-const HELP = `CodexUltraCode
+const HELP = `OpenUltraCode
 
 Usage:
-  cuc plan "<goal>"
-  cuc run "<goal>"
-  cuc status <run-id>
-  cuc report <run-id>
+  ouc plan "<goal>"
+  ouc run "<goal>"
+  ouc status <run-id>
+  ouc report <run-id>
 
 Options:
   --help       Show this help.
@@ -49,7 +49,7 @@ export async function runCli(
   }
 
   runtime.stderr(`Command "${command}" is not implemented yet.`);
-  runtime.stderr("Run `cuc --help` for available commands.");
+  runtime.stderr("Run `ouc --help` for available commands.");
   return 1;
 }
 
@@ -62,7 +62,7 @@ async function runPlan(args: string[], runtime: CliRuntime): Promise<number> {
   }
 
   if (!parsed.goal) {
-    runtime.stderr('Usage: cuc plan "<goal>"');
+    runtime.stderr('Usage: ouc plan "<goal>"');
     return 1;
   }
 
@@ -114,7 +114,7 @@ async function runStatus(args: string[], runtime: CliRuntime): Promise<number> {
   const runId = parsed.runId;
 
   if (!runId) {
-    runtime.stderr("Usage: cuc status <run-id>");
+    runtime.stderr("Usage: ouc status <run-id>");
     return 1;
   }
 
@@ -124,7 +124,7 @@ async function runStatus(args: string[], runtime: CliRuntime): Promise<number> {
   }
 
   const { plan, planPath } = loaded;
-  const runDir = join(runtime.cwd, ".codexultracode", "runs", runId);
+  const runDir = join(runtime.cwd, ".ouc", "runs", runId);
   const ledgerPresent = await fileExists(join(runDir, "ledger.jsonl"));
   const finalReportPresent = await fileExists(join(runDir, "final-report.md"));
 
@@ -161,7 +161,7 @@ async function runReport(args: string[], runtime: CliRuntime): Promise<number> {
   const runId = args[0];
 
   if (!runId) {
-    runtime.stderr("Usage: cuc report <run-id>");
+    runtime.stderr("Usage: ouc report <run-id>");
     return 1;
   }
 
@@ -172,7 +172,7 @@ async function runReport(args: string[], runtime: CliRuntime): Promise<number> {
 
   const reportPath = join(
     runtime.cwd,
-    ".codexultracode",
+    ".ouc",
     "runs",
     runId,
     "final-report.md"
@@ -196,7 +196,7 @@ async function loadPlanArtifact(
   runId: string,
   runtime: CliRuntime
 ): Promise<{ plan: DryRunPlan; planPath: string } | undefined> {
-  const planPath = join(cwd, ".codexultracode", "runs", runId, "plan.json");
+  const planPath = join(cwd, ".ouc", "runs", runId, "plan.json");
 
   try {
     return {
@@ -222,7 +222,7 @@ function renderPlanReport(plan: DryRunPlan): string {
   });
 
   return [
-    "# CodexUltraCode Run Report",
+    "# OpenUltraCode Run Report",
     "",
     `- Run: \`${plan.runId}\``,
     `- Goal: ${plan.goal}`,

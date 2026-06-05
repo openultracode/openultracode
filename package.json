@@ -1,12 +1,12 @@
 {
-  "name": "codexultracode",
+  "name": "openultracode",
   "version": "0.1.0",
-  "description": "Local CLI for Ultracode-style parallel coding with adaptive model routing.",
+  "description": "Local CLI for parallel coding agents with adaptive model routing.",
   "type": "module",
   "license": "MIT",
   "bin": {
-    "codexultracode": "./dist/bin/cuc.js",
-    "cuc": "./dist/bin/cuc.js"
+    "openultracode": "./dist/bin/ouc.js",
+    "ouc": "./dist/bin/ouc.js"
   },
   "files": [
     "dist",

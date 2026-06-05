@@ -6,21 +6,21 @@ import { tmpdir } from "node:os";
 test("runCli prints help with primary commands", async () => {
   const lines: string[] = [];
 
-  const exitCode = await runCli(["node", "cuc", "--help"], {
+  const exitCode = await runCli(["node", "ouc", "--help"], {
     cwd: process.cwd(),
     stdout: (line) => lines.push(line),
     stderr: (line) => lines.push(line)
   });
 
   expect(exitCode).toBe(0);
-  expect(lines.join("\n")).toContain("cuc plan");
-  expect(lines.join("\n")).toContain("cuc run");
-  expect(lines.join("\n")).toContain("cuc status");
-  expect(lines.join("\n")).toContain("cuc report");
+  expect(lines.join("\n")).toContain("ouc plan");
+  expect(lines.join("\n")).toContain("ouc run");
+  expect(lines.join("\n")).toContain("ouc status");
+  expect(lines.join("\n")).toContain("ouc report");
 });
 
 test("runCli plan writes a deterministic dry-run plan artifact", async () => {
-  const projectRoot = await mkdtemp(join(tmpdir(), "cuc-cli-plan-"));
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-plan-"));
   await writeFile(join(projectRoot, "README.md"), "# Fixture");
   await writeFile(join(projectRoot, "package.json"), "{}");
 
@@ -28,7 +28,7 @@ test("runCli plan writes a deterministic dry-run plan artifact", async () => {
   const stderr: string[] = [];
 
   const exitCode = await runCli(
-    ["node", "cuc", "plan", "audit this repo for TODOs", "--run-id", "run_cli"],
+    ["node", "ouc", "plan", "audit this repo for TODOs", "--run-id", "run_cli"],
     {
       cwd: projectRoot,
       stdout: (line) => stdout.push(line),
@@ -36,10 +36,10 @@ test("runCli plan writes a deterministic dry-run plan artifact", async () => {
     }
   );
 
-  const planPath = join(projectRoot, ".codexultracode", "runs", "run_cli", "plan.json");
+  const planPath = join(projectRoot, ".ouc", "runs", "run_cli", "plan.json");
   const ledgerPath = join(
     projectRoot,
-    ".codexultracode",
+    ".ouc",
     "runs",
     "run_cli",
     "ledger.jsonl"
@@ -71,7 +71,7 @@ test("runCli plan writes a deterministic dry-run plan artifact", async () => {
 });
 
 test("runCli plan can print machine-readable JSON output", async () => {
-  const projectRoot = await mkdtemp(join(tmpdir(), "cuc-cli-plan-json-"));
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-plan-json-"));
   await writeFile(join(projectRoot, "README.md"), "# Fixture");
   await writeFile(join(projectRoot, "package.json"), "{}");
 
@@ -81,7 +81,7 @@ test("runCli plan can print machine-readable JSON output", async () => {
   const exitCode = await runCli(
     [
       "node",
-      "cuc",
+      "ouc",
       "plan",
       "implement report command and test it",
       "--run-id",
@@ -116,7 +116,7 @@ test("runCli plan can print machine-readable JSON output", async () => {
 });
 
 test("runCli plan rejects a missing run id value", async () => {
-  const projectRoot = await mkdtemp(join(tmpdir(), "cuc-cli-plan-bad-id-"));
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-plan-bad-id-"));
   await writeFile(join(projectRoot, "README.md"), "# Fixture");
   await writeFile(join(projectRoot, "package.json"), "{}");
 
@@ -124,7 +124,7 @@ test("runCli plan rejects a missing run id value", async () => {
   const stderr: string[] = [];
 
   const exitCode = await runCli(
-    ["node", "cuc", "plan", "audit this repo", "--run-id"],
+    ["node", "ouc", "plan", "audit this repo", "--run-id"],
     {
       cwd: projectRoot,
       stdout: (line) => stdout.push(line),
@@ -138,19 +138,19 @@ test("runCli plan rejects a missing run id value", async () => {
 });
 
 test("runCli status summarizes an existing local run artifact", async () => {
-  const projectRoot = await mkdtemp(join(tmpdir(), "cuc-cli-status-"));
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-status-"));
   await writeFile(join(projectRoot, "README.md"), "# Fixture");
   await writeFile(join(projectRoot, "package.json"), "{}");
 
   await runCli(
-    ["node", "cuc", "plan", "audit this repo for TODOs", "--run-id", "run_status"],
+    ["node", "ouc", "plan", "audit this repo for TODOs", "--run-id", "run_status"],
     {
       cwd: projectRoot,
       stdout: () => undefined,
       stderr: () => undefined
     }
   );
-  await runCli(["node", "cuc", "report", "run_status"], {
+  await runCli(["node", "ouc", "report", "run_status"], {
     cwd: projectRoot,
     stdout: () => undefined,
     stderr: () => undefined
@@ -159,7 +159,7 @@ test("runCli status summarizes an existing local run artifact", async () => {
   const stdout: string[] = [];
   const stderr: string[] = [];
 
-  const exitCode = await runCli(["node", "cuc", "status", "run_status"], {
+  const exitCode = await runCli(["node", "ouc", "status", "run_status"], {
     cwd: projectRoot,
     stdout: (line) => stdout.push(line),
     stderr: (line) => stderr.push(line)
@@ -178,12 +178,12 @@ test("runCli status summarizes an existing local run artifact", async () => {
 });
 
 test("runCli status can print machine-readable JSON", async () => {
-  const projectRoot = await mkdtemp(join(tmpdir(), "cuc-cli-status-json-"));
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-status-json-"));
   await writeFile(join(projectRoot, "README.md"), "# Fixture");
   await writeFile(join(projectRoot, "package.json"), "{}");
 
   await runCli(
-    ["node", "cuc", "plan", "audit this repo for TODOs", "--run-id", "run_status_json"],
+    ["node", "ouc", "plan", "audit this repo for TODOs", "--run-id", "run_status_json"],
     {
       cwd: projectRoot,
       stdout: () => undefined,
@@ -195,7 +195,7 @@ test("runCli status can print machine-readable JSON", async () => {
   const stderr: string[] = [];
 
   const exitCode = await runCli(
-    ["node", "cuc", "status", "run_status_json", "--json"],
+    ["node", "ouc", "status", "run_status_json", "--json"],
     {
       cwd: projectRoot,
       stdout: (line) => stdout.push(line),
@@ -224,12 +224,12 @@ test("runCli status can print machine-readable JSON", async () => {
 });
 
 test("runCli report prints a markdown summary for a planned run", async () => {
-  const projectRoot = await mkdtemp(join(tmpdir(), "cuc-cli-report-"));
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-report-"));
   await writeFile(join(projectRoot, "README.md"), "# Fixture");
   await writeFile(join(projectRoot, "package.json"), "{}");
 
   await runCli(
-    ["node", "cuc", "plan", "audit this repo for TODOs", "--run-id", "run_report"],
+    ["node", "ouc", "plan", "audit this repo for TODOs", "--run-id", "run_report"],
     {
       cwd: projectRoot,
       stdout: () => undefined,
@@ -240,7 +240,7 @@ test("runCli report prints a markdown summary for a planned run", async () => {
   const stdout: string[] = [];
   const stderr: string[] = [];
 
-  const exitCode = await runCli(["node", "cuc", "report", "run_report"], {
+  const exitCode = await runCli(["node", "ouc", "report", "run_report"], {
     cwd: projectRoot,
     stdout: (line) => stdout.push(line),
     stderr: (line) => stderr.push(line)
@@ -249,7 +249,7 @@ test("runCli report prints a markdown summary for a planned run", async () => {
   const output = stdout.join("\n");
   const reportPath = join(
     projectRoot,
-    ".codexultracode",
+    ".ouc",
     "runs",
     "run_report",
     "final-report.md"
@@ -258,7 +258,7 @@ test("runCli report prints a markdown summary for a planned run", async () => {
 
   expect(exitCode).toBe(0);
   expect(stderr).toEqual([]);
-  expect(output).toContain("# CodexUltraCode Run Report");
+  expect(output).toContain("# OpenUltraCode Run Report");
   expect(output).toContain("- Run: `run_report`");
   expect(output).toContain("- Goal: audit this repo for TODOs");
   expect(output).toContain("- Planned tasks: 1");
@@ -268,12 +268,12 @@ test("runCli report prints a markdown summary for a planned run", async () => {
 });
 
 test("runCli report preserves an existing final report artifact", async () => {
-  const projectRoot = await mkdtemp(join(tmpdir(), "cuc-cli-report-existing-"));
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-report-existing-"));
   await writeFile(join(projectRoot, "README.md"), "# Fixture");
   await writeFile(join(projectRoot, "package.json"), "{}");
 
   await runCli(
-    ["node", "cuc", "plan", "audit this repo for TODOs", "--run-id", "run_existing_report"],
+    ["node", "ouc", "plan", "audit this repo for TODOs", "--run-id", "run_existing_report"],
     {
       cwd: projectRoot,
       stdout: () => undefined,
@@ -283,7 +283,7 @@ test("runCli report preserves an existing final report artifact", async () => {
 
   const runDir = join(
     projectRoot,
-    ".codexultracode",
+    ".ouc",
     "runs",
     "run_existing_report"
   );
@@ -295,7 +295,7 @@ test("runCli report preserves an existing final report artifact", async () => {
   const stdout: string[] = [];
   const stderr: string[] = [];
 
-  const exitCode = await runCli(["node", "cuc", "report", "run_existing_report"], {
+  const exitCode = await runCli(["node", "ouc", "report", "run_existing_report"], {
     cwd: projectRoot,
     stdout: (line) => stdout.push(line),
     stderr: (line) => stderr.push(line)

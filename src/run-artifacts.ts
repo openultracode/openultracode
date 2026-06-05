@@ -14,7 +14,7 @@ export async function createRunArtifacts(
   projectRoot: string,
   runId = createRunId()
 ): Promise<RunArtifacts> {
-  const runDir = join(projectRoot, ".codexultracode", "runs", runId);
+  const runDir = join(projectRoot, ".ouc", "runs", runId);
   const workersDir = join(runDir, "workers");
 
   await mkdir(workersDir, { recursive: true });

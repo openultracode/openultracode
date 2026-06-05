@@ -1,29 +1,211 @@
-# CodexUltraCode
+# OpenUltraCode
 
-CodexUltraCode is a local TypeScript CLI for Ultracode-style parallel coding with adaptive model routing across CLI and API backends.
+OpenUltraCode is an open-source local CLI for parallel coding agents with adaptive model routing.
 
-V1 is intentionally scoped as a local CLI. The current implementation is Phase 1 foundation work: package scaffolding, CLI aliases, typed config loading, local run artifact paths, initial routing rules, and a deterministic fake backend for tests.
+The goal is simple: make multi-agent coding workflows cheaper, safer, and more controllable than sending every worker to the same expensive premium model.
 
-## Commands
+Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, preserve local run artifacts, and expose status/report commands. The next milestone is fake-backend execution, then real CLI/API backends.
+
+## Why This Should Exist
+
+Modern coding agents are powerful, but parallel agent workflows still have rough edges:
+
+- Expensive models get used for cheap tasks.
+- Worker outputs are hard to audit after a run.
+- Mutating workers can step on each other.
+- Cost, task routing, and artifacts are often hidden.
+- Resuming a partially completed run is painful.
+
+OpenUltraCode is built around the opposite defaults:
+
+- Local first.
+- Artifact first.
+- Cost aware.
+- Free and cheap model tiers where they make sense.
+- Strong models only where the task actually needs them.
+- Isolated worker execution before mutating the main checkout.
+
+## What Works Now
+
+Current implemented surface:
+
+- TypeScript Node CLI package.
+- Binary aliases:
+  - `ouc`
+  - `openultracode`
+- Config loading with typed schemas and safe defaults.
+- Local run directories under `.ouc/runs/<run-id>/`.
+- Deterministic repo inspection.
+- Dry-run planning with task routing.
+- Edit goals split into edit and dependent test tasks.
+- Source scopes prefer implementation files over docs and tracker files.
+- Free-first routing with cheap fallback for low-risk tasks.
+- Strong routing for edit and test tasks.
+- `ledger.jsonl` creation during planning.
+- `final-report.md` creation and preservation.
+- Machine-readable JSON output for plan and status.
+- Deterministic fake backend for tests.
+
+## Try It Locally
 
 ```bash
 npm install
 npm test
 npm run typecheck
 npm run build
-node dist/bin/cuc.js --help
-node dist/bin/cuc.js plan "audit this repo for TODOs"
-node dist/bin/cuc.js plan "implement a small change and test it" --json
-node dist/bin/cuc.js status <run-id>
-node dist/bin/cuc.js status <run-id> --json
-node dist/bin/cuc.js report <run-id>
 ```
 
-The package exposes both binary aliases after build:
+Create a dry-run plan:
 
-- `cuc`
-- `codexultracode`
+```bash
+node dist/bin/ouc.js plan "audit this repo for TODOs"
+```
 
-## Project State
+Create a machine-readable plan:
 
-See `PLAN.md` for the full implementation plan and `TASK_QUEUE.md` for the current work queue.
+```bash
+node dist/bin/ouc.js plan "implement a small change and test it" --json
+```
+
+Inspect a run:
+
+```bash
+node dist/bin/ouc.js status <run-id>
+node dist/bin/ouc.js status <run-id> --json
+node dist/bin/ouc.js report <run-id>
+```
+
+Example artifact layout:
+
+```text
+.ouc/runs/<run-id>/plan.json
+.ouc/runs/<run-id>/ledger.jsonl
+.ouc/runs/<run-id>/workers/<task-id>/response.md
+.ouc/runs/<run-id>/workers/<task-id>/diff.patch
+.ouc/runs/<run-id>/final-report.md
+```
+
+## Roadmap
+
+### Milestone 1: Local Planning Foundation
+
+Status: mostly implemented.
+
+- CLI package scaffold.
+- Config schema and defaults.
+- Repo inspection.
+- Deterministic task planning.
+- Model-tier routing.
+- Local artifact layout.
+- Status and report commands.
+
+### Milestone 2: Fake-Backend Runs
+
+Status: next.
+
+- Implement `ouc run` using fake workers first.
+- Write worker responses under run artifacts.
+- Append task-level ledger events.
+- Generate final reports from completed fake runs.
+- Make cancellation and budget stops visible in artifacts.
+
+### Milestone 3: Real Backends
+
+Status: planned.
+
+- OpenRouter chat completion backend.
+- Claude CLI backend using `claude -p`.
+- Codex CLI backend using `codex exec`.
+- Timeout, retry, and fallback behavior.
+- Cost and token accounting.
+
+### Milestone 4: Safe Mutating Work
+
+Status: planned.
+
+- Isolated git worktrees for edit tasks.
+- Worker file ownership.
+- Diff capture per worker.
+- Clean patch application.
+- Conflict reporting.
+
+### Milestone 5: Polish And Packaging
+
+Status: planned.
+
+- Richer docs and examples.
+- Better default config.
+- Local install docs.
+- More integration tests.
+- Contributor-friendly issue templates.
+
+## Architecture
+
+OpenUltraCode is intentionally modular:
+
+- `Orchestrator`: turns a user goal into scoped tasks.
+- `Router`: maps tasks to free, cheap, strong, or critical model tiers.
+- `WorkerPool`: runs tasks with concurrency, cost, and task limits.
+- `Backends`: wraps OpenRouter, Claude CLI, Codex CLI, and fake workers.
+- `WorktreeManager`: isolates mutating tasks.
+- `Reconciler`: applies safe diffs and records conflicts.
+- `Ledger`: records run and task events.
+- `Reporter`: creates human and machine-readable outputs.
+
+The implementation is not all there yet. The repo currently contains the planning foundation and test harness needed to build those pieces safely.
+
+## Help Wanted
+
+Useful contributions right now:
+
+- Implement fake-backend `ouc run` orchestration.
+- Improve deterministic planning heuristics.
+- Add budget and max-task enforcement.
+- Add task-level ledger events.
+- Add report generation from worker artifacts.
+- Add fixture repos for integration tests.
+- Harden config validation and error messages.
+- Improve docs for model routing and safety.
+
+Good first issue shape:
+
+- One command.
+- One artifact behavior.
+- One focused test file.
+- No real external model calls.
+
+## Safety Rules
+
+The project should stay boring in the best way:
+
+- Do not mutate the target repo directly from workers.
+- Do not apply patches on `main` or `master` without an explicit opt-in.
+- Preserve failed and partial worker artifacts.
+- Keep cost caps enforceable.
+- Keep local files inspectable.
+- Prefer fake backends in tests.
+- Treat external model output as untrusted.
+
+## Development Workflow
+
+```bash
+npm test
+npm run typecheck
+npm run build
+npm pack --dry-run
+```
+
+For behavior changes, write or update the test first. The current test suite uses Vitest and covers config, routing, planning, artifacts, fake backend output, and CLI behavior.
+
+## Project Files For Contributors
+
+- `PLAN.md`: original product and implementation plan.
+- `PROJECT_STATUS.md`: current snapshot and next steps.
+- `TASK_QUEUE.md`: open, active, and completed work.
+- `CHECKPOINT_LAST.md`: latest handoff checkpoint.
+- `BUILD_DRAFT.md`: build snapshot and verification evidence.
+- `AGENTS.md`: rules for AI agents contributing to this repo.
+
+## License
+
+MIT. See `LICENSE`.

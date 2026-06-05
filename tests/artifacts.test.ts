@@ -6,8 +6,8 @@ import { mkdtemp } from "node:fs/promises";
 import { createRunArtifacts } from "../src/run-artifacts.js";
 
 test("createRunArtifacts creates the run directory layout without deleting existing files", async () => {
-  const projectRoot = await mkdtemp(join(tmpdir(), "cuc-artifacts-"));
-  const existingRunDir = join(projectRoot, ".codexultracode", "runs", "run_fixed");
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-artifacts-"));
+  const existingRunDir = join(projectRoot, ".ouc", "runs", "run_fixed");
   await mkdir(existingRunDir, { recursive: true });
   const existingPath = join(existingRunDir, "keep.txt");
   await import("node:fs/promises").then(({ writeFile }) =>

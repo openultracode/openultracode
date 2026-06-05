@@ -10,7 +10,8 @@
   "exclude": [
     "dist",
     "node_modules",
-    ".codexultracode",
+    ".ouc",
+    ".ouc",
     "tests",
     "vitest.config.ts"
   ]

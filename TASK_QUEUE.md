@@ -15,15 +15,16 @@
 
 ## Done
 
-- Captured the CodexUltraCode project plan in `PLAN.md`.
+- Captured the OpenUltraCode project plan in `PLAN.md`.
 - Approved `PLAN.md` for initial implementation.
 - [Codex] Drafted Phase 1 TypeScript CLI foundation with tests, build config, runtime package output, README, and MIT license draft.
-- [Codex] Added deterministic repo inspection, `cuc plan`, `cuc status`, and `cuc report` for local run artifacts.
+- [Codex] Added deterministic repo inspection, `ouc plan`, `ouc status`, and `ouc report` for local run artifacts.
 - [Codex] Completed artifact persistence for local runs: `ledger.jsonl`, `final-report.md`, and status artifact presence lines.
 - [Codex] Split deterministic edit goals into edit and dependent test tasks with strong model routing.
 - [Codex] Refined deterministic edit task source scopes to prefer implementation files over docs and tracker files.
-- [Codex] Made `cuc report` preserve an existing `final-report.md` instead of overwriting worker-authored output.
-- [Codex] Added `cuc status <run-id> --json` for machine-readable local run state.
-- [Codex] Added `cuc plan "<goal>" --json` for machine-readable plan creation output.
-- [Codex] Added `cuc plan` validation for missing `--run-id` values.
+- [Codex] Made `ouc report` preserve an existing `final-report.md` instead of overwriting worker-authored output.
+- [Codex] Added `ouc status <run-id> --json` for machine-readable local run state.
+- [Codex] Added `ouc plan "<goal>" --json` for machine-readable plan creation output.
+- [Codex] Added `ouc plan` validation for missing `--run-id` values.
 - [Codex] Published the verified source to public GitHub repo `https://github.com/AryaVora621/openultracode`.
+- [Codex] Renamed the package, CLI alias, artifact directory, docs, and bin file around `ouc` and OpenUltraCode.

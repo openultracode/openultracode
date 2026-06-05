@@ -16,7 +16,7 @@ export type RepositoryInspection = {
 };
 
 const IGNORED_DIRS = new Set([
-  ".codexultracode",
+  ".ouc",
   ".git",
   ".worktrees",
   "coverage",
