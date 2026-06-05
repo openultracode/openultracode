@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 17:36 EDT
+Timestamp: 2026-06-05 17:46 EDT
 
 ## Completed
 
@@ -114,14 +114,23 @@ Timestamp: 2026-06-05 17:36 EDT
 - Updated README, build draft, project status, and task queue for the CLI backend slice.
 - Verified `npm test`, `npm run typecheck`, `npm run build`, built fake run smoke, built stopped Codex and Claude parser smokes, and `npm pack --dry-run`.
 - Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, `.env` ignore and permissions, and `git diff --check`.
+- Committed and pushed CLI worker backends as `ea27e9f` with message `Add explicit CLI worker backends`.
+- Added isolated git worktree creation for edit tasks in git repos.
+- Added worker `diff.patch`, `changed-files.json`, and `reconciliation.json` artifacts.
+- Added final-report reconciliation sections for clean, changed, skipped, failed, and conflict states.
+- Added conflict classification with `git apply --check`.
+- Added worktree reconciliation unit tests and a git-backed CLI integration test.
+- Updated README, AGENTS, build draft, project status, and task queue for the worktree reconciliation slice.
+- Verified `npm test`, `npm run typecheck`, `npm run build`, built fake-run worktree reconciliation smoke, and `npm pack --dry-run`.
+- Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, `.env` ignore and permissions, and `git diff --check`.
 
 ## Current In-Progress State
 
-- None. The worker execution backend slice is implemented and verified.
+- None. The worktree reconciliation and reporting slice is implemented and verified.
 
 ## Next Action
 
-- Implement isolated worktree reconciliation and reporting.
+- Implement real cancellation and signal handling.
 
 ## Human Decisions Needed
 

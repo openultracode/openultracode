@@ -3,16 +3,18 @@ import { join } from "node:path";
 
 import { FakeBackend } from "./backends/fake.js";
 import type { Task, WorkerResult } from "./types.js";
+import type { TaskReconciliation, TaskWorkspace } from "./worktree-reconciler.js";
 
 export type WorkerPoolStatus = "succeeded" | "stopped";
 
 export type WorkerPoolEvent = Record<string, unknown> & {
-  event: "task_started" | "task_finished";
+  event: "task_started" | "task_finished" | "task_reconciled";
 };
 
 export type WorkerPoolResult = {
   status: WorkerPoolStatus;
   results: WorkerResult[];
+  reconciliations: TaskReconciliation[];
   taskEvents: WorkerPoolEvent[];
   succeeded: number;
   failed: number;
@@ -29,11 +31,21 @@ export type RunFakeWorkerPoolInput = {
 };
 
 export type RunWorkerPoolInput = RunFakeWorkerPoolInput & {
-  runTask: (task: Task) => Promise<WorkerResult>;
+  runTask: (
+    task: Task,
+    context: { worktreePath?: string }
+  ) => Promise<WorkerResult>;
+  prepareTask?: (task: Task) => Promise<TaskWorkspace>;
+  finalizeTask?: (
+    task: Task,
+    result: WorkerResult,
+    workspace: TaskWorkspace
+  ) => Promise<TaskReconciliation>;
 };
 
 export async function runWorkerPool(input: RunWorkerPoolInput): Promise<WorkerPoolResult> {
   const results: WorkerResult[] = [];
+  const reconciliations: TaskReconciliation[] = [];
   const taskEvents: WorkerPoolEvent[] = [];
 
   if (input.stopAfterTask === 0 && input.tasks.length > 0) {
@@ -41,23 +53,48 @@ export async function runWorkerPool(input: RunWorkerPoolInput): Promise<WorkerPo
       status: "stopped",
       tasks: input.tasks,
       results,
+      reconciliations,
       taskEvents,
       stopReason: stopAfterTaskReason(0)
     });
   }
 
   for (const task of input.tasks) {
+    const workspace = input.prepareTask
+      ? await input.prepareTask(task)
+      : skippedWorkspace(task, "Workspace preparation is not configured.");
+
     taskEvents.push({
       event: "task_started",
       runId: input.runId,
       taskId: task.id,
       modelTier: task.modelTier,
+      worktreePath: workspace.worktreePath,
       startedAt: new Date().toISOString()
     });
 
-    const result = await input.runTask(task);
+    const result = workspace.status === "failed"
+      ? failedWorkspaceResult(task, workspace.reason ?? "Workspace preparation failed.")
+      : await input.runTask(task, { worktreePath: workspace.worktreePath });
     results.push(result);
     await writeWorkerArtifacts(input.workersDir, task, result);
+
+    const reconciliation = input.finalizeTask
+      ? await input.finalizeTask(task, result, workspace)
+      : undefined;
+
+    if (reconciliation) {
+      reconciliations.push(reconciliation);
+      taskEvents.push({
+        event: "task_reconciled",
+        runId: input.runId,
+        taskId: task.id,
+        status: reconciliation.status,
+        changedFiles: reconciliation.changedFiles,
+        diffPath: reconciliation.diffPath,
+        reconciledAt: new Date().toISOString()
+      });
+    }
 
     taskEvents.push({
       event: "task_finished",
@@ -79,6 +116,7 @@ export async function runWorkerPool(input: RunWorkerPoolInput): Promise<WorkerPo
         status: "stopped",
         tasks: input.tasks,
         results,
+        reconciliations,
         taskEvents,
         stopReason: stopAfterTaskReason(results.length)
       });
@@ -89,6 +127,7 @@ export async function runWorkerPool(input: RunWorkerPoolInput): Promise<WorkerPo
     status: "succeeded",
     tasks: input.tasks,
     results,
+    reconciliations,
     taskEvents
   });
 }
@@ -119,6 +158,7 @@ function summarizeWorkerPool(input: {
   status: WorkerPoolStatus;
   tasks: Task[];
   results: WorkerResult[];
+  reconciliations: TaskReconciliation[];
   taskEvents: WorkerPoolEvent[];
   stopReason?: string;
 }): WorkerPoolResult {
@@ -130,12 +170,36 @@ function summarizeWorkerPool(input: {
   return {
     status: input.status,
     results: input.results,
+    reconciliations: input.reconciliations,
     taskEvents: input.taskEvents,
     succeeded,
     failed,
     remaining: input.tasks.length - input.results.length,
     totalCostUsd: sumCosts(input.results),
     stopReason: input.stopReason
+  };
+}
+
+function skippedWorkspace(task: Task, reason: string): TaskWorkspace {
+  return {
+    taskId: task.id,
+    status: "skipped",
+    reason
+  };
+}
+
+function failedWorkspaceResult(task: Task, error: string): WorkerResult {
+  return {
+    taskId: task.id,
+    status: "failed",
+    response: "",
+    usage: {
+      inputTokens: 0,
+      outputTokens: 0,
+      totalTokens: 0
+    },
+    costUsd: 0,
+    error
   };
 }
 

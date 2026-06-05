@@ -14,6 +14,11 @@ import { inspectRepository } from "./repo-inspector.js";
 import { createRunArtifacts, type RunArtifacts } from "./run-artifacts.js";
 import type { CucConfig, Task, WorkerAttempt, WorkerResult } from "./types.js";
 import { runWorkerPool } from "./worker-pool.js";
+import {
+  captureTaskReconciliation,
+  prepareTaskWorkspace,
+  type TaskReconciliation
+} from "./worktree-reconciler.js";
 
 export type CliRuntime = {
   cwd: string;
@@ -226,6 +231,18 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
     tasks: plan.tasks,
     workersDir: artifacts.workersDir,
     stopAfterTask: parsed.stopAfterTask,
+    prepareTask: (task) => prepareTaskWorkspace({
+      projectRoot: runtime.cwd,
+      runDir: artifacts.runDir,
+      task,
+      hasGit: plan.repo.hasGit
+    }),
+    finalizeTask: (task, result, workspace) => captureTaskReconciliation({
+      projectRoot: runtime.cwd,
+      task,
+      workerDir: join(artifacts.workersDir, task.id),
+      workspace
+    }),
     runTask: runner.runTask
   });
   ledgerEntries.push(...poolResult.taskEvents);
@@ -237,6 +254,7 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
       results: poolResult.results,
       ledgerEntries,
       reason: poolResult.stopReason ?? "Run stopped before completion.",
+      reconciliations: poolResult.reconciliations,
       json: parsed.json,
       runtime,
       backendLabel: runner.backendLabel
@@ -265,7 +283,8 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
     results,
     status,
     undefined,
-    runner.backendLabel
+    runner.backendLabel,
+    poolResult.reconciliations
   );
   await writeFile(artifacts.finalReportPath, `${report}\n`);
 
@@ -431,7 +450,8 @@ function renderExecutionReport(
   results: WorkerResult[],
   status: string,
   stopReason?: string,
-  backendLabel = "Fake"
+  backendLabel = "Fake",
+  reconciliations: TaskReconciliation[] = []
 ): string {
   const resultByTask = new Map(results.map((result) => [result.taskId, result]));
   const taskLines = plan.tasks.map((task) => {
@@ -463,12 +483,46 @@ function renderExecutionReport(
     "",
     ...taskLines,
     "",
+    "## Reconciliation",
+    "",
+    ...renderReconciliationLines(plan, reconciliations),
+    "",
     "## Execution",
     "",
     status === "stopped"
       ? "Run stopped before all planned tasks completed."
       : `${backendLabel} backend execution completed locally.`
   ].join("\n");
+}
+
+function renderReconciliationLines(
+  plan: DryRunPlan,
+  reconciliations: TaskReconciliation[]
+): string[] {
+  const reconciliationByTask = new Map(
+    reconciliations.map((reconciliation) => [reconciliation.taskId, reconciliation])
+  );
+
+  return plan.tasks.map((task) => {
+    const reconciliation = reconciliationByTask.get(task.id);
+
+    if (!reconciliation) {
+      return `- ${task.id}: not captured`;
+    }
+    if (reconciliation.status === "changed") {
+      return `- ${task.id}: changed ${reconciliation.changedFiles.join(", ")}`;
+    }
+    if (reconciliation.status === "clean") {
+      return `- ${task.id}: no changes`;
+    }
+    if (reconciliation.status === "skipped") {
+      return `- ${task.id}: skipped`;
+    }
+    if (reconciliation.status === "conflict") {
+      return `- ${task.id}: conflict${reconciliation.reason ? ` - ${reconciliation.reason}` : ""}`;
+    }
+    return `- ${task.id}: failed${reconciliation.reason ? ` - ${reconciliation.reason}` : ""}`;
+  });
 }
 
 function renderBlockedReport(
@@ -504,6 +558,7 @@ async function writeStoppedRun(input: {
   artifacts: RunArtifacts;
   plan: DryRunPlan;
   results: WorkerResult[];
+  reconciliations: TaskReconciliation[];
   ledgerEntries: Array<Record<string, unknown>>;
   reason: string;
   json: boolean;
@@ -535,7 +590,8 @@ async function writeStoppedRun(input: {
     input.results,
     "stopped",
     input.reason,
-    input.backendLabel
+    input.backendLabel,
+    input.reconciliations
   );
   await writeFile(input.artifacts.finalReportPath, `${report}\n`);
 
@@ -604,7 +660,10 @@ function createRunTaskRunner(
   config: CucConfig,
   runtime: CliRuntime
 ): {
-  runTask: (task: Task) => Promise<WorkerResult>;
+  runTask: (
+    task: Task,
+    context: { worktreePath?: string }
+  ) => Promise<WorkerResult>;
   backendLabel: string;
   error?: string;
 } {
@@ -617,30 +676,30 @@ function createRunTaskRunner(
   }
 
   if (parsed.backend === "codex-cli") {
-    const backend = new CodexCliBackend({
-      model: codexCliModel(parsed, config),
-      cwd: runtime.cwd,
-      runner: runtime.commandRunner,
-      env: runtime.env
-    });
+    const model = codexCliModel(parsed, config);
 
     return {
       backendLabel: "Codex CLI",
-      runTask: (task) => backend.run(task)
+      runTask: (task, context) => new CodexCliBackend({
+        model,
+        cwd: context.worktreePath ?? runtime.cwd,
+        runner: runtime.commandRunner,
+        env: runtime.env
+      }).run(task)
     };
   }
 
   if (parsed.backend === "claude-cli") {
-    const backend = new ClaudeCliBackend({
-      model: claudeCliModel(parsed, config),
-      cwd: runtime.cwd,
-      runner: runtime.commandRunner,
-      env: runtime.env
-    });
+    const model = claudeCliModel(parsed, config);
 
     return {
       backendLabel: "Claude CLI",
-      runTask: (task) => backend.run(task)
+      runTask: (task, context) => new ClaudeCliBackend({
+        model,
+        cwd: context.worktreePath ?? runtime.cwd,
+        runner: runtime.commandRunner,
+        env: runtime.env
+      }).run(task)
     };
   }
 

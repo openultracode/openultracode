@@ -4,7 +4,7 @@ OpenUltraCode is an open-source local CLI for parallel coding agents with adapti
 
 The goal is simple: make multi-agent coding workflows cheaper, safer, and more controllable than sending every worker to the same expensive premium model.
 
-Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, and expose status/report commands. The next milestone is richer orchestrator planning.
+Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, capture per-worker reconciliation metadata, and expose status/report commands. The next milestone is production-grade cancellation and cost accounting.
 
 ## Why This Should Exist
 
@@ -57,6 +57,9 @@ Current implemented surface:
 - Opt-in `ouc run --backend codex-cli` execution through `codex exec` in read-only sandbox mode.
 - Opt-in `ouc run --backend claude-cli` execution through Claude print mode with plan permissions.
 - Worker result artifacts preserve backend attempt history.
+- Edit tasks in git repos get isolated worktrees under the run artifact directory.
+- Worker reconciliation artifacts preserve `diff.patch`, `changed-files.json`, and `reconciliation.json`.
+- Final reports include a reconciliation section with clean, changed, skipped, failed, or conflict status.
 - `final-report.md` creation, execution summaries, and preservation.
 - Machine-readable JSON output for plan, run, and status.
 - Deterministic fake backend for local execution and tests.
@@ -122,6 +125,10 @@ Example artifact layout:
 .ouc/runs/<run-id>/ledger.jsonl
 .ouc/runs/<run-id>/workers/<task-id>/response.md
 .ouc/runs/<run-id>/workers/<task-id>/result.json
+.ouc/runs/<run-id>/workers/<task-id>/diff.patch
+.ouc/runs/<run-id>/workers/<task-id>/changed-files.json
+.ouc/runs/<run-id>/workers/<task-id>/reconciliation.json
+.ouc/runs/<run-id>/worktrees/<task-id>/
 .ouc/runs/<run-id>/final-report.md
 ```
 
@@ -167,7 +174,7 @@ Status: OpenRouter, Codex CLI, and Claude CLI are wired behind explicit opt-in. 
 
 ### Milestone 4: Safe Mutating Work
 
-Status: planned.
+Status: isolated worktree creation, diff capture, changed-file metadata, and conflict classification are implemented. Automatic patch application is still planned.
 
 - Isolated git worktrees for edit tasks.
 - Worker file ownership.
@@ -194,7 +201,7 @@ OpenUltraCode is intentionally modular:
 - `WorkerPool`: runs tasks with concurrency, cost, and task limits.
 - `Backends`: wraps OpenRouter, Claude CLI, Codex CLI, and fake workers.
 - `WorktreeManager`: isolates mutating tasks.
-- `Reconciler`: applies safe diffs and records conflicts.
+- `Reconciler`: captures worker diffs, changed files, and conflict status before patches are applied.
 - `Ledger`: records run and task events.
 - `Reporter`: creates human and machine-readable outputs.
 
@@ -210,6 +217,7 @@ Useful contributions right now:
 - Add fixture repos for integration tests.
 - Harden config validation and error messages.
 - Improve docs for model routing and safety.
+- Implement opt-in clean patch application after reconciliation.
 
 Good first issue shape:
 

@@ -1,7 +1,11 @@
 import { runCli } from "../src/cli.js";
+import { execFile } from "node:child_process";
 import { mkdir, mkdtemp, readFile, stat, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
+import { promisify } from "node:util";
+
+const execFileAsync = promisify(execFile);
 
 test("runCli prints help with primary commands", async () => {
   const lines: string[] = [];
@@ -366,14 +370,18 @@ test("runCli run executes planned tasks with the fake backend and writes run art
   expect(ledgerLines.map((line) => line.event)).toEqual([
     "plan_created",
     "task_started",
+    "task_reconciled",
     "task_finished",
     "task_started",
+    "task_reconciled",
     "task_finished",
     "run_finished"
   ]);
   expect(ledgerLines.filter((line) => line.taskId).map((line) => line.taskId)).toEqual([
     "task_1",
     "task_1",
+    "task_1",
+    "task_2",
     "task_2",
     "task_2"
   ]);
@@ -383,6 +391,88 @@ test("runCli run executes planned tasks with the fake backend and writes run art
   expect(report).toContain("- Succeeded tasks: 2");
   expect(report).toContain("task_1");
   expect(report).toContain("task_2");
+});
+
+test("runCli run captures reconciliation artifacts for edit-task worktrees", async () => {
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-reconcile-"));
+  await mkdir(join(projectRoot, "src"), { recursive: true });
+  await mkdir(join(projectRoot, "tests"), { recursive: true });
+  await writeFile(join(projectRoot, "package.json"), "{}");
+  await writeFile(join(projectRoot, "src", "cli.ts"), "export {};");
+  await writeFile(join(projectRoot, "tests", "cli.test.ts"), "test('ok', () => {});");
+  await execFileAsync("git", ["init"], { cwd: projectRoot });
+  await execFileAsync("git", ["config", "user.email", "test@example.com"], {
+    cwd: projectRoot
+  });
+  await execFileAsync("git", ["config", "user.name", "OpenUltraCode Test"], {
+    cwd: projectRoot
+  });
+  await execFileAsync("git", ["add", "."], { cwd: projectRoot });
+  await execFileAsync("git", ["commit", "-m", "fixture"], { cwd: projectRoot });
+
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+
+  const exitCode = await runCli(
+    [
+      "node",
+      "ouc",
+      "run",
+      "implement report command and test it",
+      "--backend",
+      "fake",
+      "--run-id",
+      "run_reconcile",
+      "--json"
+    ],
+    {
+      cwd: projectRoot,
+      stdout: (line) => stdout.push(line),
+      stderr: (line) => stderr.push(line)
+    }
+  );
+  const output = JSON.parse(stdout.join("\n")) as {
+    status: string;
+    finalReportPath: string;
+  };
+  const runDir = join(projectRoot, ".ouc", "runs", "run_reconcile");
+  const editReconciliation = JSON.parse(
+    await readFile(join(runDir, "workers", "task_1", "reconciliation.json"), "utf8")
+  ) as {
+    status: string;
+    changedFiles: string[];
+    worktreePath: string;
+    diffPath: string;
+  };
+  const testReconciliation = JSON.parse(
+    await readFile(join(runDir, "workers", "task_2", "reconciliation.json"), "utf8")
+  ) as {
+    status: string;
+    changedFiles: string[];
+  };
+  const report = await readFile(output.finalReportPath, "utf8");
+
+  expect(exitCode).toBe(0);
+  expect(stderr).toEqual([]);
+  expect(output.status).toBe("succeeded");
+  expect(editReconciliation).toMatchObject({
+    status: "clean",
+    changedFiles: [],
+    worktreePath: join(runDir, "worktrees", "task_1"),
+    diffPath: join(runDir, "workers", "task_1", "diff.patch")
+  });
+  expect(testReconciliation).toMatchObject({
+    status: "skipped",
+    changedFiles: []
+  });
+  await expect(stat(editReconciliation.worktreePath)).resolves.toBeDefined();
+  await expect(readFile(editReconciliation.diffPath, "utf8")).resolves.toBe("");
+  await expect(
+    JSON.parse(await readFile(join(runDir, "workers", "task_1", "changed-files.json"), "utf8"))
+  ).toEqual([]);
+  expect(report).toContain("## Reconciliation");
+  expect(report).toContain("- task_1: no changes");
+  expect(report).toContain("- task_2: skipped");
 });
 
 test("runCli run executes planned tasks with the OpenRouter backend when explicitly selected", async () => {
@@ -953,10 +1043,12 @@ test("runCli run can stop after a fake task and report partial execution", async
   expect(ledgerLines.map((line) => line.event)).toEqual([
     "plan_created",
     "task_started",
+    "task_reconciled",
     "task_finished",
     "run_stopped"
   ]);
   expect(ledgerLines.filter((line) => line.taskId).map((line) => line.taskId)).toEqual([
+    "task_1",
     "task_1",
     "task_1"
   ]);
