@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 18:27 EDT
+Last updated: 2026-06-05 18:31 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, and contributor issue templates plus a release checklist are present.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, contributor issue templates plus a release checklist are present, and the final release audit is recorded.
 
 Implemented:
 
@@ -61,11 +61,12 @@ Implemented:
 - Runtime `limits.maxCostUsd` enforcement from actual backend result costs.
 - GitHub issue templates for bugs, feature requests, and scoped task proposals.
 - Release-readiness checklist in `docs/RELEASE_CHECKLIST.md`.
+- Release audit in `docs/RELEASE_AUDIT.md`.
 - Test suite covering current behavior.
 
 Not implemented yet:
 
-- Final release-readiness audit and package publishing notes.
+- Human license decision before package release.
 
 ## Verification Snapshot
 
@@ -130,13 +131,13 @@ Latest known result:
 
 ## Next Best Task
 
-Perform a final release-readiness audit.
+Resolve the public release license decision.
 
 Expected slice:
 
-- Confirm every public claim maps to implemented behavior.
-- Confirm package contents, hygiene scans, and verification commands are current.
-- Record any remaining blockers before declaring the project ready.
+- Confirm MIT is acceptable for public release, or choose a replacement.
+- Update `LICENSE`, `package.json`, and public docs if the license changes.
+- Tag or publish only after this decision is complete.
 
 ## Human Decisions Needed
 

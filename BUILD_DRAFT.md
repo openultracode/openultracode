@@ -1,6 +1,6 @@
 # Build Draft
 
-Timestamp: 2026-06-05 18:27 EDT
+Timestamp: 2026-06-05 18:31 EDT
 
 GitHub: https://github.com/AryaVora621/openultracode
 
@@ -69,6 +69,7 @@ Included:
 - Public contributor docs: `README.md`, `CONTRIBUTING.md`, `PROJECT_STATUS.md`, and `AGENTS.md`.
 - GitHub issue templates for bugs, feature requests, and scoped task proposals.
 - Release-readiness checklist in `docs/RELEASE_CHECKLIST.md`.
+- Release audit in `docs/RELEASE_AUDIT.md`.
 
 ## Verification Evidence
 
@@ -154,4 +155,4 @@ Observed results:
 
 ## Next Step
 
-Perform a final release-readiness audit.
+Resolve the public release license decision.
