@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 16:36 EDT
+Timestamp: 2026-06-05 16:46 EDT
 
 ## Completed
 
@@ -56,14 +56,20 @@ Timestamp: 2026-06-05 16:36 EDT
 - Verified stale old-name search is clean.
 - Verified `npm test`, `npm run typecheck`, `npm run build`, built `ouc` plan/status smokes, and `npm pack --dry-run`.
 - Committed and pushed the rename/docs update as `7ca9648` with message `Rename CLI to ouc and add contributor docs`.
+- Stored the user-provided OpenRouter key only in ignored local `.env` with `0600` permissions, and scrubbed matching key entries from known shell history/session files.
+- Added fake-backend `ouc run "<goal>" --backend fake` orchestration.
+- Wrote worker `response.md` and `result.json` artifacts for each fake task.
+- Added task-level ledger events and final run reports for fake runs.
+- Added protection against overwriting an existing `final-report.md` during `ouc run`.
+- Verified `npm test`, `npm run typecheck`, `npm run build`, built `ouc run --backend fake` smoke, `npm pack --dry-run`, secret scan excluding `.env`, stale old-name scan, and `git diff --check`.
 
 ## Current In-Progress State
 
-- None. Rename is committed and pushed. Local folder rename to `ouc` remains as the final filesystem step.
+- None. Fake-backend `ouc run` orchestration is implemented and verified locally.
 
 ## Next Action
 
-- Continue Phase 2 with fake-backend run orchestration before external model calls.
+- Commit and push the fake-backend run milestone, then begin budget and max-task enforcement for fake runs.
 
 ## Human Decisions Needed
 

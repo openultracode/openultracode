@@ -3,9 +3,9 @@
 ## Open
 
 - Decide package license for public release if MIT default should change.
+- Add budget and max-task enforcement to fake runs before external model calls.
 - Expand router fallback chains for real backend failure modes.
 - Implement richer orchestrator plan parsing beyond deterministic local heuristics.
-- Implement fake-backend run orchestration before external model calls.
 - Implement worker execution backends.
 - Implement worktree reconciliation and reporting.
 
@@ -28,3 +28,4 @@
 - [Codex] Added `ouc plan` validation for missing `--run-id` values.
 - [Codex] Published the verified source to public GitHub repo `https://github.com/AryaVora621/openultracode`.
 - [Codex] Renamed the package, CLI alias, artifact directory, docs, and bin file around `ouc` and OpenUltraCode.
+- [Codex] Implemented fake-backend `ouc run` orchestration with worker artifacts, task ledger events, final reports, and overwrite protection.

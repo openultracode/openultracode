@@ -4,7 +4,7 @@ OpenUltraCode is an open-source local CLI for parallel coding agents with adapti
 
 The goal is simple: make multi-agent coding workflows cheaper, safer, and more controllable than sending every worker to the same expensive premium model.
 
-Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, preserve local run artifacts, and expose status/report commands. The next milestone is fake-backend execution, then real CLI/API backends.
+Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs, preserve local run artifacts, and expose status/report commands. The next milestone is budget and cancellation controls before real CLI/API backends.
 
 ## Why This Should Exist
 
@@ -42,9 +42,12 @@ Current implemented surface:
 - Free-first routing with cheap fallback for low-risk tasks.
 - Strong routing for edit and test tasks.
 - `ledger.jsonl` creation during planning.
-- `final-report.md` creation and preservation.
-- Machine-readable JSON output for plan and status.
-- Deterministic fake backend for tests.
+- `ouc run "<goal>" --backend fake` local execution.
+- Task-level ledger events during fake runs.
+- Worker response and result artifacts under each run directory.
+- `final-report.md` creation, execution summaries, and preservation.
+- Machine-readable JSON output for plan, run, and status.
+- Deterministic fake backend for local execution and tests.
 
 ## Try It Locally
 
@@ -67,6 +70,12 @@ Create a machine-readable plan:
 node dist/bin/ouc.js plan "implement a small change and test it" --json
 ```
 
+Run the safe fake backend:
+
+```bash
+node dist/bin/ouc.js run "implement a small change and test it" --backend fake --json
+```
+
 Inspect a run:
 
 ```bash
@@ -81,7 +90,7 @@ Example artifact layout:
 .ouc/runs/<run-id>/plan.json
 .ouc/runs/<run-id>/ledger.jsonl
 .ouc/runs/<run-id>/workers/<task-id>/response.md
-.ouc/runs/<run-id>/workers/<task-id>/diff.patch
+.ouc/runs/<run-id>/workers/<task-id>/result.json
 .ouc/runs/<run-id>/final-report.md
 ```
 
@@ -101,12 +110,13 @@ Status: mostly implemented.
 
 ### Milestone 2: Fake-Backend Runs
 
-Status: next.
+Status: fake local execution implemented. Budget and cancellation stops are still planned.
 
-- Implement `ouc run` using fake workers first.
-- Write worker responses under run artifacts.
-- Append task-level ledger events.
-- Generate final reports from completed fake runs.
+- Implemented `ouc run` using fake workers first.
+- Writes worker responses and results under run artifacts.
+- Appends task-level ledger events.
+- Generates final reports from completed fake runs.
+- Refuses to overwrite an existing `final-report.md`.
 - Make cancellation and budget stops visible in artifacts.
 
 ### Milestone 3: Real Backends
@@ -152,17 +162,17 @@ OpenUltraCode is intentionally modular:
 - `Ledger`: records run and task events.
 - `Reporter`: creates human and machine-readable outputs.
 
-The implementation is not all there yet. The repo currently contains the planning foundation and test harness needed to build those pieces safely.
+The implementation is not all there yet. The repo currently contains the planning foundation, local artifact flow, and fake execution harness needed to build those pieces safely.
 
 ## Help Wanted
 
 Useful contributions right now:
 
-- Implement fake-backend `ouc run` orchestration.
 - Improve deterministic planning heuristics.
 - Add budget and max-task enforcement.
-- Add task-level ledger events.
-- Add report generation from worker artifacts.
+- Add cancellation and partial-run reporting.
+- Extract the worker-pool abstraction behind fake runs.
+- Add OpenRouter backend configuration and tests.
 - Add fixture repos for integration tests.
 - Harden config validation and error messages.
 - Improve docs for model routing and safety.

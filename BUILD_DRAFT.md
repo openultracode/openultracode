@@ -1,13 +1,13 @@
 # Build Draft
 
-Timestamp: 2026-06-05 16:36 EDT
+Timestamp: 2026-06-05 16:46 EDT
 
 GitHub: https://github.com/AryaVora621/openultracode
 
 ## Current Draft Scope
 
 Phase 1 foundation is implemented as a local TypeScript CLI package.
-The current draft also includes the first bounded Phase 2 local-artifact commands.
+The current draft also includes the first bounded Phase 2 fake-backend execution path.
 
 Included:
 
@@ -26,6 +26,10 @@ Included:
 - `ouc report <run-id>` command that prints a markdown summary for planned runs.
 - `ledger.jsonl` creation during `ouc plan`.
 - `final-report.md` persistence during `ouc report`, while preserving existing final reports.
+- `ouc run "<goal>" --backend fake` execution against deterministic fake workers.
+- Worker `response.md` and `result.json` artifacts for fake runs.
+- Task-level ledger events and final execution reports for fake runs.
+- `ouc run` refuses to overwrite an existing `final-report.md`.
 - Deterministic edit-goal splitting into edit and dependent test tasks.
 - Edit task source scopes prefer implementation files over docs and tracker files.
 - JSON output modes for `ouc plan ... --json` and `ouc status <run-id> --json`.
@@ -48,12 +52,13 @@ node dist/bin/ouc.js status run_smoke_20260605_1312
 node dist/bin/ouc.js report run_smoke_20260605_1312
 node dist/bin/ouc.js plan "implement JSON output and test it" --run-id run_smoke_planjson_20260605_1329 --json
 node dist/bin/ouc.js status run_smoke_artifacts_20260605_1322 --json
+node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_fake --json
 npm pack --dry-run
 ```
 
 Observed results:
 
-- `npm test`: 8 test files, 19 tests passed.
+- `npm test`: 8 test files, 21 tests passed.
 - `npm run typecheck`: exit 0.
 - `npm run build`: exit 0.
 - `node dist/bin/ouc.js --help`: printed the CLI help with `plan`, `run`, `status`, and `report`.
@@ -64,9 +69,10 @@ Observed results:
 - `node dist/bin/ouc.js report run_smoke_20260605_1312`: printed a markdown run summary and noted no worker execution has run yet.
 - `node dist/bin/ouc.js plan "implement JSON output and test it" --run-id run_smoke_planjson_20260605_1329 --json`: printed run id, goal, two-task count, cost estimate, plan path, and ledger path as JSON.
 - `node dist/bin/ouc.js status run_smoke_artifacts_20260605_1322 --json`: printed machine-readable local run state with ledger and final report presence.
+- `node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_fake --json`: executed two fake tasks, wrote worker artifacts, task ledger events, and `final-report.md`.
 - `ouc plan` argument validation rejects a missing `--run-id` value.
 - `npm pack --dry-run`: package is named `openultracode`, includes 12 runtime files, and only emits `dist/bin/ouc.js` for the CLI binary.
 
 ## Next Step
 
-Continue Phase 2 by implementing real backend execution behind the existing plan artifacts, starting with fake-backend run orchestration before external model calls.
+Continue Phase 2 by adding budget and max-task enforcement to fake runs before any external model calls.

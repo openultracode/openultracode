@@ -78,4 +78,4 @@ node dist/bin/ouc.js plan "audit this repo for TODOs" --json
 
 ## Current Priority
 
-The next major implementation task is fake-backend `ouc run` orchestration. Do that before wiring OpenRouter, Claude CLI, or Codex CLI backends.
+The next major implementation task is budget and max-task enforcement for fake runs. Do that before wiring OpenRouter, Claude CLI, or Codex CLI backends.

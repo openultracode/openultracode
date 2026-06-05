@@ -1,10 +1,12 @@
-import { access, readFile, writeFile } from "node:fs/promises";
+import { access, mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
+import { FakeBackend } from "./backends/fake.js";
 import { loadConfig } from "./config.js";
 import { createDryRunPlan, type DryRunPlan } from "./planner.js";
 import { inspectRepository } from "./repo-inspector.js";
 import { createRunArtifacts } from "./run-artifacts.js";
+import type { Task, WorkerResult } from "./types.js";
 
 export type CliRuntime = {
   cwd: string;
@@ -38,6 +40,10 @@ export async function runCli(
 
   if (command === "plan") {
     return runPlan(args.slice(1), runtime);
+  }
+
+  if (command === "run") {
+    return runRun(args.slice(1), runtime);
   }
 
   if (command === "status") {
@@ -107,6 +113,125 @@ async function runPlan(args: string[], runtime: CliRuntime): Promise<number> {
   runtime.stdout(`Created dry-run plan ${artifacts.runId}`);
   runtime.stdout(artifacts.planPath);
   return 0;
+}
+
+async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
+  const parsed = parseRunArgs(args);
+
+  if (parsed.error) {
+    runtime.stderr(parsed.error);
+    return 1;
+  }
+
+  if (!parsed.goal) {
+    runtime.stderr('Usage: ouc run "<goal>" --backend fake');
+    return 1;
+  }
+
+  if (parsed.backend !== "fake") {
+    runtime.stderr("Only --backend fake is implemented right now.");
+    return 1;
+  }
+
+  const config = await loadConfig(runtime.cwd);
+  const inspection = await inspectRepository(runtime.cwd);
+  const artifacts = await createRunArtifacts(runtime.cwd, parsed.runId);
+
+  if (await fileExists(artifacts.finalReportPath)) {
+    runtime.stderr(`Run "${artifacts.runId}" already has a final report.`);
+    return 1;
+  }
+
+  const plan = createDryRunPlan({
+    runId: artifacts.runId,
+    goal: parsed.goal,
+    config,
+    inspection
+  });
+  const ledgerEntries: Array<Record<string, unknown>> = [
+    {
+      event: "plan_created",
+      runId: artifacts.runId,
+      createdAt: plan.createdAt,
+      taskCount: plan.tasks.length,
+      estimatedCostUsd: plan.estimatedCostUsd
+    }
+  ];
+  const results: WorkerResult[] = [];
+
+  await writeFile(artifacts.planPath, `${JSON.stringify(plan, null, 2)}\n`);
+
+  for (const task of plan.tasks) {
+    const startedAt = new Date().toISOString();
+    ledgerEntries.push({
+      event: "task_started",
+      runId: artifacts.runId,
+      taskId: task.id,
+      modelTier: task.modelTier,
+      startedAt
+    });
+
+    const backend = new FakeBackend({ backend: "fake", model: "fake-model" });
+    const result = await backend.run(task);
+    results.push(result);
+    await writeWorkerArtifacts(artifacts.workersDir, task, result);
+
+    ledgerEntries.push({
+      event: "task_finished",
+      runId: artifacts.runId,
+      taskId: task.id,
+      status: result.status,
+      totalTokens: result.usage.totalTokens,
+      costUsd: result.costUsd,
+      finishedAt: new Date().toISOString()
+    });
+  }
+
+  const succeeded = results.filter((result) => result.status === "succeeded").length;
+  const failed = results.length - succeeded;
+  const status = failed === 0 ? "succeeded" : "failed";
+  ledgerEntries.push({
+    event: "run_finished",
+    runId: artifacts.runId,
+    status,
+    taskCount: plan.tasks.length,
+    succeeded,
+    failed,
+    totalCostUsd: sumCosts(results),
+    finishedAt: new Date().toISOString()
+  });
+
+  await writeFile(
+    artifacts.ledgerPath,
+    `${ledgerEntries.map((entry) => JSON.stringify(entry)).join("\n")}\n`
+  );
+  const report = renderExecutionReport(plan, results, status);
+  await writeFile(artifacts.finalReportPath, `${report}\n`);
+
+  if (parsed.json) {
+    runtime.stdout(
+      JSON.stringify(
+        {
+          runId: artifacts.runId,
+          status,
+          taskCount: plan.tasks.length,
+          succeeded,
+          failed,
+          totalCostUsd: sumCosts(results),
+          planPath: artifacts.planPath,
+          ledgerPath: artifacts.ledgerPath,
+          finalReportPath: artifacts.finalReportPath
+        },
+        null,
+        2
+      )
+    );
+    return 0;
+  }
+
+  runtime.stdout(`Run ${artifacts.runId} ${status}`);
+  runtime.stdout(artifacts.finalReportPath);
+  return status === "succeeded" ? 0 : 1;
 }
 
 async function runStatus(args: string[], runtime: CliRuntime): Promise<number> {
@@ -240,6 +365,61 @@ function renderPlanReport(plan: DryRunPlan): string {
   ].join("\n");
 }
 
+function renderExecutionReport(
+  plan: DryRunPlan,
+  results: WorkerResult[],
+  status: string
+): string {
+  const resultByTask = new Map(results.map((result) => [result.taskId, result]));
+  const taskLines = plan.tasks.map((task) => {
+    const result = resultByTask.get(task.id);
+    const resultText = result
+      ? `${result.status}, ${result.usage.totalTokens} tokens, $${result.costUsd.toFixed(2)}`
+      : "not run";
+    return `- ${task.id}: ${task.title} (${task.intent}, ${task.modelTier}) - ${resultText}`;
+  });
+  const succeeded = results.filter((result) => result.status === "succeeded").length;
+  const failed = results.length - succeeded;
+
+  return [
+    "# OpenUltraCode Run Report",
+    "",
+    `- Run: \`${plan.runId}\``,
+    `- Goal: ${plan.goal}`,
+    `- Created: ${plan.createdAt}`,
+    `- Status: ${status}`,
+    `- Planned tasks: ${plan.tasks.length}`,
+    `- Succeeded tasks: ${succeeded}`,
+    `- Failed tasks: ${failed}`,
+    `- Total cost: $${sumCosts(results).toFixed(2)}`,
+    "",
+    "## Tasks",
+    "",
+    ...taskLines,
+    "",
+    "## Execution",
+    "",
+    "Fake backend execution completed locally."
+  ].join("\n");
+}
+
+async function writeWorkerArtifacts(
+  workersDir: string,
+  task: Task,
+  result: WorkerResult
+): Promise<void> {
+  const taskDir = join(workersDir, task.id);
+  await mkdir(taskDir, { recursive: true });
+  await writeFile(join(taskDir, "response.md"), `${result.response}\n`);
+  await writeFile(join(taskDir, "result.json"), `${JSON.stringify(result, null, 2)}\n`);
+}
+
+function sumCosts(results: WorkerResult[]): number {
+  return Number(
+    results.reduce((sum, result) => sum + result.costUsd, 0).toFixed(6)
+  );
+}
+
 function parsePlanArgs(args: string[]): {
   goal: string;
   runId?: string;
@@ -277,6 +457,65 @@ function parsePlanArgs(args: string[]): {
   return {
     goal: goalParts.join(" ").trim(),
     runId,
+    json
+  };
+}
+
+function parseRunArgs(args: string[]): {
+  goal: string;
+  runId?: string;
+  backend: "fake";
+  json: boolean;
+  error?: string;
+} {
+  const goalParts: string[] = [];
+  let runId: string | undefined;
+  let backend: "fake" = "fake";
+  let json = false;
+
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+
+    if (arg === "--json") {
+      json = true;
+      continue;
+    }
+
+    if (arg === "--run-id") {
+      if (!args[index + 1] || args[index + 1].startsWith("--")) {
+        return {
+          goal: goalParts.join(" ").trim(),
+          backend,
+          json,
+          error: "--run-id requires a value"
+        };
+      }
+      runId = args[index + 1];
+      index += 1;
+      continue;
+    }
+
+    if (arg === "--backend") {
+      if (args[index + 1] !== "fake") {
+        return {
+          goal: goalParts.join(" ").trim(),
+          backend,
+          json,
+          error: "Only --backend fake is implemented right now."
+        };
+      }
+      backend = "fake";
+      index += 1;
+      continue;
+    }
+
+    goalParts.push(arg);
+  }
+
+  return {
+    goal: goalParts.join(" ").trim(),
+    runId,
+    backend,
     json
   };
 }
