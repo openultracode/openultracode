@@ -9,6 +9,7 @@ import {
 import { FakeBackend } from "./backends/fake.js";
 import { OpenRouterBackend, type OpenRouterFetch } from "./backends/openrouter.js";
 import { loadConfig } from "./config.js";
+import { findFileOwnershipViolation } from "./file-ownership.js";
 import { createDryRunPlan, type DryRunPlan } from "./planner.js";
 import { inspectRepository } from "./repo-inspector.js";
 import { createRunArtifacts, type RunArtifacts } from "./run-artifacts.js";
@@ -35,7 +36,7 @@ export type CliRuntime = {
 type RunBackend = "fake" | "openrouter" | "codex-cli" | "claude-cli";
 
 type RunLimitViolation = {
-  kind: "maxTasks" | "maxCostUsd";
+  kind: "fileOwnership" | "maxTasks" | "maxCostUsd";
   reason: string;
 };
 
@@ -112,6 +113,7 @@ async function runPlan(args: string[], runtime: CliRuntime): Promise<number> {
     runId: artifacts.runId,
     createdAt: plan.createdAt,
     taskCount: plan.tasks.length,
+    fileOwnership: plan.fileOwnership,
     estimatedCostUsd: plan.estimatedCostUsd
   };
 
@@ -181,6 +183,7 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
       runId: artifacts.runId,
       createdAt: plan.createdAt,
       taskCount: plan.tasks.length,
+      fileOwnership: plan.fileOwnership,
       estimatedCostUsd: plan.estimatedCostUsd
     }
   ];
@@ -693,6 +696,14 @@ function findRunLimitViolation(
   plan: DryRunPlan,
   config: CucConfig
 ): RunLimitViolation | undefined {
+  const ownershipViolation = findFileOwnershipViolation(plan.fileOwnership);
+  if (ownershipViolation) {
+    return {
+      kind: "fileOwnership",
+      reason: ownershipViolation.reason
+    };
+  }
+
   if (plan.tasks.length > config.limits.maxTasks) {
     return {
       kind: "maxTasks",

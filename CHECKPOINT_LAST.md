@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 18:10 EDT
+Timestamp: 2026-06-05 18:19 EDT
 
 ## Completed
 
@@ -148,14 +148,21 @@ Timestamp: 2026-06-05 18:10 EDT
 - Updated README, AGENTS, build draft, project status, and task queue for the patch-application slice.
 - Verified `npm test`, `npm run typecheck`, `npm run build`, built clean-patch application smoke, and `npm pack --dry-run`.
 - Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, `.env` ignore and permissions, and `git diff --check`.
+- Added edit-task file ownership analysis and overlap detection.
+- Added file ownership metadata to plan artifacts and `plan_created` ledger events.
+- Added pre-execution blocking for overlapping edit file scopes with `fileOwnership` as the blocked limit.
+- Added ownership tests for analyzer output, planner metadata, CLI blocking, ledger metadata, and worker non-execution.
+- Updated README, AGENTS, build draft, project status, and task queue for the ownership slice.
+- Verified `npm test`, `npm run typecheck`, `npm run build`, built file-ownership block smoke, and `npm pack --dry-run`.
+- Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, `.env` ignore and permissions, and `git diff --check`.
 
 ## Current In-Progress State
 
-- None. The opt-in clean patch application slice is implemented and verified.
+- None. The file ownership enforcement slice is implemented and verified.
 
 ## Next Action
 
-- Implement file ownership enforcement for overlapping worker scopes.
+- Add provider-specific usage parsing for local CLI backends when structured usage is available.
 
 ## Human Decisions Needed
 

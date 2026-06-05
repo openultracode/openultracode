@@ -1,6 +1,6 @@
 # Build Draft
 
-Timestamp: 2026-06-05 18:10 EDT
+Timestamp: 2026-06-05 18:19 EDT
 
 GitHub: https://github.com/AryaVora621/openultracode
 
@@ -17,6 +17,7 @@ Included:
 - Typed config loading with safe defaults and zod validation.
 - Local run artifact directory helper for `.ouc/runs/<run-id>/`.
 - Initial task classification and model routing.
+- Edit-task file ownership metadata and overlap detection in plan artifacts.
 - Deterministic fake backend for worker tests.
 - CLI help entry point and built bin wrapper.
 - README and MIT license draft using the default plan recommendation.
@@ -54,6 +55,8 @@ Included:
 - Worker-pool `totalTokens` and `totalCostUsd` aggregation from actual worker results.
 - Run JSON, run ledgers, and final reports include token and cost totals.
 - Runtime `limits.maxCostUsd` enforcement from actual backend result costs.
+- Pre-execution blocking for overlapping edit file ownership.
+- File ownership metadata in `plan_created` ledger events.
 - Deterministic edit-goal splitting into edit and dependent test tasks.
 - Mixed implementation, test, and docs goals split into dependent code, verification, and docs tasks.
 - Documentation-only goals stay scoped to README and `docs/` files.
@@ -94,12 +97,13 @@ node dist/bin/ouc.js run "implement report command and test it" --backend fake -
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built cancellation smoke */'
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built actual-cost cap smoke */'
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built clean-patch application smoke */'
+node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built file-ownership block smoke */'
 npm pack --dry-run
 ```
 
 Observed results:
 
-- `npm test`: 13 test files, 54 tests passed.
+- `npm test`: 14 test files, 57 tests passed.
 - `npm run typecheck`: exit 0.
 - `npm run build`: exit 0.
 - `node dist/bin/ouc.js --help`: printed the CLI help with `plan`, `run`, `status`, and `report`.
@@ -135,9 +139,11 @@ Observed results:
 - Built actual-cost cap smoke returned exit 1 after one mocked OpenRouter call with status `stopped`, total cost `$0.04`, and total tokens `18`.
 - Patch application tests verified default no-apply behavior, CLI flag opt-in, config opt-in, `patch-application.json`, ledger events, final-report metadata, and safe refusal for conflict states.
 - Built clean-patch application smoke applied a mocked worktree change to the main checkout only when `--apply-clean-patches` was present.
+- File ownership tests verified edit-task ownership metadata, conflict detection, `plan_created` ledger metadata, and pre-worker blocking for overlapping edit scopes.
+- Built file-ownership block smoke returned exit 1 with status `blocked`, `limit` `fileOwnership`, and no worker result artifacts.
 - `ouc plan` argument validation rejects a missing `--run-id` value.
 - `npm pack --dry-run`: package is named `openultracode`, includes 14 built runtime files, 17 files total, and only emits `dist/bin/ouc.js` for the CLI binary.
 
 ## Next Step
 
-Continue Phase 2 by implementing file ownership enforcement for overlapping worker scopes.
+Continue Phase 2 by adding provider-specific usage parsing for local CLI backends when structured usage is available.

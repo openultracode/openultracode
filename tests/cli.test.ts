@@ -959,6 +959,79 @@ test("runCli run refuses to overwrite an existing final report", async () => {
   );
 });
 
+test("runCli run blocks overlapping edit file ownership before worker execution", async () => {
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-ownership-"));
+  await writeFile(join(projectRoot, "README.md"), "# Fixture\n");
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+
+  const exitCode = await runCli(
+    [
+      "node",
+      "ouc",
+      "run",
+      "implement report command, add tests, and update README docs",
+      "--backend",
+      "fake",
+      "--run-id",
+      "run_ownership_conflict",
+      "--json"
+    ],
+    {
+      cwd: projectRoot,
+      stdout: (line) => stdout.push(line),
+      stderr: (line) => stderr.push(line)
+    }
+  );
+  const output = JSON.parse(stdout.join("\n")) as {
+    status: string;
+    reason: string;
+    ledgerPath: string;
+    finalReportPath: string;
+  };
+  const runDir = join(projectRoot, ".ouc", "runs", "run_ownership_conflict");
+  const plan = JSON.parse(await readFile(join(runDir, "plan.json"), "utf8")) as {
+    fileOwnership: {
+      hasConflicts: boolean;
+      conflicts: Array<{ path: string; ownerTaskIds: string[] }>;
+    };
+  };
+  const ledgerLines = (await readFile(output.ledgerPath, "utf8"))
+    .trim()
+    .split("\n")
+    .map((line) => JSON.parse(line) as { event: string; limit?: string; reason?: string });
+  const report = await readFile(output.finalReportPath, "utf8");
+
+  expect(exitCode).toBe(1);
+  expect(stderr).toEqual([]);
+  expect(output).toMatchObject({
+    status: "blocked",
+    reason: "File ownership conflict: README.md is claimed by task_1, task_3."
+  });
+  expect(plan.fileOwnership).toMatchObject({
+    hasConflicts: true,
+    conflicts: [
+      {
+        path: "README.md",
+        ownerTaskIds: ["task_1", "task_3"]
+      }
+    ]
+  });
+  expect(ledgerLines).toMatchObject([
+    { event: "plan_created" },
+    {
+      event: "run_blocked",
+      limit: "fileOwnership",
+      reason: output.reason
+    }
+  ]);
+  expect(report).toContain("- Status: blocked");
+  expect(report).toContain(output.reason);
+  await expect(stat(join(runDir, "workers", "task_1", "result.json"))).rejects.toMatchObject({
+    code: "ENOENT"
+  });
+});
+
 test("runCli run blocks plans that exceed maxTasks before worker execution", async () => {
   const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-max-tasks-"));
   await mkdir(join(projectRoot, "src"), { recursive: true });

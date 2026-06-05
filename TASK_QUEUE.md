@@ -3,7 +3,7 @@
 ## Open
 
 - Decide package license for public release if MIT default should change.
-- Implement file ownership enforcement for overlapping worker scopes.
+- Add provider-specific usage parsing for local CLI backends when structured usage is available.
 
 ## In-Progress
 
@@ -37,3 +37,4 @@
 - [Codex] Implemented real cancellation and signal handling with stopped-run artifact preservation.
 - [Codex] Implemented runtime token and cost accounting with actual-cost cap stopping.
 - [Codex] Implemented opt-in clean patch application after reconciliation.
+- [Codex] Implemented file ownership enforcement for overlapping worker scopes.

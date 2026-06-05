@@ -87,6 +87,22 @@ test("createDryRunPlan splits edit goals into edit and dependent test tasks", as
   });
   expect(plan.routes.task_1.primary.backend).toBe("codex-cli");
   expect(plan.routes.task_2.primary.backend).toBe("codex-cli");
+  expect(plan.fileOwnership).toEqual({
+    hasConflicts: false,
+    files: [
+      {
+        path: "src/cli.ts",
+        ownerTaskIds: ["task_1"],
+        conflict: false
+      },
+      {
+        path: "src/planner.ts",
+        ownerTaskIds: ["task_1"],
+        conflict: false
+      }
+    ],
+    conflicts: []
+  });
   expect(plan.estimatedCostUsd).toBe(0.02);
 });
 

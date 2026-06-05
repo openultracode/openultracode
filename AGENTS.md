@@ -78,4 +78,4 @@ node dist/bin/ouc.js plan "audit this repo for TODOs" --json
 
 ## Current Priority
 
-The next major implementation task is file ownership enforcement for overlapping worker scopes. Do not make live external model calls by default.
+The next major implementation task is provider-specific usage parsing for local CLI backends when structured usage is available. Do not make live external model calls by default.

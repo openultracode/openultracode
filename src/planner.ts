@@ -1,5 +1,6 @@
 import type { CucConfig, Task, TaskRoute } from "./types.js";
 import type { RepositoryInspection } from "./repo-inspector.js";
+import { analyzeFileOwnership, type FileOwnershipReport } from "./file-ownership.js";
 import { classifyTask, routeTask } from "./router.js";
 
 export type DryRunPlan = {
@@ -9,6 +10,7 @@ export type DryRunPlan = {
   repo: RepositoryInspection;
   tasks: Task[];
   routes: Record<string, TaskRoute>;
+  fileOwnership: FileOwnershipReport;
   estimatedCostUsd: number;
   notes: string[];
 };
@@ -26,6 +28,7 @@ export function createDryRunPlan(input: CreateDryRunPlanInput): DryRunPlan {
   const routes = Object.fromEntries(
     tasks.map((task) => [task.id, routeTask(task, input.config)])
   );
+  const fileOwnership = analyzeFileOwnership(tasks);
 
   return {
     runId: input.runId,
@@ -34,6 +37,7 @@ export function createDryRunPlan(input: CreateDryRunPlanInput): DryRunPlan {
     repo: input.inspection,
     tasks,
     routes,
+    fileOwnership,
     estimatedCostUsd: estimatePlanCost(Object.values(routes)),
     notes: [
       "Deterministic local dry-run plan. Real orchestrator parsing is not wired yet."

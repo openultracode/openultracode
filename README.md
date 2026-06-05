@@ -4,7 +4,7 @@ OpenUltraCode is an open-source local CLI for parallel coding agents with adapti
 
 The goal is simple: make multi-agent coding workflows cheaper, safer, and more controllable than sending every worker to the same expensive premium model.
 
-Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, capture per-worker reconciliation metadata, apply clean patches only after explicit opt-in, enforce actual cost caps, stop cleanly on cancellation, and expose status/report commands. The next milestone is file ownership enforcement.
+Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, enforce file ownership for mutating tasks, capture per-worker reconciliation metadata, apply clean patches only after explicit opt-in, enforce actual cost caps, stop cleanly on cancellation, and expose status/report commands. The next milestone is provider-specific usage parsing for local CLI backends.
 
 ## Why This Should Exist
 
@@ -37,6 +37,7 @@ Current implemented surface:
 - Local run directories under `.ouc/runs/<run-id>/`.
 - Deterministic repo inspection.
 - Dry-run planning with task routing.
+- Plan artifacts include edit-task file ownership metadata and overlap detection.
 - Edit goals split into edit and dependent test tasks.
 - Mixed implementation, test, and docs goals split into dependent code, verification, and documentation tasks.
 - Documentation-only goals stay scoped to README and `docs/` files.
@@ -60,6 +61,8 @@ Current implemented surface:
 - Edit tasks in git repos get isolated worktrees under the run artifact directory.
 - Worker reconciliation artifacts preserve `diff.patch`, `changed-files.json`, and `reconciliation.json`.
 - Final reports include a reconciliation section with clean, changed, skipped, failed, or conflict status.
+- Runs block before worker execution when two edit tasks claim the same file.
+- `plan_created` ledgers include file ownership metadata for auditability.
 - `--apply-clean-patches` and `patchApplication.applyCleanPatches` opt in to applying clean changed patches.
 - Patch application writes `patch-application.json`, ledger events, and final-report metadata.
 - `SIGINT` and `SIGTERM` cancellation are converted into stopped runs that preserve partial artifacts.
@@ -186,13 +189,13 @@ Status: OpenRouter, Codex CLI, and Claude CLI are wired behind explicit opt-in. 
 
 ### Milestone 4: Safe Mutating Work
 
-Status: isolated worktree creation, diff capture, changed-file metadata, conflict classification, and opt-in clean patch application are implemented. File ownership enforcement is still planned.
+Status: isolated worktree creation, file ownership enforcement, diff capture, changed-file metadata, conflict classification, and opt-in clean patch application are implemented.
 
 - Isolated git worktrees for edit tasks.
+- Worker file ownership.
 - Diff capture per worker.
 - Clean patch application behind explicit CLI or config opt-in.
 - Conflict reporting.
-- Worker file ownership.
 
 ### Milestone 5: Polish And Packaging
 
@@ -224,12 +227,11 @@ The implementation is not all there yet. The repo currently contains the plannin
 Useful contributions right now:
 
 - Add fixture repos that stress deterministic planning heuristics.
-- Add file ownership enforcement for overlapping worker scopes.
 - Add provider-specific usage parsing for local CLI backends when structured usage is available.
 - Add fixture repos for integration tests.
 - Harden config validation and error messages.
 - Improve docs for model routing and safety.
-- Implement file ownership enforcement for overlapping worker scopes.
+- Add provider-specific usage parsing for local CLI backends when structured usage is available.
 
 Good first issue shape:
 

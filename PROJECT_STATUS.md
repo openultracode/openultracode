@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 18:10 EDT
+Last updated: 2026-06-05 18:19 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, cancellation preserves stopped-run artifacts, and worker result accounting now drives token and cost totals.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, cancellation preserves stopped-run artifacts, and worker result accounting now drives token and cost totals.
 
 Implemented:
 
@@ -19,6 +19,7 @@ Implemented:
 - Deterministic dry-run planning.
 - Mixed implementation, test, and docs task decomposition.
 - Documentation-only goals scoped to contributor docs.
+- Edit-task file ownership metadata and overlap detection in plan artifacts.
 - Model-tier routing.
 - `ouc plan`, `ouc run`, `ouc status`, and `ouc report`.
 - JSON output for `plan`, `run`, and `status`.
@@ -39,6 +40,8 @@ Implemented:
 - Worker `result.json` artifacts preserve backend attempt history.
 - Codex CLI backend using `codex exec` in read-only sandbox mode.
 - Claude CLI backend using `claude -p` with plan permissions.
+- Pre-execution blocking for overlapping edit file ownership.
+- File ownership metadata in `plan_created` ledger events.
 - Isolated git worktree creation for edit tasks.
 - Worker `diff.patch`, `changed-files.json`, and `reconciliation.json` artifacts.
 - Final-report reconciliation sections for clean, changed, skipped, failed, and conflict states.
@@ -57,7 +60,6 @@ Implemented:
 
 Not implemented yet:
 
-- File ownership enforcement.
 - Provider-specific CLI usage parsing if local CLIs expose structured usage.
 
 ## Verification Snapshot
@@ -83,13 +85,14 @@ node dist/bin/ouc.js run "implement report command and test it" --backend fake -
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built cancellation smoke */'
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built actual-cost cap smoke */'
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built clean-patch application smoke */'
+node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built file-ownership block smoke */'
 npm pack --dry-run
 ```
 
 Latest known result:
 
 - 13 test files passed.
-- 54 tests passed.
+- 57 tests passed.
 - Typecheck passed.
 - Build passed.
 - Package dry-run passed.
@@ -114,16 +117,18 @@ Latest known result:
 - Built actual-cost cap smoke returned exit 1 after one mocked OpenRouter call with status `stopped`, total cost `$0.04`, and total tokens `18`.
 - Patch application tests verified default no-apply behavior, CLI flag opt-in, config opt-in, `patch-application.json`, ledger events, final-report metadata, and safe refusal for conflict states.
 - Built clean-patch application smoke applied a mocked worktree change to the main checkout only when `--apply-clean-patches` was present.
+- File ownership tests verified edit-task ownership metadata, conflict detection, `plan_created` ledger metadata, and pre-worker blocking for overlapping edit scopes.
+- Built file-ownership block smoke returned exit 1 with status `blocked`, `limit` `fileOwnership`, and no worker result artifacts.
 
 ## Next Best Task
 
-Implement file ownership enforcement for overlapping worker scopes.
+Add provider-specific usage parsing for local CLI backends when structured usage is available.
 
 Expected slice:
 
-- Detect planned edit tasks with overlapping file scopes before execution.
-- Record ownership metadata in the plan and ledger.
-- Refuse or serialize unsafe overlaps before mutating workers run.
+- Parse structured usage output from Codex CLI or Claude CLI when available.
+- Preserve parsed usage and cost estimates in worker results and attempts.
+- Keep current heuristic token counting as a fallback when structured usage is absent.
 
 ## Human Decisions Needed
 
