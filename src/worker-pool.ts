@@ -1,0 +1,141 @@
+import { mkdir, writeFile } from "node:fs/promises";
+import { join } from "node:path";
+
+import { FakeBackend } from "./backends/fake.js";
+import type { Task, WorkerResult } from "./types.js";
+
+export type WorkerPoolStatus = "succeeded" | "stopped";
+
+export type WorkerPoolEvent = Record<string, unknown> & {
+  event: "task_started" | "task_finished";
+};
+
+export type WorkerPoolResult = {
+  status: WorkerPoolStatus;
+  results: WorkerResult[];
+  taskEvents: WorkerPoolEvent[];
+  succeeded: number;
+  failed: number;
+  remaining: number;
+  totalCostUsd: number;
+  stopReason?: string;
+};
+
+export type RunFakeWorkerPoolInput = {
+  runId: string;
+  tasks: Task[];
+  workersDir: string;
+  stopAfterTask?: number;
+};
+
+export async function runFakeWorkerPool(
+  input: RunFakeWorkerPoolInput
+): Promise<WorkerPoolResult> {
+  const results: WorkerResult[] = [];
+  const taskEvents: WorkerPoolEvent[] = [];
+
+  if (input.stopAfterTask === 0 && input.tasks.length > 0) {
+    return summarizeWorkerPool({
+      status: "stopped",
+      tasks: input.tasks,
+      results,
+      taskEvents,
+      stopReason: stopAfterTaskReason(0)
+    });
+  }
+
+  for (const task of input.tasks) {
+    taskEvents.push({
+      event: "task_started",
+      runId: input.runId,
+      taskId: task.id,
+      modelTier: task.modelTier,
+      startedAt: new Date().toISOString()
+    });
+
+    const backend = new FakeBackend({ backend: "fake", model: "fake-model" });
+    const result = await backend.run(task);
+    results.push(result);
+    await writeWorkerArtifacts(input.workersDir, task, result);
+
+    taskEvents.push({
+      event: "task_finished",
+      runId: input.runId,
+      taskId: task.id,
+      status: result.status,
+      totalTokens: result.usage.totalTokens,
+      costUsd: result.costUsd,
+      finishedAt: new Date().toISOString()
+    });
+
+    if (
+      input.stopAfterTask !== undefined &&
+      results.length >= input.stopAfterTask &&
+      results.length < input.tasks.length
+    ) {
+      return summarizeWorkerPool({
+        status: "stopped",
+        tasks: input.tasks,
+        results,
+        taskEvents,
+        stopReason: stopAfterTaskReason(results.length)
+      });
+    }
+  }
+
+  return summarizeWorkerPool({
+    status: "succeeded",
+    tasks: input.tasks,
+    results,
+    taskEvents
+  });
+}
+
+async function writeWorkerArtifacts(
+  workersDir: string,
+  task: Task,
+  result: WorkerResult
+): Promise<void> {
+  const taskDir = join(workersDir, task.id);
+  await mkdir(taskDir, { recursive: true });
+  await writeFile(join(taskDir, "response.md"), `${result.response}\n`);
+  await writeFile(join(taskDir, "result.json"), `${JSON.stringify(result, null, 2)}\n`);
+}
+
+function summarizeWorkerPool(input: {
+  status: WorkerPoolStatus;
+  tasks: Task[];
+  results: WorkerResult[];
+  taskEvents: WorkerPoolEvent[];
+  stopReason?: string;
+}): WorkerPoolResult {
+  const succeeded = input.results.filter((result) => (
+    result.status === "succeeded"
+  )).length;
+  const failed = input.results.length - succeeded;
+
+  return {
+    status: input.status,
+    results: input.results,
+    taskEvents: input.taskEvents,
+    succeeded,
+    failed,
+    remaining: input.tasks.length - input.results.length,
+    totalCostUsd: sumCosts(input.results),
+    stopReason: input.stopReason
+  };
+}
+
+function stopAfterTaskReason(taskCount: number): string {
+  if (taskCount === 0) {
+    return "Stopped before task execution by --stop-after-task.";
+  }
+
+  return `Stopped after task ${taskCount} by --stop-after-task.`;
+}
+
+function sumCosts(results: WorkerResult[]): number {
+  return Number(
+    results.reduce((sum, result) => sum + result.costUsd, 0).toFixed(6)
+  );
+}

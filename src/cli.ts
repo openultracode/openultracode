@@ -1,12 +1,12 @@
-import { access, mkdir, readFile, writeFile } from "node:fs/promises";
+import { access, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
-import { FakeBackend } from "./backends/fake.js";
 import { loadConfig } from "./config.js";
 import { createDryRunPlan, type DryRunPlan } from "./planner.js";
 import { inspectRepository } from "./repo-inspector.js";
 import { createRunArtifacts, type RunArtifacts } from "./run-artifacts.js";
-import type { CucConfig, Task, WorkerResult } from "./types.js";
+import type { CucConfig, WorkerResult } from "./types.js";
+import { runFakeWorkerPool } from "./worker-pool.js";
 
 export type CliRuntime = {
   cwd: string;
@@ -162,8 +162,6 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
       estimatedCostUsd: plan.estimatedCostUsd
     }
   ];
-  const results: WorkerResult[] = [];
-
   await writeFile(artifacts.planPath, `${JSON.stringify(plan, null, 2)}\n`);
   const limitViolation = findRunLimitViolation(plan, config);
 
@@ -210,62 +208,29 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
     return 1;
   }
 
-  if (parsed.stopAfterTask === 0 && plan.tasks.length > 0) {
+  const poolResult = await runFakeWorkerPool({
+    runId: artifacts.runId,
+    tasks: plan.tasks,
+    workersDir: artifacts.workersDir,
+    stopAfterTask: parsed.stopAfterTask
+  });
+  ledgerEntries.push(...poolResult.taskEvents);
+
+  if (poolResult.status === "stopped") {
     return writeStoppedRun({
       artifacts,
       plan,
-      results,
+      results: poolResult.results,
       ledgerEntries,
-      reason: stopAfterTaskReason(0),
+      reason: poolResult.stopReason ?? "Run stopped before completion.",
       json: parsed.json,
       runtime
     });
   }
 
-  for (const task of plan.tasks) {
-    const startedAt = new Date().toISOString();
-    ledgerEntries.push({
-      event: "task_started",
-      runId: artifacts.runId,
-      taskId: task.id,
-      modelTier: task.modelTier,
-      startedAt
-    });
-
-    const backend = new FakeBackend({ backend: "fake", model: "fake-model" });
-    const result = await backend.run(task);
-    results.push(result);
-    await writeWorkerArtifacts(artifacts.workersDir, task, result);
-
-    ledgerEntries.push({
-      event: "task_finished",
-      runId: artifacts.runId,
-      taskId: task.id,
-      status: result.status,
-      totalTokens: result.usage.totalTokens,
-      costUsd: result.costUsd,
-      finishedAt: new Date().toISOString()
-    });
-
-    if (
-      parsed.stopAfterTask !== undefined &&
-      results.length >= parsed.stopAfterTask &&
-      results.length < plan.tasks.length
-    ) {
-      return writeStoppedRun({
-        artifacts,
-        plan,
-        results,
-        ledgerEntries,
-        reason: stopAfterTaskReason(results.length),
-        json: parsed.json,
-        runtime
-      });
-    }
-  }
-
-  const succeeded = results.filter((result) => result.status === "succeeded").length;
-  const failed = results.length - succeeded;
+  const results = poolResult.results;
+  const succeeded = poolResult.succeeded;
+  const failed = poolResult.failed;
   const status = failed === 0 ? "succeeded" : "failed";
   ledgerEntries.push({
     event: "run_finished",
@@ -274,7 +239,7 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
     taskCount: plan.tasks.length,
     succeeded,
     failed,
-    totalCostUsd: sumCosts(results),
+    totalCostUsd: poolResult.totalCostUsd,
     finishedAt: new Date().toISOString()
   });
 
@@ -291,7 +256,7 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
           taskCount: plan.tasks.length,
           succeeded,
           failed,
-          totalCostUsd: sumCosts(results),
+          totalCostUsd: poolResult.totalCostUsd,
           planPath: artifacts.planPath,
           ledgerPath: artifacts.ledgerPath,
           finalReportPath: artifacts.finalReportPath
@@ -512,17 +477,6 @@ function renderBlockedReport(
   ].join("\n");
 }
 
-async function writeWorkerArtifacts(
-  workersDir: string,
-  task: Task,
-  result: WorkerResult
-): Promise<void> {
-  const taskDir = join(workersDir, task.id);
-  await mkdir(taskDir, { recursive: true });
-  await writeFile(join(taskDir, "response.md"), `${result.response}\n`);
-  await writeFile(join(taskDir, "result.json"), `${JSON.stringify(result, null, 2)}\n`);
-}
-
 async function writeStoppedRun(input: {
   artifacts: RunArtifacts;
   plan: DryRunPlan;
@@ -597,14 +551,6 @@ async function writeLedger(
     ledgerPath,
     `${entries.map((entry) => JSON.stringify(entry)).join("\n")}\n`
   );
-}
-
-function stopAfterTaskReason(taskCount: number): string {
-  if (taskCount === 0) {
-    return "Stopped before task execution by --stop-after-task.";
-  }
-
-  return `Stopped after task ${taskCount} by --stop-after-task.`;
 }
 
 function findRunLimitViolation(

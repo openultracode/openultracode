@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 16:58 EDT
+Last updated: 2026-06-05 17:03 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -30,11 +30,11 @@ Implemented:
 - Blocked-run JSON, ledger, and final report artifacts for limit stops.
 - `--stop-after-task` stopped-run reporting for fake runs.
 - Partial-run final reports that show succeeded, remaining, and not-run tasks.
+- Worker-pool sequencing module behind fake runs.
 - Test suite covering current behavior.
 
 Not implemented yet:
 
-- Worker pool.
 - OpenRouter backend.
 - Claude CLI backend.
 - Codex CLI backend.
@@ -53,30 +53,33 @@ npm run typecheck
 npm run build
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_budget_success --json
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_stopped --stop-after-task 1 --json
+node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_pool_success --json
+node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_pool_stopped --stop-after-task 1 --json
 npm pack --dry-run
 ```
 
 Latest known result:
 
-- 8 test files passed.
-- 24 tests passed.
+- 9 test files passed.
+- 26 tests passed.
 - Typecheck passed.
 - Build passed.
 - Package dry-run passed.
 - Built CLI success smoke passed with `node dist/bin/ouc.js run ... --backend fake --json`.
 - Built CLI blocked-run smoke against a temporary fixture returned status `blocked` with exit 1 when `limits.maxTasks` was exceeded.
 - Built CLI stopped-run smoke returned status `stopped`, succeeded 1 task, and left 1 task remaining.
+- Built CLI success and stopped smokes passed through the worker-pool path.
 
 ## Next Best Task
 
-Extract a worker-pool abstraction behind fake runs before any real external model integration.
+Add OpenRouter backend configuration and tests before any live external model calls.
 
 Expected slice:
 
-- Move task execution sequencing out of `src/cli.ts`.
-- Keep current fake-run behavior unchanged.
-- Preserve `run_blocked`, `run_stopped`, and `run_finished` artifacts.
-- Add tests around worker-pool result aggregation.
+- Add an OpenRouter backend module with mocked fetch tests.
+- Read `OPENROUTER_API_KEY` from the environment only.
+- Keep `.env` ignored and avoid committing secrets.
+- Keep live API calls opt-in and out of default tests.
 - Keep real backend calls out of scope.
 
 ## Human Decisions Needed

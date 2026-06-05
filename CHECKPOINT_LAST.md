@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 16:58 EDT
+Timestamp: 2026-06-05 17:03 EDT
 
 ## Completed
 
@@ -72,14 +72,21 @@ Timestamp: 2026-06-05 16:58 EDT
 - Added `run_stopped` ledger events, stopped JSON output, and partial final reports with not-run tasks.
 - Verified focused CLI tests, full tests, typecheck, build, and built stopped-run smoke.
 - Verified `npm pack --dry-run`, secret scans excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, and `git diff --check`.
+- Committed and pushed stopped-run reporting as `dd2b20f` with message `Add fake run stop reporting`.
+- Added `src/worker-pool.ts` to own fake task sequencing and worker artifact writes.
+- Added worker-pool unit coverage for successful and stopped fake runs.
+- Updated `ouc run` to delegate fake task execution to the worker pool while preserving ledger and report output.
+- Verified worker-pool and CLI focused tests, full tests, typecheck, build, and built success/stopped smokes.
+- Verified `npm pack --dry-run`, secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, and `git diff --check`.
+- Confirmed `.env` remains ignored with `0600` permissions.
 
 ## Current In-Progress State
 
-- None. Stopped-run reporting is implemented and verified locally.
+- None. Worker-pool extraction is implemented and verified locally.
 
 ## Next Action
 
-- Commit and push stopped-run reporting, then extract a worker-pool abstraction behind fake runs.
+- Commit and push worker-pool extraction, then add OpenRouter backend configuration and mocked tests.
 
 ## Human Decisions Needed
 

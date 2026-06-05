@@ -78,4 +78,4 @@ node dist/bin/ouc.js plan "audit this repo for TODOs" --json
 
 ## Current Priority
 
-The next major implementation task is extracting a worker-pool abstraction behind fake runs. Do that before wiring OpenRouter, Claude CLI, or Codex CLI backends.
+The next major implementation task is OpenRouter backend configuration and mocked tests. Do not make live external model calls by default.
