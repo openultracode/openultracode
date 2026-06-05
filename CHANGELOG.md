@@ -30,6 +30,7 @@ Status: source-ready after local verification. Final package release is still bl
 - Opt-in clean patch application through CLI flag or config.
 - Contributor issue templates, pull request template, security policy, Dependabot, release checklist, release audit, and release decision record.
 - GitHub Actions CI configuration across Node 20, 22, and 24, with manual dispatch available after the account billing lock is fixed.
+- Public GitHub repo description, README homepage, and discovery topics for contributor discovery.
 
 ### Changed
 

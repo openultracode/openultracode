@@ -52,3 +52,4 @@
 - [Codex] Added manual GitHub Actions dispatch for rerunning CI after the billing lock is resolved.
 - [Codex] Added npm discovery metadata and a `0.1.0` release-candidate changelog.
 - [Codex] Fixed npm publish dry-run bin normalization and verified packaged `ouc` plus `openultracode` aliases.
+- [Codex] Set public GitHub repo description, README homepage, and discovery topics for contributor discovery.

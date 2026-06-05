@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 19:39 EDT
+Timestamp: 2026-06-05 19:42 EDT
 
 ## Objective
 
@@ -26,6 +26,7 @@ Concrete success criteria:
 | --- | --- | --- |
 | Read local project state | `AGENTS.md`, `PROJECT_STATUS.md`, `TASK_QUEUE.md`, `CHECKPOINT_LAST.md` | Complete |
 | Public repo exists and is current | `git rev-parse HEAD origin/main` returned matching local and remote commit hashes during the audit | Complete |
+| Public repo metadata supports discovery | `gh repo view AryaVora621/openultracode --json nameWithOwner,description,homepageUrl,repositoryTopics,visibility,viewerPermission` confirmed description, README homepage, and topics | Complete |
 | README entices contributors and reflects actual behavior | `README.md` documents current commands, safety model, artifacts, roadmap, help-wanted items | Complete |
 | Contributor guide exists | `CONTRIBUTING.md` includes setup, testing, issue-template guidance, release checklist pointer | Complete |
 | Issue templates exist | `.github/ISSUE_TEMPLATE/{bug_report,feature_request,task_proposal,config}.yml` | Complete |
@@ -64,6 +65,7 @@ Concrete success criteria:
 - Release decision record for license, CI, release channel, and package publication.
 - Package file allowlist includes `docs/` so release docs linked from `README.md` ship with the package.
 - Changelog for `0.1.0` release candidate notes.
+- Public GitHub repo description, README homepage, and discovery topics matching package keywords.
 - Contributor labels used by issue templates verified in the public repo.
 - Pull request template for verification and safety checks.
 - Security policy for private reports.
@@ -91,7 +93,7 @@ Fresh checks on the current release-readiness state:
 - `npm test`: 14 files, 59 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 22 files, package size `25.4 kB`.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 22 files, package size `25.9 kB`.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
 - `gh run view 27045180433 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - `node dist/bin/ouc.js --help`: passed.
@@ -105,6 +107,7 @@ Fresh checks on the current release-readiness state:
 - `npm publish --dry-run` initially exposed bin auto-correction for `./dist/bin/ouc.js`; after normalizing both bin paths to `dist/bin/ouc.js`, `npm publish --dry-run` passed without bin auto-correction.
 - The package test now asserts `ouc` uses `dist/bin/ouc.js` and `openultracode` points to the same built CLI.
 - Repeated packaged install smoke passed with packaged `./node_modules/.bin/ouc --help`, packaged `./node_modules/.bin/openultracode --help`, and packaged `./node_modules/.bin/ouc plan "audit this repo for TODOs" --run-id package_smoke_bin_fix --json`.
+- `gh repo view AryaVora621/openultracode --json nameWithOwner,description,homepageUrl,repositoryTopics,visibility,viewerPermission` confirmed description `Local CLI for parallel coding agents with adaptive model routing.`, README homepage, public visibility, admin access, and topics `agentic-coding`, `ai-agents`, `cli`, `codex`, `coding-agents`, `openrouter`, `orchestration`, and `worktrees`.
 - The temporary package-smoke directory was removed from `/tmp`.
 - Secret-prefix scans excluding `.env` and known shell history/session scans found no matches.
 - Em dash scan found no matches.
