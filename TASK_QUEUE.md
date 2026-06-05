@@ -50,3 +50,4 @@
 - [Codex] Added a release decision record for license, CI, release channel, and package publication.
 - [Codex] Added `docs/` to the package file allowlist so README-linked release docs ship with the package.
 - [Codex] Added manual GitHub Actions dispatch for rerunning CI after the billing lock is resolved.
+- [Codex] Added npm discovery metadata and a `0.1.0` release-candidate changelog.

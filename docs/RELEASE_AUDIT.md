@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 19:29 EDT
+Timestamp: 2026-06-05 19:33 EDT
 
 ## Objective
 
@@ -38,6 +38,7 @@ Concrete success criteria:
 | Remote CI run starts | `gh run list --repo AryaVora621/openultracode --limit 5` and `gh run view <latest-run-id> --repo AryaVora621/openultracode` | Blocked by GitHub billing/account lock |
 | Release checklist exists | `docs/RELEASE_CHECKLIST.md` | Complete |
 | Release decision record exists | `docs/RELEASE_DECISIONS.md` | Complete |
+| Changelog exists | `CHANGELOG.md` records the `0.1.0` release candidate notes and known blockers | Complete |
 | Local CLI package metadata is set | `package.json` has name `openultracode`, version `0.1.0`, bin aliases `ouc` and `openultracode` | Complete |
 | License file exists | `LICENSE` is MIT | Needs human confirmation before package release |
 | Planning command works | `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id release_audit_plan_20260605_1831 --json` | Complete |
@@ -46,7 +47,7 @@ Concrete success criteria:
 | Test suite passes | `npm test`: 14 files, 59 tests | Complete |
 | Typecheck passes | `npm run typecheck` | Complete |
 | Build passes | `npm run build` | Complete |
-| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 21 files, including release docs | Complete |
+| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 22 files, including release docs and changelog | Complete |
 | Secret is not committed | `git check-ignore -v .env`, `ls -l .env`, repo secret scan excluding `.env`, shell history scan | Complete |
 | Generated folders are not committed | `git status --short --ignored` shows only ignored `.env`, `.ouc`, `dist`, `node_modules` after push | Complete |
 
@@ -60,6 +61,7 @@ Concrete success criteria:
 - Contributor issue templates and release checklist.
 - Release decision record for license, CI, release channel, and package publication.
 - Package file allowlist includes `docs/` so release docs linked from `README.md` ship with the package.
+- Changelog for `0.1.0` release candidate notes.
 - Contributor labels used by issue templates verified in the public repo.
 - Pull request template for verification and safety checks.
 - Security policy for private reports.
@@ -87,7 +89,7 @@ Fresh checks on the current release-readiness state:
 - `npm test`: 14 files, 59 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 21 files, package size `24.4 kB`.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 22 files, package size `25.4 kB`.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
 - `gh run view 27045180433 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - `node dist/bin/ouc.js --help`: passed.
@@ -95,6 +97,8 @@ Fresh checks on the current release-readiness state:
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_completion_fake_20260605_1924 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_release_dispatch_20260605_1929 --json`: passed.
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_release_dispatch_fake_20260605_1929 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
+- `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_metadata_changelog_20260605_1934 --json`: passed.
+- `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_metadata_changelog_fake_20260605_1934 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
 - Secret-prefix scans excluding `.env` and known shell history/session scans found no matches.
 - Em dash scan found no matches.
 - `git diff --check`: passed.

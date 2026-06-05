@@ -147,6 +147,12 @@ For the current release blockers and recommended release channel, read:
 cat docs/RELEASE_DECISIONS.md
 ```
 
+For release notes, read:
+
+```bash
+cat CHANGELOG.md
+```
+
 Example artifact layout:
 
 ```text
@@ -226,6 +232,7 @@ Status: contributor issue templates, labels, PR template, security policy, Depen
 - Weekly npm and GitHub Actions dependency update checks.
 - Release-readiness checklist.
 - Release decision record for license, CI, and package publication.
+- Changelog for release notes.
 
 ## Architecture
 
@@ -287,6 +294,7 @@ For behavior changes, write or update the test first. The current test suite use
 ## Project Files For Contributors
 
 - `PLAN.md`: original product and implementation plan.
+- `CHANGELOG.md`: release notes and known blockers.
 - `PROJECT_STATUS.md`: current snapshot and next steps.
 - `TASK_QUEUE.md`: open, active, and completed work.
 - `CHECKPOINT_LAST.md`: latest handoff checkpoint.

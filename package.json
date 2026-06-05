@@ -4,6 +4,24 @@
   "description": "Local CLI for parallel coding agents with adaptive model routing.",
   "type": "module",
   "license": "MIT",
+  "homepage": "https://github.com/AryaVora621/openultracode#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AryaVora621/openultracode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AryaVora621/openultracode/issues"
+  },
+  "keywords": [
+    "ai-agents",
+    "agentic-coding",
+    "cli",
+    "codex",
+    "coding-agents",
+    "openrouter",
+    "orchestration",
+    "worktrees"
+  ],
   "bin": {
     "openultracode": "./dist/bin/ouc.js",
     "ouc": "./dist/bin/ouc.js"
@@ -11,6 +29,7 @@
   "files": [
     "dist",
     "docs",
+    "CHANGELOG.md",
     "README.md",
     "LICENSE"
   ],

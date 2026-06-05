@@ -58,3 +58,5 @@ Record:
 - New safety checks.
 - Verification commands and results.
 - Known gaps that remain open.
+
+Use `CHANGELOG.md` as the release-note source before tagging.

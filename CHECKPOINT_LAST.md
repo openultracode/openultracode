@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 19:29 EDT
+Timestamp: 2026-06-05 19:33 EDT
 
 ## Completed
 
@@ -213,14 +213,16 @@ Timestamp: 2026-06-05 19:29 EDT
 - Verified the release decision record and package allowlist with `npm test`, `npm run typecheck`, `npm run build`, YAML parsing, secret-prefix scan excluding `.env`, shell history secret scan, em dash scan, `git diff --check`, `npm pack --dry-run`, built help smoke, built plan smoke, built fake-run smoke, and `.env` ignore and mode check.
 - Added `workflow_dispatch` to `.github/workflows/ci.yml` so CI can be rerun manually after the GitHub account billing lock is fixed.
 - Reverified after the manual CI dispatch change with `npm test`, `npm run typecheck`, `npm run build`, YAML parsing, secret-prefix scan excluding `.env`, shell history secret scan, em dash scan, `git diff --check`, `npm pack --dry-run`, built help smoke, built plan smoke `run_release_dispatch_20260605_1929`, built fake-run smoke `run_release_dispatch_fake_20260605_1929`, and `.env` ignore and mode check.
+- Added npm discovery metadata to `package.json` and a `CHANGELOG.md` release-candidate note for `0.1.0`.
+- Verified npm metadata and changelog with `npm install --package-lock-only`, `npm test`, `npm run typecheck`, `npm run build`, YAML parsing, shell history secret scan, `git diff --check`, `npm pack --dry-run`, built help smoke, built plan smoke `run_metadata_changelog_20260605_1934`, built fake-run smoke `run_metadata_changelog_fake_20260605_1934`, repo secret-prefix scan excluding `.env`, em dash scan, and `.env` ignore and mode check.
 
 ## Current In-Progress State
 
-- None. Release decision record, package allowlist, and manual CI dispatch are verified. Dependabot PRs are resolved, and package release remains blocked on license confirmation plus the GitHub account billing lock.
+- None. npm metadata, changelog, release decision record, package allowlist, and manual CI dispatch are verified. Dependabot PRs are resolved, and package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Push the release decision record, package allowlist, and manual CI dispatch, then resolve the public release license decision and GitHub account billing lock.
+- Push npm metadata plus changelog, then resolve the public release license decision and GitHub account billing lock.
 
 ## Human Decisions Needed
 

@@ -114,6 +114,7 @@ Expected state:
 After all gates pass:
 
 1. Create a release notes entry from `docs/RELEASE_AUDIT.md` and `PROJECT_STATUS.md`.
+   The current draft release notes live in `CHANGELOG.md`.
 2. Tag the confirmed source:
 
 ```bash
