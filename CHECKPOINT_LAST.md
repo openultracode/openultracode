@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 17:29 EDT
+Timestamp: 2026-06-05 17:36 EDT
 
 ## Completed
 
@@ -106,14 +106,22 @@ Timestamp: 2026-06-05 17:29 EDT
 - Updated README, build draft, project status, and task queue for the planner slice.
 - Verified `npm test`, `npm run typecheck`, `npm run build`, built mixed/docs-only planner smokes, and `npm pack --dry-run`.
 - Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, `.env` ignore and permissions, and `git diff --check`.
+- Committed and pushed planner decomposition as `3fb424a` with message `Improve deterministic planner decomposition`.
+- Added explicit Codex CLI backend execution through `codex exec` in read-only sandbox mode.
+- Added explicit Claude CLI backend execution through Claude print mode with plan permissions.
+- Added mocked command-runner tests for Codex CLI and Claude CLI backend command mapping, stdout capture, and failure mapping.
+- Wired `ouc run --backend codex-cli` and `ouc run --backend claude-cli` behind explicit backend selection.
+- Updated README, build draft, project status, and task queue for the CLI backend slice.
+- Verified `npm test`, `npm run typecheck`, `npm run build`, built fake run smoke, built stopped Codex and Claude parser smokes, and `npm pack --dry-run`.
+- Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, `.env` ignore and permissions, and `git diff --check`.
 
 ## Current In-Progress State
 
-- None. The deterministic planner decomposition slice is implemented and verified.
+- None. The worker execution backend slice is implemented and verified.
 
 ## Next Action
 
-- Implement worker execution backends behind explicit opt-in while keeping fake backend as the default test path.
+- Implement isolated worktree reconciliation and reporting.
 
 ## Human Decisions Needed
 

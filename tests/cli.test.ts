@@ -508,6 +508,144 @@ test("runCli run requires OPENROUTER_API_KEY for the OpenRouter backend", async 
   ).rejects.toMatchObject({ code: "ENOENT" });
 });
 
+test("runCli run executes planned tasks with the Codex CLI backend when explicitly selected", async () => {
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-codex-"));
+  await mkdir(join(projectRoot, "src"), { recursive: true });
+  await mkdir(join(projectRoot, "tests"), { recursive: true });
+  await writeFile(join(projectRoot, "package.json"), "{}");
+  await writeFile(join(projectRoot, "src", "cli.ts"), "export {};");
+  await writeFile(join(projectRoot, "tests", "cli.test.ts"), "test('ok', () => {});");
+  const calls: Array<{ command: string; args: string[]; input: string }> = [];
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+
+  const exitCode = await runCli(
+    [
+      "node",
+      "ouc",
+      "run",
+      "implement report command and test it",
+      "--backend",
+      "codex-cli",
+      "--model",
+      "gpt-5.3-codex",
+      "--run-id",
+      "run_codex_cli",
+      "--json"
+    ],
+    {
+      cwd: projectRoot,
+      commandRunner: async (command, args, options) => {
+        calls.push({ command, args, input: options.input });
+        return {
+          exitCode: 0,
+          stdout: `Codex mocked task ${calls.length}.\n`,
+          stderr: ""
+        };
+      },
+      stdout: (line) => stdout.push(line),
+      stderr: (line) => stderr.push(line)
+    }
+  );
+  const output = JSON.parse(stdout.join("\n")) as {
+    runId: string;
+    status: string;
+    taskCount: number;
+    succeeded: number;
+    finalReportPath: string;
+  };
+  const runDir = join(projectRoot, ".ouc", "runs", "run_codex_cli");
+  const workerResponse = await readFile(
+    join(runDir, "workers", "task_1", "response.md"),
+    "utf8"
+  );
+  const report = await readFile(output.finalReportPath, "utf8");
+
+  expect(exitCode).toBe(0);
+  expect(stderr).toEqual([]);
+  expect(output).toMatchObject({
+    runId: "run_codex_cli",
+    status: "succeeded",
+    taskCount: 2,
+    succeeded: 2
+  });
+  expect(calls).toHaveLength(2);
+  expect(calls[0].command).toBe("codex");
+  expect(calls[0].args).toContain("read-only");
+  expect(calls[0].input).toContain("Task: Implement");
+  expect(workerResponse).toContain("Codex mocked task 1.");
+  expect(report).toContain("Codex CLI backend execution completed locally.");
+});
+
+test("runCli run executes planned tasks with the Claude CLI backend when explicitly selected", async () => {
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-claude-"));
+  await mkdir(join(projectRoot, "src"), { recursive: true });
+  await mkdir(join(projectRoot, "tests"), { recursive: true });
+  await writeFile(join(projectRoot, "package.json"), "{}");
+  await writeFile(join(projectRoot, "src", "cli.ts"), "export {};");
+  await writeFile(join(projectRoot, "tests", "cli.test.ts"), "test('ok', () => {});");
+  const calls: Array<{ command: string; args: string[]; input: string }> = [];
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+
+  const exitCode = await runCli(
+    [
+      "node",
+      "ouc",
+      "run",
+      "implement report command and test it",
+      "--backend",
+      "claude-cli",
+      "--model",
+      "opus",
+      "--run-id",
+      "run_claude_cli",
+      "--json"
+    ],
+    {
+      cwd: projectRoot,
+      commandRunner: async (command, args, options) => {
+        calls.push({ command, args, input: options.input });
+        return {
+          exitCode: 0,
+          stdout: `Claude mocked task ${calls.length}.\n`,
+          stderr: ""
+        };
+      },
+      stdout: (line) => stdout.push(line),
+      stderr: (line) => stderr.push(line)
+    }
+  );
+  const output = JSON.parse(stdout.join("\n")) as {
+    runId: string;
+    status: string;
+    taskCount: number;
+    succeeded: number;
+    finalReportPath: string;
+  };
+  const runDir = join(projectRoot, ".ouc", "runs", "run_claude_cli");
+  const workerResponse = await readFile(
+    join(runDir, "workers", "task_1", "response.md"),
+    "utf8"
+  );
+  const report = await readFile(output.finalReportPath, "utf8");
+
+  expect(exitCode).toBe(0);
+  expect(stderr).toEqual([]);
+  expect(output).toMatchObject({
+    runId: "run_claude_cli",
+    status: "succeeded",
+    taskCount: 2,
+    succeeded: 2
+  });
+  expect(calls).toHaveLength(2);
+  expect(calls[0].command).toBe("claude");
+  expect(calls[0].args).toContain("--no-session-persistence");
+  expect(calls[0].input).toContain("Task: Implement");
+  expect(workerResponse).toContain("Claude mocked task 1.");
+  expect(report).toContain("Claude CLI backend execution completed locally.");
+});
+
 test("runCli run falls back to another OpenRouter model after a failed attempt", async () => {
   const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-openrouter-fallback-"));
   await writeFile(join(projectRoot, "README.md"), "# Fixture");

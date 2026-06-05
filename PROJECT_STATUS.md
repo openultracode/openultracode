@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 17:29 EDT
+Last updated: 2026-06-05 17:36 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. It can run deterministic fake workers locally, but it is not ready for real external model execution yet.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, and external backends are explicit opt-in while worktree isolation is still pending.
 
 Implemented:
 
@@ -37,12 +37,12 @@ Implemented:
 - Opt-in `ouc run --backend openrouter` execution wiring, covered with mocked CLI tests.
 - OpenRouter model fallback attempts for failed worker results.
 - Worker `result.json` artifacts preserve backend attempt history.
+- Codex CLI backend using `codex exec` in read-only sandbox mode.
+- Claude CLI backend using `claude -p` with plan permissions.
 - Test suite covering current behavior.
 
 Not implemented yet:
 
-- Claude CLI backend.
-- Codex CLI backend.
 - Worktree manager.
 - Diff reconciliation.
 - Real cancellation and signal handling.
@@ -64,13 +64,16 @@ node dist/bin/ouc.js run "implement report command and test it" --backend fake -
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_fallback_chains_fake --json
 node dist/bin/ouc.js plan "implement report command, add tests, and update README docs" --run-id run_smoke_planner_docs_20260605_1729 --json
 node dist/bin/ouc.js plan "update README docs" --run-id run_smoke_docs_only_20260605_1729 --json
+node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_cli_backends_fake_20260605_1736 --json
+node dist/bin/ouc.js run "inspect this repo" --backend codex-cli --run-id run_smoke_codex_cli_parser_20260605_1736 --stop-after-task 0 --json
+node dist/bin/ouc.js run "inspect this repo" --backend claude-cli --run-id run_smoke_claude_cli_parser_20260605_1736 --stop-after-task 0 --json
 npm pack --dry-run
 ```
 
 Latest known result:
 
-- 10 test files passed.
-- 34 tests passed.
+- 11 test files passed.
+- 39 tests passed.
 - Typecheck passed.
 - Build passed.
 - Package dry-run passed.
@@ -83,16 +86,20 @@ Latest known result:
 - OpenRouter fallback tests used mocked fetch only and verified failed attempt preservation.
 - Built CLI mixed planner smoke returned 3 tasks with a `$0.03` estimate.
 - Built CLI docs-only planner smoke returned 1 task with a `$0.01` estimate.
+- Codex CLI backend tests used mocked command runners only and made no real worker calls.
+- Claude CLI backend tests used mocked command runners only and made no real worker calls.
+- Built CLI fake run still succeeded after CLI backend wiring.
+- Built CLI Codex and Claude backend parser smokes stopped before task execution and made no real worker calls.
 
 ## Next Best Task
 
-Implement worker execution backends.
+Implement worktree reconciliation and reporting.
 
 Expected slice:
 
-- Add a Codex CLI or Claude CLI backend behind explicit opt-in.
-- Keep fake backend as the default test path.
-- Preserve worker artifacts and ledger events across backend types.
+- Create isolated worktrees for edit tasks.
+- Capture worker diffs without applying them automatically.
+- Report conflicts and files changed per worker.
 
 ## Human Decisions Needed
 

@@ -3,7 +3,6 @@
 ## Open
 
 - Decide package license for public release if MIT default should change.
-- Implement worker execution backends.
 - Implement worktree reconciliation and reporting.
 
 ## In-Progress
@@ -33,3 +32,4 @@
 - [Codex] Wired OpenRouter into `ouc run` behind explicit `--backend openrouter` with mocked CLI tests and no default live calls.
 - [Codex] Added OpenRouter model fallback attempts with preserved attempt history in worker results.
 - [Codex] Implemented richer deterministic planner decomposition for mixed code/test/docs goals and docs-only goals.
+- [Codex] Implemented explicit Codex CLI and Claude CLI worker backends with mocked tests and non-mutating command modes.

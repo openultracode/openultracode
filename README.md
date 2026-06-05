@@ -54,6 +54,8 @@ Current implemented surface:
 - OpenRouter backend module with env-key loading and mocked HTTP tests.
 - Opt-in `ouc run --backend openrouter` execution wiring.
 - OpenRouter model fallback attempts after failed mocked backend responses.
+- Opt-in `ouc run --backend codex-cli` execution through `codex exec` in read-only sandbox mode.
+- Opt-in `ouc run --backend claude-cli` execution through Claude print mode with plan permissions.
 - Worker result artifacts preserve backend attempt history.
 - `final-report.md` creation, execution summaries, and preservation.
 - Machine-readable JSON output for plan, run, and status.
@@ -96,6 +98,13 @@ Run OpenRouter explicitly:
 
 ```bash
 OPENROUTER_API_KEY=... node dist/bin/ouc.js run "implement a small change and test it" --backend openrouter --json
+```
+
+Run a local CLI backend explicitly:
+
+```bash
+node dist/bin/ouc.js run "inspect this repo" --backend codex-cli --json
+node dist/bin/ouc.js run "inspect this repo" --backend claude-cli --json
 ```
 
 Inspect a run:
@@ -148,7 +157,7 @@ Status: fake local execution, preflight limit blocking, and stopped-run reportin
 
 ### Milestone 3: Real Backends
 
-Status: planned.
+Status: OpenRouter, Codex CLI, and Claude CLI are wired behind explicit opt-in. CLI backends avoid direct mutation until isolated worktrees land.
 
 - OpenRouter chat completion backend.
 - Claude CLI backend using `claude -p`.

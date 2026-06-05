@@ -1,6 +1,11 @@
 import { access, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
+import {
+  ClaudeCliBackend,
+  CodexCliBackend,
+  type CliCommandRunner
+} from "./backends/cli-command.js";
 import { FakeBackend } from "./backends/fake.js";
 import { OpenRouterBackend, type OpenRouterFetch } from "./backends/openrouter.js";
 import { loadConfig } from "./config.js";
@@ -14,11 +19,12 @@ export type CliRuntime = {
   cwd: string;
   env?: Record<string, string | undefined>;
   fetchImpl?: OpenRouterFetch;
+  commandRunner?: CliCommandRunner;
   stdout: (line: string) => void;
   stderr: (line: string) => void;
 };
 
-type RunBackend = "fake" | "openrouter";
+type RunBackend = "fake" | "openrouter" | "codex-cli" | "claude-cli";
 
 type RunLimitViolation = {
   kind: "maxTasks" | "maxCostUsd";
@@ -610,6 +616,34 @@ function createRunTaskRunner(
     };
   }
 
+  if (parsed.backend === "codex-cli") {
+    const backend = new CodexCliBackend({
+      model: codexCliModel(parsed, config),
+      cwd: runtime.cwd,
+      runner: runtime.commandRunner,
+      env: runtime.env
+    });
+
+    return {
+      backendLabel: "Codex CLI",
+      runTask: (task) => backend.run(task)
+    };
+  }
+
+  if (parsed.backend === "claude-cli") {
+    const backend = new ClaudeCliBackend({
+      model: claudeCliModel(parsed, config),
+      cwd: runtime.cwd,
+      runner: runtime.commandRunner,
+      env: runtime.env
+    });
+
+    return {
+      backendLabel: "Claude CLI",
+      runTask: (task) => backend.run(task)
+    };
+  }
+
   try {
     const models = openRouterModelChain(parsed, config);
     OpenRouterBackend.fromEnv({
@@ -631,6 +665,32 @@ function createRunTaskRunner(
       error: error instanceof Error ? error.message : "OpenRouter backend failed"
     };
   }
+}
+
+function claudeCliModel(parsed: ParsedRunArgs, config: CucConfig): string {
+  if (parsed.model) {
+    return parsed.model;
+  }
+
+  const profile = config.profiles[config.activeProfile];
+  if (profile.critical.backend === "claude-cli") {
+    return profile.critical.model;
+  }
+
+  return profile.orchestrator.model;
+}
+
+function codexCliModel(parsed: ParsedRunArgs, config: CucConfig): string {
+  if (parsed.model) {
+    return parsed.model;
+  }
+
+  const profile = config.profiles[config.activeProfile];
+  if (profile.strong.backend === "codex-cli") {
+    return profile.strong.model;
+  }
+
+  return profile.orchestrator.model;
 }
 
 async function runOpenRouterWithFallbacks(
@@ -838,12 +898,17 @@ function parseRunArgs(args: string[]): ParsedRunArgs {
 
     if (arg === "--backend") {
       const backendValue = args[index + 1];
-      if (backendValue !== "fake" && backendValue !== "openrouter") {
+      if (
+        backendValue !== "fake" &&
+        backendValue !== "openrouter" &&
+        backendValue !== "codex-cli" &&
+        backendValue !== "claude-cli"
+      ) {
         return {
           goal: goalParts.join(" ").trim(),
           backend,
           json,
-          error: "Only --backend fake or --backend openrouter is implemented right now."
+          error: "Only --backend fake, --backend openrouter, --backend codex-cli, or --backend claude-cli is implemented right now."
         };
       }
       backend = backendValue;
