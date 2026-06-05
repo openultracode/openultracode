@@ -4,7 +4,7 @@ OpenUltraCode is an open-source local CLI for parallel coding agents with adapti
 
 The goal is simple: make multi-agent coding workflows cheaper, safer, and more controllable than sending every worker to the same expensive premium model.
 
-Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs, preserve local run artifacts, and expose status/report commands. The next milestone is budget and cancellation controls before real CLI/API backends.
+Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs, preserve local run artifacts, and expose status/report commands. The next milestone is cancellation and partial-run reporting before real CLI/API backends.
 
 ## Why This Should Exist
 
@@ -45,6 +45,7 @@ Current implemented surface:
 - `ouc run "<goal>" --backend fake` local execution.
 - Task-level ledger events during fake runs.
 - Worker response and result artifacts under each run directory.
+- `limits.maxTasks` and `limits.maxCostUsd` preflight blocking for fake runs.
 - `final-report.md` creation, execution summaries, and preservation.
 - Machine-readable JSON output for plan, run, and status.
 - Deterministic fake backend for local execution and tests.
@@ -110,14 +111,16 @@ Status: mostly implemented.
 
 ### Milestone 2: Fake-Backend Runs
 
-Status: fake local execution implemented. Budget and cancellation stops are still planned.
+Status: fake local execution and preflight limit blocking implemented. Cancellation stops are still planned.
 
 - Implemented `ouc run` using fake workers first.
 - Writes worker responses and results under run artifacts.
 - Appends task-level ledger events.
 - Generates final reports from completed fake runs.
 - Refuses to overwrite an existing `final-report.md`.
-- Make cancellation and budget stops visible in artifacts.
+- Stops before worker execution when `maxTasks` or `maxCostUsd` would be exceeded.
+- Writes blocked ledger events and final reports for limit stops.
+- Make cancellation stops visible in artifacts.
 
 ### Milestone 3: Real Backends
 
@@ -169,10 +172,10 @@ The implementation is not all there yet. The repo currently contains the plannin
 Useful contributions right now:
 
 - Improve deterministic planning heuristics.
-- Add budget and max-task enforcement.
 - Add cancellation and partial-run reporting.
 - Extract the worker-pool abstraction behind fake runs.
 - Add OpenRouter backend configuration and tests.
+- Add real token and cost accounting once external backends land.
 - Add fixture repos for integration tests.
 - Harden config validation and error messages.
 - Improve docs for model routing and safety.

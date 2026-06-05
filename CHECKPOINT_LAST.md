@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 16:46 EDT
+Timestamp: 2026-06-05 16:52 EDT
 
 ## Completed
 
@@ -62,14 +62,19 @@ Timestamp: 2026-06-05 16:46 EDT
 - Added task-level ledger events and final run reports for fake runs.
 - Added protection against overwriting an existing `final-report.md` during `ouc run`.
 - Verified `npm test`, `npm run typecheck`, `npm run build`, built `ouc run --backend fake` smoke, `npm pack --dry-run`, secret scan excluding `.env`, stale old-name scan, and `git diff --check`.
+- Committed and pushed fake-backend run orchestration as `05da549` with message `Implement fake backend run orchestration`.
+- Added preflight `limits.maxTasks` and `limits.maxCostUsd` enforcement for fake runs.
+- Added blocked-run JSON output, `run_blocked` ledger events, and blocked final reports.
+- Verified focused CLI tests, full tests, typecheck, build, built success smoke, and built blocked-run smoke.
+- Verified `npm pack --dry-run`, secret scans excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, and `git diff --check`.
 
 ## Current In-Progress State
 
-- None. Fake-backend `ouc run` orchestration is implemented and verified locally.
+- None. Budget and max-task enforcement is implemented and verified locally.
 
 ## Next Action
 
-- Commit and push the fake-backend run milestone, then begin budget and max-task enforcement for fake runs.
+- Commit and push budget enforcement, then start cancellation and partial-run reporting.
 
 ## Human Decisions Needed
 

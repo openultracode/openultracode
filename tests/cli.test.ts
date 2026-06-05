@@ -420,3 +420,120 @@ test("runCli run refuses to overwrite an existing final report", async () => {
     "# Existing Report\n"
   );
 });
+
+test("runCli run blocks plans that exceed maxTasks before worker execution", async () => {
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-max-tasks-"));
+  await mkdir(join(projectRoot, "src"), { recursive: true });
+  await mkdir(join(projectRoot, "tests"), { recursive: true });
+  await mkdir(join(projectRoot, ".ouc"), { recursive: true });
+  await writeFile(join(projectRoot, "package.json"), "{}");
+  await writeFile(join(projectRoot, "src", "cli.ts"), "export {};");
+  await writeFile(join(projectRoot, "tests", "cli.test.ts"), "test('ok', () => {});");
+  await writeFile(
+    join(projectRoot, ".ouc", "config.json"),
+    JSON.stringify({ limits: { maxTasks: 1 } })
+  );
+
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+
+  const exitCode = await runCli(
+    [
+      "node",
+      "ouc",
+      "run",
+      "implement report command and test it",
+      "--backend",
+      "fake",
+      "--run-id",
+      "run_limited_tasks",
+      "--json"
+    ],
+    {
+      cwd: projectRoot,
+      stdout: (line) => stdout.push(line),
+      stderr: (line) => stderr.push(line)
+    }
+  );
+  const output = JSON.parse(stdout.join("\n")) as {
+    status: string;
+    reason: string;
+    finalReportPath: string;
+  };
+  const runDir = join(projectRoot, ".ouc", "runs", "run_limited_tasks");
+  const ledgerLines = (await readFile(join(runDir, "ledger.jsonl"), "utf8"))
+    .trim()
+    .split("\n")
+    .map((line) => JSON.parse(line) as { event: string; reason?: string });
+  const report = await readFile(output.finalReportPath, "utf8");
+
+  expect(exitCode).toBe(1);
+  expect(stderr).toEqual([]);
+  expect(output).toMatchObject({
+    status: "blocked",
+    reason: "Planned task count 2 exceeds limits.maxTasks 1."
+  });
+  expect(ledgerLines.map((line) => line.event)).toEqual([
+    "plan_created",
+    "run_blocked"
+  ]);
+  expect(ledgerLines[1].reason).toBe(output.reason);
+  expect(report).toContain("- Status: blocked");
+  expect(report).toContain(output.reason);
+});
+
+test("runCli run blocks plans that exceed maxCostUsd before worker execution", async () => {
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-max-cost-"));
+  await mkdir(join(projectRoot, "src"), { recursive: true });
+  await mkdir(join(projectRoot, "tests"), { recursive: true });
+  await mkdir(join(projectRoot, ".ouc"), { recursive: true });
+  await writeFile(join(projectRoot, "package.json"), "{}");
+  await writeFile(join(projectRoot, "src", "cli.ts"), "export {};");
+  await writeFile(join(projectRoot, "tests", "cli.test.ts"), "test('ok', () => {});");
+  await writeFile(
+    join(projectRoot, ".ouc", "config.json"),
+    JSON.stringify({ limits: { maxCostUsd: 0 } })
+  );
+
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+
+  const exitCode = await runCli(
+    [
+      "node",
+      "ouc",
+      "run",
+      "implement report command and test it",
+      "--backend",
+      "fake",
+      "--run-id",
+      "run_limited_cost",
+      "--json"
+    ],
+    {
+      cwd: projectRoot,
+      stdout: (line) => stdout.push(line),
+      stderr: (line) => stderr.push(line)
+    }
+  );
+  const output = JSON.parse(stdout.join("\n")) as {
+    status: string;
+    reason: string;
+    ledgerPath: string;
+  };
+  const ledgerLines = (await readFile(output.ledgerPath, "utf8"))
+    .trim()
+    .split("\n")
+    .map((line) => JSON.parse(line) as { event: string; reason?: string });
+
+  expect(exitCode).toBe(1);
+  expect(stderr).toEqual([]);
+  expect(output).toMatchObject({
+    status: "blocked",
+    reason: "Estimated cost $0.02 exceeds limits.maxCostUsd $0.00."
+  });
+  expect(ledgerLines.map((line) => line.event)).toEqual([
+    "plan_created",
+    "run_blocked"
+  ]);
+});

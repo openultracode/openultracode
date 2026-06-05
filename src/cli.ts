@@ -6,12 +6,17 @@ import { loadConfig } from "./config.js";
 import { createDryRunPlan, type DryRunPlan } from "./planner.js";
 import { inspectRepository } from "./repo-inspector.js";
 import { createRunArtifacts } from "./run-artifacts.js";
-import type { Task, WorkerResult } from "./types.js";
+import type { CucConfig, Task, WorkerResult } from "./types.js";
 
 export type CliRuntime = {
   cwd: string;
   stdout: (line: string) => void;
   stderr: (line: string) => void;
+};
+
+type RunLimitViolation = {
+  kind: "maxTasks" | "maxCostUsd";
+  reason: string;
 };
 
 const HELP = `OpenUltraCode
@@ -160,6 +165,50 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
   const results: WorkerResult[] = [];
 
   await writeFile(artifacts.planPath, `${JSON.stringify(plan, null, 2)}\n`);
+  const limitViolation = findRunLimitViolation(plan, config);
+
+  if (limitViolation) {
+    ledgerEntries.push({
+      event: "run_blocked",
+      runId: artifacts.runId,
+      status: "blocked",
+      reason: limitViolation.reason,
+      limit: limitViolation.kind,
+      taskCount: plan.tasks.length,
+      estimatedCostUsd: plan.estimatedCostUsd,
+      blockedAt: new Date().toISOString()
+    });
+    await writeLedger(artifacts.ledgerPath, ledgerEntries);
+    const report = renderBlockedReport(plan, limitViolation);
+    await writeFile(artifacts.finalReportPath, `${report}\n`);
+
+    if (parsed.json) {
+      runtime.stdout(
+        JSON.stringify(
+          {
+            runId: artifacts.runId,
+            status: "blocked",
+            reason: limitViolation.reason,
+            taskCount: plan.tasks.length,
+            succeeded: 0,
+            failed: 0,
+            totalCostUsd: 0,
+            planPath: artifacts.planPath,
+            ledgerPath: artifacts.ledgerPath,
+            finalReportPath: artifacts.finalReportPath
+          },
+          null,
+          2
+        )
+      );
+      return 1;
+    }
+
+    runtime.stdout(`Run ${artifacts.runId} blocked`);
+    runtime.stdout(limitViolation.reason);
+    runtime.stdout(artifacts.finalReportPath);
+    return 1;
+  }
 
   for (const task of plan.tasks) {
     const startedAt = new Date().toISOString();
@@ -201,10 +250,7 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
     finishedAt: new Date().toISOString()
   });
 
-  await writeFile(
-    artifacts.ledgerPath,
-    `${ledgerEntries.map((entry) => JSON.stringify(entry)).join("\n")}\n`
-  );
+  await writeLedger(artifacts.ledgerPath, ledgerEntries);
   const report = renderExecutionReport(plan, results, status);
   await writeFile(artifacts.finalReportPath, `${report}\n`);
 
@@ -403,6 +449,35 @@ function renderExecutionReport(
   ].join("\n");
 }
 
+function renderBlockedReport(
+  plan: DryRunPlan,
+  violation: RunLimitViolation
+): string {
+  const taskLines = plan.tasks.map((task) => (
+    `- ${task.id}: ${task.title} (${task.intent}, ${task.modelTier})`
+  ));
+
+  return [
+    "# OpenUltraCode Run Report",
+    "",
+    `- Run: \`${plan.runId}\``,
+    `- Goal: ${plan.goal}`,
+    `- Created: ${plan.createdAt}`,
+    "- Status: blocked",
+    `- Planned tasks: ${plan.tasks.length}`,
+    `- Estimated cost: ${formatUsd(plan.estimatedCostUsd)}`,
+    `- Blocked reason: ${violation.reason}`,
+    "",
+    "## Tasks",
+    "",
+    ...taskLines,
+    "",
+    "## Execution",
+    "",
+    "Run stopped before worker execution."
+  ].join("\n");
+}
+
 async function writeWorkerArtifacts(
   workersDir: string,
   task: Task,
@@ -414,10 +489,45 @@ async function writeWorkerArtifacts(
   await writeFile(join(taskDir, "result.json"), `${JSON.stringify(result, null, 2)}\n`);
 }
 
+async function writeLedger(
+  ledgerPath: string,
+  entries: Array<Record<string, unknown>>
+): Promise<void> {
+  await writeFile(
+    ledgerPath,
+    `${entries.map((entry) => JSON.stringify(entry)).join("\n")}\n`
+  );
+}
+
+function findRunLimitViolation(
+  plan: DryRunPlan,
+  config: CucConfig
+): RunLimitViolation | undefined {
+  if (plan.tasks.length > config.limits.maxTasks) {
+    return {
+      kind: "maxTasks",
+      reason: `Planned task count ${plan.tasks.length} exceeds limits.maxTasks ${config.limits.maxTasks}.`
+    };
+  }
+
+  if (plan.estimatedCostUsd > config.limits.maxCostUsd) {
+    return {
+      kind: "maxCostUsd",
+      reason: `Estimated cost ${formatUsd(plan.estimatedCostUsd)} exceeds limits.maxCostUsd ${formatUsd(config.limits.maxCostUsd)}.`
+    };
+  }
+
+  return undefined;
+}
+
 function sumCosts(results: WorkerResult[]): number {
   return Number(
     results.reduce((sum, result) => sum + result.costUsd, 0).toFixed(6)
   );
+}
+
+function formatUsd(value: number): string {
+  return `$${value.toFixed(2)}`;
 }
 
 function parsePlanArgs(args: string[]): {
