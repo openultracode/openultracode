@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 18:54 EDT
+Timestamp: 2026-06-05 18:57 EDT
 
 ## Completed
 
@@ -191,6 +191,8 @@ Timestamp: 2026-06-05 18:54 EDT
 - Updated `BLOCKED.md`, `PROJECT_STATUS.md`, and `docs/RELEASE_AUDIT.md` with the current blocker and label-readiness evidence.
 - Added `.github/PULL_REQUEST_TEMPLATE.md` with summary, scope, verification, safety checks, and reviewer notes.
 - Updated `README.md`, `CONTRIBUTING.md`, `TASK_QUEUE.md`, `PROJECT_STATUS.md`, and `docs/RELEASE_AUDIT.md` to record PR template readiness.
+- Added `SECURITY.md` with supported version scope, private GitHub Security Advisory reporting, and project-specific safety areas.
+- Updated `README.md`, `CONTRIBUTING.md`, `docs/RELEASE_CHECKLIST.md`, `TASK_QUEUE.md`, `PROJECT_STATUS.md`, and `docs/RELEASE_AUDIT.md` to record security policy readiness.
 
 ## Current In-Progress State
 

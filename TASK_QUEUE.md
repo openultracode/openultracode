@@ -43,3 +43,4 @@
 - [Codex] Performed a final release-readiness audit and recorded the remaining license blocker.
 - [Codex] Added GitHub Actions CI for contributor verification.
 - [Codex] Added a pull request template with verification and safety checks.
+- [Codex] Added a security policy for private reports.

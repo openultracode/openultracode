@@ -32,6 +32,8 @@ npm run build
 
 Issue templates are available for bugs, feature requests, and scoped task proposals. Pull requests use `.github/PULL_REQUEST_TEMPLATE.md` so verification and safety checks stay visible in review.
 
+Security reports and secret exposure should use `SECURITY.md`, not public issues.
+
 ## Before You Submit
 
 Run:

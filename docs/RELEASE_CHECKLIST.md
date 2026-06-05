@@ -7,6 +7,7 @@ Use this checklist before tagging or publishing OpenUltraCode.
 - Confirm the package license for public release.
 - Confirm the package version in `package.json`.
 - Confirm the release target, such as GitHub source only or npm package.
+- Confirm `SECURITY.md` reporting instructions are still correct.
 
 ## Local Verification
 
