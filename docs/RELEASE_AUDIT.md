@@ -29,6 +29,7 @@ Concrete success criteria:
 | README entices contributors and reflects actual behavior | `README.md` documents current commands, safety model, artifacts, roadmap, help-wanted items | Complete |
 | Contributor guide exists | `CONTRIBUTING.md` includes setup, testing, issue-template guidance, release checklist pointer | Complete |
 | Issue templates exist | `.github/ISSUE_TEMPLATE/{bug_report,feature_request,task_proposal,config}.yml` | Complete |
+| Contributor CI exists | `.github/workflows/ci.yml` runs tests, typecheck, build, and package dry-run on Node 20, 22, and 24 | Complete |
 | Release checklist exists | `docs/RELEASE_CHECKLIST.md` | Complete |
 | Local CLI package metadata is set | `package.json` has name `openultracode`, version `0.1.0`, bin aliases `ouc` and `openultracode` | Complete |
 | License file exists | `LICENSE` is MIT | Needs human confirmation before package release |
@@ -50,6 +51,7 @@ Concrete success criteria:
 - File ownership metadata and pre-worker blocking for overlapping edit scopes.
 - Codex CLI JSONL and Claude CLI JSON usage parsing with heuristic fallback.
 - Contributor issue templates and release checklist.
+- GitHub Actions CI for contributor verification.
 
 ## Remaining Blocker
 

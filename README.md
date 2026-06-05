@@ -241,6 +241,7 @@ Useful contributions right now:
 - Harden config validation and error messages.
 - Improve docs for model routing and safety.
 - Add more release examples and package publishing notes.
+- Keep CI green across Node 20, 22, and 24.
 
 Good first issue shape:
 

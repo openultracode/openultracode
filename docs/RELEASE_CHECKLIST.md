@@ -19,6 +19,8 @@ npm run build
 npm pack --dry-run
 ```
 
+CI runs the same core checks on pushes to `main` and pull requests across Node 20, 22, and 24.
+
 For CLI changes, run at least one built smoke:
 
 ```bash

@@ -1,6 +1,6 @@
 # Build Draft
 
-Timestamp: 2026-06-05 18:31 EDT
+Timestamp: 2026-06-05 18:35 EDT
 
 GitHub: https://github.com/AryaVora621/openultracode
 
@@ -68,6 +68,7 @@ Included:
 - `ouc plan` rejects `--run-id` when the value is missing.
 - Public contributor docs: `README.md`, `CONTRIBUTING.md`, `PROJECT_STATUS.md`, and `AGENTS.md`.
 - GitHub issue templates for bugs, feature requests, and scoped task proposals.
+- GitHub Actions CI for tests, typecheck, build, and package dry-run on Node 20, 22, and 24.
 - Release-readiness checklist in `docs/RELEASE_CHECKLIST.md`.
 - Release audit in `docs/RELEASE_AUDIT.md`.
 

@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 18:30 EDT
+Timestamp: 2026-06-05 18:35 EDT
 
 ## Completed
 
@@ -176,10 +176,12 @@ Timestamp: 2026-06-05 18:30 EDT
 - Performed a final release-readiness audit in `docs/RELEASE_AUDIT.md`.
 - Verified built help, plan, and fake-run smokes for the audit.
 - Recorded the remaining release blocker as the human license decision.
+- Added `.github/workflows/ci.yml` to run tests, typecheck, build, and package dry-run on pushes and pull requests across Node 20, 22, and 24.
+- Updated contributor and release docs to mention CI coverage.
 
 ## Current In-Progress State
 
-- None. The final release-readiness audit is complete, but package release remains blocked on license confirmation.
+- None. CI is added, and package release remains blocked on license confirmation.
 
 ## Next Action
 

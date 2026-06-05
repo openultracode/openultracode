@@ -40,3 +40,4 @@
 - [Codex] Added provider-specific usage parsing for local CLI backends when structured usage is available.
 - [Codex] Added contributor issue templates and release-readiness examples.
 - [Codex] Performed a final release-readiness audit and recorded the remaining license blocker.
+- [Codex] Added GitHub Actions CI for contributor verification.

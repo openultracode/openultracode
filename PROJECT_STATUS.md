@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 18:31 EDT
+Last updated: 2026-06-05 18:35 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -60,6 +60,7 @@ Implemented:
 - Run JSON, run ledgers, and final reports include token and cost totals.
 - Runtime `limits.maxCostUsd` enforcement from actual backend result costs.
 - GitHub issue templates for bugs, feature requests, and scoped task proposals.
+- GitHub Actions CI for tests, typecheck, build, and package dry-run on Node 20, 22, and 24.
 - Release-readiness checklist in `docs/RELEASE_CHECKLIST.md`.
 - Release audit in `docs/RELEASE_AUDIT.md`.
 - Test suite covering current behavior.

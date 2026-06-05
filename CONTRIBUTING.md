@@ -43,6 +43,8 @@ npm run build
 npm pack --dry-run
 ```
 
+The GitHub CI workflow runs these core checks on pushes and pull requests.
+
 If your change touches the CLI, include the command you used for a smoke test.
 
 ## Design Principles
