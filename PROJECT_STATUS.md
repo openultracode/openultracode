@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 19:48 EDT
+Last updated: 2026-06-05 19:50 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -123,7 +123,7 @@ Latest known result:
 - 59 tests passed.
 - Typecheck passed.
 - Build passed.
-- Package dry-run passed for `openultracode@0.1.0`, 24 files, package size `28.4 kB`.
+- Package dry-run passed for `openultracode@0.1.0`, 24 files, package size `28.5 kB`.
 - GitHub workflow YAML parsed successfully.
 - Repo secret-prefix scan excluding `.env` had no matches.
 - Em dash scan had no matches.
@@ -145,6 +145,7 @@ Latest known result:
 - `npm pack --dry-run` confirmed `docs/ARCHITECTURE.md` ships in the package tarball.
 - `CODE_OF_CONDUCT.md` is linked from `README.md` and `CONTRIBUTING.md`.
 - `npm pack --dry-run` confirmed `CODE_OF_CONDUCT.md` ships in the package tarball.
+- `gh api repos/AryaVora621/openultracode/community/profile` reports `health_percentage` `100` and recognizes `CODE_OF_CONDUCT.md`.
 - Built CLI blocked-run smoke against a temporary fixture returned status `blocked` with exit 1 when `limits.maxTasks` was exceeded.
 - Built CLI stopped-run smoke returned status `stopped`, succeeded 1 task, and left 1 task remaining.
 - Built CLI success and stopped smokes passed through the worker-pool path.

@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 19:48 EDT
+Timestamp: 2026-06-05 19:50 EDT
 
 ## Objective
 
@@ -31,6 +31,7 @@ Concrete success criteria:
 | Contributor guide exists | `CONTRIBUTING.md` includes setup, testing, issue-template guidance, release checklist pointer | Complete |
 | Architecture guide exists | `docs/ARCHITECTURE.md` covers runtime flow, module boundaries, artifact contracts, safety model, and extension points | Complete |
 | Code of conduct exists | `CODE_OF_CONDUCT.md` defines contributor behavior, scope, reporting, and enforcement | Complete |
+| GitHub community profile is complete | `gh api repos/AryaVora621/openultracode/community/profile` reported `health_percentage` `100` | Complete |
 | Issue templates exist | `.github/ISSUE_TEMPLATE/{bug_report,feature_request,task_proposal,config}.yml` | Complete |
 | Issue-template labels exist | `gh label list --repo AryaVora621/openultracode --limit 100` showed `bug`, `enhancement`, and `good first issue` | Complete |
 | Pull request template exists | `.github/PULL_REQUEST_TEMPLATE.md` captures summary, scope, verification, safety checks, and reviewer notes | Complete |
@@ -97,7 +98,7 @@ Fresh checks on the current release-readiness state:
 - `npm test`: 14 files, 59 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 24 files, package size `28.4 kB`.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 24 files, package size `28.5 kB`.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
 - `gh run view 27045180433 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - `node dist/bin/ouc.js --help`: passed.
@@ -116,6 +117,7 @@ Fresh checks on the current release-readiness state:
 - `npm pack --dry-run` confirmed `docs/ARCHITECTURE.md` is included in the 23-file package tarball.
 - `CODE_OF_CONDUCT.md` is present, linked from `README.md` plus `CONTRIBUTING.md`, and included in the package allowlist.
 - `npm pack --dry-run` confirmed `CODE_OF_CONDUCT.md` is included in the 24-file package tarball.
+- `gh api repos/AryaVora621/openultracode/community/profile` reported `health_percentage` `100` and recognized `CODE_OF_CONDUCT.md`.
 - The temporary package-smoke directory was removed from `/tmp`.
 - Secret-prefix scans excluding `.env` and known shell history/session scans found no matches.
 - Em dash scan found no matches.
