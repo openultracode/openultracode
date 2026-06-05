@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 18:44 EDT
+Last updated: 2026-06-05 18:55 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, contributor issue templates plus a release checklist are present, and the final release audit is recorded.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, contributor issue templates plus a release checklist are present, issue-template labels exist on GitHub, and the final release audit is recorded.
 
 Implemented:
 
@@ -60,6 +60,7 @@ Implemented:
 - Run JSON, run ledgers, and final reports include token and cost totals.
 - Runtime `limits.maxCostUsd` enforcement from actual backend result costs.
 - GitHub issue templates for bugs, feature requests, and scoped task proposals.
+- GitHub labels used by issue templates verified in the public repo.
 - GitHub Actions CI for tests, typecheck, build, and package dry-run on Node 20, 22, and 24.
 - Release-readiness checklist in `docs/RELEASE_CHECKLIST.md`.
 - Release audit in `docs/RELEASE_AUDIT.md`.
@@ -139,6 +140,7 @@ Latest known result:
 - CLI usage parsing tests verified Codex JSONL usage events, Claude JSON result usage, cost mapping, and plain-text fallback behavior.
 - Built CLI usage parsing smoke mapped mocked Codex and Claude structured output into worker usage and cost totals.
 - GitHub Actions run `27043801167` created the Node 20, 22, and 24 jobs, but each job failed before starting because the GitHub account is locked due to a billing issue.
+- `gh label list --repo AryaVora621/openultracode --limit 100` showed the labels referenced by issue templates exist: `bug`, `enhancement`, and `good first issue`.
 
 ## Next Best Task
 
@@ -154,4 +156,4 @@ Expected slice:
 ## Human Decisions Needed
 
 - Confirm the MIT license is acceptable for public release.
-- Decide when to add issue templates and contribution labels.
+- Resolve the GitHub account billing lock so remote CI can run.

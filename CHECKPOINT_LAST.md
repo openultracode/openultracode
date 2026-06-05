@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 18:43 EDT
+Timestamp: 2026-06-05 18:55 EDT
 
 ## Completed
 
@@ -184,6 +184,8 @@ Timestamp: 2026-06-05 18:43 EDT
 - Rechecked GitHub Actions run `27043801167`; the Node 20, 22, and 24 jobs again failed before starting because the GitHub account is locked due to a billing issue.
 - Updated `BLOCKED.md` and `PROJECT_STATUS.md` with the current run evidence.
 - Verified local state after the blocker-doc refresh: workflow YAML parse passed, `npm test` passed with 14 files and 59 tests, typecheck passed, build passed, package dry-run passed with 18 files, secret-prefix scan had no matches, em dash scan had no matches, and `git diff --check` reported no whitespace errors.
+- Verified the public GitHub repo already has the issue-template labels `bug`, `enhancement`, and `good first issue`.
+- Updated `PROJECT_STATUS.md` so contribution labels are no longer listed as a pending human decision.
 
 ## Current In-Progress State
 
@@ -196,3 +198,4 @@ Timestamp: 2026-06-05 18:43 EDT
 ## Human Decisions Needed
 
 - Confirm before public release if the MIT default license should change.
+- Resolve the GitHub account billing lock so remote CI can run.
