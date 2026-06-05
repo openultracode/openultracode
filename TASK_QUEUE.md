@@ -4,6 +4,7 @@
 
 - Decide package license for public release if MIT default should change.
 - Resolve the GitHub account billing lock so CI can run.
+- Review and merge or close Dependabot PRs `#1` and `#2` after remote CI can run.
 
 ## In-Progress
 

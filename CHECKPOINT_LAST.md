@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 19:00 EDT
+Timestamp: 2026-06-05 19:06 EDT
 
 ## Completed
 
@@ -195,6 +195,10 @@ Timestamp: 2026-06-05 19:00 EDT
 - Updated `README.md`, `CONTRIBUTING.md`, `docs/RELEASE_CHECKLIST.md`, `TASK_QUEUE.md`, `PROJECT_STATUS.md`, and `docs/RELEASE_AUDIT.md` to record security policy readiness.
 - Added `.github/dependabot.yml` for weekly npm and GitHub Actions update checks.
 - Updated `README.md`, `CONTRIBUTING.md`, `docs/RELEASE_CHECKLIST.md`, `TASK_QUEUE.md`, `PROJECT_STATUS.md`, and `docs/RELEASE_AUDIT.md` to record dependency automation readiness.
+- Dependabot opened PR `#1` for `typescript` `5.9.3` to `6.0.3` and PR `#2` for `@types/node` `24.13.0` to `25.9.2`.
+- Verified both Dependabot PRs in isolated temporary worktrees with `npm ci`, `npm test`, `npm run typecheck`, `npm run build`, and `npm pack --dry-run`; both passed locally.
+- Removed the temporary Dependabot review worktrees from `/tmp/ouc-dependabot-checks-97872`.
+- Checked Dependabot PR CI runs `27044654614` and `27044658334`; both failed before job startup because the GitHub account is locked due to a billing issue.
 
 ## Current In-Progress State
 
@@ -202,9 +206,10 @@ Timestamp: 2026-06-05 19:00 EDT
 
 ## Next Action
 
-- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions.
+- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions and handle Dependabot PRs `#1` and `#2`.
 
 ## Human Decisions Needed
 
 - Confirm before public release if the MIT default license should change.
 - Resolve the GitHub account billing lock so remote CI can run.
+- Review and merge or close Dependabot PRs `#1` and `#2` after remote CI can run.
