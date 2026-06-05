@@ -1,6 +1,6 @@
 # Build Draft
 
-Timestamp: 2026-06-05 17:53 EDT
+Timestamp: 2026-06-05 17:58 EDT
 
 GitHub: https://github.com/AryaVora621/openultracode
 
@@ -48,6 +48,9 @@ Included:
 - `SIGINT` and `SIGTERM` cancellation through an `AbortController`.
 - Worker-pool cancellation before execution and between tasks.
 - Canceled CLI runs preserve stopped-run ledger and final report artifacts.
+- Worker-pool `totalTokens` and `totalCostUsd` aggregation from actual worker results.
+- Run JSON, run ledgers, and final reports include token and cost totals.
+- Runtime `limits.maxCostUsd` enforcement from actual backend result costs.
 - Deterministic edit-goal splitting into edit and dependent test tasks.
 - Mixed implementation, test, and docs goals split into dependent code, verification, and docs tasks.
 - Documentation-only goals stay scoped to README and `docs/` files.
@@ -86,12 +89,13 @@ node dist/bin/ouc.js run "inspect this repo" --backend codex-cli --run-id run_sm
 node dist/bin/ouc.js run "inspect this repo" --backend claude-cli --run-id run_smoke_claude_cli_parser_20260605_1736 --stop-after-task 0 --json
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_worktree_reconcile_20260605_1746 --json
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built cancellation smoke */'
+node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built actual-cost cap smoke */'
 npm pack --dry-run
 ```
 
 Observed results:
 
-- `npm test`: 13 test files, 47 tests passed.
+- `npm test`: 13 test files, 49 tests passed.
 - `npm run typecheck`: exit 0.
 - `npm run build`: exit 0.
 - `node dist/bin/ouc.js --help`: printed the CLI help with `plan`, `run`, `status`, and `report`.
@@ -123,9 +127,11 @@ Observed results:
 - `node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_worktree_reconcile_20260605_1746 --json`: wrote edit-task `reconciliation.json`, empty `diff.patch`, skipped test-task reconciliation, and a final-report reconciliation section.
 - Cancellation tests verified worker-pool aborts, stopped CLI artifacts, signal handler cleanup, and abort-signal propagation into CLI command backends.
 - Built cancellation smoke returned exit 1 with status `stopped`, reason `Run canceled before task execution.`, and preserved stopped-run artifact paths.
+- Cost accounting tests verified worker-pool token totals, runtime actual-cost stopping, stopped-run token/cost JSON, ledger totals, and final-report totals.
+- Built actual-cost cap smoke returned exit 1 after one mocked OpenRouter call with status `stopped`, total cost `$0.04`, and total tokens `18`.
 - `ouc plan` argument validation rejects a missing `--run-id` value.
 - `npm pack --dry-run`: package is named `openultracode`, includes 14 built runtime files, 17 files total, and only emits `dist/bin/ouc.js` for the CLI binary.
 
 ## Next Step
 
-Continue Phase 2 by implementing real cost and token accounting.
+Continue Phase 2 by implementing opt-in clean patch application after reconciliation.

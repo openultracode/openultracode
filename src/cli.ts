@@ -233,6 +233,7 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
     workersDir: artifacts.workersDir,
     stopAfterTask: parsed.stopAfterTask,
     abortSignal: runtime.abortSignal,
+    maxCostUsd: config.limits.maxCostUsd,
     prepareTask: (task) => prepareTaskWorkspace({
       projectRoot: runtime.cwd,
       runDir: artifacts.runDir,
@@ -276,6 +277,7 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
     succeeded,
     failed,
     totalCostUsd: poolResult.totalCostUsd,
+    totalTokens: poolResult.totalTokens,
     finishedAt: new Date().toISOString()
   });
 
@@ -300,6 +302,7 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
           succeeded,
           failed,
           totalCostUsd: poolResult.totalCostUsd,
+          totalTokens: poolResult.totalTokens,
           planPath: artifacts.planPath,
           ledgerPath: artifacts.ledgerPath,
           finalReportPath: artifacts.finalReportPath
@@ -479,6 +482,7 @@ function renderExecutionReport(
     `- Failed tasks: ${failed}`,
     ...(remaining > 0 ? [`- Remaining tasks: ${remaining}`] : []),
     ...(stopReason ? [`- Stop reason: ${stopReason}`] : []),
+    `- Total tokens: ${sumTokens(results)}`,
     `- Total cost: $${sumCosts(results).toFixed(2)}`,
     "",
     "## Tasks",
@@ -583,6 +587,7 @@ async function writeStoppedRun(input: {
     failed,
     remaining,
     totalCostUsd: sumCosts(input.results),
+    totalTokens: sumTokens(input.results),
     stoppedAt: new Date().toISOString()
   });
 
@@ -609,6 +614,7 @@ async function writeStoppedRun(input: {
           failed,
           remaining,
           totalCostUsd: sumCosts(input.results),
+          totalTokens: sumTokens(input.results),
           planPath: input.artifacts.planPath,
           ledgerPath: input.artifacts.ledgerPath,
           finalReportPath: input.artifacts.finalReportPath
@@ -831,6 +837,10 @@ function sumCosts(results: WorkerResult[]): number {
   return Number(
     results.reduce((sum, result) => sum + result.costUsd, 0).toFixed(6)
   );
+}
+
+function sumTokens(results: WorkerResult[]): number {
+  return results.reduce((sum, result) => sum + result.usage.totalTokens, 0);
 }
 
 function formatUsd(value: number): string {

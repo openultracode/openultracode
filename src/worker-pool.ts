@@ -19,6 +19,7 @@ export type WorkerPoolResult = {
   succeeded: number;
   failed: number;
   remaining: number;
+  totalTokens: number;
   totalCostUsd: number;
   stopReason?: string;
 };
@@ -29,6 +30,7 @@ export type RunFakeWorkerPoolInput = {
   workersDir: string;
   stopAfterTask?: number;
   abortSignal?: AbortSignal;
+  maxCostUsd?: number;
 };
 
 export type RunWorkerPoolInput = RunFakeWorkerPoolInput & {
@@ -149,6 +151,21 @@ export async function runWorkerPool(input: RunWorkerPoolInput): Promise<WorkerPo
         stopReason: stopAfterTaskReason(results.length)
       });
     }
+
+    if (
+      input.maxCostUsd !== undefined &&
+      sumCosts(results) > input.maxCostUsd &&
+      results.length < input.tasks.length
+    ) {
+      return summarizeWorkerPool({
+        status: "stopped",
+        tasks: input.tasks,
+        results,
+        reconciliations,
+        taskEvents,
+        stopReason: `Run stopped after actual cost ${formatUsd(sumCosts(results))} exceeded maxCostUsd ${formatUsd(input.maxCostUsd)}.`
+      });
+    }
   }
 
   return summarizeWorkerPool({
@@ -203,6 +220,7 @@ function summarizeWorkerPool(input: {
     succeeded,
     failed,
     remaining: input.tasks.length - input.results.length,
+    totalTokens: sumTokens(input.results),
     totalCostUsd: sumCosts(input.results),
     stopReason: input.stopReason
   };
@@ -243,4 +261,12 @@ function sumCosts(results: WorkerResult[]): number {
   return Number(
     results.reduce((sum, result) => sum + result.costUsd, 0).toFixed(6)
   );
+}
+
+function sumTokens(results: WorkerResult[]): number {
+  return results.reduce((sum, result) => sum + result.usage.totalTokens, 0);
+}
+
+function formatUsd(value: number): string {
+  return `$${value.toFixed(2)}`;
 }

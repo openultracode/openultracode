@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 17:53 EDT
+Last updated: 2026-06-05 17:58 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get isolated worktree and reconciliation artifacts, and cancellation now preserves stopped-run artifacts.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get isolated worktree and reconciliation artifacts, cancellation preserves stopped-run artifacts, and worker result accounting now drives token and cost totals.
 
 Implemented:
 
@@ -46,13 +46,16 @@ Implemented:
 - Real `SIGINT` and `SIGTERM` cancellation through an `AbortController`.
 - Worker-pool cancellation before execution and between tasks.
 - Canceled CLI runs preserve stopped-run ledger and final report artifacts.
+- Worker-pool `totalTokens` and `totalCostUsd` aggregation from actual worker results.
+- Run JSON, run ledgers, and final reports include token and cost totals.
+- Runtime `limits.maxCostUsd` enforcement from actual backend result costs.
 - Test suite covering current behavior.
 
 Not implemented yet:
 
 - Automatic application of clean patches.
 - File ownership enforcement.
-- Real cost and token accounting.
+- Provider-specific CLI usage parsing if local CLIs expose structured usage.
 
 ## Verification Snapshot
 
@@ -75,13 +78,14 @@ node dist/bin/ouc.js run "inspect this repo" --backend codex-cli --run-id run_sm
 node dist/bin/ouc.js run "inspect this repo" --backend claude-cli --run-id run_smoke_claude_cli_parser_20260605_1736 --stop-after-task 0 --json
 node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_worktree_reconcile_20260605_1746 --json
 node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built cancellation smoke */'
+node --input-type=module -e 'import { runCli } from "./dist/src/cli.js"; /* built actual-cost cap smoke */'
 npm pack --dry-run
 ```
 
 Latest known result:
 
 - 13 test files passed.
-- 47 tests passed.
+- 49 tests passed.
 - Typecheck passed.
 - Build passed.
 - Package dry-run passed.
@@ -102,16 +106,18 @@ Latest known result:
 - Built CLI worktree reconciliation smoke wrote edit-task `reconciliation.json`, empty `diff.patch`, skipped test-task reconciliation, and a final-report reconciliation section.
 - Cancellation tests verified worker-pool aborts, CLI stopped artifacts, signal handler cleanup, and abort-signal propagation into CLI command backends.
 - Built cancellation smoke returned exit 1 with status `stopped`, reason `Run canceled before task execution.`, and preserved stopped-run artifact paths.
+- Cost accounting tests verified worker-pool token totals, runtime actual-cost stopping, stopped-run token/cost JSON, ledger totals, and final-report totals.
+- Built actual-cost cap smoke returned exit 1 after one mocked OpenRouter call with status `stopped`, total cost `$0.04`, and total tokens `18`.
 
 ## Next Best Task
 
-Implement real cost and token accounting.
+Implement opt-in clean patch application after reconciliation.
 
 Expected slice:
 
-- Normalize usage and cost totals across fake, OpenRouter, Codex CLI, and Claude CLI results.
-- Record cost and token totals in ledger events and reports consistently.
-- Keep hard cost limits enforceable from real backend results.
+- Apply clean worker diffs only behind an explicit CLI/config opt-in.
+- Refuse automatic application for conflict or failed reconciliation states.
+- Preserve applied patch metadata in the run report and ledger.
 
 ## Human Decisions Needed
 

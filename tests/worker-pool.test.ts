@@ -44,6 +44,7 @@ test("runFakeWorkerPool executes tasks and writes worker artifacts", async () =>
   expect(result.results).toHaveLength(2);
   expect(result.succeeded).toBe(2);
   expect(result.remaining).toBe(0);
+  expect(result.totalTokens).toBeGreaterThan(0);
   expect(result.taskEvents.map((event) => event.event)).toEqual([
     "task_started",
     "task_finished",
@@ -146,6 +147,46 @@ test("runWorkerPool stops before the next task when the signal is aborted", asyn
     "task_started",
     "task_finished"
   ]);
+  await expect(stat(join(workersDir, "task_1", "result.json"))).resolves.toBeDefined();
+  await expect(stat(join(workersDir, "task_2", "result.json"))).rejects.toMatchObject({
+    code: "ENOENT"
+  });
+});
+
+test("runWorkerPool stops before the next task when actual cost exceeds the cap", async () => {
+  const runRoot = await mkdtemp(join(tmpdir(), "ouc-worker-pool-cost-cap-"));
+  const workersDir = join(runRoot, "workers");
+  const runTaskCalls: string[] = [];
+
+  const result = await runWorkerPool({
+    runId: "run_pool_cost_cap",
+    tasks: makeTasks(),
+    workersDir,
+    maxCostUsd: 1,
+    runTask: async (task) => {
+      runTaskCalls.push(task.id);
+      return {
+        ...makeWorkerResult(task),
+        usage: {
+          inputTokens: 3,
+          outputTokens: 4,
+          totalTokens: 7
+        },
+        costUsd: 1.25
+      };
+    }
+  });
+
+  expect(result).toMatchObject({
+    status: "stopped",
+    stopReason: "Run stopped after actual cost $1.25 exceeded maxCostUsd $1.00.",
+    succeeded: 1,
+    failed: 0,
+    remaining: 1,
+    totalCostUsd: 1.25,
+    totalTokens: 7
+  });
+  expect(runTaskCalls).toEqual(["task_1"]);
   await expect(stat(join(workersDir, "task_1", "result.json"))).resolves.toBeDefined();
   await expect(stat(join(workersDir, "task_2", "result.json"))).rejects.toMatchObject({
     code: "ENOENT"

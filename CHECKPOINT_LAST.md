@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 17:53 EDT
+Timestamp: 2026-06-05 17:58 EDT
 
 ## Completed
 
@@ -131,14 +131,22 @@ Timestamp: 2026-06-05 17:53 EDT
 - Added cancellation tests for worker-pool aborts, CLI stopped artifacts, signal handler cleanup, and command backend signal propagation.
 - Updated README, AGENTS, build draft, project status, and task queue for the cancellation slice.
 - Verified focused cancellation tests, full `npm test`, `npm run typecheck`, `npm run build`, built cancellation smoke, and `npm pack --dry-run`.
+- Committed and pushed cancellation handling as `7439345` with message `Add cancellation signal handling`.
+- Added worker-pool total token and actual-cost aggregation.
+- Added runtime actual-cost cap stopping from backend result costs.
+- Added run JSON, ledger, and final-report token and cost totals.
+- Added mocked OpenRouter cost-cap CLI coverage and built actual-cost cap smoke.
+- Updated README, AGENTS, build draft, project status, and task queue for the cost-accounting slice.
+- Verified `npm test`, `npm run typecheck`, `npm run build`, built actual-cost cap smoke, and `npm pack --dry-run`.
+- Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, `.env` ignore and permissions, and `git diff --check`.
 
 ## Current In-Progress State
 
-- None. The cancellation and signal handling slice is implemented and verified.
+- None. The cost and token accounting slice is implemented and verified.
 
 ## Next Action
 
-- Implement real cost and token accounting.
+- Implement opt-in clean patch application after reconciliation.
 
 ## Human Decisions Needed
 

@@ -4,7 +4,7 @@ OpenUltraCode is an open-source local CLI for parallel coding agents with adapti
 
 The goal is simple: make multi-agent coding workflows cheaper, safer, and more controllable than sending every worker to the same expensive premium model.
 
-Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, capture per-worker reconciliation metadata, stop cleanly on cancellation, and expose status/report commands. The next milestone is real cost and token accounting.
+Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, capture per-worker reconciliation metadata, enforce actual cost caps, stop cleanly on cancellation, and expose status/report commands. The next milestone is opt-in clean patch application.
 
 ## Why This Should Exist
 
@@ -61,6 +61,8 @@ Current implemented surface:
 - Worker reconciliation artifacts preserve `diff.patch`, `changed-files.json`, and `reconciliation.json`.
 - Final reports include a reconciliation section with clean, changed, skipped, failed, or conflict status.
 - `SIGINT` and `SIGTERM` cancellation are converted into stopped runs that preserve partial artifacts.
+- Run JSON, ledgers, and final reports include total token and cost accounting from worker results.
+- Actual backend cost can stop a run before the next task when `limits.maxCostUsd` is exceeded.
 - `final-report.md` creation, execution summaries, and preservation.
 - Machine-readable JSON output for plan, run, and status.
 - Deterministic fake backend for local execution and tests.
@@ -171,7 +173,7 @@ Status: OpenRouter, Codex CLI, and Claude CLI are wired behind explicit opt-in. 
 - Claude CLI backend using `claude -p`.
 - Codex CLI backend using `codex exec`.
 - Timeout, retry, and fallback behavior.
-- Cost and token accounting.
+- Provider-specific CLI usage parsing when local CLIs expose structured usage.
 
 ### Milestone 4: Safe Mutating Work
 

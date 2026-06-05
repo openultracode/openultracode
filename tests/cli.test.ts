@@ -598,6 +598,99 @@ test("runCli run requires OPENROUTER_API_KEY for the OpenRouter backend", async 
   ).rejects.toMatchObject({ code: "ENOENT" });
 });
 
+test("runCli run stops when actual backend cost exceeds maxCostUsd", async () => {
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-cost-cap-"));
+  await mkdir(join(projectRoot, ".ouc"), { recursive: true });
+  await mkdir(join(projectRoot, "src"), { recursive: true });
+  await mkdir(join(projectRoot, "tests"), { recursive: true });
+  await writeFile(join(projectRoot, "package.json"), "{}");
+  await writeFile(join(projectRoot, "src", "cli.ts"), "export {};");
+  await writeFile(join(projectRoot, "tests", "cli.test.ts"), "test('ok', () => {});");
+  await writeFile(
+    join(projectRoot, ".ouc", "config.json"),
+    `${JSON.stringify({ limits: { maxCostUsd: 0.03 } }, null, 2)}\n`
+  );
+  const requests: Array<{ init: { body: string } }> = [];
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+
+  const exitCode = await runCli(
+    [
+      "node",
+      "ouc",
+      "run",
+      "implement report command and test it",
+      "--backend",
+      "openrouter",
+      "--run-id",
+      "run_cost_cap",
+      "--json"
+    ],
+    {
+      cwd: projectRoot,
+      env: { OPENROUTER_API_KEY: "test-openrouter-key" },
+      fetchImpl: async (_url, init) => {
+        requests.push({ init });
+        return {
+          ok: true,
+          status: 200,
+          text: async () => JSON.stringify({
+            choices: [{ message: { content: "OpenRouter high-cost task." } }],
+            usage: {
+              prompt_tokens: 10,
+              completion_tokens: 8,
+              total_tokens: 18,
+              cost: 0.04
+            }
+          })
+        };
+      },
+      stdout: (line) => stdout.push(line),
+      stderr: (line) => stderr.push(line)
+    }
+  );
+  const output = JSON.parse(stdout.join("\n")) as {
+    status: string;
+    reason: string;
+    succeeded: number;
+    remaining: number;
+    totalCostUsd: number;
+    totalTokens: number;
+    finalReportPath: string;
+  };
+  const runDir = join(projectRoot, ".ouc", "runs", "run_cost_cap");
+  const ledgerLines = (await readFile(join(runDir, "ledger.jsonl"), "utf8"))
+    .trim()
+    .split("\n")
+    .map((line) => JSON.parse(line) as {
+      event: string;
+      totalCostUsd?: number;
+      totalTokens?: number;
+    });
+  const report = await readFile(output.finalReportPath, "utf8");
+
+  expect(exitCode).toBe(1);
+  expect(stderr).toEqual([]);
+  expect(requests).toHaveLength(1);
+  expect(output).toMatchObject({
+    status: "stopped",
+    reason: "Run stopped after actual cost $0.04 exceeded maxCostUsd $0.03.",
+    succeeded: 1,
+    remaining: 1,
+    totalCostUsd: 0.04,
+    totalTokens: 18
+  });
+  expect(
+    ledgerLines.find((line) => line.event === "run_stopped")
+  ).toMatchObject({
+    totalCostUsd: 0.04,
+    totalTokens: 18
+  });
+  expect(report).toContain("- Total tokens: 18");
+  expect(report).toContain("- Total cost: $0.04");
+  expect(report).toContain("- Stop reason: Run stopped after actual cost $0.04 exceeded maxCostUsd $0.03.");
+});
+
 test("runCli run executes planned tasks with the Codex CLI backend when explicitly selected", async () => {
   const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-codex-"));
   await mkdir(join(projectRoot, "src"), { recursive: true });
