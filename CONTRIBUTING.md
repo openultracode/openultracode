@@ -51,6 +51,8 @@ If your change touches the CLI, include the command you used for a smoke test.
 
 Before opening the PR, fill out the template with exact command results and note any release blocker that remains.
 
+Dependabot is configured for weekly npm and GitHub Actions update PRs. Treat those PRs like any other change: review the diff and require the full verification gate before merge.
+
 ## Design Principles
 
 - Local-first behavior.

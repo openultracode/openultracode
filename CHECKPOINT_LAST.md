@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 18:57 EDT
+Timestamp: 2026-06-05 19:00 EDT
 
 ## Completed
 
@@ -193,6 +193,8 @@ Timestamp: 2026-06-05 18:57 EDT
 - Updated `README.md`, `CONTRIBUTING.md`, `TASK_QUEUE.md`, `PROJECT_STATUS.md`, and `docs/RELEASE_AUDIT.md` to record PR template readiness.
 - Added `SECURITY.md` with supported version scope, private GitHub Security Advisory reporting, and project-specific safety areas.
 - Updated `README.md`, `CONTRIBUTING.md`, `docs/RELEASE_CHECKLIST.md`, `TASK_QUEUE.md`, `PROJECT_STATUS.md`, and `docs/RELEASE_AUDIT.md` to record security policy readiness.
+- Added `.github/dependabot.yml` for weekly npm and GitHub Actions update checks.
+- Updated `README.md`, `CONTRIBUTING.md`, `docs/RELEASE_CHECKLIST.md`, `TASK_QUEUE.md`, `PROJECT_STATUS.md`, and `docs/RELEASE_AUDIT.md` to record dependency automation readiness.
 
 ## Current In-Progress State
 

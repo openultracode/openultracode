@@ -44,3 +44,4 @@
 - [Codex] Added GitHub Actions CI for contributor verification.
 - [Codex] Added a pull request template with verification and safety checks.
 - [Codex] Added a security policy for private reports.
+- [Codex] Added Dependabot config for npm and GitHub Actions updates.

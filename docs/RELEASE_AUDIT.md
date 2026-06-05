@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 18:57 EDT
+Timestamp: 2026-06-05 19:00 EDT
 
 ## Objective
 
@@ -32,6 +32,7 @@ Concrete success criteria:
 | Issue-template labels exist | `gh label list --repo AryaVora621/openultracode --limit 100` showed `bug`, `enhancement`, and `good first issue` | Complete |
 | Pull request template exists | `.github/PULL_REQUEST_TEMPLATE.md` captures summary, scope, verification, safety checks, and reviewer notes | Complete |
 | Security policy exists | `SECURITY.md` directs sensitive reports to GitHub Security Advisories and lists project-specific safety areas | Complete |
+| Dependency update automation exists | `.github/dependabot.yml` checks npm and GitHub Actions weekly | Complete |
 | Contributor CI exists | `.github/workflows/ci.yml` runs tests, typecheck, build, and package dry-run on Node 20, 22, and 24 | Configured |
 | Remote CI run starts | `gh run list --repo AryaVora621/openultracode --limit 5` and `gh run view <latest-run-id> --repo AryaVora621/openultracode` | Blocked by GitHub billing/account lock |
 | Release checklist exists | `docs/RELEASE_CHECKLIST.md` | Complete |
@@ -58,6 +59,7 @@ Concrete success criteria:
 - Contributor labels used by issue templates verified in the public repo.
 - Pull request template for verification and safety checks.
 - Security policy for private reports.
+- Dependabot config for npm and GitHub Actions updates.
 - GitHub Actions CI for contributor verification.
 
 ## Remaining Blocker
