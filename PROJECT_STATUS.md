@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 19:18 EDT
+Last updated: 2026-06-05 19:20 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -74,7 +74,7 @@ Implemented:
 Not implemented yet:
 
 - Human license decision before package release.
-- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27045092200` and documented in `BLOCKED.md`.
+- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27045180433` and documented in `BLOCKED.md`.
 
 ## Verification Snapshot
 
@@ -144,7 +144,7 @@ Latest known result:
 - Built file-ownership block smoke returned exit 1 with status `blocked`, `limit` `fileOwnership`, and no worker result artifacts.
 - CLI usage parsing tests verified Codex JSONL usage events, Claude JSON result usage, cost mapping, and plain-text fallback behavior.
 - Built CLI usage parsing smoke mapped mocked Codex and Claude structured output into worker usage and cost totals.
-- GitHub Actions run `27045092200` created the Node 20, 22, and 24 jobs, but each job failed before starting because the GitHub account is locked due to a billing issue.
+- GitHub Actions run `27045180433` created the Node 20, 22, and 24 jobs, but each job failed before starting because the GitHub account is locked due to a billing issue.
 - `gh label list --repo AryaVora621/openultracode --limit 100` showed the labels referenced by issue templates exist: `bug`, `enhancement`, and `good first issue`.
 - `.github/PULL_REQUEST_TEMPLATE.md` now asks contributors for exact verification results, CLI smoke output when relevant, and safety checks for secrets, live backends, generated folders, and final-report preservation.
 - `SECURITY.md` directs sensitive reports to GitHub Security Advisories and names project-specific safety areas.
