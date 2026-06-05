@@ -32,6 +32,7 @@ Status: source-ready after local verification. Final package release is still bl
 - GitHub Actions CI configuration across Node 20, 22, and 24, with manual dispatch available after the account billing lock is fixed.
 - Public GitHub repo description, README homepage, and discovery topics for contributor discovery.
 - Architecture guide covering runtime flow, module boundaries, artifact contracts, safety model, and extension points.
+- Code of conduct for public contributor spaces.
 
 ### Changed
 

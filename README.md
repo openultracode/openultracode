@@ -153,6 +153,12 @@ For release notes, read:
 cat CHANGELOG.md
 ```
 
+For contributor conduct expectations, read:
+
+```bash
+cat CODE_OF_CONDUCT.md
+```
+
 For the internal module map and extension points, read:
 
 ```bash

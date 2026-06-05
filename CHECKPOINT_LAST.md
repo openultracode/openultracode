@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 19:46 EDT
+Timestamp: 2026-06-05 19:48 EDT
 
 ## Completed
 
@@ -227,14 +227,18 @@ Timestamp: 2026-06-05 19:46 EDT
 - Linked the architecture guide from `README.md` and `CONTRIBUTING.md`.
 - Verified the architecture guide docs slice with `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, repo secret-prefix scan excluding `.env`, shell history secret scan, em dash scan, `git diff --check`, and `.env` ignore plus mode checks.
 - `npm pack --dry-run` now includes `docs/ARCHITECTURE.md`, 23 total files, and package size `27.6 kB`.
+- GitHub community profile check reported 85 percent health and no code of conduct.
+- Added `CODE_OF_CONDUCT.md`, linked it from `README.md` and `CONTRIBUTING.md`, and added it to the package allowlist.
+- Verified the code of conduct docs slice with `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, repo secret-prefix scan excluding `.env`, shell history secret scan, em dash scan, `git diff --check`, and `.env` ignore plus mode checks.
+- `npm pack --dry-run` now includes `CODE_OF_CONDUCT.md`, 24 total files, and package size `28.4 kB`.
 
 ## Current In-Progress State
 
-- None. Architecture guide, npm metadata, changelog, public repo metadata, publish dry-run, packaged install smoke, release decision record, package allowlist, and manual CI dispatch are verified. Dependabot PRs are resolved, and package release remains blocked on license confirmation plus the GitHub account billing lock.
+- None. Code of conduct, architecture guide, npm metadata, changelog, public repo metadata, publish dry-run, packaged install smoke, release decision record, package allowlist, and manual CI dispatch are verified. Dependabot PRs are resolved, and package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Commit and push the architecture guide docs slice, then resolve the public release license decision and GitHub account billing lock.
+- Commit and push the code of conduct docs slice, then resolve the public release license decision and GitHub account billing lock.
 
 ## Human Decisions Needed
 

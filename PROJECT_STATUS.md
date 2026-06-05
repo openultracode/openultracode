@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 19:46 EDT
+Last updated: 2026-06-05 19:48 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, contributor issue templates plus a PR template, architecture guide, and release checklist are present, issue-template labels exist on GitHub, GitHub repo discovery metadata is set, a security policy directs private reports, Dependabot is configured, and the final release audit plus release decision record are recorded.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, contributor issue templates plus a PR template, architecture guide, code of conduct, and release checklist are present, issue-template labels exist on GitHub, GitHub repo discovery metadata is set, a security policy directs private reports, Dependabot is configured, and the final release audit plus release decision record are recorded.
 
 Implemented:
 
@@ -62,6 +62,7 @@ Implemented:
 - GitHub issue templates for bugs, feature requests, and scoped task proposals.
 - GitHub labels used by issue templates verified in the public repo.
 - GitHub pull request template for verification and safety checks.
+- Code of conduct for public contributor spaces.
 - Security policy for private reports through GitHub Security Advisories.
 - Dependabot config for weekly npm and GitHub Actions update PRs.
 - Dev dependency updates from Dependabot PRs `#1` and `#2` folded into `main`: `typescript` `^6.0.3` and `@types/node` `^25.9.2`.
@@ -73,6 +74,7 @@ Implemented:
 - Release audit in `docs/RELEASE_AUDIT.md`.
 - Changelog in `CHANGELOG.md`.
 - Package file allowlist includes `docs/` so README-linked release docs ship in the package tarball.
+- Package file allowlist includes `CODE_OF_CONDUCT.md`.
 - npm discovery metadata in `package.json`: repository, homepage, bugs URL, and keywords.
 - Public GitHub repo discovery metadata: description, README homepage, and topics matching the package keywords.
 - npm publish dry-run compatible bin metadata for `ouc` and `openultracode`.
@@ -121,7 +123,7 @@ Latest known result:
 - 59 tests passed.
 - Typecheck passed.
 - Build passed.
-- Package dry-run passed for `openultracode@0.1.0`, 23 files, package size `27.6 kB`.
+- Package dry-run passed for `openultracode@0.1.0`, 24 files, package size `28.4 kB`.
 - GitHub workflow YAML parsed successfully.
 - Repo secret-prefix scan excluding `.env` had no matches.
 - Em dash scan had no matches.
@@ -141,6 +143,8 @@ Latest known result:
 - `gh repo view AryaVora621/openultracode --json nameWithOwner,description,homepageUrl,repositoryTopics,visibility,viewerPermission` confirmed the public repo description, README homepage, and eight discovery topics are set.
 - `docs/ARCHITECTURE.md` is linked from `README.md` and `CONTRIBUTING.md`.
 - `npm pack --dry-run` confirmed `docs/ARCHITECTURE.md` ships in the package tarball.
+- `CODE_OF_CONDUCT.md` is linked from `README.md` and `CONTRIBUTING.md`.
+- `npm pack --dry-run` confirmed `CODE_OF_CONDUCT.md` ships in the package tarball.
 - Built CLI blocked-run smoke against a temporary fixture returned status `blocked` with exit 1 when `limits.maxTasks` was exceeded.
 - Built CLI stopped-run smoke returned status `stopped`, succeeded 1 task, and left 1 task remaining.
 - Built CLI success and stopped smokes passed through the worker-pool path.
