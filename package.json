@@ -1,0 +1,32 @@
+{
+  "name": "codexultracode",
+  "version": "0.1.0",
+  "description": "Local CLI for Ultracode-style parallel coding with adaptive model routing.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "codexultracode": "./dist/bin/cuc.js",
+    "cuc": "./dist/bin/cuc.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.15"
+  },
+  "engines": {
+    "node": ">=20.18"
+  }
+}
