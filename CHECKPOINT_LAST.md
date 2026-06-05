@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 19:35 EDT
+Timestamp: 2026-06-05 19:39 EDT
 
 ## Completed
 
@@ -217,14 +217,17 @@ Timestamp: 2026-06-05 19:35 EDT
 - Verified npm metadata and changelog with `npm install --package-lock-only`, `npm test`, `npm run typecheck`, `npm run build`, YAML parsing, shell history secret scan, `git diff --check`, `npm pack --dry-run`, built help smoke, built plan smoke `run_metadata_changelog_20260605_1934`, built fake-run smoke `run_metadata_changelog_fake_20260605_1934`, repo secret-prefix scan excluding `.env`, em dash scan, and `.env` ignore and mode check.
 - Verified the packaged tarball in a clean temporary consumer project: `npm pack --pack-destination`, `npm install <tarball>`, packaged `./node_modules/.bin/ouc --help`, and packaged `./node_modules/.bin/ouc plan "audit this repo for TODOs" --run-id package_smoke --json` passed.
 - Removed the temporary package-smoke directory from `/tmp`.
+- Ran `npm publish --dry-run` and found npm would auto-correct and remove the `bin` entries while they used `./dist/bin/ouc.js`.
+- Normalized `package.json` bin paths to `dist/bin/ouc.js` with `npm pkg fix`, updated `tests/package.test.ts` to assert both `ouc` and `openultracode` aliases, and confirmed `npm publish --dry-run` no longer reports bin auto-correction.
+- Reverified with `npm test`, `npm run typecheck`, `npm run build`, YAML parsing, repo secret-prefix scan excluding `.env`, shell history secret scan, em dash scan, `git diff --check`, `.env` ignore and mode check, and a clean temporary package install smoke that ran both packaged `ouc --help` and packaged `openultracode --help`.
 
 ## Current In-Progress State
 
-- None. npm metadata, changelog, packaged install smoke, release decision record, package allowlist, and manual CI dispatch are verified. Dependabot PRs are resolved, and package release remains blocked on license confirmation plus the GitHub account billing lock.
+- None. npm metadata, changelog, publish dry-run, packaged install smoke, release decision record, package allowlist, and manual CI dispatch are verified. Dependabot PRs are resolved, and package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Push packaged install smoke evidence, then resolve the public release license decision and GitHub account billing lock.
+- Push npm publish dry-run bin fix, then resolve the public release license decision and GitHub account billing lock.
 
 ## Human Decisions Needed
 

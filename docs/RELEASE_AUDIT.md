@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 19:35 EDT
+Timestamp: 2026-06-05 19:39 EDT
 
 ## Objective
 
@@ -49,6 +49,7 @@ Concrete success criteria:
 | Build passes | `npm run build` | Complete |
 | Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 22 files, including release docs and changelog | Complete |
 | Packaged install smoke works | Temporary consumer project installed packed tarball and ran packaged `ouc --help` plus packaged `ouc plan --json` | Complete |
+| Publish dry-run works | `npm publish --dry-run` passes without bin auto-correction after normalizing bin paths | Complete |
 | Secret is not committed | `git check-ignore -v .env`, `ls -l .env`, repo secret scan excluding `.env`, shell history scan | Complete |
 | Generated folders are not committed | `git status --short --ignored` shows only ignored `.env`, `.ouc`, `dist`, `node_modules` after push | Complete |
 
@@ -101,6 +102,9 @@ Fresh checks on the current release-readiness state:
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_metadata_changelog_20260605_1934 --json`: passed.
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_metadata_changelog_fake_20260605_1934 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
 - Packaged install smoke in a temporary consumer project passed with `npm install <tarball>`, packaged `./node_modules/.bin/ouc --help`, and packaged `./node_modules/.bin/ouc plan "audit this repo for TODOs" --run-id package_smoke --json`.
+- `npm publish --dry-run` initially exposed bin auto-correction for `./dist/bin/ouc.js`; after normalizing both bin paths to `dist/bin/ouc.js`, `npm publish --dry-run` passed without bin auto-correction.
+- The package test now asserts `ouc` uses `dist/bin/ouc.js` and `openultracode` points to the same built CLI.
+- Repeated packaged install smoke passed with packaged `./node_modules/.bin/ouc --help`, packaged `./node_modules/.bin/openultracode --help`, and packaged `./node_modules/.bin/ouc plan "audit this repo for TODOs" --run-id package_smoke_bin_fix --json`.
 - The temporary package-smoke directory was removed from `/tmp`.
 - Secret-prefix scans excluding `.env` and known shell history/session scans found no matches.
 - Em dash scan found no matches.

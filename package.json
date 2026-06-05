@@ -23,8 +23,8 @@
     "worktrees"
   ],
   "bin": {
-    "openultracode": "./dist/bin/ouc.js",
-    "ouc": "./dist/bin/ouc.js"
+    "openultracode": "dist/bin/ouc.js",
+    "ouc": "dist/bin/ouc.js"
   },
   "files": [
     "dist",

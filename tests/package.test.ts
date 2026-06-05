@@ -9,8 +9,8 @@ test("package exposes ouc and openultracode aliases to the same built CLI", asyn
     scripts: Record<string, string>;
   };
 
-  expect(pkg.bin.ouc).toBe("./dist/bin/ouc.js");
-  expect(pkg.bin.ouc).toBe("./dist/bin/ouc.js");
+  expect(pkg.bin.ouc).toBe("dist/bin/ouc.js");
+  expect(pkg.bin.openultracode).toBe(pkg.bin.ouc);
   expect(pkg.scripts.build).toContain("tsc");
   expect(pkg.scripts.test).toContain("vitest");
 });

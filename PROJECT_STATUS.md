@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 19:35 EDT
+Last updated: 2026-06-05 19:39 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -73,6 +73,7 @@ Implemented:
 - Changelog in `CHANGELOG.md`.
 - Package file allowlist includes `docs/` so README-linked release docs ship in the package tarball.
 - npm discovery metadata in `package.json`: repository, homepage, bugs URL, and keywords.
+- npm publish dry-run compatible bin metadata for `ouc` and `openultracode`.
 - Test suite covering current behavior.
 
 Not implemented yet:
@@ -133,6 +134,8 @@ Latest known result:
 - Metadata package smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_metadata_changelog_fake_20260605_1934 --json`.
 - Metadata plan smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_metadata_changelog_20260605_1934 --json`.
 - Packaged install smoke passed from a clean temporary consumer project with `npm install <tarball>`, packaged `ouc --help`, and packaged `ouc plan --json`.
+- `npm publish --dry-run` passed without package bin auto-correction after normalizing bin paths to `dist/bin/ouc.js`.
+- Packaged install smoke after the bin fix passed from a clean temporary consumer project with packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json`.
 - Built CLI blocked-run smoke against a temporary fixture returned status `blocked` with exit 1 when `limits.maxTasks` was exceeded.
 - Built CLI stopped-run smoke returned status `stopped`, succeeded 1 task, and left 1 task remaining.
 - Built CLI success and stopped smokes passed through the worker-pool path.
