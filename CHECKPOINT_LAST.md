@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 17:03 EDT
+Timestamp: 2026-06-05 17:10 EDT
 
 ## Completed
 
@@ -79,14 +79,20 @@ Timestamp: 2026-06-05 17:03 EDT
 - Verified worker-pool and CLI focused tests, full tests, typecheck, build, and built success/stopped smokes.
 - Verified `npm pack --dry-run`, secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, and `git diff --check`.
 - Confirmed `.env` remains ignored with `0600` permissions.
+- Committed and pushed worker-pool extraction as `bcc0cdb` with message `Extract fake worker pool`.
+- Added `OpenRouterBackend` with env-key loading, OpenRouter chat-completions request mapping, response usage mapping, and HTTP error mapping.
+- Added mocked OpenRouter tests only. No live API calls were made.
+- Verified OpenRouter tests, full tests, typecheck, build, and `npm pack --dry-run`.
+- Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, and `git diff --check`.
+- Confirmed `.env` remains ignored with `0600` permissions.
 
 ## Current In-Progress State
 
-- None. Worker-pool extraction is implemented and verified locally.
+- None. OpenRouter backend configuration and mocked tests are implemented and verified locally.
 
 ## Next Action
 
-- Commit and push worker-pool extraction, then add OpenRouter backend configuration and mocked tests.
+- Commit and push OpenRouter backend prep, then wire OpenRouter into worker execution behind an explicit opt-in.
 
 ## Human Decisions Needed
 

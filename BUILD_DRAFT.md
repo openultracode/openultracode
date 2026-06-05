@@ -1,6 +1,6 @@
 # Build Draft
 
-Timestamp: 2026-06-05 17:03 EDT
+Timestamp: 2026-06-05 17:10 EDT
 
 GitHub: https://github.com/AryaVora621/openultracode
 
@@ -35,6 +35,7 @@ Included:
 - `--stop-after-task` stopped-run reporting for fake runs.
 - Partial-run final reports that show succeeded, remaining, and not-run tasks.
 - Worker-pool sequencing module behind fake runs.
+- OpenRouter backend module with env-key loading, request mapping, response mapping, and mocked fetch tests.
 - Deterministic edit-goal splitting into edit and dependent test tasks.
 - Edit task source scopes prefer implementation files over docs and tracker files.
 - JSON output modes for `ouc plan ... --json` and `ouc status <run-id> --json`.
@@ -67,7 +68,7 @@ npm pack --dry-run
 
 Observed results:
 
-- `npm test`: 9 test files, 26 tests passed.
+- `npm test`: 10 test files, 29 tests passed.
 - `npm run typecheck`: exit 0.
 - `npm run build`: exit 0.
 - `node dist/bin/ouc.js --help`: printed the CLI help with `plan`, `run`, `status`, and `report`.
@@ -83,9 +84,10 @@ Observed results:
 - `node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_stopped --stop-after-task 1 --json`: returned exit 1 with status `stopped`, wrote one worker result, one remaining task, `run_stopped` ledger state, and a partial final report.
 - `node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_pool_success --json`: verified the refactored worker-pool success path.
 - `node dist/bin/ouc.js run "implement report command and test it" --backend fake --run-id run_smoke_pool_stopped --stop-after-task 1 --json`: verified the refactored worker-pool stopped path.
+- OpenRouter backend tests verified env-key loading, request headers/body, response usage mapping, and HTTP error mapping with mocked fetch only.
 - `ouc plan` argument validation rejects a missing `--run-id` value.
 - `npm pack --dry-run`: package is named `openultracode`, includes 12 runtime files, and only emits `dist/bin/ouc.js` for the CLI binary.
 
 ## Next Step
 
-Continue Phase 2 by adding OpenRouter backend configuration and mocked tests before any live external model calls.
+Continue Phase 2 by wiring OpenRouter into worker execution behind an explicit opt-in.

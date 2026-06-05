@@ -3,7 +3,7 @@
 ## Open
 
 - Decide package license for public release if MIT default should change.
-- Add OpenRouter backend configuration and mocked tests before live calls.
+- Wire OpenRouter into worker execution behind an explicit opt-in.
 - Expand router fallback chains for real backend failure modes.
 - Implement richer orchestrator plan parsing beyond deterministic local heuristics.
 - Implement worker execution backends.
@@ -32,3 +32,4 @@
 - [Codex] Added preflight budget and max-task enforcement for fake runs with blocked JSON, ledger, and report artifacts.
 - [Codex] Added stopped-run reporting for fake runs with `--stop-after-task`, partial reports, and `run_stopped` ledger events.
 - [Codex] Extracted worker-pool sequencing behind fake runs with unit coverage and unchanged CLI artifacts.
+- [Codex] Added OpenRouter backend configuration and mocked tests without live API calls or committed secrets.

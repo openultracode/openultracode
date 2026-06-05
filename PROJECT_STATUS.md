@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 17:03 EDT
+Last updated: 2026-06-05 17:10 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -31,11 +31,12 @@ Implemented:
 - `--stop-after-task` stopped-run reporting for fake runs.
 - Partial-run final reports that show succeeded, remaining, and not-run tasks.
 - Worker-pool sequencing module behind fake runs.
+- OpenRouter backend module with `OPENROUTER_API_KEY` env loading, request headers, response mapping, and mocked fetch tests.
 - Test suite covering current behavior.
 
 Not implemented yet:
 
-- OpenRouter backend.
+- OpenRouter-backed `ouc run` execution.
 - Claude CLI backend.
 - Codex CLI backend.
 - Worktree manager.
@@ -60,8 +61,8 @@ npm pack --dry-run
 
 Latest known result:
 
-- 9 test files passed.
-- 26 tests passed.
+- 10 test files passed.
+- 29 tests passed.
 - Typecheck passed.
 - Build passed.
 - Package dry-run passed.
@@ -69,18 +70,18 @@ Latest known result:
 - Built CLI blocked-run smoke against a temporary fixture returned status `blocked` with exit 1 when `limits.maxTasks` was exceeded.
 - Built CLI stopped-run smoke returned status `stopped`, succeeded 1 task, and left 1 task remaining.
 - Built CLI success and stopped smokes passed through the worker-pool path.
+- OpenRouter backend tests used mocked fetch only and made no live API calls.
 
 ## Next Best Task
 
-Add OpenRouter backend configuration and tests before any live external model calls.
+Wire OpenRouter into worker execution behind an explicit opt-in.
 
 Expected slice:
 
-- Add an OpenRouter backend module with mocked fetch tests.
-- Read `OPENROUTER_API_KEY` from the environment only.
-- Keep `.env` ignored and avoid committing secrets.
-- Keep live API calls opt-in and out of default tests.
-- Keep real backend calls out of scope.
+- Add `--backend openrouter` handling that requires explicit selection.
+- Keep `.env` ignored and read `OPENROUTER_API_KEY` from the environment only.
+- Add CLI tests with mocked backend behavior.
+- Do not make live calls in default tests.
 
 ## Human Decisions Needed
 
