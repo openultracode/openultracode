@@ -1,0 +1,50 @@
+name: Bug report
+description: Report behavior that is broken, confusing, or unsafe.
+title: "Bug: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping make OpenUltraCode safer and easier to inspect.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What went wrong?
+      placeholder: Describe the observed bug in one or two sentences.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Commands, files, and config needed to reproduce the issue.
+      placeholder: |
+        1. Run `...`
+        2. Observe `...`
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should OpenUltraCode have done instead?
+    validations:
+      required: true
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Relevant artifacts
+      description: Paste non-secret snippets from `.ouc/runs/<run-id>/`, logs, or test output.
+      placeholder: Do not paste API keys or private repo content.
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety checks
+      options:
+        - label: I did not include API keys, tokens, or private repository content.
+          required: true
+        - label: I checked whether `.ouc/runs/<run-id>/final-report.md` or `ledger.jsonl` explains the failure.
+          required: false

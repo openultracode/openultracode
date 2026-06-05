@@ -78,4 +78,4 @@ node dist/bin/ouc.js plan "audit this repo for TODOs" --json
 
 ## Current Priority
 
-The next major implementation task is contributor issue templates and release-readiness examples. Do not make live external model calls by default.
+The next major task is a final release-readiness audit. Do not make live external model calls by default.

@@ -7,9 +7,10 @@ OpenUltraCode is early. The best contributions are small, tested slices that mak
 1. Read `README.md`.
 2. Read `PROJECT_STATUS.md`.
 3. Read `TASK_QUEUE.md`.
-4. Pick one narrow behavior.
-5. Write the test first.
-6. Run the full verification commands before opening a PR.
+4. Check `docs/RELEASE_CHECKLIST.md` if the change affects packaging or release readiness.
+5. Pick one narrow behavior.
+6. Write the test first for behavior changes.
+7. Run the full verification commands before opening a PR.
 
 ## Development Setup
 
@@ -28,6 +29,8 @@ npm run build
 - Add fake-backend run artifacts.
 - Add fixture repos for integration tests.
 - Improve docs around routing and safety.
+
+Issue templates are available for bugs, feature requests, and scoped task proposals.
 
 ## Before You Submit
 

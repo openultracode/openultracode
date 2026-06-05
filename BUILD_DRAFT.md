@@ -1,6 +1,6 @@
 # Build Draft
 
-Timestamp: 2026-06-05 18:24 EDT
+Timestamp: 2026-06-05 18:27 EDT
 
 GitHub: https://github.com/AryaVora621/openultracode
 
@@ -67,6 +67,8 @@ Included:
 - JSON output modes for `ouc plan ... --json` and `ouc status <run-id> --json`.
 - `ouc plan` rejects `--run-id` when the value is missing.
 - Public contributor docs: `README.md`, `CONTRIBUTING.md`, `PROJECT_STATUS.md`, and `AGENTS.md`.
+- GitHub issue templates for bugs, feature requests, and scoped task proposals.
+- Release-readiness checklist in `docs/RELEASE_CHECKLIST.md`.
 
 ## Verification Evidence
 
@@ -152,4 +154,4 @@ Observed results:
 
 ## Next Step
 
-Continue Phase 2 by adding contributor issue templates and release-readiness examples.
+Perform a final release-readiness audit.

@@ -4,7 +4,7 @@ OpenUltraCode is an open-source local CLI for parallel coding agents with adapti
 
 The goal is simple: make multi-agent coding workflows cheaper, safer, and more controllable than sending every worker to the same expensive premium model.
 
-Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, enforce file ownership for mutating tasks, capture per-worker reconciliation metadata, apply clean patches only after explicit opt-in, parse structured usage from local CLI backends when available, enforce actual cost caps, stop cleanly on cancellation, and expose status/report commands. The next milestone is release-readiness polish for contributors.
+Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, enforce file ownership for mutating tasks, capture per-worker reconciliation metadata, apply clean patches only after explicit opt-in, parse structured usage from local CLI backends when available, enforce actual cost caps, stop cleanly on cancellation, and expose status/report commands. The next milestone is a final release-readiness audit.
 
 ## Why This Should Exist
 
@@ -135,6 +135,12 @@ node dist/bin/ouc.js status <run-id> --json
 node dist/bin/ouc.js report <run-id>
 ```
 
+Before release work, use the checklist:
+
+```bash
+cat docs/RELEASE_CHECKLIST.md
+```
+
 Example artifact layout:
 
 ```text
@@ -202,13 +208,14 @@ Status: isolated worktree creation, file ownership enforcement, diff capture, ch
 
 ### Milestone 5: Polish And Packaging
 
-Status: planned.
+Status: contributor issue templates and release checklist are implemented. Packaging polish remains open.
 
 - Richer docs and examples.
 - Better default config.
 - Local install docs.
 - More integration tests.
 - Contributor-friendly issue templates.
+- Release-readiness checklist.
 
 ## Architecture
 
@@ -230,11 +237,10 @@ The implementation is not all there yet. The repo currently contains the plannin
 Useful contributions right now:
 
 - Add fixture repos that stress deterministic planning heuristics.
-- Add contributor issue templates and release-readiness examples.
 - Add fixture repos for integration tests.
 - Harden config validation and error messages.
 - Improve docs for model routing and safety.
-- Add issue templates and contribution labels for public collaboration.
+- Add more release examples and package publishing notes.
 
 Good first issue shape:
 

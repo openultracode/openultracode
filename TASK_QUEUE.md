@@ -3,7 +3,7 @@
 ## Open
 
 - Decide package license for public release if MIT default should change.
-- Add contributor issue templates and release-readiness examples.
+- Perform a final release-readiness audit.
 
 ## In-Progress
 
@@ -39,3 +39,4 @@
 - [Codex] Implemented opt-in clean patch application after reconciliation.
 - [Codex] Implemented file ownership enforcement for overlapping worker scopes.
 - [Codex] Added provider-specific usage parsing for local CLI backends when structured usage is available.
+- [Codex] Added contributor issue templates and release-readiness examples.

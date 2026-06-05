@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 18:24 EDT
+Last updated: 2026-06-05 18:27 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, and worker result accounting now drives token and cost totals.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, and contributor issue templates plus a release checklist are present.
 
 Implemented:
 
@@ -59,11 +59,13 @@ Implemented:
 - Worker-pool `totalTokens` and `totalCostUsd` aggregation from actual worker results.
 - Run JSON, run ledgers, and final reports include token and cost totals.
 - Runtime `limits.maxCostUsd` enforcement from actual backend result costs.
+- GitHub issue templates for bugs, feature requests, and scoped task proposals.
+- Release-readiness checklist in `docs/RELEASE_CHECKLIST.md`.
 - Test suite covering current behavior.
 
 Not implemented yet:
 
-- Contributor issue templates and release-readiness examples.
+- Final release-readiness audit and package publishing notes.
 
 ## Verification Snapshot
 
@@ -128,13 +130,13 @@ Latest known result:
 
 ## Next Best Task
 
-Add contributor issue templates and release-readiness examples.
+Perform a final release-readiness audit.
 
 Expected slice:
 
-- Add GitHub issue templates for bug reports, feature requests, and task proposals.
-- Add a short release-readiness checklist for contributors.
-- Keep public docs aligned with the current CLI surface.
+- Confirm every public claim maps to implemented behavior.
+- Confirm package contents, hygiene scans, and verification commands are current.
+- Record any remaining blockers before declaring the project ready.
 
 ## Human Decisions Needed
 

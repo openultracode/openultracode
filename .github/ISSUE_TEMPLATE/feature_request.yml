@@ -1,0 +1,50 @@
+name: Feature request
+description: Suggest a scoped feature that improves the local CLI.
+title: "Feature: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What workflow is hard, unsafe, expensive, or opaque today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Describe the smallest useful version of the feature.
+    validations:
+      required: true
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Artifacts and commands
+      description: Which commands, run artifacts, or reports should change?
+      placeholder: Example: `ouc run ... --json`, `ledger.jsonl`, `final-report.md`.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Planning
+        - Routing
+        - Backends
+        - Worker artifacts
+        - Reconciliation
+        - Cost and usage
+        - Documentation
+        - Packaging
+    validations:
+      required: true
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Boundaries
+      options:
+        - label: This can be tested with fake or mocked backends first.
+          required: true
+        - label: This does not require live external model calls in CI.
+          required: true

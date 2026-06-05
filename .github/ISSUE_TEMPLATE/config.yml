@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security or secret exposure
+    url: https://github.com/AryaVora621/openultracode/security/advisories/new
+    about: Report sensitive security issues privately.

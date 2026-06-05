@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 18:24 EDT
+Timestamp: 2026-06-05 18:30 EDT
 
 ## Completed
 
@@ -164,14 +164,22 @@ Timestamp: 2026-06-05 18:24 EDT
 - Updated README, AGENTS, build draft, project status, and task queue for the CLI usage parsing slice.
 - Verified `npm test`, `npm run typecheck`, `npm run build`, built CLI usage parsing smoke, and `npm pack --dry-run`.
 - Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, `.env` ignore and permissions, and `git diff --check`.
+- Committed and pushed structured CLI usage parsing as `bc1ba96` with message `Parse structured CLI usage`.
+- Added GitHub issue templates for bug reports, feature requests, and scoped task proposals.
+- Added `.github/ISSUE_TEMPLATE/config.yml` to route security reports privately and disable blank issues.
+- Added `docs/RELEASE_CHECKLIST.md` with verification, packaging, and hygiene gates.
+- Linked the release checklist from `README.md` and `CONTRIBUTING.md`.
+- Updated README, AGENTS, build draft, project status, and task queue for the release-readiness docs slice.
+- Verified `npm test`, `npm run typecheck`, `npm run build`, and `npm pack --dry-run`.
+- Verified secret value scan excluding `.env`, shell history/session secret scan, stale old-name scan, em dash scan, `.env` ignore and permissions, and `git diff --check`.
 
 ## Current In-Progress State
 
-- None. The provider-specific CLI usage parsing slice is implemented and verified.
+- None. The contributor issue templates and release-readiness examples slice is implemented and verified.
 
 ## Next Action
 
-- Add contributor issue templates and release-readiness examples.
+- Perform a final release-readiness audit.
 
 ## Human Decisions Needed
 
