@@ -1,0 +1,40 @@
+{
+  "activeProfile": "openrouter-budget",
+  "profiles": {
+    "openrouter-budget": {
+      "orchestrator": {
+        "backend": "openrouter",
+        "model": "openai/gpt-oss-120b"
+      },
+      "critical": {
+        "backend": "openrouter",
+        "model": "openai/gpt-oss-120b"
+      },
+      "strong": {
+        "backend": "openrouter",
+        "model": "openai/gpt-oss-120b"
+      },
+      "cheap": {
+        "backend": "openrouter",
+        "model": "deepseek/deepseek-v4-flash"
+      },
+      "free": {
+        "backend": "openrouter",
+        "models": [
+          "qwen/qwen3-coder:free",
+          "nvidia/nemotron-3-super-120b-a12b:free",
+          "openai/gpt-oss-120b:free"
+        ]
+      }
+    }
+  },
+  "limits": {
+    "maxWorkers": 4,
+    "maxCostUsd": 0.5,
+    "maxTasks": 20,
+    "requirePlanApproval": true
+  },
+  "patchApplication": {
+    "applyCleanPatches": false
+  }
+}

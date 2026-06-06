@@ -1,5 +1,5 @@
-import { mkdir, writeFile } from "node:fs/promises";
-import { join } from "node:path";
+import { copyFile, mkdir, readdir, writeFile } from "node:fs/promises";
+import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { mkdtemp } from "node:fs/promises";
 
@@ -80,4 +80,29 @@ test("loadConfig rejects invalid backend names", async () => {
   );
 
   await expect(loadConfig(projectRoot)).rejects.toThrow(/Invalid config/);
+});
+
+test("example config files load through the real config parser", async () => {
+  const examplesRoot = resolve(process.cwd(), "examples");
+  const exampleFiles = (await readdir(examplesRoot))
+    .filter((file) => file.endsWith(".json"))
+    .sort();
+
+  expect(exampleFiles).toEqual([
+    "config.local-cli.json",
+    "config.openrouter-budget.json",
+    "config.safe-fake.json"
+  ]);
+
+  for (const file of exampleFiles) {
+    const projectRoot = await makeTempProject();
+    const configDir = join(projectRoot, ".ouc");
+    await mkdir(configDir, { recursive: true });
+    await copyFile(join(examplesRoot, file), join(configDir, "config.json"));
+
+    const config = await loadConfig(projectRoot);
+
+    expect(config.profiles[config.activeProfile]).toBeDefined();
+    expect(config.patchApplication.applyCleanPatches).toBe(false);
+  }
 });

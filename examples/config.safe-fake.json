@@ -1,0 +1,38 @@
+{
+  "activeProfile": "safe-fake",
+  "profiles": {
+    "safe-fake": {
+      "orchestrator": {
+        "backend": "fake",
+        "model": "fake-model"
+      },
+      "critical": {
+        "backend": "fake",
+        "model": "fake-model"
+      },
+      "strong": {
+        "backend": "fake",
+        "model": "fake-model"
+      },
+      "cheap": {
+        "backend": "fake",
+        "model": "fake-model"
+      },
+      "free": {
+        "backend": "fake",
+        "models": [
+          "fake-model"
+        ]
+      }
+    }
+  },
+  "limits": {
+    "maxWorkers": 4,
+    "maxCostUsd": 0,
+    "maxTasks": 12,
+    "requirePlanApproval": true
+  },
+  "patchApplication": {
+    "applyCleanPatches": false
+  }
+}

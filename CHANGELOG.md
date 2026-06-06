@@ -34,6 +34,7 @@ Status: source-ready after local verification. Final package release is still bl
 - Architecture guide covering runtime flow, module boundaries, artifact contracts, safety model, and extension points.
 - Code of conduct for public contributor spaces.
 - Completion audit mapping the active objective to concrete artifacts and blockers.
+- Copy-ready local config examples for fake, local CLI, and OpenRouter budget profiles.
 
 ### Changed
 

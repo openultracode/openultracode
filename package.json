@@ -29,6 +29,7 @@
   "files": [
     "dist",
     "docs",
+    "examples",
     "CHANGELOG.md",
     "CODE_OF_CONDUCT.md",
     "README.md",

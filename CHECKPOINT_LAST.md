@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 19:55 EDT
+Timestamp: 2026-06-05 20:01 EDT
 
 ## Completed
 
@@ -243,14 +243,22 @@ Timestamp: 2026-06-05 19:55 EDT
 - Pushed the completion audit docs slice as `18c332f`.
 - Verified local and remote `main` both point to `18c332f043577fc413bee8c6f05f3b5a2e0d0201`.
 - Verified GitHub community profile health remains `100` and there are no open PRs.
+- Pushed the checkpoint refresh as `ae82a52`.
+- Verified local and remote `main` both point to `ae82a520ba553da3638fe4cd39af3e4334768fa6`.
+- Added package-shipped copy-ready config examples for safe fake, local CLI, and OpenRouter budget profiles.
+- Added parser coverage that copies every JSON example into `.ouc/config.json` and loads it through the real config parser.
+- Added package metadata coverage that asserts `examples` remains in the package file allowlist.
+- Verified the examples slice with targeted config/package tests, full `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, repo secret-prefix scan excluding `.env`, shell history secret scan, em dash scan, `git diff --check`, and `.env` ignore plus mode checks.
+- `npm pack --dry-run` now includes `examples/`, 29 total files, and package size `31.1 kB`.
+- `npm publish --dry-run` passed with examples included and no bin metadata correction.
 
 ## Current In-Progress State
 
-- None. Completion audit, code of conduct, architecture guide, npm metadata, changelog, public repo metadata, community profile, publish dry-run, packaged install smoke, release decision record, package allowlist, and manual CI dispatch are verified and pushed. Dependabot PRs are resolved, and package release remains blocked on license confirmation plus the GitHub account billing lock.
+- Examples slice is verified locally. Commit and push are still pending.
 
 ## Next Action
 
-- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
+- Commit and push the examples slice, then resolve the public release license decision and GitHub account billing lock before rerunning GitHub Actions through manual workflow dispatch.
 
 ## Human Decisions Needed
 

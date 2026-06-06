@@ -1,0 +1,38 @@
+{
+  "activeProfile": "local-cli",
+  "profiles": {
+    "local-cli": {
+      "orchestrator": {
+        "backend": "codex-cli",
+        "model": "gpt-5.3-codex"
+      },
+      "critical": {
+        "backend": "claude-cli",
+        "model": "opus"
+      },
+      "strong": {
+        "backend": "codex-cli",
+        "model": "gpt-5.3-codex"
+      },
+      "cheap": {
+        "backend": "codex-cli",
+        "model": "gpt-5.4-mini"
+      },
+      "free": {
+        "backend": "codex-cli",
+        "models": [
+          "gpt-5.4-mini"
+        ]
+      }
+    }
+  },
+  "limits": {
+    "maxWorkers": 4,
+    "maxCostUsd": 1,
+    "maxTasks": 20,
+    "requirePlanApproval": true
+  },
+  "patchApplication": {
+    "applyCleanPatches": false
+  }
+}

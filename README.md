@@ -165,6 +165,12 @@ For contributor conduct expectations, read:
 cat CODE_OF_CONDUCT.md
 ```
 
+For copy-ready local config examples, read:
+
+```bash
+cat examples/README.md
+```
+
 For the internal module map and extension points, read:
 
 ```bash
@@ -276,6 +282,7 @@ Useful contributions right now:
 - Harden config validation and error messages.
 - Improve docs for model routing and safety.
 - Add more release examples and package publishing notes.
+- Add more copy-ready config and run examples.
 - Keep CI green across Node 20, 22, and 24.
 - Review `docs/RELEASE_DECISIONS.md` once the license and CI blockers are resolved.
 

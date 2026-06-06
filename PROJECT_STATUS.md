@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 19:52 EDT
+Last updated: 2026-06-05 20:01 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, contributor issue templates plus a PR template, architecture guide, code of conduct, release checklist, and completion audit are present, issue-template labels exist on GitHub, GitHub repo discovery metadata is set, a security policy directs private reports, Dependabot is configured, and the final release audit plus release decision record are recorded.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, contributor issue templates plus a PR template, architecture guide, code of conduct, release checklist, completion audit, and copy-ready config examples are present, issue-template labels exist on GitHub, GitHub repo discovery metadata is set, a security policy directs private reports, Dependabot is configured, and the final release audit plus release decision record are recorded.
 
 Implemented:
 
@@ -72,9 +72,11 @@ Implemented:
 - Release decision record in `docs/RELEASE_DECISIONS.md`.
 - Architecture guide in `docs/ARCHITECTURE.md` covering runtime flow, module boundaries, artifact contracts, safety model, and extension points.
 - Completion audit in `docs/COMPLETION_AUDIT.md` mapping the active objective to concrete artifacts and blockers.
+- Copy-ready config examples in `examples/` for safe fake, local CLI, and OpenRouter budget profiles.
 - Release audit in `docs/RELEASE_AUDIT.md`.
 - Changelog in `CHANGELOG.md`.
 - Package file allowlist includes `docs/` so README-linked release docs ship in the package tarball.
+- Package file allowlist includes `examples/`.
 - Package file allowlist includes `CODE_OF_CONDUCT.md`.
 - npm discovery metadata in `package.json`: repository, homepage, bugs URL, and keywords.
 - Public GitHub repo discovery metadata: description, README homepage, and topics matching the package keywords.
@@ -121,10 +123,11 @@ node --input-type=module -e 'import { CodexCliBackend, ClaudeCliBackend } from "
 Latest known result:
 
 - 14 test files passed.
-- 59 tests passed.
+- 60 tests passed.
 - Typecheck passed.
 - Build passed.
-- Package dry-run passed for `openultracode@0.1.0`, 25 files, package size `30.0 kB`.
+- Package dry-run passed for `openultracode@0.1.0`, 29 files, package size `31.1 kB`.
+- `npm publish --dry-run` passed with examples included in the tarball and no bin metadata correction.
 - GitHub workflow YAML parsed successfully.
 - Repo secret-prefix scan excluding `.env` had no matches.
 - Em dash scan had no matches.
@@ -149,6 +152,10 @@ Latest known result:
 - `gh api repos/AryaVora621/openultracode/community/profile` reports `health_percentage` `100` and recognizes `CODE_OF_CONDUCT.md`.
 - `docs/COMPLETION_AUDIT.md` records the prompt-to-artifact checklist and the two remaining blockers.
 - `npm pack --dry-run` confirmed `docs/COMPLETION_AUDIT.md` ships in the package tarball.
+- `examples/README.md` documents copy-ready config examples.
+- `tests/config.test.ts` verifies every JSON example loads through the real config parser.
+- `tests/package.test.ts` verifies `examples` is included in the package file allowlist.
+- `npm publish --dry-run` confirmed the same 29-file tarball with examples.
 - Built CLI blocked-run smoke against a temporary fixture returned status `blocked` with exit 1 when `limits.maxTasks` was exceeded.
 - Built CLI stopped-run smoke returned status `stopped`, succeeded 1 task, and left 1 task remaining.
 - Built CLI success and stopped smokes passed through the worker-pool path.

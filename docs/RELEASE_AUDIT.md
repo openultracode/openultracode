@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 19:52 EDT
+Timestamp: 2026-06-05 20:01 EDT
 
 ## Objective
 
@@ -32,6 +32,7 @@ Concrete success criteria:
 | Architecture guide exists | `docs/ARCHITECTURE.md` covers runtime flow, module boundaries, artifact contracts, safety model, and extension points | Complete |
 | Code of conduct exists | `CODE_OF_CONDUCT.md` defines contributor behavior, scope, reporting, and enforcement | Complete |
 | Completion audit exists | `docs/COMPLETION_AUDIT.md` maps the active objective to artifacts, verification evidence, and remaining blockers | Complete |
+| Copy-ready config examples exist | `examples/` contains safe fake, local CLI, and OpenRouter budget configs plus `examples/README.md` | Complete |
 | GitHub community profile is complete | `gh api repos/AryaVora621/openultracode/community/profile` reported `health_percentage` `100` | Complete |
 | Issue templates exist | `.github/ISSUE_TEMPLATE/{bug_report,feature_request,task_proposal,config}.yml` | Complete |
 | Issue-template labels exist | `gh label list --repo AryaVora621/openultracode --limit 100` showed `bug`, `enhancement`, and `good first issue` | Complete |
@@ -73,6 +74,7 @@ Concrete success criteria:
 - Architecture guide for runtime flow, module boundaries, artifact contracts, safety model, and extension points.
 - Code of conduct for public contributor spaces.
 - Completion audit for the active objective and remaining blockers.
+- Copy-ready local config examples with parser coverage.
 - Contributor labels used by issue templates verified in the public repo.
 - Pull request template for verification and safety checks.
 - Security policy for private reports.
@@ -97,10 +99,11 @@ Timestamp: 2026-06-05 19:23 EDT
 
 Fresh checks on the current release-readiness state:
 
-- `npm test`: 14 files, 59 tests passed.
+- `npm test`: 14 files, 60 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 25 files, package size `30.0 kB`.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 29 files, package size `31.1 kB`.
+- `npm publish --dry-run`: passed with the same 29-file tarball and no bin metadata correction.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
 - `gh run view 27045180433 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - `node dist/bin/ouc.js --help`: passed.
@@ -122,6 +125,9 @@ Fresh checks on the current release-readiness state:
 - `gh api repos/AryaVora621/openultracode/community/profile` reported `health_percentage` `100` and recognized `CODE_OF_CONDUCT.md`.
 - `docs/COMPLETION_AUDIT.md` records the active objective checklist and explicitly leaves release incomplete until license confirmation and GitHub CI are resolved.
 - `npm pack --dry-run` confirmed `docs/COMPLETION_AUDIT.md` is included in the 25-file package tarball.
+- `npm pack --dry-run` confirmed `examples/README.md`, `examples/config.safe-fake.json`, `examples/config.local-cli.json`, and `examples/config.openrouter-budget.json` are included in the 29-file package tarball.
+- `npm publish --dry-run` confirmed examples remain in the publish tarball.
+- `npm test -- tests/config.test.ts tests/package.test.ts`: 2 files and 5 tests passed, including example config parser coverage and package allowlist coverage.
 - The temporary package-smoke directory was removed from `/tmp`.
 - Secret-prefix scans excluding `.env` and known shell history/session scans found no matches.
 - Em dash scan found no matches.
