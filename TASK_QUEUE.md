@@ -60,3 +60,4 @@
 - [Codex] Added `docs/LOCAL_INSTALL.md` with source install, local link, config example, and package smoke instructions.
 - [Codex] Added `docs/MODEL_ROUTING.md` with tier rules, fallback behavior, backend selection, and safety controls.
 - [Codex] Added `docs/PUBLISHING.md` with tag, package-smoke, release-note, npm publish, and stop-condition guidance.
+- [Codex] Added `docs/RUN_EXAMPLES.md` with copy-ready plan, fake run, stopped run, local CLI, OpenRouter opt-in, and patch application examples.

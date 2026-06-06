@@ -165,6 +165,12 @@ For model-tier routing and backend safety rules, read:
 cat docs/MODEL_ROUTING.md
 ```
 
+For copy-ready run examples, read:
+
+```bash
+cat docs/RUN_EXAMPLES.md
+```
+
 For the current prompt-to-artifact completion audit, read:
 
 ```bash
@@ -297,7 +303,6 @@ Useful contributions right now:
 - Add fixture repos that stress deterministic planning heuristics.
 - Add fixture repos for integration tests.
 - Harden config validation and error messages.
-- Add more copy-ready config and run examples.
 - Keep CI green across Node 20, 22, and 24.
 - Review `docs/RELEASE_DECISIONS.md` once the license and CI blockers are resolved.
 
