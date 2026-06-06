@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 20:36 EDT
+Timestamp: 2026-06-05 20:38 EDT
 
 ## Completed
 
@@ -282,14 +282,17 @@ Timestamp: 2026-06-05 20:36 EDT
 - Linked the run examples guide from `README.md` and `CONTRIBUTING.md`.
 - Confirmed `npm pack --dry-run` includes `docs/RUN_EXAMPLES.md`, 33 total files, and package size `37.0 kB`.
 - Verified the run examples docs slice with `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, `npm publish --dry-run`, YAML parsing, built help smoke, built plan smoke, built fake-run smoke, repo secret-prefix scan excluding `.env`, shell history/session secret scan, em dash scan, `git diff --check`, and `.env` ignore plus mode checks.
+- Pushed the run examples guide slice as `76d96d8`.
+- Verified local and remote `main` both point to `76d96d88ed1dd43b1e0890083094c0f4b0cc3a7a`.
+- Verified there are no open PRs, and no newer CI run was created because the run examples commit used `[skip ci]`.
 
 ## Current In-Progress State
 
-- Run examples docs slice is verified locally and ready to commit and push.
+- None. Completion audit, code of conduct, architecture guide, package-shipped examples, local install guide, model routing guide, run examples guide, publishing guide, npm metadata, changelog, public repo metadata, community profile, publish dry-run, packaged install smoke, release decision record, package allowlist, manual CI dispatch, and tracker evidence are current. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Commit and push the run examples docs slice, then resolve the public release license decision and GitHub account billing lock before rerunning GitHub Actions through manual workflow dispatch.
+- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
 
 ## Human Decisions Needed
 

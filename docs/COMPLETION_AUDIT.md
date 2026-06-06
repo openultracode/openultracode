@@ -1,6 +1,6 @@
 # Completion Audit
 
-Timestamp: 2026-06-05 20:36 EDT
+Timestamp: 2026-06-05 20:38 EDT
 
 ## Objective
 
@@ -19,7 +19,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Continue implementation work from project context | `AGENTS.md`, `PROJECT_STATUS.md`, `TASK_QUEUE.md`, and `CHECKPOINT_LAST.md` were read before selecting new work | Complete |
 | Research current project state | GitHub repo metadata, community profile, CI runs, open PRs, local task trackers, and blocker files were inspected | Complete |
 | Test the project locally | `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, targeted example tests, hygiene scans, and package smokes have current recorded evidence | Complete |
-| Push changes to the public repo | Publishing guide commit `ac1f1f7b1a4e2e8a6ecf1a62a4a2d13c86bd324f` was pushed to `origin/main` | Complete |
+| Push changes to the public repo | Run examples guide commit `76d96d88ed1dd43b1e0890083094c0f4b0cc3a7a` was pushed to `origin/main` | Complete |
 | Preserve the OpenRouter key only locally | `.env` is ignored, has `0600` permissions, and secret-prefix scans outside `.env` found no matches | Complete |
 | Improve contributor readiness | README, CONTRIBUTING, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, local install docs, model routing docs, run examples docs, publishing docs, release docs, Dependabot, labels, and community profile are in place | Complete |
 | Make package contents release-shaped | `npm pack --dry-run` includes README, LICENSE, CHANGELOG, CODE_OF_CONDUCT, `docs/`, `examples/`, and built CLI files | Complete |
@@ -74,7 +74,7 @@ This audit maps that objective to concrete repository artifacts and verification
 - `.env`: ignored by `.gitignore` and mode `0600`.
 - `gh api repos/AryaVora621/openultracode/community/profile`: `health_percentage` `100`.
 - `gh pr list --repo AryaVora621/openultracode --state open --limit 20`: no open PRs.
-- Local `HEAD` and `origin/main`: `ac1f1f7b1a4e2e8a6ecf1a62a4a2d13c86bd324f` after the publishing guide push.
+- Local `HEAD` and `origin/main`: `76d96d88ed1dd43b1e0890083094c0f4b0cc3a7a` after the run examples guide push.
 - GitHub Actions run `27046966434`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 
 ## Missing Or Blocked Requirements

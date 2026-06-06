@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 20:36 EDT
+Timestamp: 2026-06-05 20:38 EDT
 
 ## Objective
 
@@ -114,7 +114,7 @@ Fresh checks on the current release-readiness state:
 - `npm publish --dry-run`: passed with the same 33-file tarball and no bin metadata correction.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
 - `gh run view 27046966434 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
-- `git rev-parse HEAD` and `git rev-parse origin/main`: both returned `ac1f1f7b1a4e2e8a6ecf1a62a4a2d13c86bd324f` after the publishing guide push.
+- `git rev-parse HEAD` and `git rev-parse origin/main`: both returned `76d96d88ed1dd43b1e0890083094c0f4b0cc3a7a` after the run examples guide push.
 - `node dist/bin/ouc.js --help`: passed.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_completion_audit_20260605_1924 --json`: passed.
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_completion_fake_20260605_1924 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
