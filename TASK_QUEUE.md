@@ -22,7 +22,7 @@
 - [Codex] Added `ouc status <run-id> --json` for machine-readable local run state.
 - [Codex] Added `ouc plan "<goal>" --json` for machine-readable plan creation output.
 - [Codex] Added `ouc plan` validation for missing `--run-id` values.
-- [Codex] Published the verified source to public GitHub repo `https://github.com/AryaVora621/openultracode`.
+- [Codex] Published the verified source to public GitHub repo `https://github.com/openultracode/openultracode`.
 - [Codex] Renamed the package, CLI alias, artifact directory, docs, and bin file around `ouc` and OpenUltraCode.
 - [Codex] Implemented fake-backend `ouc run` orchestration with worker artifacts, task ledger events, final reports, and overwrite protection.
 - [Codex] Added preflight budget and max-task enforcement for fake runs with blocked JSON, ledger, and report artifacts.

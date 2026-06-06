@@ -27,8 +27,8 @@ Confirm local and remote state:
 git status --short --branch --ignored
 git rev-parse HEAD
 git rev-parse origin/main
-gh pr list --repo AryaVora621/openultracode --state open --limit 20
-gh run list --repo AryaVora621/openultracode --limit 5
+gh pr list --repo openultracode/openultracode --state open --limit 20
+gh run list --repo openultracode/openultracode --limit 5
 ```
 
 Expected state:
@@ -50,15 +50,15 @@ git fetch origin
 git status --short --branch --ignored
 git rev-parse HEAD
 git rev-parse origin/main
-gh workflow run ci.yml --repo AryaVora621/openultracode --ref main
-gh run list --repo AryaVora621/openultracode --limit 5
-gh run watch --repo AryaVora621/openultracode
+gh workflow run ci.yml --repo openultracode/openultracode --ref main
+gh run list --repo openultracode/openultracode --limit 5
+gh run watch --repo openultracode/openultracode
 ```
 
 Inspect the completed run:
 
 ```bash
-gh run view <run-id> --repo AryaVora621/openultracode
+gh run view <run-id> --repo openultracode/openultracode
 ```
 
 Expected result:

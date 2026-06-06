@@ -30,7 +30,7 @@ Evidence:
 - Previous push CI run checked this session: `27045180433`.
 - Dependabot PR CI runs checked: `27044654614` for PR `#1`, `27044658334` for PR `#2`.
 - Earlier runs checked: `27043729557`, `27043801167`, `27044021893`, `27044221945`, `27044510315`, `27044620755`, `27044818874`, `27045092200`.
-- Recheck command: `gh run list --repo AryaVora621/openultracode --limit 5`, then `gh run view <latest-run-id> --repo AryaVora621/openultracode`.
+- Recheck command: `gh run list --repo openultracode/openultracode --limit 5`, then `gh run view <latest-run-id> --repo openultracode/openultracode`.
 - Run `27051308707` created the Node 20, 22, and 24 jobs.
 - Each job failed before starting with: `The job was not started because your account is locked due to a billing issue.`
 
@@ -50,7 +50,7 @@ Local verification already run:
 - Fresh continuation audit: `npm publish --dry-run` passed with package `openultracode@0.1.0`, 44 files, and package size `47.2 kB`.
 - Fresh continuation audit: packaged install smoke passed for `ouc --help`, `openultracode --help`, and packaged `ouc plan --json`.
 - Fresh continuation audit: `node dist/bin/ouc.js --help`, plan smoke `run_fresh_audit_20260605_2258`, and fake-run smoke `run_fresh_audit_fake_20260605_2258` passed.
-- Fresh continuation audit: `gh pr list --repo AryaVora621/openultracode --state open --limit 20` returned no open PRs.
+- Fresh continuation audit: `gh pr list --repo openultracode/openultracode --state open --limit 20` returned no open PRs.
 - Post-billing handoff audit: `npm run verify` passed with 17 test files and 79 tests, then typecheck, build, and package dry-run passed with a 44-file tarball and package size `47.2 kB`.
 - Release preflight audit: `npm run release:check` passed and ran `npm run verify` plus `npm publish --dry-run`.
 - Contributor starter map audit: `npm run verify` passed with 17 test files and 80 tests, then typecheck, build, and package dry-run passed with a 45-file tarball and package size `48.5 kB`.

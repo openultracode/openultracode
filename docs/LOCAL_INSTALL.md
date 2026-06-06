@@ -16,7 +16,7 @@ Do not put API keys in committed files. Keep `OPENROUTER_API_KEY` in an ignored 
 ## Source Checkout
 
 ```bash
-git clone https://github.com/AryaVora621/openultracode.git
+git clone https://github.com/openultracode/openultracode.git
 cd openultracode
 npm install
 npm test

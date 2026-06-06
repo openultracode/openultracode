@@ -2,7 +2,7 @@
 
 Timestamp: 2026-06-05 22:44 EDT
 
-GitHub: https://github.com/AryaVora621/openultracode
+GitHub: https://github.com/openultracode/openultracode
 
 ## Current Draft Scope
 

@@ -135,9 +135,9 @@ test("publishing guide documents exact post-billing CI rerun commands", async ()
 
   expect(publishingGuide).toContain("## After Billing Unlock");
   expect(publishingGuide).toContain(
-    "gh workflow run ci.yml --repo AryaVora621/openultracode --ref main"
+    "gh workflow run ci.yml --repo openultracode/openultracode --ref main"
   );
-  expect(publishingGuide).toContain("gh run watch --repo AryaVora621/openultracode");
+  expect(publishingGuide).toContain("gh run watch --repo openultracode/openultracode");
   expect(publishingGuide).toContain("gh run view");
   expect(releaseDecisions).toContain("docs/PUBLISHING.md#after-billing-unlock");
 });

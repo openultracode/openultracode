@@ -48,7 +48,7 @@ test("OpenRouterBackend sends a chat completion request and maps the response", 
     model: "qwen/qwen3-coder:free",
     fetchImpl,
     appTitle: "OpenUltraCode Tests",
-    httpReferer: "https://github.com/AryaVora621/openultracode"
+    httpReferer: "https://github.com/openultracode/openultracode"
   });
 
   const result = await backend.run(makeTask());
@@ -64,7 +64,7 @@ test("OpenRouterBackend sends a chat completion request and maps the response", 
   expect(request.init.headers["Content-Type"]).toBe("application/json");
   expect(request.init.headers["X-OpenRouter-Title"]).toBe("OpenUltraCode Tests");
   expect(request.init.headers["HTTP-Referer"]).toBe(
-    "https://github.com/AryaVora621/openultracode"
+    "https://github.com/openultracode/openultracode"
   );
   expect(body.model).toBe("qwen/qwen3-coder:free");
   expect(body.messages[0]).toMatchObject({ role: "system" });

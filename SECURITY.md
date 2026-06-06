@@ -10,7 +10,7 @@ The `main` branch is the only supported line until the project has tagged releas
 
 Use GitHub Security Advisories:
 
-https://github.com/AryaVora621/openultracode/security/advisories/new
+https://github.com/openultracode/openultracode/security/advisories/new
 
 Do not open a public issue or pull request for:
 

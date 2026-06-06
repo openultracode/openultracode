@@ -34,7 +34,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Save project status | `PROJECT_STATUS.md` | Current state, verification, blockers, and next action are recorded |
 | Push AI-agent-used files | `AGENTS.md`, `TASK_QUEUE.md`, `CHECKPOINT_LAST.md`, `BLOCKED.md` | Files are tracked and current with agent operating rules, queue, checkpoint, and blocker evidence |
 | Rename to `ouc` and OpenUltraCode | `package.json`, `bin/ouc.ts`, README, tests | Package name is `openultracode`; bin aliases are `ouc` and `openultracode` |
-| Public repo `openultracode` | GitHub repo | `https://github.com/AryaVora621/openultracode` is public and `origin/main` is current |
+| Public repo `openultracode` | GitHub repo | `https://github.com/openultracode/openultracode` is public and `origin/main` is current |
 | Hide OpenRouter key | `.env`, `.gitignore` | `.env` is ignored and owner-only; no key marker appears outside ignored local files |
 | Tuff README for contributors | `README.md` | README documents goals, current behavior, commands, artifacts, roadmap, help-wanted items, release docs, and conduct docs |
 | Contributor onboarding | `CONTRIBUTING.md`, `.github/ISSUE_TEMPLATE/`, `.github/PULL_REQUEST_TEMPLATE.md` | Setup, issue routes, PR verification, and safety checks are present |
@@ -124,8 +124,8 @@ This audit maps that objective to concrete repository artifacts and verification
 - Public-doc dash scan: no disallowed dash characters.
 - `git diff --check`: passed.
 - `.env`: ignored by `.gitignore` and mode `0600`.
-- `gh api repos/AryaVora621/openultracode/community/profile`: `health_percentage` `100`.
-- `gh pr list --repo AryaVora621/openultracode --state open --limit 20`: no open PRs.
+- `gh api repos/openultracode/openultracode/community/profile`: `health_percentage` `100`.
+- `gh pr list --repo openultracode/openultracode --state open --limit 20`: no open PRs.
 - Local and remote state check confirmed the routing safety docs push reached `origin/main` at commit `3fd95e7c0e385cc5dc58b9814624f4a32e2e86e1`.
 - GitHub Actions run `27050545771`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - Fresh remote state check: local `HEAD` and `origin/main` both point to `ae8a4153ca040b04c03fe4bafb640134c7a7bc4e`; there are no open PRs; run `27050545771` remains the latest CI-triggering run and is blocked by the same billing issue.

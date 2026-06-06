@@ -2,7 +2,7 @@
 
 Last updated: 2026-06-05 23:27 EDT
 
-Public repo: https://github.com/AryaVora621/openultracode
+Public repo: https://github.com/openultracode/openultracode
 
 ## Current State
 
@@ -199,12 +199,12 @@ Latest known result:
 - Packaged install smoke passed from a clean temporary consumer project with `npm install <tarball>`, packaged `ouc --help`, and packaged `ouc plan --json`.
 - `npm publish --dry-run` passed without package bin auto-correction after normalizing bin paths to `dist/bin/ouc.js`.
 - Packaged install smoke after the bin fix passed from a clean temporary consumer project with packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json`.
-- `gh repo view AryaVora621/openultracode --json nameWithOwner,description,homepageUrl,repositoryTopics,visibility,viewerPermission` confirmed the public repo description, README homepage, and eight discovery topics are set.
+- `gh repo view openultracode/openultracode --json nameWithOwner,description,homepageUrl,repositoryTopics,visibility,viewerPermission` confirmed the public repo description, README homepage, and eight discovery topics are set.
 - `docs/ARCHITECTURE.md` is linked from `README.md` and `CONTRIBUTING.md`.
 - `npm pack --dry-run` confirmed `docs/ARCHITECTURE.md` ships in the package tarball.
 - `CODE_OF_CONDUCT.md` is linked from `README.md` and `CONTRIBUTING.md`.
 - `npm pack --dry-run` confirmed `CODE_OF_CONDUCT.md` ships in the package tarball.
-- `gh api repos/AryaVora621/openultracode/community/profile` reports `health_percentage` `100` and recognizes `CODE_OF_CONDUCT.md`.
+- `gh api repos/openultracode/openultracode/community/profile` reports `health_percentage` `100` and recognizes `CODE_OF_CONDUCT.md`.
 - `docs/COMPLETION_AUDIT.md` records the prompt-to-artifact checklist and the two remaining blockers.
 - `npm pack --dry-run` confirmed `docs/COMPLETION_AUDIT.md` ships in the package tarball.
 - `examples/README.md` documents copy-ready config examples.
@@ -277,7 +277,7 @@ Latest known result:
 - CLI usage parsing tests verified Codex JSONL usage events, Claude JSON result usage, cost mapping, and plain-text fallback behavior.
 - Built CLI usage parsing smoke mapped mocked Codex and Claude structured output into worker usage and cost totals.
 - GitHub Actions run `27050545771` created the Node 20, 22, and 24 jobs, but each job failed before starting because the GitHub account is locked due to a billing issue.
-- `gh label list --repo AryaVora621/openultracode --limit 100` showed the labels referenced by issue templates exist: `bug`, `enhancement`, and `good first issue`.
+- `gh label list --repo openultracode/openultracode --limit 100` showed the labels referenced by issue templates exist: `bug`, `enhancement`, and `good first issue`.
 - `.github/PULL_REQUEST_TEMPLATE.md` now asks contributors for exact verification results, CLI smoke output when relevant, and safety checks for secrets, live backends, generated folders, and final-report preservation.
 - `SECURITY.md` directs sensitive reports to GitHub Security Advisories and names project-specific safety areas.
 - `.github/dependabot.yml` configures weekly update checks for npm dependencies and GitHub Actions.

@@ -56,7 +56,7 @@ Timestamp: 2026-06-05 23:27 EDT
 - GitHub CLI is installed and authenticated.
 - Initialized local git repository on `main`.
 - Committed the verified source as `fbac59f` with message `Initial OpenUltraCode CLI foundation`.
-- Created public GitHub repo `https://github.com/AryaVora621/openultracode`.
+- Created public GitHub repo `https://github.com/openultracode/openultracode`.
 - Pushed `main` to `origin`.
 - Renamed project identity to OpenUltraCode with package name `openultracode`.
 - Renamed primary CLI alias to `ouc`, with `openultracode` as the long binary alias.
@@ -232,7 +232,7 @@ Timestamp: 2026-06-05 23:27 EDT
 - Normalized `package.json` bin paths to `dist/bin/ouc.js` with `npm pkg fix`, updated `tests/package.test.ts` to assert both `ouc` and `openultracode` aliases, and confirmed `npm publish --dry-run` no longer reports bin auto-correction.
 - Reverified with `npm test`, `npm run typecheck`, `npm run build`, YAML parsing, repo secret-prefix scan excluding `.env`, shell history secret scan, em dash scan, `git diff --check`, `.env` ignore and mode check, and a clean temporary package install smoke that ran both packaged `ouc --help` and packaged `openultracode --help`.
 - Set public GitHub repo discovery metadata: description, README homepage, and topics matching the package keywords.
-- Verified repo metadata with `gh repo view AryaVora621/openultracode --json nameWithOwner,description,homepageUrl,repositoryTopics,visibility,viewerPermission`.
+- Verified repo metadata with `gh repo view openultracode/openultracode --json nameWithOwner,description,homepageUrl,repositoryTopics,visibility,viewerPermission`.
 - Reverified the metadata status refresh with `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, repo secret-prefix scan excluding `.env`, shell history secret scan, em dash scan, `git diff --check`, and `.env` ignore and mode check.
 - Added `docs/ARCHITECTURE.md` with runtime flow, module map, artifact contract, backend boundaries, safety model, extension points, and release constraints.
 - Linked the architecture guide from `README.md` and `CONTRIBUTING.md`.

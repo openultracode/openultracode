@@ -26,7 +26,7 @@ Concrete success criteria:
 | --- | --- | --- |
 | Read local project state | `AGENTS.md`, `PROJECT_STATUS.md`, `TASK_QUEUE.md`, `CHECKPOINT_LAST.md` | Complete |
 | Public repo exists and is current | `git rev-parse HEAD origin/main` returned matching local and remote commit hashes during the audit | Complete |
-| Public repo metadata supports discovery | `gh repo view AryaVora621/openultracode --json nameWithOwner,description,homepageUrl,repositoryTopics,visibility,viewerPermission` confirmed description, README homepage, and topics | Complete |
+| Public repo metadata supports discovery | `gh repo view openultracode/openultracode --json nameWithOwner,description,homepageUrl,repositoryTopics,visibility,viewerPermission` confirmed description, README homepage, and topics | Complete |
 | README entices contributors and reflects actual behavior | `README.md` documents current commands, safety model, artifacts, roadmap, help-wanted items | Complete |
 | Contributor guide exists | `CONTRIBUTING.md` includes setup, testing, issue-template guidance, release checklist pointer | Complete |
 | Contributor starter map exists | `docs/CONTRIBUTOR_STARTER_MAP.md` maps contribution lanes to code areas, tests, and docs | Complete |
@@ -45,9 +45,9 @@ Concrete success criteria:
 | Post-billing CI rerun handoff exists | `docs/PUBLISHING.md#after-billing-unlock` and `tests/docs.test.ts` cover exact `gh workflow run`, `gh run watch`, and `gh run view` commands | Complete |
 | Planner heuristic fixtures exist | `tests/fixtures/planner/` and `tests/planner-fixtures.test.ts` exercise mixed, docs-only, and audit planning through the real repo inspector | Complete |
 | Integration fixtures exist | `tests/fixtures/integration/` backs clean patch application, stopped fake-run, and file ownership conflict CLI tests | Complete |
-| GitHub community profile is complete | `gh api repos/AryaVora621/openultracode/community/profile` reported `health_percentage` `100` | Complete |
+| GitHub community profile is complete | `gh api repos/openultracode/openultracode/community/profile` reported `health_percentage` `100` | Complete |
 | Issue templates exist | `.github/ISSUE_TEMPLATE/{bug_report,feature_request,task_proposal,config}.yml` | Complete |
-| Issue-template labels exist | `gh label list --repo AryaVora621/openultracode --limit 100` showed `bug`, `enhancement`, and `good first issue` | Complete |
+| Issue-template labels exist | `gh label list --repo openultracode/openultracode --limit 100` showed `bug`, `enhancement`, and `good first issue` | Complete |
 | Pull request template exists | `.github/PULL_REQUEST_TEMPLATE.md` captures summary, scope, verification, safety checks, and reviewer notes | Complete |
 | Security policy exists | `SECURITY.md` directs sensitive reports to GitHub Security Advisories and lists project-specific safety areas | Complete |
 | Dependency update automation exists | `.github/dependabot.yml` checks npm and GitHub Actions weekly | Complete |
@@ -55,7 +55,7 @@ Concrete success criteria:
 | Contributor CI exists | `.github/workflows/ci.yml` runs tests, typecheck, build, and package dry-run on Node 20, 22, and 24 for pushes, pull requests, and manual dispatch | Configured |
 | Unified local verification gate exists | `package.json` exposes `npm run verify`, and `.github/workflows/ci.yml` runs the same command | Complete |
 | Local release preflight gate exists | `package.json` exposes `npm run release:check`, and release docs point to it before tagging or publishing | Complete |
-| Remote CI run starts | `gh run list --repo AryaVora621/openultracode --limit 5` and `gh run view 27051308707 --repo AryaVora621/openultracode` | Blocked by GitHub billing/account lock |
+| Remote CI run starts | `gh run list --repo openultracode/openultracode --limit 5` and `gh run view 27051308707 --repo openultracode/openultracode` | Blocked by GitHub billing/account lock |
 | Release checklist exists | `docs/RELEASE_CHECKLIST.md` | Complete |
 | Release decision record exists | `docs/RELEASE_DECISIONS.md` | Complete |
 | Changelog exists | `CHANGELOG.md` records the `0.1.0` release candidate notes and known blockers | Complete |
@@ -143,10 +143,10 @@ Fresh checks on the current release-readiness state:
 - `npm publish --dry-run`: passed with the same 45-file tarball, package size `48.5 kB`, and no bin metadata correction.
 - `npm run release:check`: passed and ran `npm run verify` plus `npm publish --dry-run`.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
-- `gh run view 27050545771 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
-- `gh run view 27050873954 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
-- `gh run view 27051019645 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
-- `gh run view 27051308707 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- `gh run view 27050545771 --repo openultracode/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- `gh run view 27050873954 --repo openultracode/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- `gh run view 27051019645 --repo openultracode/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- `gh run view 27051308707 --repo openultracode/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - `git rev-parse HEAD` and `git rev-parse origin/main` confirmed local and remote state matched at status-only tracker commit `ae8a4153ca040b04c03fe4bafb640134c7a7bc4e`.
 - `node dist/bin/ouc.js --help`: passed.
 - Fresh built CLI smokes passed: `node dist/bin/ouc.js --help`, plan smoke `run_fresh_audit_20260605_2258`, and fake-run smoke `run_fresh_audit_fake_20260605_2258`.
@@ -185,15 +185,15 @@ Fresh checks on the current release-readiness state:
 - The package test now asserts `ouc` uses `dist/bin/ouc.js` and `openultracode` points to the same built CLI.
 - Repeated packaged install smoke passed with packaged `./node_modules/.bin/ouc --help`, packaged `./node_modules/.bin/openultracode --help`, and packaged `./node_modules/.bin/ouc plan "audit this repo for TODOs" --run-id package_smoke_bin_fix --json`.
 - Fresh packaged install smoke passed with packaged `./node_modules/.bin/ouc --help`, packaged `./node_modules/.bin/openultracode --help`, and packaged `./node_modules/.bin/ouc plan "audit this package smoke" --run-id package_smoke_fresh --json`.
-- `gh repo view AryaVora621/openultracode --json nameWithOwner,description,homepageUrl,repositoryTopics,visibility,viewerPermission` confirmed description `Local CLI for parallel coding agents with adaptive model routing.`, README homepage, public visibility, admin access, and topics `agentic-coding`, `ai-agents`, `cli`, `codex`, `coding-agents`, `openrouter`, `orchestration`, and `worktrees`.
-- `gh pr list --repo AryaVora621/openultracode --state open --limit 20` returned no open PRs.
+- `gh repo view openultracode/openultracode --json nameWithOwner,description,homepageUrl,repositoryTopics,visibility,viewerPermission` confirmed description `Local CLI for parallel coding agents with adaptive model routing.`, README homepage, public visibility, admin access, and topics `agentic-coding`, `ai-agents`, `cli`, `codex`, `coding-agents`, `openrouter`, `orchestration`, and `worktrees`.
+- `gh pr list --repo openultracode/openultracode --state open --limit 20` returned no open PRs.
 - Post-billing CI handoff docs commit `cbe5c294d1fa39dc309f4a9425503538b60b5b3e` was pushed to `origin/main`.
 - Release preflight script commit `55df188aada1cb04060d549c351c5a368e7644fa` was pushed to `origin/main`.
 - `docs/ARCHITECTURE.md` is present and linked from `README.md` plus `CONTRIBUTING.md`.
 - `npm pack --dry-run` confirmed `docs/ARCHITECTURE.md` is included in the 23-file package tarball.
 - `CODE_OF_CONDUCT.md` is present, linked from `README.md` plus `CONTRIBUTING.md`, and included in the package allowlist.
 - `npm pack --dry-run` confirmed `CODE_OF_CONDUCT.md` is included in the 24-file package tarball.
-- `gh api repos/AryaVora621/openultracode/community/profile` reported `health_percentage` `100` and recognized `CODE_OF_CONDUCT.md`.
+- `gh api repos/openultracode/openultracode/community/profile` reported `health_percentage` `100` and recognized `CODE_OF_CONDUCT.md`.
 - `docs/COMPLETION_AUDIT.md` records the active objective checklist and explicitly leaves release incomplete until license confirmation and GitHub CI are resolved.
 - `npm pack --dry-run` confirmed `docs/COMPLETION_AUDIT.md` is included in the 25-file package tarball.
 - `npm pack --dry-run` confirmed `examples/README.md`, config examples, and `examples/fake-run-artifacts/` are included in the current 43-file package tarball.

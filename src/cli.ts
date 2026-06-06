@@ -790,7 +790,7 @@ function createRunTaskRunner(
       model: models[0],
       fetchImpl: runtime.fetchImpl,
       appTitle: "OpenUltraCode",
-      httpReferer: "https://github.com/AryaVora621/openultracode"
+      httpReferer: "https://github.com/openultracode/openultracode"
     });
 
     return {
@@ -846,7 +846,7 @@ async function runOpenRouterWithFallbacks(
       model,
       fetchImpl: runtime.fetchImpl,
       appTitle: "OpenUltraCode",
-      httpReferer: "https://github.com/AryaVora621/openultracode"
+      httpReferer: "https://github.com/openultracode/openultracode"
     });
     const result = await backend.run(task);
     attempts.push({

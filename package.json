@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "description": "Local CLI for parallel coding agents with adaptive model routing.",
   "type": "module",
-  "license": "MIT",
-  "homepage": "https://github.com/AryaVora621/openultracode#readme",
+  "license": "AGPL-3.0-only",
+  "homepage": "https://github.com/openultracode/openultracode#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AryaVora621/openultracode.git"
+    "url": "git+https://github.com/openultracode/openultracode.git"
   },
   "bugs": {
-    "url": "https://github.com/AryaVora621/openultracode/issues"
+    "url": "https://github.com/openultracode/openultracode/issues"
   },
   "keywords": [
     "ai-agents",
