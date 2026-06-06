@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 20:51 EDT
+Timestamp: 2026-06-05 20:54 EDT
 
 ## Completed
 
@@ -295,14 +295,17 @@ Timestamp: 2026-06-05 20:51 EDT
 - Verified final local gate: `npm test` passed with 15 files and 63 tests, `npm run typecheck` passed, `npm run build` passed, workflow and Dependabot YAML parsed, `npm pack --dry-run` passed with 33 files and package size `37.3 kB`, and `npm publish --dry-run` passed.
 - Verified built CLI smokes: `node dist/bin/ouc.js --help`, plan smoke `run_planner_fixtures_final2_20260605_2051`, and fake-run smoke `run_planner_fixtures_final2_fake_20260605_2051` passed.
 - Verified hygiene gates: repo secret-prefix scan excluding `.env`, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode.
+- Committed and pushed fixture-backed planner coverage as `c42b3ffbe93d1415d29540a0e03dba7d4d96d028`.
+- Checked GitHub Actions run `27047901172`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- Updated `BLOCKED.md`, `PROJECT_STATUS.md`, `docs/RELEASE_AUDIT.md`, and `docs/COMPLETION_AUDIT.md` with the current push and CI blocker evidence.
 
 ## Current In-Progress State
 
-- None. Fixture-backed planner coverage is complete locally and ready to push. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- None. Fixture-backed planner coverage is pushed. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Commit and push the fixture-backed planner coverage slice, then record any GitHub Actions billing-lock evidence if a remote run is created.
+- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
 
 ## Human Decisions Needed
 
