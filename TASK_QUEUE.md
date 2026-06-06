@@ -79,3 +79,4 @@
 - [Codex] Added an advanced routing config example plus tested backend safety matrix docs.
 - [Codex] Added a tested post-billing CI rerun handoff with exact GitHub CLI commands.
 - [Codex] Added a tested `npm run release:check` local release preflight.
+- [Codex] Added a tested contributor starter map with contribution lanes, test surfaces, and links from README plus CONTRIBUTING.

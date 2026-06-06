@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 22:59 EDT
+Timestamp: 2026-06-05 23:23 EDT
 
 ## Objective
 
@@ -29,6 +29,7 @@ Concrete success criteria:
 | Public repo metadata supports discovery | `gh repo view AryaVora621/openultracode --json nameWithOwner,description,homepageUrl,repositoryTopics,visibility,viewerPermission` confirmed description, README homepage, and topics | Complete |
 | README entices contributors and reflects actual behavior | `README.md` documents current commands, safety model, artifacts, roadmap, help-wanted items | Complete |
 | Contributor guide exists | `CONTRIBUTING.md` includes setup, testing, issue-template guidance, release checklist pointer | Complete |
+| Contributor starter map exists | `docs/CONTRIBUTOR_STARTER_MAP.md` maps contribution lanes to code areas, tests, and docs | Complete |
 | Architecture guide exists | `docs/ARCHITECTURE.md` covers runtime flow, module boundaries, artifact contracts, safety model, and extension points | Complete |
 | Artifact reference guide exists | `docs/ARTIFACTS.md` covers run directories, plans, ledgers, ledger event schemas, worker outputs, reconciliation, patch application, reports, and checked JSON/JSONL examples | Complete |
 | Code of conduct exists | `CODE_OF_CONDUCT.md` defines contributor behavior, scope, reporting, and enforcement | Complete |
@@ -64,10 +65,10 @@ Concrete success criteria:
 | Fake run works | `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id release_audit_fake_20260605_1831 --json` | Complete |
 | Help output works | `node dist/bin/ouc.js --help` | Complete |
 | Status/report artifact errors are handled | `tests/cli.test.ts` covers malformed `plan.json` for `ouc status` and `ouc report` | Complete |
-| Test suite passes | `npm test`: 17 files, 79 tests | Complete |
+| Test suite passes | `npm test`: 17 files, 80 tests | Complete |
 | Typecheck passes | `npm run typecheck` | Complete |
 | Build passes | `npm run build` | Complete |
-| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `47.2 kB`, including release docs, changelog, config examples, and fake-run artifact examples | Complete |
+| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 45 files, package size `48.5 kB`, including release docs, changelog, config examples, contributor starter map, and fake-run artifact examples | Complete |
 | Packaged install smoke works | Temporary consumer project installed packed tarball and ran packaged `ouc --help` plus packaged `ouc plan --json` | Complete |
 | Publish dry-run works | `npm publish --dry-run` passes without bin auto-correction after normalizing bin paths | Complete |
 | Secret is not committed | `git check-ignore -v .env`, `ls -l .env`, repo secret scan excluding `.env`, shell history scan | Complete |
@@ -81,6 +82,7 @@ Concrete success criteria:
 - File ownership metadata and pre-worker blocking for overlapping edit scopes.
 - Codex CLI JSONL and Claude CLI JSON usage parsing with heuristic fallback.
 - Contributor issue templates and release checklist.
+- Contributor starter map for focused onboarding lanes and matching test surfaces.
 - Release decision record for license, CI, release channel, and package publication.
 - Package file allowlist includes `docs/` so release docs linked from `README.md` ship with the package.
 - Changelog for `0.1.0` release candidate notes.
@@ -121,25 +123,24 @@ The repo is ready for collaborator-oriented source use, but final package releas
 
 ## Completion Audit Refresh
 
-Timestamp: 2026-06-05 22:59 EDT
+Timestamp: 2026-06-05 23:23 EDT
 
 Fresh checks on the current release-readiness state:
 
 - `npm run verify`: passed.
-- Fresh continuation `npm run verify`: 17 test files and 79 tests passed, then typecheck, build, and package dry-run passed with package `openultracode@0.1.0`, 44 files, package size `47.2 kB`.
+- Fresh contributor starter map `npm run verify`: 17 test files and 80 tests passed, then typecheck, build, and package dry-run passed with package `openultracode@0.1.0`, 45 files, package size `48.5 kB`.
 - `npm test -- tests/package.test.ts`: 1 file and 2 tests passed.
-- `npm test -- tests/docs.test.ts`: 1 file and 6 tests passed.
+- `npm test -- tests/docs.test.ts`: 1 file and 7 tests passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file and 3 tests passed.
 - `npm test -- tests/config.test.ts`: 1 file and 8 tests passed.
 - `npm test -- tests/cli.test.ts -t "ownership|stop after a fake task"`: 1 file and 2 selected tests passed.
 - `npm test -- tests/cli.test.ts`: 1 file and 28 tests passed.
-- `npm test`: 17 files, 79 tests passed.
+- `npm test`: 17 files, 80 tests passed.
 - `npm test -- tests/fake-run-artifacts.test.ts`: 1 file, 1 test passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `47.2 kB`.
-- `npm publish --dry-run`: passed with the same 44-file tarball, package size `47.2 kB`, and no bin metadata correction.
-- Fresh continuation `npm publish --dry-run`: passed with the same 44-file tarball, package size `47.2 kB`, and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 45 files, package size `48.5 kB`.
+- `npm publish --dry-run`: passed with the same 45-file tarball, package size `48.5 kB`, and no bin metadata correction.
 - `npm run release:check`: passed and ran `npm run verify` plus `npm publish --dry-run`.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
 - `gh run view 27050545771 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.

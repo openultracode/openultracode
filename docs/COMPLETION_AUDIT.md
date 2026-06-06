@@ -1,6 +1,6 @@
 # Completion Audit
 
-Timestamp: 2026-06-05 22:59 EDT
+Timestamp: 2026-06-05 23:23 EDT
 
 ## Objective
 
@@ -21,7 +21,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Test the project locally | `npm run verify`, targeted example tests, hygiene scans, and package smokes have current recorded evidence | Complete |
 | Push changes to the public repo | Routing safety docs commit `3fd95e7c0e385cc5dc58b9814624f4a32e2e86e1` and status-only tracker commit `ae8a4153ca040b04c03fe4bafb640134c7a7bc4e` are on `origin/main` | Complete |
 | Preserve the OpenRouter key only locally | `.env` is ignored, has `0600` permissions, and secret-prefix scans outside `.env` found no matches | Complete |
-| Improve contributor readiness | README, CONTRIBUTING, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, integration fixtures, package-safe fake-run artifacts, local install docs, model routing docs with safety matrix, run examples docs, publishing docs, release docs, Dependabot, labels, and community profile are in place | Complete |
+| Improve contributor readiness | README, CONTRIBUTING, contributor starter map, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, integration fixtures, package-safe fake-run artifacts, local install docs, model routing docs with safety matrix, run examples docs, publishing docs, release docs, Dependabot, labels, and community profile are in place | Complete |
 | Make package contents release-shaped | `npm pack --dry-run` includes README, LICENSE, CHANGELOG, CODE_OF_CONDUCT, `docs/`, `examples/`, and built CLI files | Complete |
 | Verify remote CI | GitHub Actions workflow exists, but jobs cannot start because the GitHub account is locked due to a billing issue | Blocked |
 | Finalize release decisions | `docs/RELEASE_DECISIONS.md` records the license, CI, release channel, tag, and npm publication decisions still needed | Blocked |
@@ -38,6 +38,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Hide OpenRouter key | `.env`, `.gitignore` | `.env` is ignored and owner-only; no key marker appears outside ignored local files |
 | Tuff README for contributors | `README.md` | README documents goals, current behavior, commands, artifacts, roadmap, help-wanted items, release docs, and conduct docs |
 | Contributor onboarding | `CONTRIBUTING.md`, `.github/ISSUE_TEMPLATE/`, `.github/PULL_REQUEST_TEMPLATE.md` | Setup, issue routes, PR verification, and safety checks are present |
+| Contributor starter map | `docs/CONTRIBUTOR_STARTER_MAP.md`, `tests/docs.test.ts` | Contribution lanes, starter task shape, proposal ideas, review bar, and entrypoint links are tested |
 | Security path | `SECURITY.md` | Private report path and project-specific safety areas are documented |
 | Architecture handoff | `docs/ARCHITECTURE.md` | Runtime flow, module map, artifact contract, safety model, and extension points are documented |
 | Artifact reference handoff | `docs/ARTIFACTS.md` | Run directory layout, plans, ledgers, ledger event schemas, worker outputs, reconciliation, patch application, final reports, and checked JSON/JSONL examples are documented |
@@ -64,21 +65,20 @@ This audit maps that objective to concrete repository artifacts and verification
 ## Current Verification Evidence
 
 - `npm run verify`: passed.
-- Fresh continuation `npm run verify`: 17 test files and 79 tests passed, then typecheck, build, and package dry-run passed with package `openultracode@0.1.0`, 44 files, package size `47.2 kB`.
+- Fresh contributor starter map `npm run verify`: 17 test files and 80 tests passed, then typecheck, build, and package dry-run passed with package `openultracode@0.1.0`, 45 files, package size `48.5 kB`.
 - `npm test -- tests/package.test.ts`: 1 file, 2 tests passed.
-- `npm test -- tests/docs.test.ts`: 1 file, 6 tests passed.
+- `npm test -- tests/docs.test.ts`: 1 file, 7 tests passed.
 - `npm test -- tests/fake-run-artifacts.test.ts`: 1 file, 1 test passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file, 3 tests passed.
 - `npm test -- tests/config.test.ts`: 1 file, 8 tests passed.
 - `npm test -- tests/cli.test.ts`: 1 file, 28 tests passed.
 - `npm test -- tests/cli.test.ts -t "ownership|stop after a fake task"`: 1 file and 2 selected tests passed.
-- `npm test`: 17 files, 79 tests passed.
+- `npm test`: 17 files, 80 tests passed.
 - `npm test -- tests/config.test.ts tests/package.test.ts`: 2 files, 7 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `47.2 kB`.
-- `npm publish --dry-run`: passed with the same 44-file tarball, package size `47.2 kB`, and no bin metadata correction.
-- Fresh continuation `npm publish --dry-run`: passed with the same 44-file tarball, package size `47.2 kB`, and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 45 files, package size `48.5 kB`.
+- `npm publish --dry-run`: passed with the same 45-file tarball, package size `48.5 kB`, and no bin metadata correction.
 - `npm run release:check`: passed and ran `npm run verify` plus `npm publish --dry-run`.
 - `npm publish --dry-run`: passed after bin metadata normalization.
 - Clean temporary package install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed.
@@ -115,6 +115,8 @@ This audit maps that objective to concrete repository artifacts and verification
 - Backend docs fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_backend_docs_fake_20260605_2202 --json` passed.
 - Fake-run artifact plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_fake_artifacts_20260605_2213 --json` passed.
 - Fake-run artifact fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_fake_artifacts_fake_20260605_2213 --json` passed.
+- Contributor starter map plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_contributor_starter_map_20260605_2323 --json` passed.
+- Contributor starter map fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_contributor_starter_map_fake_20260605_2323 --json` passed.
 - Repo secret-prefix scan excluding `.env`, `node_modules`, `dist`, `.ouc`, and `.git`: no matches.
 - Shell history/session secret scan: no matches.
 - Public-doc dash scan: no disallowed dash characters.

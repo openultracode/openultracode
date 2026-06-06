@@ -12,16 +12,17 @@ OpenUltraCode is early. The best contributions are small, tested slices that mak
 6. Check `docs/LOCAL_INSTALL.md` if the change affects installation or packaging.
 7. Check `docs/MODEL_ROUTING.md` if the change affects planning, routing, model tiers, or backend safety.
 8. Check `docs/BACKENDS.md` if the change affects backend modules, worker results, CLI adapters, or reconciliation boundaries.
-9. Check `examples/README.md` if the change affects local config or backend routing examples.
-10. Check `examples/fake-run-artifacts/README.md` if the change affects package-safe fake-run examples.
-11. Check `docs/RUN_EXAMPLES.md` if the change affects command examples or run artifact workflows.
-12. Check `docs/ARTIFACTS.md` if the change affects run files, ledgers, reports, reconciliation, or patch application artifacts.
-13. Check `docs/COMPLETION_AUDIT.md` when evaluating release completeness.
-14. Check `docs/RELEASE_DECISIONS.md` before release or package work.
-15. Check `docs/PUBLISHING.md` before tagging, package-smoke, or npm publish work.
-16. Pick one narrow behavior.
-17. Write the test first for behavior changes.
-18. Run the full verification commands before opening a PR.
+9. Check `docs/CONTRIBUTOR_STARTER_MAP.md` to choose a narrow lane and matching test surface.
+10. Check `examples/README.md` if the change affects local config or backend routing examples.
+11. Check `examples/fake-run-artifacts/README.md` if the change affects package-safe fake-run examples.
+12. Check `docs/RUN_EXAMPLES.md` if the change affects command examples or run artifact workflows.
+13. Check `docs/ARTIFACTS.md` if the change affects run files, ledgers, reports, reconciliation, or patch application artifacts.
+14. Check `docs/COMPLETION_AUDIT.md` when evaluating release completeness.
+15. Check `docs/RELEASE_DECISIONS.md` before release or package work.
+16. Check `docs/PUBLISHING.md` before tagging, package-smoke, or npm publish work.
+17. Pick one narrow behavior.
+18. Write the test first for behavior changes.
+19. Run the full verification commands before opening a PR.
 
 ## Development Setup
 
@@ -32,7 +33,7 @@ npm run verify
 
 ## Good First Contributions
 
-No scoped good-first code or docs tasks are currently open. Check `TASK_QUEUE.md` for the current release blockers before starting new work.
+No scoped good-first code or docs tasks are currently open. Check `TASK_QUEUE.md` for the current release blockers before starting new work, then use `docs/CONTRIBUTOR_STARTER_MAP.md` to shape a focused issue proposal.
 
 Planner heuristic fixtures live in `tests/fixtures/planner/`. Extend those fixtures when changing deterministic task decomposition.
 

@@ -1,9 +1,17 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 23:14 EDT
+Timestamp: 2026-06-05 23:23 EDT
 
 ## Completed
 
+- Verified full contributor starter map gate with `npm run verify`: 17 test files, 80 tests, typecheck, build, and package dry-run passed with 45 files and package size `48.5 kB`.
+- Verified release-adjacent checks: `npm publish --dry-run`, workflow and Dependabot YAML parsing, built help, plan smoke `run_contributor_starter_map_20260605_2323`, fake-run smoke `run_contributor_starter_map_fake_20260605_2323`, repo secret-prefix scan excluding ignored local files, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode checks.
+- Updated `CHANGELOG.md`, `PROJECT_STATUS.md`, `TASK_QUEUE.md`, `docs/COMPLETION_AUDIT.md`, `docs/RELEASE_AUDIT.md`, and this checkpoint for the contributor starter map slice.
+- Added `docs/CONTRIBUTOR_STARTER_MAP.md` with focused contribution lanes, starter task shape, proposal ideas, and review bar.
+- Linked the contributor starter map from `README.md` and `CONTRIBUTING.md`.
+- Added docs test coverage requiring the starter map, contributor-entrypoint links, contribution lanes, and matching test surfaces.
+- Verified the red docs test failed first because `docs/CONTRIBUTOR_STARTER_MAP.md` was missing.
+- Verified the focused docs test passed after implementation: `npm test -- tests/docs.test.ts`.
 - Saved the OpenUltraCode project plan to `PLAN.md`.
 - Created `TASK_QUEUE.md` with Open, In-Progress, and Done sections.
 - Recorded this checkpoint.
@@ -464,11 +472,11 @@ Timestamp: 2026-06-05 23:14 EDT
 
 ## Current In-Progress State
 
-- None. The release preflight script is pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- Contributor starter map slice is locally verified and ready to commit and push. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
+- Commit and push the contributor starter map slice, then record the expected GitHub Actions billing-lock blocker if the new run cannot start.
 
 ## Human Decisions Needed
 

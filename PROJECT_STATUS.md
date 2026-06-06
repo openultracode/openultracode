@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 23:14 EDT
+Last updated: 2026-06-05 23:23 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, local config is strictly validated before artifacts are created, status/report commands fail cleanly on malformed plan artifacts, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, advanced routing profile config edge cases are covered, fixture-backed planner heuristic coverage and integration fixtures for clean patch application, stopped fake runs, and file ownership conflicts are present, contributor issue templates plus a PR template, architecture guide, backend module guide, artifact reference guide with checked JSON/JSONL examples, code of conduct, local install guide, model routing guide with a backend safety matrix, run examples guide, publishing guide, release checklist, completion audit, copy-ready config examples, and package-safe fake-run artifact examples are present, issue-template labels exist on GitHub, GitHub repo discovery metadata is set, a security policy directs private reports, Dependabot is configured, `npm run verify` mirrors the CI release gate, `npm run release:check` runs the local release preflight dry run, and the final release audit plus release decision record are recorded.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, local config is strictly validated before artifacts are created, status/report commands fail cleanly on malformed plan artifacts, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, advanced routing profile config edge cases are covered, fixture-backed planner heuristic coverage and integration fixtures for clean patch application, stopped fake runs, and file ownership conflicts are present, contributor issue templates plus a PR template, contributor starter map, architecture guide, backend module guide, artifact reference guide with checked JSON/JSONL examples, code of conduct, local install guide, model routing guide with a backend safety matrix, run examples guide, publishing guide, release checklist, completion audit, copy-ready config examples, and package-safe fake-run artifact examples are present, issue-template labels exist on GitHub, GitHub repo discovery metadata is set, a security policy directs private reports, Dependabot is configured, `npm run verify` mirrors the CI release gate, `npm run release:check` runs the local release preflight dry run, and the final release audit plus release decision record are recorded.
 
 Implemented:
 
@@ -65,6 +65,7 @@ Implemented:
 - Run JSON, run ledgers, and final reports include token and cost totals.
 - Runtime `limits.maxCostUsd` enforcement from actual backend result costs.
 - GitHub issue templates for bugs, feature requests, and scoped task proposals.
+- Contributor starter map linking contribution lanes to code areas, test surfaces, and docs.
 - GitHub labels used by issue templates verified in the public repo.
 - GitHub pull request template for verification and safety checks.
 - Code of conduct for public contributor spaces.
@@ -102,7 +103,7 @@ Implemented:
 Not implemented yet:
 
 - Human license decision before package release.
-- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27050545771` and documented in `BLOCKED.md`.
+- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27051019645` and documented in `BLOCKED.md`.
 
 ## Verification Snapshot
 
@@ -139,6 +140,9 @@ node --input-type=module -e 'import { CodexCliBackend, ClaudeCliBackend } from "
 
 Latest known result:
 
+- Contributor starter map docs test passed with `npm test -- tests/docs.test.ts`: 1 file and 7 tests.
+- Contributor starter map local gate passed `npm run verify`: 17 test files, 80 tests, typecheck, build, and package dry-run with package `openultracode@0.1.0`, 45 files, package size `48.5 kB`.
+- Contributor starter map release checks passed: `npm publish --dry-run`, workflow and Dependabot YAML parsing, repo secret-prefix scan excluding ignored local files, shell history/session secret scan, public-doc dash scan, `git diff --check`, `.env` ignore plus `0600` mode check, built help, plan smoke `run_contributor_starter_map_20260605_2323`, and fake-run smoke `run_contributor_starter_map_fake_20260605_2323`.
 - Fresh continuation audit confirmed local `HEAD` and `origin/main` both point to `ae8a4153ca040b04c03fe4bafb640134c7a7bc4e`.
 - Fresh continuation audit confirmed there are no open PRs, the public repo metadata is set, GitHub community profile health is `100`, and issue-template labels `bug`, `enhancement`, and `good first issue` exist.
 - Fresh continuation audit passed `npm run verify`: 17 test files, 79 tests, typecheck, build, and package dry-run with package `openultracode@0.1.0`, 44 files, package size `47.2 kB`.

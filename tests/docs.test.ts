@@ -141,3 +141,37 @@ test("publishing guide documents exact post-billing CI rerun commands", async ()
   expect(publishingGuide).toContain("gh run view");
   expect(releaseDecisions).toContain("docs/PUBLISHING.md#after-billing-unlock");
 });
+
+test("contributor starter map is linked and points contributors to tested lanes", async () => {
+  const starterMapPath = resolve(process.cwd(), "docs", "CONTRIBUTOR_STARTER_MAP.md");
+  const starterMap = await readFile(starterMapPath, "utf8");
+  const readme = await readFile(resolve(process.cwd(), "README.md"), "utf8");
+  const contributing = await readFile(resolve(process.cwd(), "CONTRIBUTING.md"), "utf8");
+
+  expect(readme).toContain("docs/CONTRIBUTOR_STARTER_MAP.md");
+  expect(contributing).toContain("docs/CONTRIBUTOR_STARTER_MAP.md");
+  expect(starterMap).toContain("## Contribution Lanes");
+  expect(starterMap).toContain("## Starter Task Shape");
+
+  const requiredLanes = [
+    "Planner heuristics",
+    "Backend adapters",
+    "Run artifacts",
+    "Safety controls",
+    "Contributor docs",
+  ];
+  const requiredTestSurfaces = [
+    "tests/planner-fixtures.test.ts",
+    "tests/cli.test.ts",
+    "tests/config.test.ts",
+    "tests/docs.test.ts",
+  ];
+
+  for (const lane of requiredLanes) {
+    expect(starterMap).toContain(lane);
+  }
+
+  for (const testSurface of requiredTestSurfaces) {
+    expect(starterMap).toContain(testSurface);
+  }
+});

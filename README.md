@@ -171,6 +171,12 @@ For backend module contracts and reconciliation boundaries, read:
 cat docs/BACKENDS.md
 ```
 
+For a map of focused contribution lanes and matching tests, read:
+
+```bash
+cat docs/CONTRIBUTOR_STARTER_MAP.md
+```
+
 For copy-ready run examples, read:
 
 ```bash
@@ -321,6 +327,7 @@ Useful contributions right now:
 - Keep CI green across Node 20, 22, and 24.
 - Review `docs/RELEASE_DECISIONS.md` once the license and CI blockers are resolved.
 - Propose one focused issue before adding new backend scenarios or provider profiles.
+- Use `docs/CONTRIBUTOR_STARTER_MAP.md` to choose a narrow lane and matching tests.
 
 Good first issue shape:
 
