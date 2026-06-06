@@ -23,5 +23,6 @@ node dist/bin/ouc.js run "inspect this repo" --backend fake --json
 - Do not commit `.ouc/config.json` if it contains private routing choices, local paths, or secret-adjacent settings.
 - Do not put API keys in these JSON files.
 - Unknown config keys are rejected, including typoed nested keys like `limits.maxWorker`.
+- Keep `free.models` lists unique so fallback attempts do not repeat the same model.
 - Keep `patchApplication.applyCleanPatches` set to `false` until you intentionally want clean worker patches applied to the main checkout.
 - Prefer `--backend fake` when writing tests or validating docs.

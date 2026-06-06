@@ -10,6 +10,7 @@ Status: source-ready after local verification. Final package release is still bl
 
 - TypeScript Node CLI package with `ouc` and `openultracode` binaries.
 - Local config loading with strict validation, unknown-key rejection, and file-aware error messages.
+- Advanced routing profile edge-case coverage for custom active profiles, missing active profiles, and unique free-tier fallback models.
 - Repo inspection and deterministic planning.
 - `ouc plan`, `ouc run`, `ouc status`, and `ouc report`.
 - JSON output for plan, run, and status commands.
@@ -53,6 +54,7 @@ Status: source-ready after local verification. Final package release is still bl
 - Project identity, package name, binary names, docs, and local artifact directory were standardized around OpenUltraCode and `ouc`.
 - `ouc plan` and `ouc run` now print config validation errors to stderr and stop before creating run artifacts.
 - `ouc status` and `ouc report` now print controlled stderr errors for malformed `plan.json` artifacts.
+- Config validation now rejects duplicate `free.models` entries inside any routing profile.
 - Dev dependency toolchain was updated to `typescript` `^6.0.3` and `@types/node` `^25.9.2`.
 - Package allowlist now includes `docs/` and `CHANGELOG.md` so README-linked release materials ship with package dry runs.
 
@@ -61,17 +63,17 @@ Status: source-ready after local verification. Final package release is still bl
 Latest local release gate:
 
 - `npm run verify`: passed.
-- `npm test`: 17 files, 73 tests passed.
+- `npm test`: 17 files, 76 tests passed.
 - `npm test -- tests/package.test.ts`: 1 file, 2 tests passed.
 - `npm test -- tests/docs.test.ts`: 1 file, 4 tests passed.
 - `npm test -- tests/fake-run-artifacts.test.ts`: 1 file, 1 test passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file, 3 tests passed.
-- `npm test -- tests/config.test.ts`: 1 file, 5 tests passed.
+- `npm test -- tests/config.test.ts`: 1 file, 8 tests passed.
 - `npm test -- tests/cli.test.ts`: 1 file, 28 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: passed with 43 files and package size `45.1 kB`.
-- `npm publish --dry-run`: passed with 43 files and package size `45.1 kB`.
+- `npm pack --dry-run`: passed with 43 files and package size `45.4 kB`.
+- `npm publish --dry-run`: passed with 43 files and package size `45.4 kB`.
 - Built CLI `--help`, `plan --json`, fake `run --json`, bad-config, and malformed-plan smokes passed.
 - Secret-prefix scan excluding `.env` found no matches.
 - Shell history/session secret scan found no matches.

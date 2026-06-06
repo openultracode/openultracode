@@ -95,7 +95,7 @@ node dist/bin/ouc.js run "inspect this repo" --backend fake --json
 
 Do not put API keys in `.ouc/config.json`.
 
-Config validation is strict. Unknown top-level keys and typoed nested keys, such as `limits.maxWorker`, fail with the config path before workers or run artifacts are created.
+Config validation is strict. Unknown top-level keys and typoed nested keys, such as `limits.maxWorker`, fail with the config path before workers or run artifacts are created. Free-tier model lists must be unique so fallback chains do not repeat the same model.
 
 ## Contributor Notes
 

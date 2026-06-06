@@ -1,6 +1,6 @@
 # Completion Audit
 
-Timestamp: 2026-06-05 22:18 EDT
+Timestamp: 2026-06-05 22:23 EDT
 
 ## Objective
 
@@ -43,7 +43,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Artifact reference handoff | `docs/ARTIFACTS.md` | Run directory layout, plans, ledgers, ledger event schemas, worker outputs, reconciliation, patch application, final reports, and checked JSON/JSONL examples are documented |
 | Fake-run artifact examples | `examples/fake-run-artifacts/`, `tests/fake-run-artifacts.test.ts` | Package-shipped fake backend artifacts are parseable and linked from contributor entrypoints |
 | Copy-ready examples | `examples/` | Safe fake, local CLI, and OpenRouter budget configs load through the real config parser |
-| Strict config validation | `src/config.ts`, `src/cli.ts`, `tests/config.test.ts`, `tests/cli.test.ts` | Unknown config keys are rejected with file-aware errors, and CLI plan/run stops before creating artifacts |
+| Strict config validation | `src/config.ts`, `src/cli.ts`, `tests/config.test.ts`, `tests/cli.test.ts` | Unknown config keys, missing active profiles, and duplicate free-tier models are rejected with file-aware errors, and CLI plan/run stops before creating artifacts |
 | Status/report malformed artifacts | `src/cli.ts`, `tests/cli.test.ts` | Malformed `plan.json` artifacts produce controlled stderr and exit 1 for `ouc status` and `ouc report` |
 | Local install handoff | `docs/LOCAL_INSTALL.md` | Source checkout, local command linking, package tarball smoke, config examples, and release boundaries are documented |
 | Model routing handoff | `docs/MODEL_ROUTING.md` | Tier rules, fallback behavior, backend selection, config examples, and safety controls are documented |
@@ -66,14 +66,14 @@ This audit maps that objective to concrete repository artifacts and verification
 - `npm test -- tests/docs.test.ts`: 1 file, 4 tests passed.
 - `npm test -- tests/fake-run-artifacts.test.ts`: 1 file, 1 test passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file, 3 tests passed.
-- `npm test -- tests/config.test.ts`: 1 file, 5 tests passed.
+- `npm test -- tests/config.test.ts`: 1 file, 8 tests passed.
 - `npm test -- tests/cli.test.ts`: 1 file, 28 tests passed.
-- `npm test`: 17 files, 73 tests passed.
+- `npm test`: 17 files, 76 tests passed.
 - `npm test -- tests/config.test.ts tests/package.test.ts`: 2 files, 7 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 43 files, package size `45.1 kB`.
-- `npm publish --dry-run`: passed with the same 43-file tarball, package size `45.1 kB`, and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 43 files, package size `45.4 kB`.
+- `npm publish --dry-run`: passed with the same 43-file tarball, package size `45.4 kB`, and no bin metadata correction.
 - `npm publish --dry-run`: passed after bin metadata normalization.
 - Clean temporary package install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed.
 - Run examples plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_examples_docs_20260605_2036 --json` passed.

@@ -113,6 +113,106 @@ test("loadConfig rejects unknown config keys with the nested path", async () => 
   await expect(loadConfig(projectRoot)).rejects.toThrow(/at limits/);
 });
 
+test("loadConfig supports a custom active routing profile with default fallback profile still present", async () => {
+  const projectRoot = await makeTempProject();
+  const configDir = join(projectRoot, ".ouc");
+  await mkdir(configDir, { recursive: true });
+  await writeFile(
+    join(configDir, "config.json"),
+    JSON.stringify(
+      {
+        activeProfile: "advanced-fake",
+        profiles: {
+          "advanced-fake": {
+            orchestrator: {
+              backend: "fake",
+              model: "fake-orchestrator"
+            },
+            critical: {
+              backend: "fake",
+              model: "fake-critical"
+            },
+            strong: {
+              backend: "fake",
+              model: "fake-strong"
+            },
+            cheap: {
+              backend: "fake",
+              model: "fake-cheap"
+            },
+            free: {
+              backend: "fake",
+              models: ["fake-free-a", "fake-free-b"]
+            }
+          }
+        },
+        limits: {
+          maxWorkers: 2,
+          maxCostUsd: 0,
+          maxTasks: 8,
+          requirePlanApproval: false
+        }
+      },
+      null,
+      2
+    )
+  );
+
+  const config = await loadConfig(projectRoot);
+
+  expect(config.activeProfile).toBe("advanced-fake");
+  expect(config.profiles["advanced-fake"].free.models).toEqual([
+    "fake-free-a",
+    "fake-free-b"
+  ]);
+  expect(config.profiles.balanced).toBeDefined();
+  expect(config.limits.requirePlanApproval).toBe(false);
+  expect(config.patchApplication.applyCleanPatches).toBe(false);
+});
+
+test("loadConfig rejects an active profile that is not defined", async () => {
+  const projectRoot = await makeTempProject();
+  const configDir = join(projectRoot, ".ouc");
+  await mkdir(configDir, { recursive: true });
+  await writeFile(
+    join(configDir, "config.json"),
+    JSON.stringify({
+      activeProfile: "missing-profile",
+      profiles: {}
+    })
+  );
+
+  await expect(loadConfig(projectRoot)).rejects.toThrow(
+    /Profile "missing-profile" is not defined/
+  );
+});
+
+test("loadConfig rejects duplicate free models in advanced routing profiles", async () => {
+  const projectRoot = await makeTempProject();
+  const configDir = join(projectRoot, ".ouc");
+  await mkdir(configDir, { recursive: true });
+  await writeFile(
+    join(configDir, "config.json"),
+    JSON.stringify({
+      profiles: {
+        balanced: {
+          free: {
+            backend: "openrouter",
+            models: ["qwen/qwen3-coder:free", "qwen/qwen3-coder:free"]
+          }
+        }
+      }
+    })
+  );
+
+  await expect(loadConfig(projectRoot)).rejects.toThrow(
+    /profiles\.balanced\.free\.models/
+  );
+  await expect(loadConfig(projectRoot)).rejects.toThrow(
+    /Free tier models must be unique/
+  );
+});
+
 test("example config files load through the real config parser", async () => {
   const examplesRoot = resolve(process.cwd(), "examples");
   const exampleFiles = (await readdir(examplesRoot))

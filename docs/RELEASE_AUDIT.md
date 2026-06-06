@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 22:18 EDT
+Timestamp: 2026-06-05 22:23 EDT
 
 ## Objective
 
@@ -35,7 +35,7 @@ Concrete success criteria:
 | Completion audit exists | `docs/COMPLETION_AUDIT.md` maps the active objective to artifacts, verification evidence, and remaining blockers | Complete |
 | Copy-ready config examples exist | `examples/` contains safe fake, local CLI, and OpenRouter budget configs plus `examples/README.md` | Complete |
 | Package-safe fake-run artifact examples exist | `examples/fake-run-artifacts/` contains parseable fake backend plan, ledger, report, worker result, changed-files, and reconciliation records | Complete |
-| Strict config validation exists | `src/config.ts`, `src/cli.ts`, `tests/config.test.ts`, and `tests/cli.test.ts` reject unknown config keys with file-aware stderr before artifacts are created | Complete |
+| Strict config validation exists | `src/config.ts`, `src/cli.ts`, `tests/config.test.ts`, and `tests/cli.test.ts` reject unknown config keys, missing active profiles, and duplicate free-tier models with file-aware stderr before artifacts are created | Complete |
 | Local install guide exists | `docs/LOCAL_INSTALL.md` covers source checkout, local linking, package tarball smoke, config examples, and release boundaries | Complete |
 | Model routing guide exists | `docs/MODEL_ROUTING.md` covers tier rules, fallback behavior, backend selection, and routing safety controls | Complete |
 | Backend module guide exists | `docs/BACKENDS.md` covers worker result contracts, fake backend, OpenRouter, CLI adapters, reconciliation, and patch application boundaries | Complete |
@@ -62,10 +62,10 @@ Concrete success criteria:
 | Fake run works | `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id release_audit_fake_20260605_1831 --json` | Complete |
 | Help output works | `node dist/bin/ouc.js --help` | Complete |
 | Status/report artifact errors are handled | `tests/cli.test.ts` covers malformed `plan.json` for `ouc status` and `ouc report` | Complete |
-| Test suite passes | `npm test`: 17 files, 73 tests | Complete |
+| Test suite passes | `npm test`: 17 files, 76 tests | Complete |
 | Typecheck passes | `npm run typecheck` | Complete |
 | Build passes | `npm run build` | Complete |
-| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 43 files, package size `45.1 kB`, including release docs, changelog, and fake-run artifact examples | Complete |
+| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 43 files, package size `45.4 kB`, including release docs, changelog, and fake-run artifact examples | Complete |
 | Packaged install smoke works | Temporary consumer project installed packed tarball and ran packaged `ouc --help` plus packaged `ouc plan --json` | Complete |
 | Publish dry-run works | `npm publish --dry-run` passes without bin auto-correction after normalizing bin paths | Complete |
 | Secret is not committed | `git check-ignore -v .env`, `ls -l .env`, repo secret scan excluding `.env`, shell history scan | Complete |
@@ -106,7 +106,7 @@ Concrete success criteria:
 - Manual CI rerun through `workflow_dispatch` after the GitHub account billing lock is resolved.
 - Fixture-backed planner heuristic coverage for mixed source/test/docs goals, docs-only goals, and audit routing.
 - Integration fixture coverage for git-backed clean patch application tests.
-- Strict config validation with unknown-key rejection, file-aware errors, and CLI refusal before run artifact creation.
+- Strict config validation with unknown-key rejection, missing active profile rejection, duplicate free-tier model rejection, file-aware errors, and CLI refusal before run artifact creation.
 - Malformed plan artifact handling for `ouc status` and `ouc report`.
 
 ## Remaining Blocker
@@ -119,7 +119,7 @@ The repo is ready for collaborator-oriented source use, but final package releas
 
 ## Completion Audit Refresh
 
-Timestamp: 2026-06-05 22:18 EDT
+Timestamp: 2026-06-05 22:23 EDT
 
 Fresh checks on the current release-readiness state:
 
@@ -127,14 +127,14 @@ Fresh checks on the current release-readiness state:
 - `npm test -- tests/package.test.ts`: 1 file and 2 tests passed.
 - `npm test -- tests/docs.test.ts`: 1 file and 4 tests passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file and 3 tests passed.
-- `npm test -- tests/config.test.ts`: 1 file and 5 tests passed.
+- `npm test -- tests/config.test.ts`: 1 file and 8 tests passed.
 - `npm test -- tests/cli.test.ts`: 1 file and 28 tests passed.
-- `npm test`: 17 files, 73 tests passed.
+- `npm test`: 17 files, 76 tests passed.
 - `npm test -- tests/fake-run-artifacts.test.ts`: 1 file, 1 test passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 43 files, package size `45.1 kB`.
-- `npm publish --dry-run`: passed with the same 43-file tarball, package size `45.1 kB`, and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 43 files, package size `45.4 kB`.
+- `npm publish --dry-run`: passed with the same 43-file tarball, package size `45.4 kB`, and no bin metadata correction.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
 - `gh run view 27049868384 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - `git rev-parse HEAD` and `git rev-parse origin/main` confirmed the fake-run artifact examples push reached `origin/main` at commit `fa480921564e33b490af8988244d8b5a7c5ec149`.

@@ -74,3 +74,4 @@
 - [Codex] Added ledger event schema tables for planning, task, patch application, and run events.
 - [Codex] Added backend module docs for worker results, adapters, reconciliation, and patch application boundaries.
 - [Codex] Added package-safe fake-run artifact examples with parser coverage.
+- [Codex] Added advanced routing profile config edge-case tests and duplicate free-model validation.

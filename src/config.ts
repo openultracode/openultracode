@@ -50,6 +50,21 @@ export const configSchema = z
         message: `Profile "${config.activeProfile}" is not defined`
       });
     }
+
+    for (const [profileName, profile] of Object.entries(config.profiles)) {
+      const seenModels = new Set<string>();
+      for (const model of profile.free.models) {
+        if (seenModels.has(model)) {
+          context.addIssue({
+            code: "custom",
+            path: ["profiles", profileName, "free", "models"],
+            message: "Free tier models must be unique"
+          });
+          break;
+        }
+        seenModels.add(model);
+      }
+    }
   });
 
 export const DEFAULT_CONFIG = {

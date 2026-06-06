@@ -32,7 +32,6 @@ npm run verify
 
 ## Good First Contributions
 
-- Add config edge-case tests for advanced routing profiles.
 - Extend integration fixtures for conflict and stopped-run scenarios.
 - Improve docs around routing and safety.
 
