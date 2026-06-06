@@ -428,18 +428,26 @@ async function loadPlanArtifact(
   runtime: CliRuntime
 ): Promise<{ plan: DryRunPlan; planPath: string } | undefined> {
   const planPath = join(cwd, ".ouc", "runs", runId, "plan.json");
+  let rawPlan: string;
 
   try {
-    return {
-      plan: JSON.parse(await readFile(planPath, "utf8")) as DryRunPlan,
-      planPath
-    };
+    rawPlan = await readFile(planPath, "utf8");
   } catch (error) {
     if (isNodeError(error) && error.code === "ENOENT") {
       runtime.stderr(`Run "${runId}" was not found.`);
       return undefined;
     }
     throw error;
+  }
+
+  try {
+    return {
+      plan: JSON.parse(rawPlan) as DryRunPlan,
+      planPath
+    };
+  } catch {
+    runtime.stderr(`Run "${runId}" has an invalid plan artifact at ${planPath}.`);
+    return undefined;
   }
 }
 

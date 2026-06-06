@@ -32,7 +32,7 @@ npm run build
 ## Good First Contributions
 
 - Add config edge-case tests for advanced routing profiles.
-- Add status/report edge-case tests.
+- Add status/report artifact schema examples.
 - Add task-level ledger event schemas.
 - Add fake-backend run artifacts.
 - Extend integration fixtures for conflict and stopped-run scenarios.

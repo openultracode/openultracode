@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 21:18 EDT
+Timestamp: 2026-06-05 21:26 EDT
 
 ## Completed
 
@@ -327,14 +327,23 @@ Timestamp: 2026-06-05 21:18 EDT
 - Checked GitHub Actions run `27048514566`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - Updated `BLOCKED.md`, `PROJECT_STATUS.md`, `docs/RELEASE_AUDIT.md`, `docs/COMPLETION_AUDIT.md`, and `TASK_QUEUE.md` with the current push and CI blocker evidence.
 - Reverified the tracker refresh with `npm pack --dry-run`, `npm publish --dry-run`, repo secret-prefix scan excluding `.env`, public-doc dash scan, and `git diff --check`.
+- Started status/report malformed plan artifact handling from the contributor task list.
+- Added red CLI tests for malformed `plan.json` under `ouc status` and `ouc report`.
+- Verified the red state with `npm test -- tests/cli.test.ts -t "malformed plan artifacts"`; both tests failed on uncaught `JSON.parse` from `loadPlanArtifact`.
+- Updated `loadPlanArtifact` to parse plan JSON after file reads and return a controlled stderr error for malformed plan artifacts.
+- Verified the green state with `npm test -- tests/cli.test.ts -t "malformed plan artifacts"`: 1 file passed, 2 tests passed, and 26 tests were skipped by the filter.
+- Verified `npm test -- tests/cli.test.ts`: 1 file and 28 tests passed.
+- Verified full local gate: `npm test` passed with 15 files and 67 tests, `npm run typecheck` passed, `npm run build` passed, workflow and Dependabot YAML parsed, `npm pack --dry-run` passed with 33 files and package size `38.6 kB`, and `npm publish --dry-run` passed.
+- Verified built CLI smokes: `node dist/bin/ouc.js --help`, plan smoke `run_status_report_artifacts_20260605_2124`, fake-run smoke `run_status_report_artifacts_fake_20260605_2124`, and malformed-plan smoke against a temporary fixture passed.
+- Verified hygiene gates so far: public-doc dash scan and `git diff --check`.
 
 ## Current In-Progress State
 
-- None. Config validation hardening is pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- Status/report malformed plan artifact handling is implemented, documented, and locally verified. Commit, push, and CI blocker refresh are still in progress. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
+- Run final secret and `.env` checks, commit and push status/report malformed plan artifact handling, then check the new GitHub Actions run and refresh blockers.
 
 ## Human Decisions Needed
 

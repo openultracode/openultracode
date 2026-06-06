@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 21:18 EDT
+Timestamp: 2026-06-05 21:24 EDT
 
 ## Objective
 
@@ -57,10 +57,11 @@ Concrete success criteria:
 | Planning command works | `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id release_audit_plan_20260605_1831 --json` | Complete |
 | Fake run works | `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id release_audit_fake_20260605_1831 --json` | Complete |
 | Help output works | `node dist/bin/ouc.js --help` | Complete |
-| Test suite passes | `npm test`: 15 files, 65 tests | Complete |
+| Status/report artifact errors are handled | `tests/cli.test.ts` covers malformed `plan.json` for `ouc status` and `ouc report` | Complete |
+| Test suite passes | `npm test`: 15 files, 67 tests | Complete |
 | Typecheck passes | `npm run typecheck` | Complete |
 | Build passes | `npm run build` | Complete |
-| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 33 files, package size `38.3 kB`, including release docs and changelog | Complete |
+| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 33 files, package size `38.6 kB`, including release docs and changelog | Complete |
 | Packaged install smoke works | Temporary consumer project installed packed tarball and ran packaged `ouc --help` plus packaged `ouc plan --json` | Complete |
 | Publish dry-run works | `npm publish --dry-run` passes without bin auto-correction after normalizing bin paths | Complete |
 | Secret is not committed | `git check-ignore -v .env`, `ls -l .env`, repo secret scan excluding `.env`, shell history scan | Complete |
@@ -98,6 +99,7 @@ Concrete success criteria:
 - Fixture-backed planner heuristic coverage for mixed source/test/docs goals, docs-only goals, and audit routing.
 - Integration fixture coverage for git-backed clean patch application tests.
 - Strict config validation with unknown-key rejection, file-aware errors, and CLI refusal before run artifact creation.
+- Malformed plan artifact handling for `ouc status` and `ouc report`.
 
 ## Remaining Blocker
 
@@ -109,18 +111,18 @@ The repo is ready for collaborator-oriented source use, but final package releas
 
 ## Completion Audit Refresh
 
-Timestamp: 2026-06-05 21:18 EDT
+Timestamp: 2026-06-05 21:24 EDT
 
 Fresh checks on the current release-readiness state:
 
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file and 3 tests passed.
 - `npm test -- tests/config.test.ts`: 1 file and 5 tests passed.
-- `npm test -- tests/cli.test.ts`: 1 file and 26 tests passed.
-- `npm test`: 15 files, 65 tests passed.
+- `npm test -- tests/cli.test.ts`: 1 file and 28 tests passed.
+- `npm test`: 15 files, 67 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 33 files, package size `38.3 kB`.
-- `npm publish --dry-run`: passed with the same 33-file tarball, package size `38.3 kB`, and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 33 files, package size `38.6 kB`.
+- `npm publish --dry-run`: passed with the same 33-file tarball, package size `38.6 kB`, and no bin metadata correction.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
 - `gh run view 27048514566 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - `git rev-parse HEAD` and `git rev-parse origin/main` confirmed the config validation hardening push reached `origin/main` at commit `7fd249d0651dfad7ba946c4122ab390e863c8e17`.
@@ -132,6 +134,9 @@ Fresh checks on the current release-readiness state:
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_config_validation_20260605_2113 --json`: passed.
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_config_validation_fake_20260605_2113 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
 - Built bad-config smoke against a temporary fixture passed: invalid `.ouc/config.json` returned exit 1, printed file-aware stderr, left stdout empty, and created no run artifact.
+- `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_status_report_artifacts_20260605_2124 --json`: passed.
+- `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_status_report_artifacts_fake_20260605_2124 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
+- Built malformed-plan smoke against a temporary fixture passed: `status` and `report` both returned exit 1 with controlled stderr and empty stdout.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_completion_audit_20260605_1924 --json`: passed.
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_completion_fake_20260605_1924 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_release_dispatch_20260605_1929 --json`: passed.

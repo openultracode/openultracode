@@ -269,6 +269,28 @@ test("runCli status can print machine-readable JSON", async () => {
   });
 });
 
+test("runCli status reports malformed plan artifacts", async () => {
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-status-bad-plan-"));
+  const runDir = join(projectRoot, ".ouc", "runs", "run_bad_plan_status");
+  await mkdir(runDir, { recursive: true });
+  await writeFile(join(runDir, "plan.json"), "{not json");
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+
+  const exitCode = await runCli(["node", "ouc", "status", "run_bad_plan_status"], {
+    cwd: projectRoot,
+    stdout: (line) => stdout.push(line),
+    stderr: (line) => stderr.push(line)
+  });
+
+  expect(exitCode).toBe(1);
+  expect(stdout).toEqual([]);
+  expect(stderr.join("\n")).toContain(
+    'Run "run_bad_plan_status" has an invalid plan artifact'
+  );
+  expect(stderr.join("\n")).toContain(".ouc/runs/run_bad_plan_status/plan.json");
+});
+
 test("runCli report prints a markdown summary for a planned run", async () => {
   const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-report-"));
   await writeFile(join(projectRoot, "README.md"), "# Fixture");
@@ -351,6 +373,28 @@ test("runCli report preserves an existing final report artifact", async () => {
   expect(stderr).toEqual([]);
   expect(stdout.join("\n")).toBe(existingReport.trimEnd());
   expect(await readFile(reportPath, "utf8")).toBe(existingReport);
+});
+
+test("runCli report reports malformed plan artifacts", async () => {
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-report-bad-plan-"));
+  const runDir = join(projectRoot, ".ouc", "runs", "run_bad_plan_report");
+  await mkdir(runDir, { recursive: true });
+  await writeFile(join(runDir, "plan.json"), "{not json");
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+
+  const exitCode = await runCli(["node", "ouc", "report", "run_bad_plan_report"], {
+    cwd: projectRoot,
+    stdout: (line) => stdout.push(line),
+    stderr: (line) => stderr.push(line)
+  });
+
+  expect(exitCode).toBe(1);
+  expect(stdout).toEqual([]);
+  expect(stderr.join("\n")).toContain(
+    'Run "run_bad_plan_report" has an invalid plan artifact'
+  );
+  expect(stderr.join("\n")).toContain(".ouc/runs/run_bad_plan_report/plan.json");
 });
 
 test("runCli run executes planned tasks with the fake backend and writes run artifacts", async () => {

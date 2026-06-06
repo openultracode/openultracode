@@ -67,3 +67,4 @@
 - [Codex] Documented, verified, and prepared integration fixture coverage for push.
 - [Codex] Added strict config validation for unknown keys and file-aware config errors.
 - [Codex] Documented, verified, and pushed config validation hardening.
+- [Codex] Added status/report malformed plan artifact handling.

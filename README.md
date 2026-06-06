@@ -73,6 +73,7 @@ Current implemented surface:
 - Run JSON, ledgers, and final reports include total token and cost accounting from worker results.
 - Actual backend cost can stop a run before the next task when `limits.maxCostUsd` is exceeded.
 - `final-report.md` creation, execution summaries, and preservation.
+- `status` and `report` return controlled errors for missing or malformed plan artifacts.
 - Machine-readable JSON output for plan, run, and status.
 - Deterministic fake backend for local execution and tests.
 
