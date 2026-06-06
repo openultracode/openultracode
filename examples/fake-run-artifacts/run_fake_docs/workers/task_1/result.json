@@ -1,0 +1,11 @@
+{
+  "taskId": "task_1",
+  "status": "succeeded",
+  "response": "Fake backend fake-model completed task_1.\nTitle: Document: fake backend artifacts\nInstructions: Goal: document fake backend artifacts\nUpdate contributor-facing documentation for the requested behavior.",
+  "usage": {
+    "inputTokens": 11,
+    "outputTokens": 19,
+    "totalTokens": 30
+  },
+  "costUsd": 0
+}

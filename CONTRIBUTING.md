@@ -13,14 +13,15 @@ OpenUltraCode is early. The best contributions are small, tested slices that mak
 7. Check `docs/MODEL_ROUTING.md` if the change affects planning, routing, model tiers, or backend safety.
 8. Check `docs/BACKENDS.md` if the change affects backend modules, worker results, CLI adapters, or reconciliation boundaries.
 9. Check `examples/README.md` if the change affects local config or backend routing examples.
-10. Check `docs/RUN_EXAMPLES.md` if the change affects command examples or run artifact workflows.
-11. Check `docs/ARTIFACTS.md` if the change affects run files, ledgers, reports, reconciliation, or patch application artifacts.
-12. Check `docs/COMPLETION_AUDIT.md` when evaluating release completeness.
-13. Check `docs/RELEASE_DECISIONS.md` before release or package work.
-14. Check `docs/PUBLISHING.md` before tagging, package-smoke, or npm publish work.
-15. Pick one narrow behavior.
-16. Write the test first for behavior changes.
-17. Run the full verification commands before opening a PR.
+10. Check `examples/fake-run-artifacts/README.md` if the change affects package-safe fake-run examples.
+11. Check `docs/RUN_EXAMPLES.md` if the change affects command examples or run artifact workflows.
+12. Check `docs/ARTIFACTS.md` if the change affects run files, ledgers, reports, reconciliation, or patch application artifacts.
+13. Check `docs/COMPLETION_AUDIT.md` when evaluating release completeness.
+14. Check `docs/RELEASE_DECISIONS.md` before release or package work.
+15. Check `docs/PUBLISHING.md` before tagging, package-smoke, or npm publish work.
+16. Pick one narrow behavior.
+17. Write the test first for behavior changes.
+18. Run the full verification commands before opening a PR.
 
 ## Development Setup
 
@@ -32,13 +33,14 @@ npm run verify
 ## Good First Contributions
 
 - Add config edge-case tests for advanced routing profiles.
-- Add fake-backend run artifacts.
 - Extend integration fixtures for conflict and stopped-run scenarios.
 - Improve docs around routing and safety.
 
 Planner heuristic fixtures live in `tests/fixtures/planner/`. Extend those fixtures when changing deterministic task decomposition.
 
 CLI integration fixtures live in `tests/fixtures/integration/`. Extend those fixtures when changing git-backed patch application behavior.
+
+Package-safe fake-backend artifact examples live in `examples/fake-run-artifacts/`. Extend those examples when changing fake-run artifact shapes.
 
 Issue templates are available for bugs, feature requests, and scoped task proposals. Pull requests use `.github/PULL_REQUEST_TEMPLATE.md` so verification and safety checks stay visible in review.
 

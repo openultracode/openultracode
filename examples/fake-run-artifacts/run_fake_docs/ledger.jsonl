@@ -1,0 +1,5 @@
+{"event":"plan_created","runId":"run_fake_docs","createdAt":"2026-06-05T22:10:00.000Z","taskCount":1,"fileOwnership":{"hasConflicts":false,"files":[{"path":"docs/ARTIFACTS.md","ownerTaskIds":["task_1"],"conflict":false},{"path":"examples/README.md","ownerTaskIds":["task_1"],"conflict":false}],"conflicts":[]},"estimatedCostUsd":0}
+{"event":"task_started","runId":"run_fake_docs","taskId":"task_1","modelTier":"free","startedAt":"2026-06-05T22:10:01.000Z","worktreePath":".ouc/runs/run_fake_docs/worktrees/task_1"}
+{"event":"task_reconciled","runId":"run_fake_docs","taskId":"task_1","status":"clean","changedFiles":[],"reconciledAt":"2026-06-05T22:10:02.000Z","diffPath":".ouc/runs/run_fake_docs/workers/task_1/diff.patch"}
+{"event":"task_finished","runId":"run_fake_docs","taskId":"task_1","status":"succeeded","attemptCount":1,"totalTokens":30,"costUsd":0,"finishedAt":"2026-06-05T22:10:02.000Z"}
+{"event":"run_finished","runId":"run_fake_docs","backend":"fake","status":"succeeded","taskCount":1,"succeeded":1,"failed":0,"totalCostUsd":0,"totalTokens":30,"finishedAt":"2026-06-05T22:10:02.000Z"}

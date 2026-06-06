@@ -183,6 +183,12 @@ For generated run artifact schemas and examples, read:
 cat docs/ARTIFACTS.md
 ```
 
+For package-shipped fake-run artifact examples, read:
+
+```bash
+cat examples/fake-run-artifacts/README.md
+```
+
 For the current prompt-to-artifact completion audit, read:
 
 ```bash

@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 22:05 EDT
+Timestamp: 2026-06-05 22:15 EDT
 
 ## Completed
 
@@ -394,14 +394,24 @@ Timestamp: 2026-06-05 22:05 EDT
 - Committed and pushed backend module docs as `f671e3445a2a0a5801e132d3eac014b08e7919cc`.
 - Checked GitHub Actions run `27049585091`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - Updated `BLOCKED.md`, `PROJECT_STATUS.md`, `docs/RELEASE_AUDIT.md`, and `docs/COMPLETION_AUDIT.md` with the current push and CI blocker evidence.
+- Started package-safe fake-run artifact example work from the contributor task list.
+- Added a red fake-run artifact fixture test requiring contributor entrypoint links and parseable package-shipped fake backend artifacts.
+- Verified the red state with `npm test -- tests/fake-run-artifacts.test.ts`; it failed because `examples/fake-run-artifacts` was not linked yet.
+- Added `examples/fake-run-artifacts/` with parseable fake backend `plan.json`, `ledger.jsonl`, `final-report.md`, worker `response.md`, worker `result.json`, `changed-files.json`, and `reconciliation.json`.
+- Linked the fake-run artifact examples from README, CONTRIBUTING, `docs/ARTIFACTS.md`, and `examples/README.md`.
+- Removed the completed fake-backend run artifacts item from `CONTRIBUTING.md`.
+- Verified the green target test with `npm test -- tests/fake-run-artifacts.test.ts`: 1 file and 1 test passed.
+- Verified `npm run verify`: tests passed with 17 files and 73 tests, typecheck passed, build passed, and package dry-run passed with 43 files and package size `45.1 kB`.
+- Verified `npm publish --dry-run`, workflow and Dependabot YAML parsing, built help smoke, plan smoke `run_fake_artifacts_final_20260605_2217`, fake-run smoke `run_fake_artifacts_final_fake_20260605_2217`, repo secret-prefix scan excluding `.env`, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode.
+- Updated CHANGELOG, BUILD_DRAFT, PROJECT_STATUS, TASK_QUEUE, release audit, completion audit, and this checkpoint for the fake-run artifact example slice.
 
 ## Current In-Progress State
 
-- None. Backend module docs are pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- Preparing to commit and push the fake-run artifact example slice. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
+- Commit and push the fake-run artifact examples, inspect the GitHub Actions run, then refresh blocker tracking if the billing lock still prevents job startup.
 
 ## Human Decisions Needed
 

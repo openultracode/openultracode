@@ -73,3 +73,4 @@
 - [Codex] Added a unified `npm run verify` gate and wired CI plus release docs to it.
 - [Codex] Added ledger event schema tables for planning, task, patch application, and run events.
 - [Codex] Added backend module docs for worker results, adapters, reconciliation, and patch application boundaries.
+- [Codex] Added package-safe fake-run artifact examples with parser coverage.

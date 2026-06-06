@@ -1,0 +1,7 @@
+{
+  "taskId": "task_1",
+  "status": "clean",
+  "changedFiles": [],
+  "worktreePath": ".ouc/runs/run_fake_docs/worktrees/task_1",
+  "diffPath": ".ouc/runs/run_fake_docs/workers/task_1/diff.patch"
+}

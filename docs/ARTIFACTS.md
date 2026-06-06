@@ -163,6 +163,8 @@ OpenUltraCode preserves an existing `final-report.md` instead of overwriting it.
 
 These examples are intentionally compact. They show the shape of package-safe fake-backend artifacts without private prompts, secrets, or live provider output.
 
+Package-shipped fake-run artifact examples live in `examples/fake-run-artifacts/`. Use those files when you need complete parseable fixtures instead of inline snippets.
+
 ### plan.json Example
 
 ```json

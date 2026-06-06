@@ -16,6 +16,7 @@ node dist/bin/ouc.js run "inspect this repo" --backend fake --json
 - `config.safe-fake.json`: routes every tier to the deterministic fake backend. Use this for local demos, tests, and contributor onboarding without external model calls.
 - `config.local-cli.json`: routes work through local Codex and Claude CLI backends. Use this only after those CLIs are installed and authenticated locally.
 - `config.openrouter-budget.json`: keeps OpenRouter enabled with a small cost cap. Use this only with `OPENROUTER_API_KEY` stored in your ignored local `.env` or shell environment.
+- `examples/fake-run-artifacts/`: package-safe fake backend run artifacts for docs, issue examples, and parser checks.
 
 ## Safety Notes
 

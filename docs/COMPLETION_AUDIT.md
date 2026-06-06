@@ -1,6 +1,6 @@
 # Completion Audit
 
-Timestamp: 2026-06-05 22:05 EDT
+Timestamp: 2026-06-05 22:15 EDT
 
 ## Objective
 
@@ -21,7 +21,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Test the project locally | `npm run verify`, targeted example tests, hygiene scans, and package smokes have current recorded evidence | Complete |
 | Push changes to the public repo | Backend module guide commit `f671e3445a2a0a5801e132d3eac014b08e7919cc` was pushed to `origin/main` | Complete |
 | Preserve the OpenRouter key only locally | `.env` is ignored, has `0600` permissions, and secret-prefix scans outside `.env` found no matches | Complete |
-| Improve contributor readiness | README, CONTRIBUTING, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, local install docs, model routing docs, run examples docs, publishing docs, release docs, Dependabot, labels, and community profile are in place | Complete |
+| Improve contributor readiness | README, CONTRIBUTING, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, package-safe fake-run artifacts, local install docs, model routing docs, run examples docs, publishing docs, release docs, Dependabot, labels, and community profile are in place | Complete |
 | Make package contents release-shaped | `npm pack --dry-run` includes README, LICENSE, CHANGELOG, CODE_OF_CONDUCT, `docs/`, `examples/`, and built CLI files | Complete |
 | Verify remote CI | GitHub Actions workflow exists, but jobs cannot start because the GitHub account is locked due to a billing issue | Blocked |
 | Finalize release decisions | `docs/RELEASE_DECISIONS.md` records the license, CI, release channel, tag, and npm publication decisions still needed | Blocked |
@@ -41,6 +41,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Security path | `SECURITY.md` | Private report path and project-specific safety areas are documented |
 | Architecture handoff | `docs/ARCHITECTURE.md` | Runtime flow, module map, artifact contract, safety model, and extension points are documented |
 | Artifact reference handoff | `docs/ARTIFACTS.md` | Run directory layout, plans, ledgers, ledger event schemas, worker outputs, reconciliation, patch application, final reports, and checked JSON/JSONL examples are documented |
+| Fake-run artifact examples | `examples/fake-run-artifacts/`, `tests/fake-run-artifacts.test.ts` | Package-shipped fake backend artifacts are parseable and linked from contributor entrypoints |
 | Copy-ready examples | `examples/` | Safe fake, local CLI, and OpenRouter budget configs load through the real config parser |
 | Strict config validation | `src/config.ts`, `src/cli.ts`, `tests/config.test.ts`, `tests/cli.test.ts` | Unknown config keys are rejected with file-aware errors, and CLI plan/run stops before creating artifacts |
 | Status/report malformed artifacts | `src/cli.ts`, `tests/cli.test.ts` | Malformed `plan.json` artifacts produce controlled stderr and exit 1 for `ouc status` and `ouc report` |
@@ -63,15 +64,16 @@ This audit maps that objective to concrete repository artifacts and verification
 - `npm run verify`: passed.
 - `npm test -- tests/package.test.ts`: 1 file, 2 tests passed.
 - `npm test -- tests/docs.test.ts`: 1 file, 4 tests passed.
+- `npm test -- tests/fake-run-artifacts.test.ts`: 1 file, 1 test passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file, 3 tests passed.
 - `npm test -- tests/config.test.ts`: 1 file, 5 tests passed.
 - `npm test -- tests/cli.test.ts`: 1 file, 28 tests passed.
-- `npm test`: 16 files, 72 tests passed.
+- `npm test`: 17 files, 73 tests passed.
 - `npm test -- tests/config.test.ts tests/package.test.ts`: 2 files, 7 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 35 files, package size `43.6 kB`.
-- `npm publish --dry-run`: passed with the same 35-file tarball, package size `43.6 kB`, and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 43 files, package size `45.1 kB`.
+- `npm publish --dry-run`: passed with the same 43-file tarball, package size `45.1 kB`, and no bin metadata correction.
 - `npm publish --dry-run`: passed after bin metadata normalization.
 - Clean temporary package install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed.
 - Run examples plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_examples_docs_20260605_2036 --json` passed.
@@ -100,6 +102,8 @@ This audit maps that objective to concrete repository artifacts and verification
 - Ledger schema fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_ledger_schema_fake_20260605_2156 --json` passed.
 - Backend docs plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_backend_docs_20260605_2202 --json` passed.
 - Backend docs fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_backend_docs_fake_20260605_2202 --json` passed.
+- Fake-run artifact plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_fake_artifacts_20260605_2213 --json` passed.
+- Fake-run artifact fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_fake_artifacts_fake_20260605_2213 --json` passed.
 - Repo secret-prefix scan excluding `.env`, `node_modules`, `dist`, `.ouc`, and `.git`: no matches.
 - Shell history/session secret scan: no matches.
 - Public-doc dash scan: no disallowed dash characters.

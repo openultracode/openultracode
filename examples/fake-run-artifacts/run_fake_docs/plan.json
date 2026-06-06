@@ -1,0 +1,71 @@
+{
+  "runId": "run_fake_docs",
+  "goal": "document fake backend artifacts",
+  "createdAt": "2026-06-05T22:10:00.000Z",
+  "repo": {
+    "projectRoot": "/workspace/openultracode",
+    "hasGit": true,
+    "packageManager": "npm",
+    "files": [
+      "README.md",
+      "docs/ARTIFACTS.md",
+      "examples/README.md"
+    ],
+    "summary": {
+      "fileCount": 3,
+      "languageHints": [
+        "typescript"
+      ],
+      "hasTests": true
+    }
+  },
+  "tasks": [
+    {
+      "id": "task_1",
+      "title": "Document: fake backend artifacts",
+      "intent": "edit",
+      "importance": "normal",
+      "modelTier": "free",
+      "fileScope": [
+        "docs/ARTIFACTS.md",
+        "examples/README.md"
+      ],
+      "dependsOn": [],
+      "instructions": "Goal: document fake backend artifacts\nUpdate contributor-facing documentation for the requested behavior."
+    }
+  ],
+  "routes": {
+    "task_1": {
+      "tier": "free",
+      "primary": {
+        "backend": "fake",
+        "model": "fake-model"
+      },
+      "fallbacks": []
+    }
+  },
+  "fileOwnership": {
+    "hasConflicts": false,
+    "files": [
+      {
+        "path": "docs/ARTIFACTS.md",
+        "ownerTaskIds": [
+          "task_1"
+        ],
+        "conflict": false
+      },
+      {
+        "path": "examples/README.md",
+        "ownerTaskIds": [
+          "task_1"
+        ],
+        "conflict": false
+      }
+    ],
+    "conflicts": []
+  },
+  "estimatedCostUsd": 0,
+  "notes": [
+    "Static package-safe fixture. Generated runs live under .ouc/runs/<run-id>/."
+  ]
+}
