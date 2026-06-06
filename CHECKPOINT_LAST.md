@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 23:07 EDT
+Timestamp: 2026-06-05 23:14 EDT
 
 ## Completed
 
@@ -456,11 +456,15 @@ Timestamp: 2026-06-05 23:07 EDT
 - Verified the red state with `npm test -- tests/package.test.ts`; it failed because `scripts["release:check"]` was missing.
 - Added `release:check` to `package.json` and documented it in `docs/PUBLISHING.md` plus `docs/RELEASE_DECISIONS.md`.
 - Verified the green targeted package test with `npm test -- tests/package.test.ts`: 1 file and 3 tests passed.
-- Verified the new release preflight with `npm run release:check`: 17 test files, 79 tests, typecheck, build, package dry-run, and publish dry-run passed with package size `47.1 kB`.
+- Verified the new release preflight with `npm run release:check`: 17 test files, 79 tests, typecheck, build, package dry-run, and publish dry-run passed with package size `47.2 kB`.
+- Verified final full local gate with `npm run verify`: 17 test files, 79 tests, typecheck, build, and package dry-run passed with package size `47.2 kB`.
+- Verified final release checks: `npm publish --dry-run`, workflow and Dependabot YAML parsing, built help, plan smoke `run_release_check_script_20260605_2312`, fake-run smoke `run_release_check_script_fake_20260605_2312`, repo secret-prefix scan excluding ignored local files, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode checks.
+- Committed and pushed release preflight script as `55df188aada1cb04060d549c351c5a368e7644fa`.
+- Checked GitHub Actions run `27051019645`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 
 ## Current In-Progress State
 
-- `release:check` local preflight is implemented and verified. Full hygiene verification and push are next.
+- None. The release preflight script is pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
