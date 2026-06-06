@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 21:14 EDT
+Timestamp: 2026-06-05 21:18 EDT
 
 ## Completed
 
@@ -323,14 +323,18 @@ Timestamp: 2026-06-05 21:14 EDT
 - Verified full local gate: `npm test` passed with 15 files and 65 tests, `npm run typecheck` passed, `npm run build` passed, workflow and Dependabot YAML parsed, `npm pack --dry-run` passed with 33 files and package size `38.3 kB`, and `npm publish --dry-run` passed.
 - Verified built CLI smokes: `node dist/bin/ouc.js --help`, plan smoke `run_config_validation_20260605_2113`, fake-run smoke `run_config_validation_fake_20260605_2113`, and bad-config smoke against a temporary fixture passed.
 - Verified hygiene gates: repo secret-prefix scan excluding `.env`, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode.
+- Committed and pushed config validation hardening as `7fd249d0651dfad7ba946c4122ab390e863c8e17`.
+- Checked GitHub Actions run `27048514566`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- Updated `BLOCKED.md`, `PROJECT_STATUS.md`, `docs/RELEASE_AUDIT.md`, `docs/COMPLETION_AUDIT.md`, and `TASK_QUEUE.md` with the current push and CI blocker evidence.
+- Reverified the tracker refresh with `npm pack --dry-run`, `npm publish --dry-run`, repo secret-prefix scan excluding `.env`, public-doc dash scan, and `git diff --check`.
 
 ## Current In-Progress State
 
-- Config validation hardening is implemented, documented, and locally verified. Commit, push, and remote CI blocker refresh are still in progress. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- None. Config validation hardening is pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Commit and push config validation hardening, check the new GitHub Actions run, then refresh blockers and trackers.
+- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
 
 ## Human Decisions Needed
 

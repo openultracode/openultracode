@@ -7,7 +7,7 @@
 
 ## In-Progress
 
-- [Codex] Document, verify, and push config validation hardening.
+- None.
 
 ## Done
 
@@ -66,3 +66,4 @@
 - [Codex] Added an integration fixture repo for git-backed clean patch application tests.
 - [Codex] Documented, verified, and prepared integration fixture coverage for push.
 - [Codex] Added strict config validation for unknown keys and file-aware config errors.
+- [Codex] Documented, verified, and pushed config validation hardening.

@@ -2,14 +2,15 @@
 
 ## GitHub Actions Remote Verification
 
-Timestamp: 2026-06-05 21:02 EDT
+Timestamp: 2026-06-05 21:18 EDT
 
 Status: blocked by external GitHub account state.
 
 Evidence:
 
 - Workflow: `.github/workflows/ci.yml`.
-- Latest push CI run checked this session: `27048125954` for commit `017578210fd077f2ec4c5991831d24527ede159c`.
+- Latest push CI run checked this session: `27048514566` for commit `7fd249d0651dfad7ba946c4122ab390e863c8e17`.
+- Previous push CI run checked this session: `27048125954` for commit `017578210fd077f2ec4c5991831d24527ede159c`.
 - Previous push CI run checked this session: `27047901172` for commit `c42b3ffbe93d1415d29540a0e03dba7d4d96d028`.
 - Previous push CI run checked this session: `27046966434` for commit `a6c2ebc`.
 - Previous push CI run checked this session: `27045180433`.
@@ -21,13 +22,16 @@ Evidence:
 
 Local verification already run:
 
-- `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); puts "workflow yaml ok"'`
+- `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`
 - `npm test`
 - `npm run typecheck`
 - `npm run build`
 - `npm pack --dry-run`
+- `npm publish --dry-run`
 - `node dist/bin/ouc.js --help`
-- `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_smoke_deps_20260605_1916 --json`
+- `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_config_validation_20260605_2113 --json`
+- `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_config_validation_fake_20260605_2113 --json`
+- Temporary bad-config smoke for strict config validation.
 
 Best hypothesis:
 
