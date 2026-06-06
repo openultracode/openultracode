@@ -64,6 +64,14 @@ OPENROUTER_API_KEY=... node dist/bin/ouc.js run "inspect this repo" --backend op
 
 Use `--model` to override the selected backend model for a single run.
 
+## Backend Safety Matrix
+
+| Backend family | Best use | Required safety checks |
+| --- | --- | --- |
+| Fake | Tests, demos, docs validation, and contributor onboarding without external calls. | Use `--backend fake`, keep patch application disabled, and inspect generated `.ouc/runs/<run-id>/` artifacts. |
+| Local CLI | Authenticated local Codex or Claude CLI work where the user controls the installed tool and account. | Confirm the CLI is installed, keep command backends mocked in tests, use isolated worktrees for edit tasks, and keep clean patch application opt-in. |
+| OpenRouter | Explicit opt-in model execution with usage metadata and fallback attempts. | Store `OPENROUTER_API_KEY` outside committed files, set conservative cost and task limits, keep `free.models` unique, and review attempt history in worker `result.json`. |
+
 ## Safety Controls
 
 Routing is only one layer. Execution also uses these safety controls:
@@ -84,6 +92,7 @@ Start from the package-shipped examples:
 - `examples/config.safe-fake.json`: routes every tier to the deterministic fake backend.
 - `examples/config.local-cli.json`: routes work through local Codex and Claude CLI backends.
 - `examples/config.openrouter-budget.json`: routes through OpenRouter with a small cost cap.
+- `examples/config.advanced-routing.json`: mixes OpenRouter, Codex CLI, and Claude CLI tiers with conservative limits.
 
 Copy one into `.ouc/config.json`, then run a fake backend smoke before using real backends:
 

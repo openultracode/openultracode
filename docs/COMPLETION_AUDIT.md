@@ -1,6 +1,6 @@
 # Completion Audit
 
-Timestamp: 2026-06-05 22:37 EDT
+Timestamp: 2026-06-05 22:44 EDT
 
 ## Objective
 
@@ -21,7 +21,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Test the project locally | `npm run verify`, targeted example tests, hygiene scans, and package smokes have current recorded evidence | Complete |
 | Push changes to the public repo | Integration edge fixture commit `db4eeec1b88fd5aee3259f8a82541e271bf6d1f7` was pushed to `origin/main` | Complete |
 | Preserve the OpenRouter key only locally | `.env` is ignored, has `0600` permissions, and secret-prefix scans outside `.env` found no matches | Complete |
-| Improve contributor readiness | README, CONTRIBUTING, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, integration fixtures, package-safe fake-run artifacts, local install docs, model routing docs, run examples docs, publishing docs, release docs, Dependabot, labels, and community profile are in place | Complete |
+| Improve contributor readiness | README, CONTRIBUTING, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, integration fixtures, package-safe fake-run artifacts, local install docs, model routing docs with safety matrix, run examples docs, publishing docs, release docs, Dependabot, labels, and community profile are in place | Complete |
 | Make package contents release-shaped | `npm pack --dry-run` includes README, LICENSE, CHANGELOG, CODE_OF_CONDUCT, `docs/`, `examples/`, and built CLI files | Complete |
 | Verify remote CI | GitHub Actions workflow exists, but jobs cannot start because the GitHub account is locked due to a billing issue | Blocked |
 | Finalize release decisions | `docs/RELEASE_DECISIONS.md` records the license, CI, release channel, tag, and npm publication decisions still needed | Blocked |
@@ -42,11 +42,11 @@ This audit maps that objective to concrete repository artifacts and verification
 | Architecture handoff | `docs/ARCHITECTURE.md` | Runtime flow, module map, artifact contract, safety model, and extension points are documented |
 | Artifact reference handoff | `docs/ARTIFACTS.md` | Run directory layout, plans, ledgers, ledger event schemas, worker outputs, reconciliation, patch application, final reports, and checked JSON/JSONL examples are documented |
 | Fake-run artifact examples | `examples/fake-run-artifacts/`, `tests/fake-run-artifacts.test.ts` | Package-shipped fake backend artifacts are parseable and linked from contributor entrypoints |
-| Copy-ready examples | `examples/` | Safe fake, local CLI, and OpenRouter budget configs load through the real config parser |
+| Copy-ready examples | `examples/` | Safe fake, local CLI, OpenRouter budget, and advanced routing configs load through the real config parser |
 | Strict config validation | `src/config.ts`, `src/cli.ts`, `tests/config.test.ts`, `tests/cli.test.ts` | Unknown config keys, missing active profiles, and duplicate free-tier models are rejected with file-aware errors, and CLI plan/run stops before creating artifacts |
 | Status/report malformed artifacts | `src/cli.ts`, `tests/cli.test.ts` | Malformed `plan.json` artifacts produce controlled stderr and exit 1 for `ouc status` and `ouc report` |
 | Local install handoff | `docs/LOCAL_INSTALL.md` | Source checkout, local command linking, package tarball smoke, config examples, and release boundaries are documented |
-| Model routing handoff | `docs/MODEL_ROUTING.md` | Tier rules, fallback behavior, backend selection, config examples, and safety controls are documented |
+| Model routing handoff | `docs/MODEL_ROUTING.md` | Tier rules, fallback behavior, backend selection, config examples, backend safety matrix, and safety controls are documented |
 | Backend module handoff | `docs/BACKENDS.md` | Worker result contracts, backend adapters, reconciliation, patch application boundaries, and test expectations are documented |
 | Run examples handoff | `docs/RUN_EXAMPLES.md` | Planning, fake execution, stopped runs, status/report inspection, local CLI smokes, OpenRouter opt-in, model override, patch application, and troubleshooting commands are documented |
 | Publishing handoff | `docs/PUBLISHING.md` | Release modes, package smoke, release notes, tagging, npm publish, and stop conditions are documented |
@@ -63,18 +63,18 @@ This audit maps that objective to concrete repository artifacts and verification
 
 - `npm run verify`: passed.
 - `npm test -- tests/package.test.ts`: 1 file, 2 tests passed.
-- `npm test -- tests/docs.test.ts`: 1 file, 4 tests passed.
+- `npm test -- tests/docs.test.ts`: 1 file, 5 tests passed.
 - `npm test -- tests/fake-run-artifacts.test.ts`: 1 file, 1 test passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file, 3 tests passed.
 - `npm test -- tests/config.test.ts`: 1 file, 8 tests passed.
 - `npm test -- tests/cli.test.ts`: 1 file, 28 tests passed.
 - `npm test -- tests/cli.test.ts -t "ownership|stop after a fake task"`: 1 file and 2 selected tests passed.
-- `npm test`: 17 files, 76 tests passed.
+- `npm test`: 17 files, 77 tests passed.
 - `npm test -- tests/config.test.ts tests/package.test.ts`: 2 files, 7 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 43 files, package size `45.6 kB`.
-- `npm publish --dry-run`: passed with the same 43-file tarball, package size `45.6 kB`, and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `46.1 kB`.
+- `npm publish --dry-run`: passed with the same 44-file tarball, package size `46.1 kB`, and no bin metadata correction.
 - `npm publish --dry-run`: passed after bin metadata normalization.
 - Clean temporary package install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed.
 - Run examples plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_examples_docs_20260605_2036 --json` passed.
@@ -83,6 +83,8 @@ This audit maps that objective to concrete repository artifacts and verification
 - Publishing guide fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_publishing_final_fake_20260605_2028 --json` passed.
 - Model routing docs smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_model_routing_docs_20260605_2015 --json` passed.
 - Model routing fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_model_routing_fake_20260605_2015 --json` passed.
+- Routing safety plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_routing_safety_final2_20260605_2249 --json` passed.
+- Routing safety fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_routing_safety_final2_fake_20260605_2249 --json` passed.
 - Planner fixture plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_planner_fixtures_final2_20260605_2051 --json` passed.
 - Planner fixture fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_planner_fixtures_final2_fake_20260605_2051 --json` passed.
 - Integration fixture plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_integration_fixture_20260605_2100 --json` passed.

@@ -76,3 +76,4 @@
 - [Codex] Added package-safe fake-run artifact examples with parser coverage.
 - [Codex] Added advanced routing profile config edge-case tests and duplicate free-model validation.
 - [Codex] Added integration fixtures for stopped fake runs and overlapping file ownership conflicts.
+- [Codex] Added an advanced routing config example plus tested backend safety matrix docs.

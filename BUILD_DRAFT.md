@@ -1,6 +1,6 @@
 # Build Draft
 
-Timestamp: 2026-06-05 22:32 EDT
+Timestamp: 2026-06-05 22:44 EDT
 
 GitHub: https://github.com/AryaVora621/openultracode
 
@@ -75,6 +75,7 @@ Included:
 - `npm run verify` script for tests, typecheck, build, and package dry-run.
 - Backend module guide for worker result contracts, backend adapters, reconciliation, and patch application boundaries.
 - Artifact reference guide with ledger event schemas plus checked JSON/JSONL examples for `plan.json`, `ledger.jsonl`, and worker `result.json`.
+- Advanced routing config example and backend safety matrix docs.
 - Package-shipped fake-run artifact examples under `examples/fake-run-artifacts/` with parseable plan, ledger, report, worker result, changed-files, and reconciliation records.
 - Release-readiness checklist in `docs/RELEASE_CHECKLIST.md`.
 - Release audit in `docs/RELEASE_AUDIT.md`.
@@ -84,16 +85,16 @@ Included:
 Latest refresh on 2026-06-05 22:23 EDT:
 
 - `npm run verify`: passed.
-- `npm test`: 17 files and 76 tests passed.
+- `npm test`: 17 files and 77 tests passed.
 - `npm test -- tests/package.test.ts`: 1 file and 2 tests passed.
-- `npm test -- tests/docs.test.ts`: 1 file and 4 tests passed.
+- `npm test -- tests/docs.test.ts`: 1 file and 5 tests passed.
 - `npm test -- tests/fake-run-artifacts.test.ts`: 1 file and 1 test passed.
 - `npm test -- tests/config.test.ts`: 1 file and 8 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
 - Workflow and Dependabot YAML parsed.
-- `npm pack --dry-run`: 43 files, package size `45.6 kB`.
-- `npm publish --dry-run`: 43 files, package size `45.6 kB`.
+- `npm pack --dry-run`: 44 files, package size `46.1 kB`.
+- `npm publish --dry-run`: 44 files, package size `46.1 kB`.
 - Built CLI smokes passed for `--help`, plan `run_fake_artifacts_20260605_2213`, fake run `run_fake_artifacts_fake_20260605_2213`, and previous malformed-plan validation.
 - Secret-prefix, shell-history, public-doc dash, whitespace, and `.env` ignore/mode checks passed.
 

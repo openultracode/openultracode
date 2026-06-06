@@ -220,6 +220,7 @@ test("example config files load through the real config parser", async () => {
     .sort();
 
   expect(exampleFiles).toEqual([
+    "config.advanced-routing.json",
     "config.local-cli.json",
     "config.openrouter-budget.json",
     "config.safe-fake.json"

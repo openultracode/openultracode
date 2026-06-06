@@ -1,0 +1,40 @@
+{
+  "activeProfile": "advanced-routing",
+  "profiles": {
+    "advanced-routing": {
+      "orchestrator": {
+        "backend": "openrouter",
+        "model": "openai/gpt-oss-120b"
+      },
+      "critical": {
+        "backend": "claude-cli",
+        "model": "opus"
+      },
+      "strong": {
+        "backend": "codex-cli",
+        "model": "gpt-5.3-codex"
+      },
+      "cheap": {
+        "backend": "openrouter",
+        "model": "deepseek/deepseek-v4-flash"
+      },
+      "free": {
+        "backend": "openrouter",
+        "models": [
+          "qwen/qwen3-coder:free",
+          "nvidia/nemotron-3-super-120b-a12b:free",
+          "openai/gpt-oss-120b:free"
+        ]
+      }
+    }
+  },
+  "limits": {
+    "maxWorkers": 3,
+    "maxCostUsd": 1,
+    "maxTasks": 16,
+    "requirePlanApproval": true
+  },
+  "patchApplication": {
+    "applyCleanPatches": false
+  }
+}

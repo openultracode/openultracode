@@ -101,3 +101,27 @@ test("artifact reference guide documents ledger event schemas", async () => {
     expect(artifactGuide).toContain(event);
   }
 });
+
+test("model routing guide documents safety tradeoffs for each backend family", async () => {
+  const modelRoutingGuide = await readFile(
+    resolve(process.cwd(), "docs", "MODEL_ROUTING.md"),
+    "utf8"
+  );
+  const examplesReadme = await readFile(
+    resolve(process.cwd(), "examples", "README.md"),
+    "utf8"
+  );
+  const requiredRows = [
+    "| Fake |",
+    "| Local CLI |",
+    "| OpenRouter |"
+  ];
+
+  expect(modelRoutingGuide).toContain("## Backend Safety Matrix");
+  expect(modelRoutingGuide).toContain("examples/config.advanced-routing.json");
+  expect(examplesReadme).toContain("config.advanced-routing.json");
+
+  for (const row of requiredRows) {
+    expect(modelRoutingGuide).toContain(row);
+  }
+});

@@ -318,9 +318,9 @@ The high-level module map, runtime flow, artifact contract, backend boundaries, 
 
 Useful contributions right now:
 
-- Expand config examples for advanced routing and provider profiles.
 - Keep CI green across Node 20, 22, and 24.
 - Review `docs/RELEASE_DECISIONS.md` once the license and CI blockers are resolved.
+- Propose one focused issue before adding new backend scenarios or provider profiles.
 
 Good first issue shape:
 

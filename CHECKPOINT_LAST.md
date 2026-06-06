@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 22:37 EDT
+Timestamp: 2026-06-05 22:44 EDT
 
 ## Completed
 
@@ -428,14 +428,22 @@ Timestamp: 2026-06-05 22:37 EDT
 - Verified `npm publish --dry-run`, workflow and Dependabot YAML parsing, built help smoke, plan smoke `run_integration_edges_20260605_2236`, fake-run smoke `run_integration_edges_fake_20260605_2236`, repo secret-prefix scan excluding `.env`, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode.
 - Committed and pushed integration edge fixtures as `db4eeec1b88fd5aee3259f8a82541e271bf6d1f7`.
 - Checked GitHub Actions run `27050257635`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- Started routing and safety docs improvement from the contributor task list.
+- Added red parser and docs tests requiring `examples/config.advanced-routing.json`, a backend safety matrix, and contributor links.
+- Verified the red state with `npm test -- tests/config.test.ts tests/docs.test.ts`; it failed because the advanced routing config and safety matrix were missing.
+- Added `examples/config.advanced-routing.json` with mixed provider tiers, conservative limits, and patch application disabled.
+- Added backend safety matrix docs to `docs/MODEL_ROUTING.md` and linked the advanced routing example from `examples/README.md`.
+- Verified the green targeted tests with `npm test -- tests/config.test.ts tests/docs.test.ts`: 2 files and 13 tests passed.
+- Verified `npm run verify`: tests passed with 17 files and 77 tests, typecheck passed, build passed, and package dry-run passed with 44 files and package size `46.1 kB`.
+- Verified `npm publish --dry-run`, workflow and Dependabot YAML parsing, built help smoke, plan smoke `run_routing_safety_final2_20260605_2249`, fake-run smoke `run_routing_safety_final2_fake_20260605_2249`, repo secret-prefix scan excluding `.env`, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode.
 
 ## Current In-Progress State
 
-- None. Integration fixture expansion is pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- Routing and safety docs are locally green at the focused-test level. Full verification, commit, push, and CI blocker inspection are still in progress.
 
 ## Next Action
 
-- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
+- Run full verification and hygiene checks for the routing and safety docs slice, then commit and push if clean.
 
 ## Human Decisions Needed
 

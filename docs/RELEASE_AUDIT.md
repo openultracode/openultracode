@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 22:37 EDT
+Timestamp: 2026-06-05 22:44 EDT
 
 ## Objective
 
@@ -33,11 +33,11 @@ Concrete success criteria:
 | Artifact reference guide exists | `docs/ARTIFACTS.md` covers run directories, plans, ledgers, ledger event schemas, worker outputs, reconciliation, patch application, reports, and checked JSON/JSONL examples | Complete |
 | Code of conduct exists | `CODE_OF_CONDUCT.md` defines contributor behavior, scope, reporting, and enforcement | Complete |
 | Completion audit exists | `docs/COMPLETION_AUDIT.md` maps the active objective to artifacts, verification evidence, and remaining blockers | Complete |
-| Copy-ready config examples exist | `examples/` contains safe fake, local CLI, and OpenRouter budget configs plus `examples/README.md` | Complete |
+| Copy-ready config examples exist | `examples/` contains safe fake, local CLI, OpenRouter budget, and advanced routing configs plus `examples/README.md` | Complete |
 | Package-safe fake-run artifact examples exist | `examples/fake-run-artifacts/` contains parseable fake backend plan, ledger, report, worker result, changed-files, and reconciliation records | Complete |
 | Strict config validation exists | `src/config.ts`, `src/cli.ts`, `tests/config.test.ts`, and `tests/cli.test.ts` reject unknown config keys, missing active profiles, and duplicate free-tier models with file-aware stderr before artifacts are created | Complete |
 | Local install guide exists | `docs/LOCAL_INSTALL.md` covers source checkout, local linking, package tarball smoke, config examples, and release boundaries | Complete |
-| Model routing guide exists | `docs/MODEL_ROUTING.md` covers tier rules, fallback behavior, backend selection, and routing safety controls | Complete |
+| Model routing guide exists | `docs/MODEL_ROUTING.md` covers tier rules, fallback behavior, backend selection, backend safety matrix, and routing safety controls | Complete |
 | Backend module guide exists | `docs/BACKENDS.md` covers worker result contracts, fake backend, OpenRouter, CLI adapters, reconciliation, and patch application boundaries | Complete |
 | Run examples guide exists | `docs/RUN_EXAMPLES.md` covers plan, fake run, stopped run, config, local CLI, OpenRouter opt-in, model override, patch application, and troubleshooting examples | Complete |
 | Publishing guide exists | `docs/PUBLISHING.md` covers release modes, package smoke, release notes, tagging, npm publish, and stop conditions | Complete |
@@ -62,10 +62,10 @@ Concrete success criteria:
 | Fake run works | `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id release_audit_fake_20260605_1831 --json` | Complete |
 | Help output works | `node dist/bin/ouc.js --help` | Complete |
 | Status/report artifact errors are handled | `tests/cli.test.ts` covers malformed `plan.json` for `ouc status` and `ouc report` | Complete |
-| Test suite passes | `npm test`: 17 files, 76 tests | Complete |
+| Test suite passes | `npm test`: 17 files, 77 tests | Complete |
 | Typecheck passes | `npm run typecheck` | Complete |
 | Build passes | `npm run build` | Complete |
-| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 43 files, package size `45.6 kB`, including release docs, changelog, and fake-run artifact examples | Complete |
+| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `46.1 kB`, including release docs, changelog, config examples, and fake-run artifact examples | Complete |
 | Packaged install smoke works | Temporary consumer project installed packed tarball and ran packaged `ouc --help` plus packaged `ouc plan --json` | Complete |
 | Publish dry-run works | `npm publish --dry-run` passes without bin auto-correction after normalizing bin paths | Complete |
 | Secret is not committed | `git check-ignore -v .env`, `ls -l .env`, repo secret scan excluding `.env`, shell history scan | Complete |
@@ -86,10 +86,10 @@ Concrete success criteria:
 - Architecture guide for runtime flow, module boundaries, artifact contracts, safety model, and extension points.
 - Code of conduct for public contributor spaces.
 - Completion audit for the active objective and remaining blockers.
-- Copy-ready local config examples with parser coverage.
+- Copy-ready local config examples with parser coverage, including an advanced routing profile.
 - Package-safe fake-run artifact examples with parser coverage.
 - Local install guide for source checkout, local linking, and package tarball smoke.
-- Model routing guide for task tiering, fallback behavior, backend selection, and safety controls.
+- Model routing guide for task tiering, fallback behavior, backend selection, backend safety matrix, and safety controls.
 - Backend module guide for worker result contracts, backend adapters, reconciliation, and patch application boundaries.
 - Run examples guide for copy-ready planning, fake execution, stopped runs, backend opt-in, patch application, and troubleshooting commands.
 - Artifact reference guide for package-shipped run artifact schema notes, event names, ledger event schemas, and checked JSON/JSONL examples.
@@ -119,23 +119,23 @@ The repo is ready for collaborator-oriented source use, but final package releas
 
 ## Completion Audit Refresh
 
-Timestamp: 2026-06-05 22:37 EDT
+Timestamp: 2026-06-05 22:44 EDT
 
 Fresh checks on the current release-readiness state:
 
 - `npm run verify`: passed.
 - `npm test -- tests/package.test.ts`: 1 file and 2 tests passed.
-- `npm test -- tests/docs.test.ts`: 1 file and 4 tests passed.
+- `npm test -- tests/docs.test.ts`: 1 file and 5 tests passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file and 3 tests passed.
 - `npm test -- tests/config.test.ts`: 1 file and 8 tests passed.
 - `npm test -- tests/cli.test.ts -t "ownership|stop after a fake task"`: 1 file and 2 selected tests passed.
 - `npm test -- tests/cli.test.ts`: 1 file and 28 tests passed.
-- `npm test`: 17 files, 76 tests passed.
+- `npm test`: 17 files, 77 tests passed.
 - `npm test -- tests/fake-run-artifacts.test.ts`: 1 file, 1 test passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 43 files, package size `45.6 kB`.
-- `npm publish --dry-run`: passed with the same 43-file tarball, package size `45.6 kB`, and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `46.1 kB`.
+- `npm publish --dry-run`: passed with the same 44-file tarball, package size `46.1 kB`, and no bin metadata correction.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
 - `gh run view 27050257635 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - `git rev-parse HEAD` and `git rev-parse origin/main` confirmed the integration edge fixture push reached `origin/main` at commit `db4eeec1b88fd5aee3259f8a82541e271bf6d1f7`.
@@ -197,6 +197,8 @@ Fresh checks on the current release-readiness state:
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_publishing_final_fake_20260605_2028 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_model_routing_docs_20260605_2015 --json`: passed.
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_model_routing_fake_20260605_2015 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
+- `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_routing_safety_final2_20260605_2249 --json`: passed.
+- `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_routing_safety_final2_fake_20260605_2249 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
 - The temporary package-smoke directory was removed from `/tmp`.
 - Secret-prefix scans excluding `.env` and known shell history/session scans found no matches.
 - Em dash scan found no matches.

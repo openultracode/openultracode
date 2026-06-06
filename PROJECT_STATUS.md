@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 22:37 EDT
+Last updated: 2026-06-05 22:44 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, local config is strictly validated before artifacts are created, status/report commands fail cleanly on malformed plan artifacts, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, advanced routing profile config edge cases are covered, fixture-backed planner heuristic coverage and integration fixtures for clean patch application, stopped fake runs, and file ownership conflicts are present, contributor issue templates plus a PR template, architecture guide, backend module guide, artifact reference guide with checked JSON/JSONL examples, code of conduct, local install guide, model routing guide, run examples guide, publishing guide, release checklist, completion audit, copy-ready config examples, and package-safe fake-run artifact examples are present, issue-template labels exist on GitHub, GitHub repo discovery metadata is set, a security policy directs private reports, Dependabot is configured, `npm run verify` mirrors the CI release gate, and the final release audit plus release decision record are recorded.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, local config is strictly validated before artifacts are created, status/report commands fail cleanly on malformed plan artifacts, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, advanced routing profile config edge cases are covered, fixture-backed planner heuristic coverage and integration fixtures for clean patch application, stopped fake runs, and file ownership conflicts are present, contributor issue templates plus a PR template, architecture guide, backend module guide, artifact reference guide with checked JSON/JSONL examples, code of conduct, local install guide, model routing guide with a backend safety matrix, run examples guide, publishing guide, release checklist, completion audit, copy-ready config examples, and package-safe fake-run artifact examples are present, issue-template labels exist on GitHub, GitHub repo discovery metadata is set, a security policy directs private reports, Dependabot is configured, `npm run verify` mirrors the CI release gate, and the final release audit plus release decision record are recorded.
 
 Implemented:
 
@@ -84,7 +84,8 @@ Implemented:
 - Architecture guide in `docs/ARCHITECTURE.md` covering runtime flow, module boundaries, artifact contracts, safety model, and extension points.
 - Artifact reference guide in `docs/ARTIFACTS.md` covering run directories, plans, ledgers, ledger event schemas, worker outputs, reconciliation, patch application, final reports, and checked JSON/JSONL examples.
 - Completion audit in `docs/COMPLETION_AUDIT.md` mapping the active objective to concrete artifacts and blockers.
-- Copy-ready config examples in `examples/` for safe fake, local CLI, and OpenRouter budget profiles.
+- Copy-ready config examples in `examples/` for safe fake, local CLI, OpenRouter budget, and advanced routing profiles.
+- Backend safety matrix in `docs/MODEL_ROUTING.md` covering fake, local CLI, and OpenRouter tradeoffs.
 - Package-safe fake-run artifact examples in `examples/fake-run-artifacts/` with parser coverage.
 - Release audit in `docs/RELEASE_AUDIT.md`.
 - Changelog in `CHANGELOG.md`.
@@ -138,9 +139,9 @@ Latest known result:
 
 - 17 test files passed.
 - `npm run verify` passed.
-- 76 tests passed.
+- 77 tests passed.
 - Package script tests passed with `npm test -- tests/package.test.ts`: 1 file and 2 tests.
-- Docs artifact, ledger schema, and backend guide tests passed with `npm test -- tests/docs.test.ts`: 1 file and 4 tests.
+- Docs artifact, ledger schema, backend guide, and model routing guide tests passed with `npm test -- tests/docs.test.ts`: 1 file and 5 tests.
 - Fake-run artifact example tests passed with `npm test -- tests/fake-run-artifacts.test.ts`: 1 file and 1 test.
 - Config tests passed with `npm test -- tests/config.test.ts`: 1 file and 8 tests.
 - CLI tests passed with `npm test -- tests/cli.test.ts`: 1 file and 28 tests.
@@ -148,8 +149,8 @@ Latest known result:
 - CLI integration tests passed with `npm test -- tests/cli.test.ts`: 1 file and 28 tests.
 - Typecheck passed.
 - Build passed.
-- Package dry-run passed for `openultracode@0.1.0`, 43 files, package size `45.6 kB`.
-- `npm publish --dry-run` passed with examples, fake-run artifacts, run examples, and publishing docs included in the 43-file tarball and no bin metadata correction.
+- Package dry-run passed for `openultracode@0.1.0`, 44 files, package size `46.1 kB`.
+- `npm publish --dry-run` passed with examples, fake-run artifacts, run examples, and publishing docs included in the 44-file tarball and no bin metadata correction.
 - GitHub workflow YAML parsed successfully.
 - Model routing docs commit `a6c2ebc5eb999afa53ac53568e682522ddfbdf45` was pushed to `origin/main`.
 - Publishing guide commit `ac1f1f7b1a4e2e8a6ecf1a62a4a2d13c86bd324f` was pushed to `origin/main` with CI skipped because the GitHub billing lock remains documented.
@@ -187,7 +188,7 @@ Latest known result:
 - `examples/README.md` documents copy-ready config examples.
 - `docs/LOCAL_INSTALL.md` documents source checkout, `npm link`, package tarball smoke, and release boundaries.
 - `npm pack --dry-run` confirmed `docs/LOCAL_INSTALL.md` ships in the package tarball.
-- `npm publish --dry-run` confirmed the 33-file tarball with local install docs, model routing docs, run examples, and publishing docs.
+- `npm publish --dry-run` confirmed the 44-file tarball with local install docs, model routing docs, run examples, publishing docs, and config examples.
 - `docs/MODEL_ROUTING.md` documents tier rules, fallback behavior, backend selection, config examples, and safety controls.
 - `docs/RUN_EXAMPLES.md` documents copy-ready plan, fake run, stopped run, config, local CLI, OpenRouter opt-in, model override, patch application, and troubleshooting examples.
 - Run examples plan smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_examples_docs_20260605_2036 --json`.
@@ -197,7 +198,7 @@ Latest known result:
 - Publishing guide fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_publishing_final_fake_20260605_2028 --json`.
 - `tests/config.test.ts` verifies every JSON example loads through the real config parser.
 - `tests/package.test.ts` verifies `examples` is included in the package file allowlist.
-- `npm publish --dry-run` confirmed examples remain in the current 33-file tarball.
+- `npm publish --dry-run` confirmed examples remain in the current 44-file tarball.
 - Model routing docs smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_model_routing_docs_20260605_2015 --json`.
 - Model routing fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_model_routing_fake_20260605_2015 --json`.
 - Planner fixture plan smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_planner_fixtures_final2_20260605_2051 --json`.

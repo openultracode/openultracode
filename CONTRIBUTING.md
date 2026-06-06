@@ -32,13 +32,15 @@ npm run verify
 
 ## Good First Contributions
 
-- Improve docs around routing and safety.
+No scoped good-first code or docs tasks are currently open. Check `TASK_QUEUE.md` for the current release blockers before starting new work.
 
 Planner heuristic fixtures live in `tests/fixtures/planner/`. Extend those fixtures when changing deterministic task decomposition.
 
 CLI integration fixtures live in `tests/fixtures/integration/`. Extend those fixtures when changing git-backed patch application, stopped-run, or file-ownership behavior.
 
 Package-safe fake-backend artifact examples live in `examples/fake-run-artifacts/`. Extend those examples when changing fake-run artifact shapes.
+
+Config examples live in `examples/`. Keep each JSON file parseable through `tests/config.test.ts`, and keep provider-specific safety notes aligned with `docs/MODEL_ROUTING.md`.
 
 Issue templates are available for bugs, feature requests, and scoped task proposals. Pull requests use `.github/PULL_REQUEST_TEMPLATE.md` so verification and safety checks stay visible in review.
 
