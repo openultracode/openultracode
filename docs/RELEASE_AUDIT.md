@@ -117,7 +117,7 @@ Fresh checks on the current release-readiness state:
 - `npm publish --dry-run`: passed with the same 33-file tarball and no bin metadata correction.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
 - `gh run view 27047901172 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
-- `git rev-parse HEAD` and `git rev-parse origin/main`: both returned `c42b3ffbe93d1415d29540a0e03dba7d4d96d028` after the planner fixture coverage push.
+- `git rev-parse HEAD` and `git rev-parse origin/main` confirmed the planner fixture coverage push reached `origin/main` at commit `c42b3ffbe93d1415d29540a0e03dba7d4d96d028`.
 - `node dist/bin/ouc.js --help`: passed.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_planner_fixtures_final2_20260605_2051 --json`: passed.
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_planner_fixtures_final2_fake_20260605_2051 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
