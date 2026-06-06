@@ -153,6 +153,12 @@ For local install, linking, and package tarball smoke instructions, read:
 cat docs/LOCAL_INSTALL.md
 ```
 
+For model-tier routing and backend safety rules, read:
+
+```bash
+cat docs/MODEL_ROUTING.md
+```
+
 For the current prompt-to-artifact completion audit, read:
 
 ```bash
@@ -285,7 +291,6 @@ Useful contributions right now:
 - Add fixture repos that stress deterministic planning heuristics.
 - Add fixture repos for integration tests.
 - Harden config validation and error messages.
-- Improve docs for model routing and safety.
 - Add more release examples and package publishing notes.
 - Add more copy-ready config and run examples.
 - Keep CI green across Node 20, 22, and 24.

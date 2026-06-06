@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 20:05 EDT
+Last updated: 2026-06-05 20:15 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, contributor issue templates plus a PR template, architecture guide, code of conduct, local install guide, release checklist, completion audit, and copy-ready config examples are present, issue-template labels exist on GitHub, GitHub repo discovery metadata is set, a security policy directs private reports, Dependabot is configured, and the final release audit plus release decision record are recorded.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, contributor issue templates plus a PR template, architecture guide, code of conduct, local install guide, model routing guide, release checklist, completion audit, and copy-ready config examples are present, issue-template labels exist on GitHub, GitHub repo discovery metadata is set, a security policy directs private reports, Dependabot is configured, and the final release audit plus release decision record are recorded.
 
 Implemented:
 
@@ -70,6 +70,7 @@ Implemented:
 - GitHub Actions CI for tests, typecheck, build, and package dry-run on Node 20, 22, and 24, including manual workflow dispatch.
 - Release-readiness checklist in `docs/RELEASE_CHECKLIST.md`.
 - Local install guide in `docs/LOCAL_INSTALL.md`.
+- Model routing and backend safety guide in `docs/MODEL_ROUTING.md`.
 - Release decision record in `docs/RELEASE_DECISIONS.md`.
 - Architecture guide in `docs/ARCHITECTURE.md` covering runtime flow, module boundaries, artifact contracts, safety model, and extension points.
 - Completion audit in `docs/COMPLETION_AUDIT.md` mapping the active objective to concrete artifacts and blockers.
@@ -127,7 +128,7 @@ Latest known result:
 - 60 tests passed.
 - Typecheck passed.
 - Build passed.
-- Package dry-run passed for `openultracode@0.1.0`, 30 files, package size `31.9 kB`.
+- Package dry-run passed for `openultracode@0.1.0`, 31 files, package size `33.4 kB`.
 - `npm publish --dry-run` passed with examples included in the tarball and no bin metadata correction.
 - GitHub workflow YAML parsed successfully.
 - Repo secret-prefix scan excluding `.env` had no matches.
@@ -156,10 +157,13 @@ Latest known result:
 - `examples/README.md` documents copy-ready config examples.
 - `docs/LOCAL_INSTALL.md` documents source checkout, `npm link`, package tarball smoke, and release boundaries.
 - `npm pack --dry-run` confirmed `docs/LOCAL_INSTALL.md` ships in the package tarball.
-- `npm publish --dry-run` confirmed the 30-file tarball with local install docs.
+- `npm publish --dry-run` confirmed the 31-file tarball with local install docs and model routing docs.
+- `docs/MODEL_ROUTING.md` documents tier rules, fallback behavior, backend selection, config examples, and safety controls.
 - `tests/config.test.ts` verifies every JSON example loads through the real config parser.
 - `tests/package.test.ts` verifies `examples` is included in the package file allowlist.
-- `npm publish --dry-run` confirmed examples remain in the current 30-file tarball.
+- `npm publish --dry-run` confirmed examples remain in the current 31-file tarball.
+- Model routing docs smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_model_routing_docs_20260605_2015 --json`.
+- Model routing fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_model_routing_fake_20260605_2015 --json`.
 - Built CLI blocked-run smoke against a temporary fixture returned status `blocked` with exit 1 when `limits.maxTasks` was exceeded.
 - Built CLI stopped-run smoke returned status `stopped`, succeeded 1 task, and left 1 task remaining.
 - Built CLI success and stopped smokes passed through the worker-pool path.

@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 20:05 EDT
+Timestamp: 2026-06-05 20:15 EDT
 
 ## Objective
 
@@ -34,6 +34,7 @@ Concrete success criteria:
 | Completion audit exists | `docs/COMPLETION_AUDIT.md` maps the active objective to artifacts, verification evidence, and remaining blockers | Complete |
 | Copy-ready config examples exist | `examples/` contains safe fake, local CLI, and OpenRouter budget configs plus `examples/README.md` | Complete |
 | Local install guide exists | `docs/LOCAL_INSTALL.md` covers source checkout, local linking, package tarball smoke, config examples, and release boundaries | Complete |
+| Model routing guide exists | `docs/MODEL_ROUTING.md` covers tier rules, fallback behavior, backend selection, and routing safety controls | Complete |
 | GitHub community profile is complete | `gh api repos/AryaVora621/openultracode/community/profile` reported `health_percentage` `100` | Complete |
 | Issue templates exist | `.github/ISSUE_TEMPLATE/{bug_report,feature_request,task_proposal,config}.yml` | Complete |
 | Issue-template labels exist | `gh label list --repo AryaVora621/openultracode --limit 100` showed `bug`, `enhancement`, and `good first issue` | Complete |
@@ -51,10 +52,10 @@ Concrete success criteria:
 | Planning command works | `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id release_audit_plan_20260605_1831 --json` | Complete |
 | Fake run works | `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id release_audit_fake_20260605_1831 --json` | Complete |
 | Help output works | `node dist/bin/ouc.js --help` | Complete |
-| Test suite passes | `npm test`: 14 files, 59 tests | Complete |
+| Test suite passes | `npm test`: 14 files, 60 tests | Complete |
 | Typecheck passes | `npm run typecheck` | Complete |
 | Build passes | `npm run build` | Complete |
-| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 22 files, including release docs and changelog | Complete |
+| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 31 files, package size `33.4 kB`, including release docs and changelog | Complete |
 | Packaged install smoke works | Temporary consumer project installed packed tarball and ran packaged `ouc --help` plus packaged `ouc plan --json` | Complete |
 | Publish dry-run works | `npm publish --dry-run` passes without bin auto-correction after normalizing bin paths | Complete |
 | Secret is not committed | `git check-ignore -v .env`, `ls -l .env`, repo secret scan excluding `.env`, shell history scan | Complete |
@@ -77,6 +78,7 @@ Concrete success criteria:
 - Completion audit for the active objective and remaining blockers.
 - Copy-ready local config examples with parser coverage.
 - Local install guide for source checkout, local linking, and package tarball smoke.
+- Model routing guide for task tiering, fallback behavior, backend selection, and safety controls.
 - Contributor labels used by issue templates verified in the public repo.
 - Pull request template for verification and safety checks.
 - Security policy for private reports.
@@ -104,8 +106,8 @@ Fresh checks on the current release-readiness state:
 - `npm test`: 14 files, 60 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 30 files, package size `31.9 kB`.
-- `npm publish --dry-run`: passed with the same 30-file tarball and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 31 files, package size `33.4 kB`.
+- `npm publish --dry-run`: passed with the same 31-file tarball and no bin metadata correction.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
 - `gh run view 27045180433 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - `node dist/bin/ouc.js --help`: passed.
@@ -127,11 +129,14 @@ Fresh checks on the current release-readiness state:
 - `gh api repos/AryaVora621/openultracode/community/profile` reported `health_percentage` `100` and recognized `CODE_OF_CONDUCT.md`.
 - `docs/COMPLETION_AUDIT.md` records the active objective checklist and explicitly leaves release incomplete until license confirmation and GitHub CI are resolved.
 - `npm pack --dry-run` confirmed `docs/COMPLETION_AUDIT.md` is included in the 25-file package tarball.
-- `npm pack --dry-run` confirmed `examples/README.md`, `examples/config.safe-fake.json`, `examples/config.local-cli.json`, and `examples/config.openrouter-budget.json` are included in the current 30-file package tarball.
+- `npm pack --dry-run` confirmed `examples/README.md`, `examples/config.safe-fake.json`, `examples/config.local-cli.json`, and `examples/config.openrouter-budget.json` are included in the current 31-file package tarball.
 - `npm publish --dry-run` confirmed examples remain in the publish tarball.
 - `npm test -- tests/config.test.ts tests/package.test.ts`: 2 files and 5 tests passed, including example config parser coverage and package allowlist coverage.
 - `docs/LOCAL_INSTALL.md` documents local install, `npm link`, tarball smoke, and the release boundary.
-- `npm pack --dry-run` and `npm publish --dry-run` confirmed `docs/LOCAL_INSTALL.md` is included in the 30-file package tarball.
+- `npm pack --dry-run` and `npm publish --dry-run` confirmed `docs/LOCAL_INSTALL.md` is included in the 31-file package tarball.
+- `docs/MODEL_ROUTING.md` documents routing behavior against `src/router.ts`, `src/planner.ts`, `src/config.ts`, and `src/cli.ts`.
+- `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_model_routing_docs_20260605_2015 --json`: passed.
+- `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_model_routing_fake_20260605_2015 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
 - The temporary package-smoke directory was removed from `/tmp`.
 - Secret-prefix scans excluding `.env` and known shell history/session scans found no matches.
 - Em dash scan found no matches.

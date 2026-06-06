@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 20:07 EDT
+Timestamp: 2026-06-05 20:15 EDT
 
 ## Completed
 
@@ -261,14 +261,20 @@ Timestamp: 2026-06-05 20:07 EDT
 - Pushed the local install docs slice as `fc36969`.
 - Verified local and remote `main` both point to `fc369698724ea0d72ac525ae785f94c9fa324d2a`.
 - Verified there are no open PRs, and the latest listed CI failure remains the documented GitHub billing lock.
+- Pushed the local install checkpoint refresh as `8721a1c`.
+- Verified local and remote `main` both point to `8721a1c7bf5d4448539ba8427ca68bb0c01bfed5`.
+- Added `docs/MODEL_ROUTING.md` with tier rules, fallback behavior, backend selection, config examples, and safety controls.
+- Linked the model routing guide from `README.md` and `CONTRIBUTING.md`.
+- Refreshed release and completion audit evidence for the 31-file package dry-run.
+- Verified the model routing docs slice with `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, `npm publish --dry-run`, YAML parsing, built help smoke, built plan smoke, built fake-run smoke, repo secret-prefix scan excluding `.env`, shell history/session secret scan, em dash scan, `git diff --check`, and `.env` ignore plus mode checks.
 
 ## Current In-Progress State
 
-- None. Completion audit, code of conduct, architecture guide, package-shipped examples, local install guide, npm metadata, changelog, public repo metadata, community profile, publish dry-run, packaged install smoke, release decision record, package allowlist, and manual CI dispatch are verified and pushed. Dependabot PRs are resolved, and package release remains blocked on license confirmation plus the GitHub account billing lock.
+- Model routing docs slice is verified locally and ready to commit and push.
 
 ## Next Action
 
-- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
+- Commit and push the model routing docs slice, then resolve the public release license decision and GitHub account billing lock before rerunning GitHub Actions through manual workflow dispatch.
 
 ## Human Decisions Needed
 

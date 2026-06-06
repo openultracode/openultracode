@@ -10,12 +10,13 @@ OpenUltraCode is early. The best contributions are small, tested slices that mak
 4. Read `TASK_QUEUE.md`.
 5. Check `docs/RELEASE_CHECKLIST.md` if the change affects packaging or release readiness.
 6. Check `docs/LOCAL_INSTALL.md` if the change affects installation or packaging.
-7. Check `examples/README.md` if the change affects local config or backend routing examples.
-8. Check `docs/COMPLETION_AUDIT.md` when evaluating release completeness.
-9. Check `docs/RELEASE_DECISIONS.md` before release or package work.
-10. Pick one narrow behavior.
-11. Write the test first for behavior changes.
-12. Run the full verification commands before opening a PR.
+7. Check `docs/MODEL_ROUTING.md` if the change affects planning, routing, model tiers, or backend safety.
+8. Check `examples/README.md` if the change affects local config or backend routing examples.
+9. Check `docs/COMPLETION_AUDIT.md` when evaluating release completeness.
+10. Check `docs/RELEASE_DECISIONS.md` before release or package work.
+11. Pick one narrow behavior.
+12. Write the test first for behavior changes.
+13. Run the full verification commands before opening a PR.
 
 ## Development Setup
 

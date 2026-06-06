@@ -58,3 +58,4 @@
 - [Codex] Added `docs/COMPLETION_AUDIT.md` mapping the active objective to artifacts, verification evidence, and remaining blockers.
 - [Codex] Added package-shipped copy-ready config examples with parser coverage.
 - [Codex] Added `docs/LOCAL_INSTALL.md` with source install, local link, config example, and package smoke instructions.
+- [Codex] Added `docs/MODEL_ROUTING.md` with tier rules, fallback behavior, backend selection, and safety controls.

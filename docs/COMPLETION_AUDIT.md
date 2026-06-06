@@ -1,6 +1,6 @@
 # Completion Audit
 
-Timestamp: 2026-06-05 20:07 EDT
+Timestamp: 2026-06-05 20:15 EDT
 
 ## Objective
 
@@ -19,9 +19,9 @@ This audit maps that objective to concrete repository artifacts and verification
 | Continue implementation work from project context | `AGENTS.md`, `PROJECT_STATUS.md`, `TASK_QUEUE.md`, and `CHECKPOINT_LAST.md` were read before selecting new work | Complete |
 | Research current project state | GitHub repo metadata, community profile, CI runs, open PRs, local task trackers, and blocker files were inspected | Complete |
 | Test the project locally | `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, targeted example tests, hygiene scans, and package smokes have current recorded evidence | Complete |
-| Push changes to the public repo | Local `HEAD` and `origin/main` match commit `fc369698724ea0d72ac525ae785f94c9fa324d2a` | Complete |
+| Push changes to the public repo | Local `HEAD` and `origin/main` matched commit `8721a1c7bf5d4448539ba8427ca68bb0c01bfed5` before this routing docs slice | In progress |
 | Preserve the OpenRouter key only locally | `.env` is ignored, has `0600` permissions, and secret-prefix scans outside `.env` found no matches | Complete |
-| Improve contributor readiness | README, CONTRIBUTING, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, local install docs, release docs, Dependabot, labels, and community profile are in place | Complete |
+| Improve contributor readiness | README, CONTRIBUTING, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, local install docs, model routing docs, release docs, Dependabot, labels, and community profile are in place | Complete |
 | Make package contents release-shaped | `npm pack --dry-run` includes README, LICENSE, CHANGELOG, CODE_OF_CONDUCT, `docs/`, `examples/`, and built CLI files | Complete |
 | Verify remote CI | GitHub Actions workflow exists, but jobs cannot start because the GitHub account is locked due to a billing issue | Blocked |
 | Finalize release decisions | `docs/RELEASE_DECISIONS.md` records the license, CI, release channel, tag, and npm publication decisions still needed | Blocked |
@@ -42,6 +42,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Architecture handoff | `docs/ARCHITECTURE.md` | Runtime flow, module map, artifact contract, safety model, and extension points are documented |
 | Copy-ready examples | `examples/` | Safe fake, local CLI, and OpenRouter budget configs load through the real config parser |
 | Local install handoff | `docs/LOCAL_INSTALL.md` | Source checkout, local command linking, package tarball smoke, config examples, and release boundaries are documented |
+| Model routing handoff | `docs/MODEL_ROUTING.md` | Tier rules, fallback behavior, backend selection, config examples, and safety controls are documented |
 | Release handoff | `docs/RELEASE_CHECKLIST.md`, `docs/RELEASE_AUDIT.md`, `docs/RELEASE_DECISIONS.md`, `CHANGELOG.md` | Release gates, known blockers, audit evidence, and release notes are recorded |
 | Community readiness | `CODE_OF_CONDUCT.md`, GitHub community profile | GitHub community profile reports `health_percentage` `100` |
 | Dependency hygiene | `.github/dependabot.yml` | Weekly npm and GitHub Actions dependency update checks are configured |
@@ -54,10 +55,12 @@ This audit maps that objective to concrete repository artifacts and verification
 - `npm test -- tests/config.test.ts tests/package.test.ts`: 2 files, 5 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 30 files, package size `31.9 kB`.
-- `npm publish --dry-run`: passed with the same 30-file tarball and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 31 files, package size `33.4 kB`.
+- `npm publish --dry-run`: passed with the same 31-file tarball and no bin metadata correction.
 - `npm publish --dry-run`: passed after bin metadata normalization.
 - Clean temporary package install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed.
+- Model routing docs smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_model_routing_docs_20260605_2015 --json` passed.
+- Model routing fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_model_routing_fake_20260605_2015 --json` passed.
 - Repo secret-prefix scan excluding `.env`, `node_modules`, `dist`, `.ouc`, and `.git`: no matches.
 - Shell history/session secret scan: no matches.
 - Public-doc dash scan: no disallowed dash characters.
@@ -65,7 +68,7 @@ This audit maps that objective to concrete repository artifacts and verification
 - `.env`: ignored by `.gitignore` and mode `0600`.
 - `gh api repos/AryaVora621/openultracode/community/profile`: `health_percentage` `100`.
 - `gh pr list --repo AryaVora621/openultracode --state open --limit 20`: no open PRs.
-- Local `HEAD` and `origin/main`: `fc369698724ea0d72ac525ae785f94c9fa324d2a`.
+- Local `HEAD` and `origin/main`: `8721a1c7bf5d4448539ba8427ca68bb0c01bfed5` before this routing docs slice.
 
 ## Missing Or Blocked Requirements
 
