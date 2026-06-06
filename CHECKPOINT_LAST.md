@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 20:01 EDT
+Timestamp: 2026-06-05 20:02 EDT
 
 ## Completed
 
@@ -251,14 +251,17 @@ Timestamp: 2026-06-05 20:01 EDT
 - Verified the examples slice with targeted config/package tests, full `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, repo secret-prefix scan excluding `.env`, shell history secret scan, em dash scan, `git diff --check`, and `.env` ignore plus mode checks.
 - `npm pack --dry-run` now includes `examples/`, 29 total files, and package size `31.1 kB`.
 - `npm publish --dry-run` passed with examples included and no bin metadata correction.
+- Pushed the examples slice as `9bf9b71`.
+- Verified local and remote `main` both point to `9bf9b71406b42111a1e38fabf4e0b45a9e02d9fe`.
+- Verified there are no open PRs, and the latest listed CI failure remains the documented GitHub billing lock.
 
 ## Current In-Progress State
 
-- Examples slice is verified locally. Commit and push are still pending.
+- None. Completion audit, code of conduct, architecture guide, package-shipped examples, npm metadata, changelog, public repo metadata, community profile, publish dry-run, packaged install smoke, release decision record, package allowlist, and manual CI dispatch are verified and pushed. Dependabot PRs are resolved, and package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Commit and push the examples slice, then resolve the public release license decision and GitHub account billing lock before rerunning GitHub Actions through manual workflow dispatch.
+- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
 
 ## Human Decisions Needed
 
