@@ -1,6 +1,6 @@
 # Build Draft
 
-Timestamp: 2026-06-05 21:11 EDT
+Timestamp: 2026-06-05 21:43 EDT
 
 GitHub: https://github.com/AryaVora621/openultracode
 
@@ -70,21 +70,22 @@ Included:
 - Public contributor docs: `README.md`, `CONTRIBUTING.md`, `PROJECT_STATUS.md`, and `AGENTS.md`.
 - GitHub issue templates for bugs, feature requests, and scoped task proposals.
 - GitHub Actions CI for tests, typecheck, build, and package dry-run on Node 20, 22, and 24.
+- Artifact reference guide with checked JSON/JSONL examples for `plan.json`, `ledger.jsonl`, and worker `result.json`.
 - Release-readiness checklist in `docs/RELEASE_CHECKLIST.md`.
 - Release audit in `docs/RELEASE_AUDIT.md`.
 
 ## Verification Evidence
 
-Latest refresh on 2026-06-05 21:32 EDT:
+Latest refresh on 2026-06-05 21:43 EDT:
 
-- `npm test`: 16 files and 68 tests passed.
-- `npm test -- tests/docs.test.ts`: 1 file and 1 test passed.
+- `npm test`: 16 files and 69 tests passed.
+- `npm test -- tests/docs.test.ts`: 1 file and 2 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
 - Workflow and Dependabot YAML parsed.
-- `npm pack --dry-run`: 34 files, package size `40.4 kB`.
+- `npm pack --dry-run`: 34 files, package size `41.2 kB`.
 - `npm publish --dry-run`: passed.
-- Built CLI smokes passed for `--help`, plan `run_status_report_artifacts_20260605_2124`, fake run `run_status_report_artifacts_fake_20260605_2124`, and temporary malformed-plan validation.
+- Built CLI smokes passed for `--help`, plan `run_artifact_examples_20260605_2143`, fake run `run_artifact_examples_fake_20260605_2143`, and previous malformed-plan validation.
 - Secret-prefix, shell-history, public-doc dash, whitespace, and `.env` ignore/mode checks passed.
 
 Commands run on 2026-06-05:

@@ -121,6 +121,103 @@ Possible states:
 
 OpenUltraCode preserves an existing `final-report.md` instead of overwriting it. Use a new `--run-id` when you need a fresh report.
 
+## JSON Examples
+
+These examples are intentionally compact. They show the shape of package-safe fake-backend artifacts without private prompts, secrets, or live provider output.
+
+### plan.json Example
+
+```json
+{
+  "runId": "run_docs_example",
+  "goal": "document artifact schemas",
+  "createdAt": "2026-06-05T21:45:00.000Z",
+  "repo": {
+    "projectRoot": "/workspace/openultracode",
+    "hasGit": true,
+    "packageManager": "npm",
+    "files": [
+      "README.md",
+      "src/cli.ts",
+      "tests/cli.test.ts"
+    ],
+    "summary": {
+      "fileCount": 3,
+      "languageHints": [
+        "typescript"
+      ],
+      "hasTests": true
+    }
+  },
+  "tasks": [
+    {
+      "id": "task_1",
+      "title": "Document: document artifact schemas",
+      "intent": "edit",
+      "importance": "normal",
+      "modelTier": "free",
+      "fileScope": [
+        "README.md"
+      ],
+      "dependsOn": [],
+      "instructions": "Goal: document artifact schemas\nUpdate contributor-facing documentation for the requested behavior."
+    }
+  ],
+  "routes": {
+    "task_1": {
+      "tier": "free",
+      "primary": {
+        "backend": "fake",
+        "model": "fake-model"
+      },
+      "fallbacks": []
+    }
+  },
+  "fileOwnership": {
+    "hasConflicts": false,
+    "files": [
+      {
+        "path": "README.md",
+        "ownerTaskIds": [
+          "task_1"
+        ],
+        "conflict": false
+      }
+    ],
+    "conflicts": []
+  },
+  "estimatedCostUsd": 0,
+  "notes": [
+    "Deterministic local dry-run plan. Real orchestrator parsing is not wired yet."
+  ]
+}
+```
+
+### ledger.jsonl Example
+
+```jsonl
+{"event":"plan_created","runId":"run_docs_example","createdAt":"2026-06-05T21:45:00.000Z","taskCount":1,"fileOwnership":{"hasConflicts":false,"files":[{"path":"README.md","ownerTaskIds":["task_1"],"conflict":false}],"conflicts":[]},"estimatedCostUsd":0}
+{"event":"task_started","runId":"run_docs_example","taskId":"task_1","modelTier":"free","startedAt":"2026-06-05T21:45:01.000Z"}
+{"event":"task_finished","runId":"run_docs_example","taskId":"task_1","status":"succeeded","attemptCount":1,"totalTokens":42,"costUsd":0,"finishedAt":"2026-06-05T21:45:02.000Z"}
+{"event":"run_finished","runId":"run_docs_example","backend":"fake","status":"succeeded","taskCount":1,"succeeded":1,"failed":0,"totalCostUsd":0,"totalTokens":42,"finishedAt":"2026-06-05T21:45:02.000Z"}
+```
+
+### result.json Example
+
+```json
+{
+  "taskId": "task_1",
+  "status": "succeeded",
+  "response": "Fake backend fake-model completed task_1.",
+  "usage": {
+    "inputTokens": 17,
+    "outputTokens": 25,
+    "totalTokens": 42
+  },
+  "costUsd": 0
+}
+```
+
 ## Contributor Rules
 
 When changing artifact behavior:

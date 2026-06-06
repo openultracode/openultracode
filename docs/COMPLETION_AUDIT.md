@@ -1,6 +1,6 @@
 # Completion Audit
 
-Timestamp: 2026-06-05 21:35 EDT
+Timestamp: 2026-06-05 21:43 EDT
 
 ## Objective
 
@@ -19,7 +19,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Continue implementation work from project context | `AGENTS.md`, `PROJECT_STATUS.md`, `TASK_QUEUE.md`, and `CHECKPOINT_LAST.md` were read before selecting new work | Complete |
 | Research current project state | GitHub repo metadata, community profile, CI runs, open PRs, local task trackers, and blocker files were inspected | Complete |
 | Test the project locally | `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, targeted example tests, hygiene scans, and package smokes have current recorded evidence | Complete |
-| Push changes to the public repo | Artifact reference guide commit `e5f994ced7df271c9aceeaf634a08a972c4e0325` was pushed to `origin/main` | Complete |
+| Push changes to the public repo | Artifact reference guide commit `e5f994ced7df271c9aceeaf634a08a972c4e0325` was pushed to `origin/main`; artifact JSON examples are prepared for the next push | Complete |
 | Preserve the OpenRouter key only locally | `.env` is ignored, has `0600` permissions, and secret-prefix scans outside `.env` found no matches | Complete |
 | Improve contributor readiness | README, CONTRIBUTING, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, local install docs, model routing docs, run examples docs, publishing docs, release docs, Dependabot, labels, and community profile are in place | Complete |
 | Make package contents release-shaped | `npm pack --dry-run` includes README, LICENSE, CHANGELOG, CODE_OF_CONDUCT, `docs/`, `examples/`, and built CLI files | Complete |
@@ -40,7 +40,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Contributor onboarding | `CONTRIBUTING.md`, `.github/ISSUE_TEMPLATE/`, `.github/PULL_REQUEST_TEMPLATE.md` | Setup, issue routes, PR verification, and safety checks are present |
 | Security path | `SECURITY.md` | Private report path and project-specific safety areas are documented |
 | Architecture handoff | `docs/ARCHITECTURE.md` | Runtime flow, module map, artifact contract, safety model, and extension points are documented |
-| Artifact reference handoff | `docs/ARTIFACTS.md` | Run directory layout, plans, ledgers, worker outputs, reconciliation, patch application, and final reports are documented |
+| Artifact reference handoff | `docs/ARTIFACTS.md` | Run directory layout, plans, ledgers, worker outputs, reconciliation, patch application, final reports, and checked JSON/JSONL examples are documented |
 | Copy-ready examples | `examples/` | Safe fake, local CLI, and OpenRouter budget configs load through the real config parser |
 | Strict config validation | `src/config.ts`, `src/cli.ts`, `tests/config.test.ts`, `tests/cli.test.ts` | Unknown config keys are rejected with file-aware errors, and CLI plan/run stops before creating artifacts |
 | Status/report malformed artifacts | `src/cli.ts`, `tests/cli.test.ts` | Malformed `plan.json` artifacts produce controlled stderr and exit 1 for `ouc status` and `ouc report` |
@@ -58,16 +58,16 @@ This audit maps that objective to concrete repository artifacts and verification
 
 ## Current Verification Evidence
 
-- `npm test -- tests/docs.test.ts`: 1 file, 1 test passed.
+- `npm test -- tests/docs.test.ts`: 1 file, 2 tests passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file, 3 tests passed.
 - `npm test -- tests/config.test.ts`: 1 file, 5 tests passed.
 - `npm test -- tests/cli.test.ts`: 1 file, 28 tests passed.
-- `npm test`: 16 files, 68 tests passed.
+- `npm test`: 16 files, 69 tests passed.
 - `npm test -- tests/config.test.ts tests/package.test.ts`: 2 files, 5 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 34 files, package size `40.4 kB`.
-- `npm publish --dry-run`: passed with the same 34-file tarball, package size `40.4 kB`, and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 34 files, package size `41.2 kB`.
+- `npm publish --dry-run`: passed with the same 34-file tarball, package size `41.2 kB`, and no bin metadata correction.
 - `npm publish --dry-run`: passed after bin metadata normalization.
 - Clean temporary package install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed.
 - Run examples plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_examples_docs_20260605_2036 --json` passed.
@@ -88,6 +88,8 @@ This audit maps that objective to concrete repository artifacts and verification
 - Built malformed-plan smoke against a temporary fixture returned exit 1 with controlled stderr for both `status` and `report`.
 - Artifact reference plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_artifact_reference_20260605_2133 --json` passed.
 - Artifact reference fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_artifact_reference_fake_20260605_2133 --json` passed.
+- Artifact examples plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_artifact_examples_20260605_2143 --json` passed.
+- Artifact examples fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_artifact_examples_fake_20260605_2143 --json` passed.
 - Repo secret-prefix scan excluding `.env`, `node_modules`, `dist`, `.ouc`, and `.git`: no matches.
 - Shell history/session secret scan: no matches.
 - Public-doc dash scan: no disallowed dash characters.

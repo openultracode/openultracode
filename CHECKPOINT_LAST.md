@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 21:35 EDT
+Timestamp: 2026-06-05 21:43 EDT
 
 ## Completed
 
@@ -351,14 +351,21 @@ Timestamp: 2026-06-05 21:35 EDT
 - Committed and pushed the artifact reference guide as `e5f994ced7df271c9aceeaf634a08a972c4e0325`.
 - Checked GitHub Actions run `27048925740`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - Updated `BLOCKED.md`, `PROJECT_STATUS.md`, `docs/RELEASE_AUDIT.md`, and `docs/COMPLETION_AUDIT.md` with the current push and CI blocker evidence.
+- Added checked JSON/JSONL examples to `docs/ARTIFACTS.md` for `plan.json`, `ledger.jsonl`, and worker `result.json`.
+- Added a docs test that parses the artifact guide JSON and JSONL examples.
+- Verified the red state with `npm test -- tests/docs.test.ts`; it failed because `## JSON Examples` was missing.
+- Verified the green docs test with `npm test -- tests/docs.test.ts`: 1 file and 2 tests passed.
+- Verified full local gate before push: `npm test` passed with 16 files and 69 tests, `npm run typecheck` passed, `npm run build` passed, workflow and Dependabot YAML parsed, `npm pack --dry-run` passed with 34 files and package size `41.2 kB`, and `npm publish --dry-run` passed.
+- Verified built CLI smokes: `node dist/bin/ouc.js --help`, plan smoke `run_artifact_examples_20260605_2143`, and fake-run smoke `run_artifact_examples_fake_20260605_2143` passed.
+- Verified hygiene gates: repo secret-prefix scan excluding `.env`, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode.
 
 ## Current In-Progress State
 
-- None. Artifact reference guide is pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- Artifact JSON examples are implemented and locally verified. Push and remote CI blocker refresh are next. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
+- Commit and push the artifact JSON examples slice, inspect the created GitHub Actions run, then refresh blocker docs if the billing lock still prevents runner startup.
 
 ## Human Decisions Needed
 

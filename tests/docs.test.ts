@@ -10,3 +10,35 @@ test("artifact reference guide is package-linked from contributor entrypoints", 
   expect(readme).toContain("docs/ARTIFACTS.md");
   expect(contributing).toContain("docs/ARTIFACTS.md");
 });
+
+test("artifact reference guide includes checked JSON examples", async () => {
+  const artifactGuide = await readFile(resolve(process.cwd(), "docs", "ARTIFACTS.md"), "utf8");
+  const expectedSections = [
+    "## JSON Examples",
+    "### plan.json Example",
+    "### ledger.jsonl Example",
+    "### result.json Example",
+  ];
+
+  for (const section of expectedSections) {
+    expect(artifactGuide).toContain(section);
+  }
+
+  const jsonExamplePattern = /```json\n([\s\S]*?)\n```/g;
+  const jsonExamples = [...artifactGuide.matchAll(jsonExamplePattern)].map((match) => match[1]);
+  expect(jsonExamples.length).toBeGreaterThanOrEqual(2);
+
+  for (const example of jsonExamples) {
+    expect(() => JSON.parse(example)).not.toThrow();
+  }
+
+  const jsonlExamplePattern = /```jsonl\n([\s\S]*?)\n```/g;
+  const jsonlExamples = [...artifactGuide.matchAll(jsonlExamplePattern)].map((match) => match[1]);
+  expect(jsonlExamples.length).toBeGreaterThanOrEqual(1);
+
+  for (const example of jsonlExamples) {
+    for (const line of example.split("\n")) {
+      expect(() => JSON.parse(line)).not.toThrow();
+    }
+  }
+});

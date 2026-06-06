@@ -33,12 +33,11 @@ npm run build
 ## Good First Contributions
 
 - Add config edge-case tests for advanced routing profiles.
-- Add artifact schema examples for new run states.
 - Add task-level ledger event schemas.
 - Add fake-backend run artifacts.
 - Extend integration fixtures for conflict and stopped-run scenarios.
 - Improve docs around routing and safety.
-- Improve module docs and artifact schema examples.
+- Improve module docs for worker backends and reconciliation.
 
 Planner heuristic fixtures live in `tests/fixtures/planner/`. Extend those fixtures when changing deterministic task decomposition.
 
