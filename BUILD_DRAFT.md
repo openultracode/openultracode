@@ -82,7 +82,7 @@ Latest refresh on 2026-06-05 21:32 EDT:
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
 - Workflow and Dependabot YAML parsed.
-- `npm pack --dry-run`: 34 files, package size `40.3 kB`.
+- `npm pack --dry-run`: 34 files, package size `40.4 kB`.
 - `npm publish --dry-run`: passed.
 - Built CLI smokes passed for `--help`, plan `run_status_report_artifacts_20260605_2124`, fake run `run_status_report_artifacts_fake_20260605_2124`, and temporary malformed-plan validation.
 - Secret-prefix, shell-history, public-doc dash, whitespace, and `.env` ignore/mode checks passed.

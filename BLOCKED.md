@@ -2,14 +2,15 @@
 
 ## GitHub Actions Remote Verification
 
-Timestamp: 2026-06-05 21:27 EDT
+Timestamp: 2026-06-05 21:35 EDT
 
 Status: blocked by external GitHub account state.
 
 Evidence:
 
 - Workflow: `.github/workflows/ci.yml`.
-- Latest push CI run checked this session: `27048737944` for commit `a8a1a2f1aa882dc9d0c019ec0ac24f9d4de69da7`.
+- Latest push CI run checked this session: `27048925740` for commit `e5f994ced7df271c9aceeaf634a08a972c4e0325`.
+- Previous push CI run checked this session: `27048737944` for commit `a8a1a2f1aa882dc9d0c019ec0ac24f9d4de69da7`.
 - Previous push CI run checked this session: `27048514566` for commit `7fd249d0651dfad7ba946c4122ab390e863c8e17`.
 - Previous push CI run checked this session: `27048125954` for commit `017578210fd077f2ec4c5991831d24527ede159c`.
 - Previous push CI run checked this session: `27047901172` for commit `c42b3ffbe93d1415d29540a0e03dba7d4d96d028`.
@@ -30,9 +31,9 @@ Local verification already run:
 - `npm pack --dry-run`
 - `npm publish --dry-run`
 - `node dist/bin/ouc.js --help`
-- `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_config_validation_20260605_2113 --json`
-- `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_config_validation_fake_20260605_2113 --json`
-- Temporary bad-config smoke for strict config validation.
+- `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_artifact_reference_20260605_2133 --json`
+- `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_artifact_reference_fake_20260605_2133 --json`
+- Artifact reference docs link test.
 
 Best hypothesis:
 

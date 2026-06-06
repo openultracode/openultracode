@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 21:32 EDT
+Timestamp: 2026-06-05 21:35 EDT
 
 ## Objective
 
@@ -49,7 +49,7 @@ Concrete success criteria:
 | Dependency update automation exists | `.github/dependabot.yml` checks npm and GitHub Actions weekly | Complete |
 | Dependabot PRs reviewed | PRs `#1` and `#2` passed isolated local verification, the combined dev dependency update was applied to `main`, and both PRs were closed as superseded | Complete |
 | Contributor CI exists | `.github/workflows/ci.yml` runs tests, typecheck, build, and package dry-run on Node 20, 22, and 24 for pushes, pull requests, and manual dispatch | Configured |
-| Remote CI run starts | `gh run list --repo AryaVora621/openultracode --limit 5` and `gh run view 27048737944 --repo AryaVora621/openultracode` | Blocked by GitHub billing/account lock |
+| Remote CI run starts | `gh run list --repo AryaVora621/openultracode --limit 5` and `gh run view 27048925740 --repo AryaVora621/openultracode` | Blocked by GitHub billing/account lock |
 | Release checklist exists | `docs/RELEASE_CHECKLIST.md` | Complete |
 | Release decision record exists | `docs/RELEASE_DECISIONS.md` | Complete |
 | Changelog exists | `CHANGELOG.md` records the `0.1.0` release candidate notes and known blockers | Complete |
@@ -62,7 +62,7 @@ Concrete success criteria:
 | Test suite passes | `npm test`: 16 files, 68 tests | Complete |
 | Typecheck passes | `npm run typecheck` | Complete |
 | Build passes | `npm run build` | Complete |
-| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 34 files, package size `40.3 kB`, including release docs and changelog | Complete |
+| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 34 files, package size `40.4 kB`, including release docs and changelog | Complete |
 | Packaged install smoke works | Temporary consumer project installed packed tarball and ran packaged `ouc --help` plus packaged `ouc plan --json` | Complete |
 | Publish dry-run works | `npm publish --dry-run` passes without bin auto-correction after normalizing bin paths | Complete |
 | Secret is not committed | `git check-ignore -v .env`, `ls -l .env`, repo secret scan excluding `.env`, shell history scan | Complete |
@@ -113,7 +113,7 @@ The repo is ready for collaborator-oriented source use, but final package releas
 
 ## Completion Audit Refresh
 
-Timestamp: 2026-06-05 21:32 EDT
+Timestamp: 2026-06-05 21:35 EDT
 
 Fresh checks on the current release-readiness state:
 
@@ -124,11 +124,11 @@ Fresh checks on the current release-readiness state:
 - `npm test`: 16 files, 68 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 34 files, package size `40.3 kB`.
-- `npm publish --dry-run`: passed with the same 34-file tarball, package size `40.3 kB`, and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 34 files, package size `40.4 kB`.
+- `npm publish --dry-run`: passed with the same 34-file tarball, package size `40.4 kB`, and no bin metadata correction.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
-- `gh run view 27048737944 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
-- `git rev-parse HEAD` and `git rev-parse origin/main` confirmed the malformed plan artifact handling push reached `origin/main` at commit `a8a1a2f1aa882dc9d0c019ec0ac24f9d4de69da7`.
+- `gh run view 27048925740 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- `git rev-parse HEAD` and `git rev-parse origin/main` confirmed the artifact reference guide push reached `origin/main` at commit `e5f994ced7df271c9aceeaf634a08a972c4e0325`.
 - `node dist/bin/ouc.js --help`: passed.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_planner_fixtures_final2_20260605_2051 --json`: passed.
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_planner_fixtures_final2_fake_20260605_2051 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
@@ -140,6 +140,8 @@ Fresh checks on the current release-readiness state:
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_status_report_artifacts_20260605_2124 --json`: passed.
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_status_report_artifacts_fake_20260605_2124 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
 - Built malformed-plan smoke against a temporary fixture passed: `status` and `report` both returned exit 1 with controlled stderr and empty stdout.
+- `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_artifact_reference_20260605_2133 --json`: passed.
+- `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_artifact_reference_fake_20260605_2133 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_completion_audit_20260605_1924 --json`: passed.
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_completion_fake_20260605_1924 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_release_dispatch_20260605_1929 --json`: passed.

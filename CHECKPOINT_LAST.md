@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 21:34 EDT
+Timestamp: 2026-06-05 21:35 EDT
 
 ## Completed
 
@@ -345,17 +345,20 @@ Timestamp: 2026-06-05 21:34 EDT
 - Added `docs/ARTIFACTS.md` covering run directories, `plan.json`, `ledger.jsonl`, worker artifacts, reconciliation, patch application, final reports, and contributor rules.
 - Linked `docs/ARTIFACTS.md` from `README.md`, `CONTRIBUTING.md`, and `docs/ARCHITECTURE.md`.
 - Verified the green docs-link test with `npm test -- tests/docs.test.ts`: 1 file and 1 test passed.
-- Verified full local gate: `npm test` passed with 16 files and 68 tests, `npm run typecheck` passed, `npm run build` passed, workflow and Dependabot YAML parsed, `npm pack --dry-run` passed with 34 files and package size `40.3 kB`, and `npm publish --dry-run` passed.
+- Verified full local gate: `npm test` passed with 16 files and 68 tests, `npm run typecheck` passed, `npm run build` passed, workflow and Dependabot YAML parsed, `npm pack --dry-run` passed with 34 files and package size `40.4 kB`, and `npm publish --dry-run` passed.
 - Verified built CLI smokes: `node dist/bin/ouc.js --help`, plan smoke `run_artifact_reference_20260605_2133`, and fake-run smoke `run_artifact_reference_fake_20260605_2133` passed.
 - Verified hygiene gates: repo secret-prefix scan excluding `.env`, shell history/session secret scan, public-doc dash scan, and `git diff --check`.
+- Committed and pushed the artifact reference guide as `e5f994ced7df271c9aceeaf634a08a972c4e0325`.
+- Checked GitHub Actions run `27048925740`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- Updated `BLOCKED.md`, `PROJECT_STATUS.md`, `docs/RELEASE_AUDIT.md`, and `docs/COMPLETION_AUDIT.md` with the current push and CI blocker evidence.
 
 ## Current In-Progress State
 
-- Artifact reference guide is implemented, documented, and locally verified. Commit, push, and CI blocker refresh are still in progress. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- None. Artifact reference guide is pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Commit and push the artifact reference guide, then check the new GitHub Actions run and refresh blockers.
+- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
 
 ## Human Decisions Needed
 

@@ -1,6 +1,6 @@
 # Completion Audit
 
-Timestamp: 2026-06-05 21:32 EDT
+Timestamp: 2026-06-05 21:35 EDT
 
 ## Objective
 
@@ -19,7 +19,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Continue implementation work from project context | `AGENTS.md`, `PROJECT_STATUS.md`, `TASK_QUEUE.md`, and `CHECKPOINT_LAST.md` were read before selecting new work | Complete |
 | Research current project state | GitHub repo metadata, community profile, CI runs, open PRs, local task trackers, and blocker files were inspected | Complete |
 | Test the project locally | `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, targeted example tests, hygiene scans, and package smokes have current recorded evidence | Complete |
-| Push changes to the public repo | Malformed plan artifact handling commit `a8a1a2f1aa882dc9d0c019ec0ac24f9d4de69da7` was pushed to `origin/main` | Complete |
+| Push changes to the public repo | Artifact reference guide commit `e5f994ced7df271c9aceeaf634a08a972c4e0325` was pushed to `origin/main` | Complete |
 | Preserve the OpenRouter key only locally | `.env` is ignored, has `0600` permissions, and secret-prefix scans outside `.env` found no matches | Complete |
 | Improve contributor readiness | README, CONTRIBUTING, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, local install docs, model routing docs, run examples docs, publishing docs, release docs, Dependabot, labels, and community profile are in place | Complete |
 | Make package contents release-shaped | `npm pack --dry-run` includes README, LICENSE, CHANGELOG, CODE_OF_CONDUCT, `docs/`, `examples/`, and built CLI files | Complete |
@@ -66,8 +66,8 @@ This audit maps that objective to concrete repository artifacts and verification
 - `npm test -- tests/config.test.ts tests/package.test.ts`: 2 files, 5 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 34 files, package size `40.3 kB`.
-- `npm publish --dry-run`: passed with the same 34-file tarball, package size `40.3 kB`, and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 34 files, package size `40.4 kB`.
+- `npm publish --dry-run`: passed with the same 34-file tarball, package size `40.4 kB`, and no bin metadata correction.
 - `npm publish --dry-run`: passed after bin metadata normalization.
 - Clean temporary package install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed.
 - Run examples plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_examples_docs_20260605_2036 --json` passed.
@@ -86,6 +86,8 @@ This audit maps that objective to concrete repository artifacts and verification
 - Status/report artifact plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_status_report_artifacts_20260605_2124 --json` passed.
 - Status/report artifact fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_status_report_artifacts_fake_20260605_2124 --json` passed.
 - Built malformed-plan smoke against a temporary fixture returned exit 1 with controlled stderr for both `status` and `report`.
+- Artifact reference plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_artifact_reference_20260605_2133 --json` passed.
+- Artifact reference fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_artifact_reference_fake_20260605_2133 --json` passed.
 - Repo secret-prefix scan excluding `.env`, `node_modules`, `dist`, `.ouc`, and `.git`: no matches.
 - Shell history/session secret scan: no matches.
 - Public-doc dash scan: no disallowed dash characters.
@@ -93,8 +95,8 @@ This audit maps that objective to concrete repository artifacts and verification
 - `.env`: ignored by `.gitignore` and mode `0600`.
 - `gh api repos/AryaVora621/openultracode/community/profile`: `health_percentage` `100`.
 - `gh pr list --repo AryaVora621/openultracode --state open --limit 20`: no open PRs.
-- Local and remote state check confirmed the malformed plan artifact handling push reached `origin/main` at commit `a8a1a2f1aa882dc9d0c019ec0ac24f9d4de69da7`.
-- GitHub Actions run `27048737944`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- Local and remote state check confirmed the artifact reference guide push reached `origin/main` at commit `e5f994ced7df271c9aceeaf634a08a972c4e0325`.
+- GitHub Actions run `27048925740`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 
 ## Missing Or Blocked Requirements
 

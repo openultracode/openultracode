@@ -63,8 +63,8 @@ Latest local release gate:
 - `npm test -- tests/cli.test.ts`: 1 file, 28 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: passed with 34 files and package size `40.3 kB`.
-- `npm publish --dry-run`: passed with 34 files and package size `40.3 kB`.
+- `npm pack --dry-run`: passed with 34 files and package size `40.4 kB`.
+- `npm publish --dry-run`: passed with 34 files and package size `40.4 kB`.
 - Built CLI `--help`, `plan --json`, fake `run --json`, bad-config, and malformed-plan smokes passed.
 - Secret-prefix scan excluding `.env` found no matches.
 - Shell history/session secret scan found no matches.

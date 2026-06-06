@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 21:32 EDT
+Last updated: 2026-06-05 21:35 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -95,7 +95,7 @@ Implemented:
 Not implemented yet:
 
 - Human license decision before package release.
-- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27048737944` and documented in `BLOCKED.md`.
+- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27048925740` and documented in `BLOCKED.md`.
 
 ## Verification Snapshot
 
@@ -140,7 +140,7 @@ Latest known result:
 - CLI integration tests passed with `npm test -- tests/cli.test.ts`: 1 file and 28 tests.
 - Typecheck passed.
 - Build passed.
-- Package dry-run passed for `openultracode@0.1.0`, 34 files, package size `40.3 kB`.
+- Package dry-run passed for `openultracode@0.1.0`, 34 files, package size `40.4 kB`.
 - `npm publish --dry-run` passed with examples, run examples, and publishing docs included in the 33-file tarball and no bin metadata correction.
 - GitHub workflow YAML parsed successfully.
 - Model routing docs commit `a6c2ebc5eb999afa53ac53568e682522ddfbdf45` was pushed to `origin/main`.
@@ -148,7 +148,8 @@ Latest known result:
 - Integration fixture coverage commit `017578210fd077f2ec4c5991831d24527ede159c` was pushed to `origin/main`.
 - Config validation hardening commit `7fd249d0651dfad7ba946c4122ab390e863c8e17` was pushed to `origin/main`.
 - Malformed plan artifact handling commit `a8a1a2f1aa882dc9d0c019ec0ac24f9d4de69da7` was pushed to `origin/main`.
-- GitHub Actions run `27048737944` for that commit failed before Node 20, 22, and 24 jobs started because the GitHub account is locked due to a billing issue.
+- Artifact reference guide commit `e5f994ced7df271c9aceeaf634a08a972c4e0325` was pushed to `origin/main`.
+- GitHub Actions run `27048925740` for that commit failed before Node 20, 22, and 24 jobs started because the GitHub account is locked due to a billing issue.
 - Repo secret-prefix scan excluding `.env` had no matches.
 - Em dash scan had no matches.
 - `git diff --check` reported no whitespace errors.
@@ -198,6 +199,8 @@ Latest known result:
 - Status/report artifact plan smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_status_report_artifacts_20260605_2124 --json`.
 - Status/report artifact fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_status_report_artifacts_fake_20260605_2124 --json`.
 - Built malformed-plan smoke against a temporary fixture returned exit 1 with controlled stderr for both `status` and `report`.
+- Artifact reference plan smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_artifact_reference_20260605_2133 --json`.
+- Artifact reference fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_artifact_reference_fake_20260605_2133 --json`.
 - Built CLI blocked-run smoke against a temporary fixture returned status `blocked` with exit 1 when `limits.maxTasks` was exceeded.
 - Built CLI stopped-run smoke returned status `stopped`, succeeded 1 task, and left 1 task remaining.
 - Built CLI success and stopped smokes passed through the worker-pool path.
