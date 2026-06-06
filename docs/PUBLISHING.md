@@ -41,6 +41,33 @@ Expected state:
 
 If CI is still blocked by the account billing lock, stop and update `BLOCKED.md`.
 
+## After Billing Unlock
+
+After the GitHub account billing lock is resolved, rerun CI on the current `main` tip before tagging or publishing:
+
+```bash
+git fetch origin
+git status --short --branch --ignored
+git rev-parse HEAD
+git rev-parse origin/main
+gh workflow run ci.yml --repo AryaVora621/openultracode --ref main
+gh run list --repo AryaVora621/openultracode --limit 5
+gh run watch --repo AryaVora621/openultracode
+```
+
+Inspect the completed run:
+
+```bash
+gh run view <run-id> --repo AryaVora621/openultracode
+```
+
+Expected result:
+
+- Local `HEAD` and `origin/main` match before the rerun.
+- The new workflow run is for the current `main` commit.
+- Node 20, 22, and 24 verification jobs start and finish green.
+- `BLOCKED.md`, `PROJECT_STATUS.md`, `docs/RELEASE_AUDIT.md`, and `docs/COMPLETION_AUDIT.md` are updated with the green run id before any tag or npm publish.
+
 ## Local Gate
 
 Run these commands from the repo root:

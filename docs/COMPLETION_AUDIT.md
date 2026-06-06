@@ -50,6 +50,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Backend module handoff | `docs/BACKENDS.md` | Worker result contracts, backend adapters, reconciliation, patch application boundaries, and test expectations are documented |
 | Run examples handoff | `docs/RUN_EXAMPLES.md` | Planning, fake execution, stopped runs, status/report inspection, local CLI smokes, OpenRouter opt-in, model override, patch application, and troubleshooting commands are documented |
 | Publishing handoff | `docs/PUBLISHING.md` | Release modes, package smoke, release notes, tagging, npm publish, and stop conditions are documented |
+| Post-billing CI rerun handoff | `docs/PUBLISHING.md`, `docs/RELEASE_DECISIONS.md`, `tests/docs.test.ts` | Exact `gh workflow run`, `gh run watch`, and `gh run view` commands are documented and covered by the docs test |
 | Planner heuristic fixtures | `tests/fixtures/planner/`, `tests/planner-fixtures.test.ts` | Mixed source/test/docs, docs-only, and audit planning are covered through the real repo inspector |
 | Integration fixtures | `tests/fixtures/integration/`, `tests/cli.test.ts` | Clean patch application, stopped fake-run, and file ownership conflict CLI tests now copy checked-in fixture repos |
 | Release handoff | `docs/RELEASE_CHECKLIST.md`, `docs/RELEASE_AUDIT.md`, `docs/RELEASE_DECISIONS.md`, `CHANGELOG.md` | Release gates, known blockers, audit evidence, and release notes are recorded |
@@ -62,21 +63,21 @@ This audit maps that objective to concrete repository artifacts and verification
 ## Current Verification Evidence
 
 - `npm run verify`: passed.
-- Fresh continuation `npm run verify`: 17 test files and 77 tests passed, then typecheck, build, and package dry-run passed with package `openultracode@0.1.0`, 44 files, package size `46.4 kB`.
+- Fresh continuation `npm run verify`: 17 test files and 78 tests passed, then typecheck, build, and package dry-run passed with package `openultracode@0.1.0`, 44 files, package size `46.8 kB`.
 - `npm test -- tests/package.test.ts`: 1 file, 2 tests passed.
-- `npm test -- tests/docs.test.ts`: 1 file, 5 tests passed.
+- `npm test -- tests/docs.test.ts`: 1 file, 6 tests passed.
 - `npm test -- tests/fake-run-artifacts.test.ts`: 1 file, 1 test passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file, 3 tests passed.
 - `npm test -- tests/config.test.ts`: 1 file, 8 tests passed.
 - `npm test -- tests/cli.test.ts`: 1 file, 28 tests passed.
 - `npm test -- tests/cli.test.ts -t "ownership|stop after a fake task"`: 1 file and 2 selected tests passed.
-- `npm test`: 17 files, 77 tests passed.
+- `npm test`: 17 files, 78 tests passed.
 - `npm test -- tests/config.test.ts tests/package.test.ts`: 2 files, 7 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
 - `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `46.1 kB`.
 - `npm publish --dry-run`: passed with the same 44-file tarball, package size `46.1 kB`, and no bin metadata correction.
-- Fresh continuation `npm publish --dry-run`: passed with the same 44-file tarball, package size `46.4 kB`, and no bin metadata correction.
+- Fresh continuation `npm publish --dry-run`: passed with the same 44-file tarball, package size `46.8 kB`, and no bin metadata correction.
 - `npm publish --dry-run`: passed after bin metadata normalization.
 - Clean temporary package install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed.
 - Fresh packaged install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed from a temporary consumer project.

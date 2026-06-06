@@ -53,6 +53,7 @@ Decision or action needed:
 - Resolve the GitHub account billing lock.
 - Rerun the CI workflow manually through `workflow_dispatch` or push a new verified commit.
 - Require a green CI run before tagging or npm publication.
+- Use the exact rerun and inspection commands in `docs/PUBLISHING.md#after-billing-unlock`.
 
 ### Release Channel
 

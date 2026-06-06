@@ -41,6 +41,7 @@ Concrete success criteria:
 | Backend module guide exists | `docs/BACKENDS.md` covers worker result contracts, fake backend, OpenRouter, CLI adapters, reconciliation, and patch application boundaries | Complete |
 | Run examples guide exists | `docs/RUN_EXAMPLES.md` covers plan, fake run, stopped run, config, local CLI, OpenRouter opt-in, model override, patch application, and troubleshooting examples | Complete |
 | Publishing guide exists | `docs/PUBLISHING.md` covers release modes, package smoke, release notes, tagging, npm publish, and stop conditions | Complete |
+| Post-billing CI rerun handoff exists | `docs/PUBLISHING.md#after-billing-unlock` and `tests/docs.test.ts` cover exact `gh workflow run`, `gh run watch`, and `gh run view` commands | Complete |
 | Planner heuristic fixtures exist | `tests/fixtures/planner/` and `tests/planner-fixtures.test.ts` exercise mixed, docs-only, and audit planning through the real repo inspector | Complete |
 | Integration fixtures exist | `tests/fixtures/integration/` backs clean patch application, stopped fake-run, and file ownership conflict CLI tests | Complete |
 | GitHub community profile is complete | `gh api repos/AryaVora621/openultracode/community/profile` reported `health_percentage` `100` | Complete |
@@ -62,7 +63,7 @@ Concrete success criteria:
 | Fake run works | `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id release_audit_fake_20260605_1831 --json` | Complete |
 | Help output works | `node dist/bin/ouc.js --help` | Complete |
 | Status/report artifact errors are handled | `tests/cli.test.ts` covers malformed `plan.json` for `ouc status` and `ouc report` | Complete |
-| Test suite passes | `npm test`: 17 files, 77 tests | Complete |
+| Test suite passes | `npm test`: 17 files, 78 tests | Complete |
 | Typecheck passes | `npm run typecheck` | Complete |
 | Build passes | `npm run build` | Complete |
 | Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `46.1 kB`, including release docs, changelog, config examples, and fake-run artifact examples | Complete |
@@ -124,20 +125,20 @@ Timestamp: 2026-06-05 22:59 EDT
 Fresh checks on the current release-readiness state:
 
 - `npm run verify`: passed.
-- Fresh continuation `npm run verify`: 17 test files and 77 tests passed, then typecheck, build, and package dry-run passed with package `openultracode@0.1.0`, 44 files, package size `46.4 kB`.
+- Fresh continuation `npm run verify`: 17 test files and 78 tests passed, then typecheck, build, and package dry-run passed with package `openultracode@0.1.0`, 44 files, package size `46.8 kB`.
 - `npm test -- tests/package.test.ts`: 1 file and 2 tests passed.
-- `npm test -- tests/docs.test.ts`: 1 file and 5 tests passed.
+- `npm test -- tests/docs.test.ts`: 1 file and 6 tests passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file and 3 tests passed.
 - `npm test -- tests/config.test.ts`: 1 file and 8 tests passed.
 - `npm test -- tests/cli.test.ts -t "ownership|stop after a fake task"`: 1 file and 2 selected tests passed.
 - `npm test -- tests/cli.test.ts`: 1 file and 28 tests passed.
-- `npm test`: 17 files, 77 tests passed.
+- `npm test`: 17 files, 78 tests passed.
 - `npm test -- tests/fake-run-artifacts.test.ts`: 1 file, 1 test passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
 - `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `46.1 kB`.
 - `npm publish --dry-run`: passed with the same 44-file tarball, package size `46.1 kB`, and no bin metadata correction.
-- Fresh continuation `npm publish --dry-run`: passed with the same 44-file tarball, package size `46.4 kB`, and no bin metadata correction.
+- Fresh continuation `npm publish --dry-run`: passed with the same 44-file tarball, package size `46.8 kB`, and no bin metadata correction.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
 - `gh run view 27050545771 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - `git rev-parse HEAD` and `git rev-parse origin/main` confirmed local and remote state matched at status-only tracker commit `ae8a4153ca040b04c03fe4bafb640134c7a7bc4e`.

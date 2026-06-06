@@ -43,8 +43,8 @@ Local verification already run:
 - `npm run build`
 - `npm pack --dry-run`
 - `npm publish --dry-run`
-- Fresh continuation audit: `npm run verify` passed with 17 test files and 77 tests, then typecheck, build, and package dry-run passed with a 44-file tarball.
-- Fresh continuation audit: `npm publish --dry-run` passed with package `openultracode@0.1.0`, 44 files, and package size `46.4 kB`.
+- Fresh continuation audit: `npm run verify` passed with 17 test files and 78 tests, then typecheck, build, and package dry-run passed with a 44-file tarball.
+- Fresh continuation audit: `npm publish --dry-run` passed with package `openultracode@0.1.0`, 44 files, and package size `46.8 kB`.
 - Fresh continuation audit: packaged install smoke passed for `ouc --help`, `openultracode --help`, and packaged `ouc plan --json`.
 - Fresh continuation audit: `node dist/bin/ouc.js --help`, plan smoke `run_fresh_audit_20260605_2258`, and fake-run smoke `run_fresh_audit_fake_20260605_2258` passed.
 - Fresh continuation audit: `gh pr list --repo AryaVora621/openultracode --state open --limit 20` returned no open PRs.

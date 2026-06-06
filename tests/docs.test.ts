@@ -125,3 +125,19 @@ test("model routing guide documents safety tradeoffs for each backend family", a
     expect(modelRoutingGuide).toContain(row);
   }
 });
+
+test("publishing guide documents exact post-billing CI rerun commands", async () => {
+  const publishingGuide = await readFile(resolve(process.cwd(), "docs", "PUBLISHING.md"), "utf8");
+  const releaseDecisions = await readFile(
+    resolve(process.cwd(), "docs", "RELEASE_DECISIONS.md"),
+    "utf8"
+  );
+
+  expect(publishingGuide).toContain("## After Billing Unlock");
+  expect(publishingGuide).toContain(
+    "gh workflow run ci.yml --repo AryaVora621/openultracode --ref main"
+  );
+  expect(publishingGuide).toContain("gh run watch --repo AryaVora621/openultracode");
+  expect(publishingGuide).toContain("gh run view");
+  expect(releaseDecisions).toContain("docs/PUBLISHING.md#after-billing-unlock");
+});

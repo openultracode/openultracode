@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 22:59 EDT
+Last updated: 2026-06-05 23:04 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -80,6 +80,7 @@ Implemented:
 - Backend module and reconciliation guide in `docs/BACKENDS.md`.
 - Copy-ready run examples guide in `docs/RUN_EXAMPLES.md`.
 - Package publishing guide in `docs/PUBLISHING.md`.
+- Post-billing CI rerun handoff in `docs/PUBLISHING.md`.
 - Release decision record in `docs/RELEASE_DECISIONS.md`.
 - Architecture guide in `docs/ARCHITECTURE.md` covering runtime flow, module boundaries, artifact contracts, safety model, and extension points.
 - Artifact reference guide in `docs/ARTIFACTS.md` covering run directories, plans, ledgers, ledger event schemas, worker outputs, reconciliation, patch application, final reports, and checked JSON/JSONL examples.
@@ -139,14 +140,15 @@ Latest known result:
 
 - Fresh continuation audit confirmed local `HEAD` and `origin/main` both point to `ae8a4153ca040b04c03fe4bafb640134c7a7bc4e`.
 - Fresh continuation audit confirmed there are no open PRs, the public repo metadata is set, GitHub community profile health is `100`, and issue-template labels `bug`, `enhancement`, and `good first issue` exist.
-- Fresh continuation audit passed `npm run verify`: 17 test files, 77 tests, typecheck, build, and package dry-run with package `openultracode@0.1.0`, 44 files, package size `46.4 kB`.
+- Fresh continuation audit passed `npm run verify`: 17 test files, 78 tests, typecheck, build, and package dry-run with package `openultracode@0.1.0`, 44 files, package size `46.8 kB`.
 - Fresh continuation audit passed `npm publish --dry-run`, workflow and Dependabot YAML parsing, repo secret-prefix scan excluding ignored local files, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode checks.
 - Fresh continuation audit passed built CLI smokes: `node dist/bin/ouc.js --help`, plan smoke `run_fresh_audit_20260605_2258`, and fake-run smoke `run_fresh_audit_fake_20260605_2258`.
 - Fresh continuation audit passed a packaged install smoke from a temporary consumer project with packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json`.
 - GitHub Actions run `27050545771` remains the latest CI-triggering run and still failed before Node 20, 22, and 24 jobs started because the GitHub account is locked due to a billing issue.
+- Post-billing CI rerun handoff docs test passed with `npm test -- tests/docs.test.ts`: 1 file and 6 tests.
 - 17 test files passed.
 - `npm run verify` passed.
-- 77 tests passed.
+- 78 tests passed.
 - Package script tests passed with `npm test -- tests/package.test.ts`: 1 file and 2 tests.
 - Docs artifact, ledger schema, backend guide, and model routing guide tests passed with `npm test -- tests/docs.test.ts`: 1 file and 5 tests.
 - Fake-run artifact example tests passed with `npm test -- tests/fake-run-artifacts.test.ts`: 1 file and 1 test.
