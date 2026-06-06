@@ -75,13 +75,14 @@ Included:
 
 ## Verification Evidence
 
-Latest refresh on 2026-06-05 21:24 EDT:
+Latest refresh on 2026-06-05 21:32 EDT:
 
-- `npm test`: 15 files and 67 tests passed.
+- `npm test`: 16 files and 68 tests passed.
+- `npm test -- tests/docs.test.ts`: 1 file and 1 test passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
 - Workflow and Dependabot YAML parsed.
-- `npm pack --dry-run`: 33 files, package size `38.6 kB`.
+- `npm pack --dry-run`: 34 files, package size `40.3 kB`.
 - `npm publish --dry-run`: passed.
 - Built CLI smokes passed for `--help`, plan `run_status_report_artifacts_20260605_2124`, fake run `run_status_report_artifacts_fake_20260605_2124`, and temporary malformed-plan validation.
 - Secret-prefix, shell-history, public-doc dash, whitespace, and `.env` ignore/mode checks passed.

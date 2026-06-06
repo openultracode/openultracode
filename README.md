@@ -173,6 +173,12 @@ For copy-ready run examples, read:
 cat docs/RUN_EXAMPLES.md
 ```
 
+For generated run artifact schemas and examples, read:
+
+```bash
+cat docs/ARTIFACTS.md
+```
+
 For the current prompt-to-artifact completion audit, read:
 
 ```bash

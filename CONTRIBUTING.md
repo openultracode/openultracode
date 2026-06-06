@@ -13,12 +13,13 @@ OpenUltraCode is early. The best contributions are small, tested slices that mak
 7. Check `docs/MODEL_ROUTING.md` if the change affects planning, routing, model tiers, or backend safety.
 8. Check `examples/README.md` if the change affects local config or backend routing examples.
 9. Check `docs/RUN_EXAMPLES.md` if the change affects command examples or run artifact workflows.
-10. Check `docs/COMPLETION_AUDIT.md` when evaluating release completeness.
-11. Check `docs/RELEASE_DECISIONS.md` before release or package work.
-12. Check `docs/PUBLISHING.md` before tagging, package-smoke, or npm publish work.
-13. Pick one narrow behavior.
-14. Write the test first for behavior changes.
-15. Run the full verification commands before opening a PR.
+10. Check `docs/ARTIFACTS.md` if the change affects run files, ledgers, reports, reconciliation, or patch application artifacts.
+11. Check `docs/COMPLETION_AUDIT.md` when evaluating release completeness.
+12. Check `docs/RELEASE_DECISIONS.md` before release or package work.
+13. Check `docs/PUBLISHING.md` before tagging, package-smoke, or npm publish work.
+14. Pick one narrow behavior.
+15. Write the test first for behavior changes.
+16. Run the full verification commands before opening a PR.
 
 ## Development Setup
 
@@ -32,7 +33,7 @@ npm run build
 ## Good First Contributions
 
 - Add config edge-case tests for advanced routing profiles.
-- Add status/report artifact schema examples.
+- Add artifact schema examples for new run states.
 - Add task-level ledger event schemas.
 - Add fake-backend run artifacts.
 - Extend integration fixtures for conflict and stopped-run scenarios.

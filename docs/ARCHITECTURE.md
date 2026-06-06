@@ -52,6 +52,8 @@ Important files:
 - `worktrees/<task-id>/`: isolated git worktree for mutating tasks.
 - `final-report.md`: human-readable execution and reconciliation summary.
 
+Detailed field notes and event names live in `docs/ARTIFACTS.md`.
+
 ## Backend Boundaries
 
 Backends produce task results. They do not decide whether patches are applied to the main checkout.

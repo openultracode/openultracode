@@ -68,3 +68,4 @@
 - [Codex] Added strict config validation for unknown keys and file-aware config errors.
 - [Codex] Documented, verified, and pushed config validation hardening.
 - [Codex] Added status/report malformed plan artifact handling.
+- [Codex] Added a package-shipped artifact reference guide with docs link checks.
