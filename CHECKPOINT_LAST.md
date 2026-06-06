@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 22:15 EDT
+Timestamp: 2026-06-05 22:18 EDT
 
 ## Completed
 
@@ -404,14 +404,17 @@ Timestamp: 2026-06-05 22:15 EDT
 - Verified `npm run verify`: tests passed with 17 files and 73 tests, typecheck passed, build passed, and package dry-run passed with 43 files and package size `45.1 kB`.
 - Verified `npm publish --dry-run`, workflow and Dependabot YAML parsing, built help smoke, plan smoke `run_fake_artifacts_final_20260605_2217`, fake-run smoke `run_fake_artifacts_final_fake_20260605_2217`, repo secret-prefix scan excluding `.env`, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode.
 - Updated CHANGELOG, BUILD_DRAFT, PROJECT_STATUS, TASK_QUEUE, release audit, completion audit, and this checkpoint for the fake-run artifact example slice.
+- Committed and pushed fake-run artifact examples as `fa480921564e33b490af8988244d8b5a7c5ec149`.
+- Checked GitHub Actions run `27049868384`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- Updated `BLOCKED.md`, `PROJECT_STATUS.md`, `docs/RELEASE_AUDIT.md`, `docs/COMPLETION_AUDIT.md`, and this checkpoint with the current push and CI blocker evidence.
 
 ## Current In-Progress State
 
-- Preparing to commit and push the fake-run artifact example slice. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- None. Fake-run artifact examples are pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Commit and push the fake-run artifact examples, inspect the GitHub Actions run, then refresh blocker tracking if the billing lock still prevents job startup.
+- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
 
 ## Human Decisions Needed
 
