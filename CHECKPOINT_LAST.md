@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 22:44 EDT
+Timestamp: 2026-06-05 22:51 EDT
 
 ## Completed
 
@@ -436,14 +436,16 @@ Timestamp: 2026-06-05 22:44 EDT
 - Verified the green targeted tests with `npm test -- tests/config.test.ts tests/docs.test.ts`: 2 files and 13 tests passed.
 - Verified `npm run verify`: tests passed with 17 files and 77 tests, typecheck passed, build passed, and package dry-run passed with 44 files and package size `46.1 kB`.
 - Verified `npm publish --dry-run`, workflow and Dependabot YAML parsing, built help smoke, plan smoke `run_routing_safety_final2_20260605_2249`, fake-run smoke `run_routing_safety_final2_fake_20260605_2249`, repo secret-prefix scan excluding `.env`, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode.
+- Committed and pushed routing safety docs as `3fd95e7c0e385cc5dc58b9814624f4a32e2e86e1`.
+- Checked GitHub Actions run `27050545771`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 
 ## Current In-Progress State
 
-- Routing and safety docs are locally green at the focused-test level. Full verification, commit, push, and CI blocker inspection are still in progress.
+- None. Routing and safety docs are pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Run full verification and hygiene checks for the routing and safety docs slice, then commit and push if clean.
+- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
 
 ## Human Decisions Needed
 

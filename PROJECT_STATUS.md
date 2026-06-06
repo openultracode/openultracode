@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 22:44 EDT
+Last updated: 2026-06-05 22:51 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -100,7 +100,7 @@ Implemented:
 Not implemented yet:
 
 - Human license decision before package release.
-- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27050257635` and documented in `BLOCKED.md`.
+- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27050545771` and documented in `BLOCKED.md`.
 
 ## Verification Snapshot
 
@@ -161,7 +161,8 @@ Latest known result:
 - Fake-run artifact examples commit `fa480921564e33b490af8988244d8b5a7c5ec149` was pushed to `origin/main`.
 - Advanced config edge coverage commit `b45331591083600e91701383a84b9b5ed8d5828b` was pushed to `origin/main`.
 - Integration edge fixture commit `db4eeec1b88fd5aee3259f8a82541e271bf6d1f7` was pushed to `origin/main`.
-- GitHub Actions run `27050257635` for that commit failed before Node 20, 22, and 24 jobs started because the GitHub account is locked due to a billing issue.
+- Routing safety docs commit `3fd95e7c0e385cc5dc58b9814624f4a32e2e86e1` was pushed to `origin/main`.
+- GitHub Actions run `27050545771` for that commit failed before Node 20, 22, and 24 jobs started because the GitHub account is locked due to a billing issue.
 - Repo secret-prefix scan excluding `.env` had no matches.
 - Em dash scan had no matches.
 - `git diff --check` reported no whitespace errors.
@@ -201,6 +202,8 @@ Latest known result:
 - `npm publish --dry-run` confirmed examples remain in the current 44-file tarball.
 - Model routing docs smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_model_routing_docs_20260605_2015 --json`.
 - Model routing fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_model_routing_fake_20260605_2015 --json`.
+- Routing safety docs smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_routing_safety_final2_20260605_2249 --json`.
+- Routing safety fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_routing_safety_final2_fake_20260605_2249 --json`.
 - Planner fixture plan smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_planner_fixtures_final2_20260605_2051 --json`.
 - Planner fixture fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_planner_fixtures_final2_fake_20260605_2051 --json`.
 - Integration fixture plan smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_integration_fixture_20260605_2100 --json`.
@@ -252,7 +255,7 @@ Latest known result:
 - Built file-ownership block smoke returned exit 1 with status `blocked`, `limit` `fileOwnership`, and no worker result artifacts.
 - CLI usage parsing tests verified Codex JSONL usage events, Claude JSON result usage, cost mapping, and plain-text fallback behavior.
 - Built CLI usage parsing smoke mapped mocked Codex and Claude structured output into worker usage and cost totals.
-- GitHub Actions run `27050257635` created the Node 20, 22, and 24 jobs, but each job failed before starting because the GitHub account is locked due to a billing issue.
+- GitHub Actions run `27050545771` created the Node 20, 22, and 24 jobs, but each job failed before starting because the GitHub account is locked due to a billing issue.
 - `gh label list --repo AryaVora621/openultracode --limit 100` showed the labels referenced by issue templates exist: `bug`, `enhancement`, and `good first issue`.
 - `.github/PULL_REQUEST_TEMPLATE.md` now asks contributors for exact verification results, CLI smoke output when relevant, and safety checks for secrets, live backends, generated folders, and final-report preservation.
 - `SECURITY.md` directs sensitive reports to GitHub Security Advisories and names project-specific safety areas.
