@@ -39,7 +39,8 @@
     "build": "tsc -p tsconfig.build.json",
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "verify": "npm test && npm run typecheck && npm run build && npm pack --dry-run"
+    "verify": "npm test && npm run typecheck && npm run build && npm pack --dry-run",
+    "release:check": "npm run verify && npm publish --dry-run"
   },
   "dependencies": {
     "zod": "^4.1.13"

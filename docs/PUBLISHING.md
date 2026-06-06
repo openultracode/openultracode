@@ -77,6 +77,12 @@ npm run verify
 npm publish --dry-run
 ```
 
+Or run the combined local package preflight:
+
+```bash
+npm run release:check
+```
+
 Run built CLI smokes:
 
 ```bash

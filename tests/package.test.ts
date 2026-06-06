@@ -42,3 +42,23 @@ test("package exposes the same verification gate used by CI and release docs", a
   expect(ciWorkflow).toContain("npm run verify");
   expect(releaseChecklist).toContain("npm run verify");
 });
+
+test("package exposes a local release check script for final preflight", async () => {
+  const pkg = JSON.parse(
+    await readFile(resolve(process.cwd(), "package.json"), "utf8")
+  ) as {
+    scripts: Record<string, string>;
+  };
+  const publishingGuide = await readFile(
+    resolve(process.cwd(), "docs", "PUBLISHING.md"),
+    "utf8"
+  );
+  const releaseDecisions = await readFile(
+    resolve(process.cwd(), "docs", "RELEASE_DECISIONS.md"),
+    "utf8"
+  );
+
+  expect(pkg.scripts["release:check"]).toBe("npm run verify && npm publish --dry-run");
+  expect(publishingGuide).toContain("npm run release:check");
+  expect(releaseDecisions).toContain("npm run release:check");
+});

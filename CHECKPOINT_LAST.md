@@ -452,10 +452,15 @@ Timestamp: 2026-06-05 23:07 EDT
 - Verified `npm publish --dry-run`, workflow and Dependabot YAML parsing, built help, plan smoke `run_post_billing_handoff_20260605_2305`, fake-run smoke `run_post_billing_handoff_fake_20260605_2305`, repo secret-prefix scan excluding ignored local files, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode checks.
 - Committed and pushed post-billing CI handoff docs as `cbe5c294d1fa39dc309f4a9425503538b60b5b3e`.
 - Checked GitHub Actions run `27050873954`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- Added a red package test requiring `npm run release:check` to run `npm run verify && npm publish --dry-run` and requiring publishing and release-decision docs to mention it.
+- Verified the red state with `npm test -- tests/package.test.ts`; it failed because `scripts["release:check"]` was missing.
+- Added `release:check` to `package.json` and documented it in `docs/PUBLISHING.md` plus `docs/RELEASE_DECISIONS.md`.
+- Verified the green targeted package test with `npm test -- tests/package.test.ts`: 1 file and 3 tests passed.
+- Verified the new release preflight with `npm run release:check`: 17 test files, 79 tests, typecheck, build, package dry-run, and publish dry-run passed with package size `47.1 kB`.
 
 ## Current In-Progress State
 
-- None. Post-billing CI rerun handoff docs are pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- `release:check` local preflight is implemented and verified. Full hygiene verification and push are next.
 
 ## Next Action
 

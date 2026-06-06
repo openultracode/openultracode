@@ -78,6 +78,7 @@ Run from the repo root after resolving the two blockers:
 
 ```bash
 npm run verify
+npm run release:check
 ```
 
 Run at least these built CLI smokes:

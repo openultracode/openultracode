@@ -58,12 +58,13 @@ This audit maps that objective to concrete repository artifacts and verification
 | Dependency hygiene | `.github/dependabot.yml` | Weekly npm and GitHub Actions dependency update checks are configured |
 | CI configuration | `.github/workflows/ci.yml` | Workflow has push, pull request, and manual dispatch triggers |
 | Unified verification gate | `package.json`, `.github/workflows/ci.yml`, `docs/RELEASE_CHECKLIST.md` | `npm run verify` runs tests, typecheck, build, and package dry-run locally and in CI |
+| Local release preflight gate | `package.json`, `docs/PUBLISHING.md`, `docs/RELEASE_DECISIONS.md`, `tests/package.test.ts` | `npm run release:check` runs `npm run verify` and `npm publish --dry-run`, with docs coverage |
 | Local verification | npm and shell commands | Latest recorded local gates pass; remote CI is the only external verification blocker |
 
 ## Current Verification Evidence
 
 - `npm run verify`: passed.
-- Fresh continuation `npm run verify`: 17 test files and 78 tests passed, then typecheck, build, and package dry-run passed with package `openultracode@0.1.0`, 44 files, package size `47.0 kB`.
+- Fresh continuation `npm run verify`: 17 test files and 79 tests passed, then typecheck, build, and package dry-run passed with package `openultracode@0.1.0`, 44 files, package size `47.1 kB`.
 - `npm test -- tests/package.test.ts`: 1 file, 2 tests passed.
 - `npm test -- tests/docs.test.ts`: 1 file, 6 tests passed.
 - `npm test -- tests/fake-run-artifacts.test.ts`: 1 file, 1 test passed.
@@ -71,13 +72,14 @@ This audit maps that objective to concrete repository artifacts and verification
 - `npm test -- tests/config.test.ts`: 1 file, 8 tests passed.
 - `npm test -- tests/cli.test.ts`: 1 file, 28 tests passed.
 - `npm test -- tests/cli.test.ts -t "ownership|stop after a fake task"`: 1 file and 2 selected tests passed.
-- `npm test`: 17 files, 78 tests passed.
+- `npm test`: 17 files, 79 tests passed.
 - `npm test -- tests/config.test.ts tests/package.test.ts`: 2 files, 7 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `47.0 kB`.
-- `npm publish --dry-run`: passed with the same 44-file tarball, package size `47.0 kB`, and no bin metadata correction.
-- Fresh continuation `npm publish --dry-run`: passed with the same 44-file tarball, package size `47.0 kB`, and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `47.1 kB`.
+- `npm publish --dry-run`: passed with the same 44-file tarball, package size `47.1 kB`, and no bin metadata correction.
+- Fresh continuation `npm publish --dry-run`: passed with the same 44-file tarball, package size `47.1 kB`, and no bin metadata correction.
+- `npm run release:check`: passed and ran `npm run verify` plus `npm publish --dry-run`.
 - `npm publish --dry-run`: passed after bin metadata normalization.
 - Clean temporary package install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed.
 - Fresh packaged install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed from a temporary consumer project.
