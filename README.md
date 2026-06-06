@@ -81,9 +81,7 @@ Current implemented surface:
 
 ```bash
 npm install
-npm test
-npm run typecheck
-npm run build
+npm run verify
 ```
 
 Create a dry-run plan:
@@ -335,10 +333,7 @@ The project should stay boring in the best way:
 ## Development Workflow
 
 ```bash
-npm test
-npm run typecheck
-npm run build
-npm pack --dry-run
+npm run verify
 ```
 
 For behavior changes, write or update the test first. The current test suite uses Vitest and covers strict config validation, routing, planning, artifacts, fake backend output, and CLI behavior.

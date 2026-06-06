@@ -70,3 +70,4 @@
 - [Codex] Added status/report malformed plan artifact handling.
 - [Codex] Added a package-shipped artifact reference guide with docs link checks.
 - [Codex] Added checked JSON/JSONL examples for `plan.json`, `ledger.jsonl`, and worker `result.json`.
+- [Codex] Added a unified `npm run verify` gate and wired CI plus release docs to it.

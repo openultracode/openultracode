@@ -19,13 +19,10 @@ For package publishing, tag, and release-note handoff steps, read `docs/PUBLISHI
 Run from the repo root:
 
 ```bash
-npm test
-npm run typecheck
-npm run build
-npm pack --dry-run
+npm run verify
 ```
 
-CI runs the same core checks on pushes to `main`, pull requests, and manual workflow dispatch across Node 20, 22, and 24.
+CI runs the same verification gate on pushes to `main`, pull requests, and manual workflow dispatch across Node 20, 22, and 24.
 
 For CLI changes, run at least one built smoke:
 

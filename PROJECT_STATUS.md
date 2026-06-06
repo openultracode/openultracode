@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 21:46 EDT
+Last updated: 2026-06-05 21:50 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, local config is strictly validated before artifacts are created, status/report commands fail cleanly on malformed plan artifacts, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, fixture-backed planner heuristic coverage and git patch integration fixtures are present, contributor issue templates plus a PR template, architecture guide, artifact reference guide with checked JSON/JSONL examples, code of conduct, local install guide, model routing guide, run examples guide, publishing guide, release checklist, completion audit, and copy-ready config examples are present, issue-template labels exist on GitHub, GitHub repo discovery metadata is set, a security policy directs private reports, Dependabot is configured, and the final release audit plus release decision record are recorded.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, local config is strictly validated before artifacts are created, status/report commands fail cleanly on malformed plan artifacts, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, fixture-backed planner heuristic coverage and git patch integration fixtures are present, contributor issue templates plus a PR template, architecture guide, artifact reference guide with checked JSON/JSONL examples, code of conduct, local install guide, model routing guide, run examples guide, publishing guide, release checklist, completion audit, and copy-ready config examples are present, issue-template labels exist on GitHub, GitHub repo discovery metadata is set, a security policy directs private reports, Dependabot is configured, `npm run verify` mirrors the CI release gate, and the final release audit plus release decision record are recorded.
 
 Implemented:
 
@@ -71,7 +71,8 @@ Implemented:
 - Dependabot config for weekly npm and GitHub Actions update PRs.
 - Dev dependency updates from Dependabot PRs `#1` and `#2` folded into `main`: `typescript` `^6.0.3` and `@types/node` `^25.9.2`.
 - Dependabot PRs `#1` and `#2` closed as superseded by commit `e09c016`.
-- GitHub Actions CI for tests, typecheck, build, and package dry-run on Node 20, 22, and 24, including manual workflow dispatch.
+- GitHub Actions CI for `npm run verify` on Node 20, 22, and 24, including manual workflow dispatch.
+- Unified `npm run verify` script for tests, typecheck, build, and package dry-run.
 - Release-readiness checklist in `docs/RELEASE_CHECKLIST.md`.
 - Local install guide in `docs/LOCAL_INSTALL.md`.
 - Model routing and backend safety guide in `docs/MODEL_ROUTING.md`.
@@ -103,6 +104,7 @@ Latest verified commands:
 
 ```bash
 npm test
+npm run verify
 npm run typecheck
 npm run build
 npm pack --dry-run
@@ -132,7 +134,9 @@ node --input-type=module -e 'import { CodexCliBackend, ClaudeCliBackend } from "
 Latest known result:
 
 - 16 test files passed.
-- 69 tests passed.
+- `npm run verify` passed.
+- 70 tests passed.
+- Package script tests passed with `npm test -- tests/package.test.ts`: 1 file and 2 tests.
 - Docs artifact example tests passed with `npm test -- tests/docs.test.ts`: 1 file and 2 tests.
 - Config tests passed with `npm test -- tests/config.test.ts`: 1 file and 5 tests.
 - CLI tests passed with `npm test -- tests/cli.test.ts`: 1 file and 28 tests.
@@ -140,7 +144,7 @@ Latest known result:
 - CLI integration tests passed with `npm test -- tests/cli.test.ts`: 1 file and 28 tests.
 - Typecheck passed.
 - Build passed.
-- Package dry-run passed for `openultracode@0.1.0`, 34 files, package size `41.2 kB`.
+- Package dry-run passed for `openultracode@0.1.0`, 34 files, package size `41.4 kB`.
 - `npm publish --dry-run` passed with examples, run examples, and publishing docs included in the 33-file tarball and no bin metadata correction.
 - GitHub workflow YAML parsed successfully.
 - Model routing docs commit `a6c2ebc5eb999afa53ac53568e682522ddfbdf45` was pushed to `origin/main`.
@@ -203,6 +207,8 @@ Latest known result:
 - Artifact reference fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_artifact_reference_fake_20260605_2133 --json`.
 - Artifact examples plan smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_artifact_examples_20260605_2143 --json`.
 - Artifact examples fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_artifact_examples_fake_20260605_2143 --json`.
+- Verify script plan smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_verify_script_20260605_2150 --json`.
+- Verify script fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_verify_script_fake_20260605_2150 --json`.
 - Built CLI blocked-run smoke against a temporary fixture returned status `blocked` with exit 1 when `limits.maxTasks` was exceeded.
 - Built CLI stopped-run smoke returned status `stopped`, succeeded 1 task, and left 1 task remaining.
 - Built CLI success and stopped smokes passed through the worker-pool path.

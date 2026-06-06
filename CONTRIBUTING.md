@@ -25,9 +25,7 @@ OpenUltraCode is early. The best contributions are small, tested slices that mak
 
 ```bash
 npm install
-npm test
-npm run typecheck
-npm run build
+npm run verify
 ```
 
 ## Good First Contributions
@@ -54,13 +52,10 @@ Security reports and secret exposure should use `SECURITY.md`, not public issues
 Run:
 
 ```bash
-npm test
-npm run typecheck
-npm run build
-npm pack --dry-run
+npm run verify
 ```
 
-The GitHub CI workflow runs these core checks on pushes, pull requests, and manual workflow dispatch.
+The GitHub CI workflow runs the same verification gate on pushes, pull requests, and manual workflow dispatch.
 
 If your change touches the CLI, include the command you used for a smoke test.
 

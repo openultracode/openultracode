@@ -104,4 +104,4 @@ When changing routing behavior:
 - Update `src/router.ts` or `src/planner.ts` with focused tests.
 - Keep real backend tests mocked.
 - Update this guide when tier rules or fallback behavior changes.
-- Run `npm test`, `npm run typecheck`, `npm run build`, and `npm pack --dry-run`.
+- Run `npm run verify`.

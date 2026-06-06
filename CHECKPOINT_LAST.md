@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 21:46 EDT
+Timestamp: 2026-06-05 21:50 EDT
 
 ## Completed
 
@@ -361,14 +361,22 @@ Timestamp: 2026-06-05 21:46 EDT
 - Committed and pushed checked artifact examples as `482523b4c7f3eaeafb44c24e78846a1dd07f453e`.
 - Checked GitHub Actions run `27049174031`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - Updated `BLOCKED.md`, `PROJECT_STATUS.md`, `docs/RELEASE_AUDIT.md`, and `docs/COMPLETION_AUDIT.md` with the current push and CI blocker evidence.
+- Started unified verification script work.
+- Added a red package test requiring `npm run verify`, CI wiring, and release checklist docs; the red run failed because `scripts.verify` was missing.
+- Added `npm run verify` for tests, typecheck, build, and package dry-run.
+- Rewired `.github/workflows/ci.yml` to run `npm run verify`.
+- Updated contributor and release docs to point at the unified verification gate.
+- Verified the green package test with `npm test -- tests/package.test.ts`: 1 file and 2 tests passed.
+- Verified `npm run verify`: tests passed with 16 files and 70 tests, typecheck passed, build passed, and package dry-run passed with 34 files and package size `41.4 kB`.
+- Verified `npm publish --dry-run`, workflow and Dependabot YAML parsing, built help smoke, plan smoke `run_verify_script_20260605_2150`, fake-run smoke `run_verify_script_fake_20260605_2150`, repo secret-prefix scan excluding `.env`, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode.
 
 ## Current In-Progress State
 
-- None. Artifact JSON examples are pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- Unified verify script is implemented and locally verified. Push and remote CI blocker refresh are next. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
+- Commit and push the unified verify script slice, inspect the created GitHub Actions run, then refresh blocker docs if the billing lock still prevents runner startup.
 
 ## Human Decisions Needed
 

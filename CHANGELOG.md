@@ -30,6 +30,7 @@ Status: source-ready after local verification. Final package release is still bl
 - Opt-in clean patch application through CLI flag or config.
 - Contributor issue templates, pull request template, security policy, Dependabot, release checklist, release audit, and release decision record.
 - GitHub Actions CI configuration across Node 20, 22, and 24, with manual dispatch available after the account billing lock is fixed.
+- Unified `npm run verify` script for tests, typecheck, build, and package dry-run, with CI wired to the same gate.
 - Public GitHub repo description, README homepage, and discovery topics for contributor discovery.
 - Architecture guide covering runtime flow, module boundaries, artifact contracts, safety model, and extension points.
 - Code of conduct for public contributor spaces.
@@ -56,15 +57,17 @@ Status: source-ready after local verification. Final package release is still bl
 
 Latest local release gate:
 
-- `npm test`: 16 files, 69 tests passed.
+- `npm run verify`: passed.
+- `npm test`: 16 files, 70 tests passed.
+- `npm test -- tests/package.test.ts`: 1 file, 2 tests passed.
 - `npm test -- tests/docs.test.ts`: 1 file, 2 tests passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file, 3 tests passed.
 - `npm test -- tests/config.test.ts`: 1 file, 5 tests passed.
 - `npm test -- tests/cli.test.ts`: 1 file, 28 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: passed with 34 files and package size `41.2 kB`.
-- `npm publish --dry-run`: passed with 34 files and package size `41.2 kB`.
+- `npm pack --dry-run`: passed with 34 files and package size `41.4 kB`.
+- `npm publish --dry-run`: passed with 34 files and package size `41.4 kB`.
 - Built CLI `--help`, `plan --json`, fake `run --json`, bad-config, and malformed-plan smokes passed.
 - Secret-prefix scan excluding `.env` found no matches.
 - Shell history/session secret scan found no matches.

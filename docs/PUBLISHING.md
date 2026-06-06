@@ -46,10 +46,7 @@ If CI is still blocked by the account billing lock, stop and update `BLOCKED.md`
 Run these commands from the repo root:
 
 ```bash
-npm test
-npm run typecheck
-npm run build
-npm pack --dry-run
+npm run verify
 npm publish --dry-run
 ```
 

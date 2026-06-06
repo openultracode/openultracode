@@ -76,10 +76,7 @@ Recommended path:
 Run from the repo root after resolving the two blockers:
 
 ```bash
-npm test
-npm run typecheck
-npm run build
-npm pack --dry-run
+npm run verify
 ```
 
 Run at least these built CLI smokes:
