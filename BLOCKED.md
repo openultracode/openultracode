@@ -2,14 +2,15 @@
 
 ## GitHub Actions Remote Verification
 
-Timestamp: 2026-06-05 22:18 EDT
+Timestamp: 2026-06-05 22:27 EDT
 
 Status: blocked by external GitHub account state.
 
 Evidence:
 
 - Workflow: `.github/workflows/ci.yml`.
-- Latest push CI run checked this session: `27049868384` for commit `fa480921564e33b490af8988244d8b5a7c5ec149`.
+- Latest push CI run checked this session: `27050043100` for commit `b45331591083600e91701383a84b9b5ed8d5828b`.
+- Previous push CI run checked this session: `27049868384` for commit `fa480921564e33b490af8988244d8b5a7c5ec149`.
 - Previous push CI run checked this session: `27049585091` for commit `f671e3445a2a0a5801e132d3eac014b08e7919cc`.
 - Previous push CI run checked this session: `27049448478` for commit `824689c9ce045e77f6e2096e2da3365183ef155a`.
 - Previous push CI run checked this session: `27049327312` for commit `f2c589e185312c41a207a6ec9e8f98a7e0f4dc72`.
@@ -31,6 +32,7 @@ Local verification already run:
 
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`
 - `npm test`
+- `npm test -- tests/config.test.ts`
 - `npm test -- tests/fake-run-artifacts.test.ts`
 - `npm run typecheck`
 - `npm run build`
@@ -43,6 +45,8 @@ Local verification already run:
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_artifact_examples_fake_20260605_2143 --json`
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_fake_artifacts_final_20260605_2217 --json`
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_fake_artifacts_final_fake_20260605_2217 --json`
+- `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_config_edges_20260605_2226 --json`
+- `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_config_edges_fake_20260605_2226 --json`
 - Artifact reference docs link and checked example tests.
 
 Best hypothesis:

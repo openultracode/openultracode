@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 22:23 EDT
+Timestamp: 2026-06-05 22:27 EDT
 
 ## Completed
 
@@ -415,14 +415,17 @@ Timestamp: 2026-06-05 22:23 EDT
 - Updated `docs/MODEL_ROUTING.md`, `examples/README.md`, CONTRIBUTING, changelog, build draft, project status, task queue, release audit, completion audit, and this checkpoint for the config edge-case slice.
 - Verified `npm run verify`: tests passed with 17 files and 76 tests, typecheck passed, build passed, and package dry-run passed with 43 files and package size `45.4 kB`.
 - Verified `npm publish --dry-run`, workflow and Dependabot YAML parsing, built help smoke, plan smoke `run_config_edges_20260605_2226`, fake-run smoke `run_config_edges_fake_20260605_2226`, repo secret-prefix scan excluding `.env`, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode.
+- Committed and pushed advanced config edge coverage as `b45331591083600e91701383a84b9b5ed8d5828b`.
+- Checked GitHub Actions run `27050043100`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- Updated `BLOCKED.md`, `PROJECT_STATUS.md`, `docs/RELEASE_AUDIT.md`, `docs/COMPLETION_AUDIT.md`, and this checkpoint with the current push and CI blocker evidence.
 
 ## Current In-Progress State
 
-- Preparing to commit and push the advanced routing profile config edge-case slice. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- None. Advanced config edge coverage is pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Commit and push the config edge-case validation, inspect the GitHub Actions run, then refresh blocker tracking if the billing lock still prevents job startup.
+- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
 
 ## Human Decisions Needed
 
