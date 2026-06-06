@@ -1,6 +1,6 @@
 # Completion Audit
 
-Timestamp: 2026-06-05 21:00 EDT
+Timestamp: 2026-06-05 21:02 EDT
 
 ## Objective
 
@@ -19,7 +19,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Continue implementation work from project context | `AGENTS.md`, `PROJECT_STATUS.md`, `TASK_QUEUE.md`, and `CHECKPOINT_LAST.md` were read before selecting new work | Complete |
 | Research current project state | GitHub repo metadata, community profile, CI runs, open PRs, local task trackers, and blocker files were inspected | Complete |
 | Test the project locally | `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, targeted example tests, hygiene scans, and package smokes have current recorded evidence | Complete |
-| Push changes to the public repo | Planner fixture coverage commit `c42b3ffbe93d1415d29540a0e03dba7d4d96d028` was pushed to `origin/main` | Complete |
+| Push changes to the public repo | Integration fixture coverage commit `017578210fd077f2ec4c5991831d24527ede159c` was pushed to `origin/main` | Complete |
 | Preserve the OpenRouter key only locally | `.env` is ignored, has `0600` permissions, and secret-prefix scans outside `.env` found no matches | Complete |
 | Improve contributor readiness | README, CONTRIBUTING, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, local install docs, model routing docs, run examples docs, publishing docs, release docs, Dependabot, labels, and community profile are in place | Complete |
 | Make package contents release-shaped | `npm pack --dry-run` includes README, LICENSE, CHANGELOG, CODE_OF_CONDUCT, `docs/`, `examples/`, and built CLI files | Complete |
@@ -61,7 +61,7 @@ This audit maps that objective to concrete repository artifacts and verification
 - `npm test -- tests/config.test.ts tests/package.test.ts`: 2 files, 5 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 33 files, package size `37.5 kB`.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 33 files, package size `37.6 kB`.
 - `npm publish --dry-run`: passed with the same 33-file tarball and no bin metadata correction.
 - `npm publish --dry-run`: passed after bin metadata normalization.
 - Clean temporary package install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed.
@@ -82,8 +82,8 @@ This audit maps that objective to concrete repository artifacts and verification
 - `.env`: ignored by `.gitignore` and mode `0600`.
 - `gh api repos/AryaVora621/openultracode/community/profile`: `health_percentage` `100`.
 - `gh pr list --repo AryaVora621/openultracode --state open --limit 20`: no open PRs.
-- Local and remote state check confirmed the planner fixture coverage push reached `origin/main` at commit `c42b3ffbe93d1415d29540a0e03dba7d4d96d028`.
-- GitHub Actions run `27047901172`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- Local and remote state check confirmed the integration fixture coverage push reached `origin/main` at commit `017578210fd077f2ec4c5991831d24527ede159c`.
+- GitHub Actions run `27048125954`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 
 ## Missing Or Blocked Requirements
 

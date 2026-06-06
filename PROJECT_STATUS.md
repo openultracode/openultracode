@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 21:00 EDT
+Last updated: 2026-06-05 21:02 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -92,7 +92,7 @@ Implemented:
 Not implemented yet:
 
 - Human license decision before package release.
-- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27047901172` and documented in `BLOCKED.md`.
+- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27048125954` and documented in `BLOCKED.md`.
 
 ## Verification Snapshot
 
@@ -134,13 +134,13 @@ Latest known result:
 - CLI integration tests passed with `npm test -- tests/cli.test.ts`: 1 file and 25 tests.
 - Typecheck passed.
 - Build passed.
-- Package dry-run passed for `openultracode@0.1.0`, 33 files, package size `37.5 kB`.
+- Package dry-run passed for `openultracode@0.1.0`, 33 files, package size `37.6 kB`.
 - `npm publish --dry-run` passed with examples, run examples, and publishing docs included in the 33-file tarball and no bin metadata correction.
 - GitHub workflow YAML parsed successfully.
 - Model routing docs commit `a6c2ebc5eb999afa53ac53568e682522ddfbdf45` was pushed to `origin/main`.
 - Publishing guide commit `ac1f1f7b1a4e2e8a6ecf1a62a4a2d13c86bd324f` was pushed to `origin/main` with CI skipped because the GitHub billing lock remains documented.
-- Planner fixture coverage commit `c42b3ffbe93d1415d29540a0e03dba7d4d96d028` was pushed to `origin/main`.
-- GitHub Actions run `27047901172` for that commit failed before Node 20, 22, and 24 jobs started because the GitHub account is locked due to a billing issue.
+- Integration fixture coverage commit `017578210fd077f2ec4c5991831d24527ede159c` was pushed to `origin/main`.
+- GitHub Actions run `27048125954` for that commit failed before Node 20, 22, and 24 jobs started because the GitHub account is locked due to a billing issue.
 - Repo secret-prefix scan excluding `.env` had no matches.
 - Em dash scan had no matches.
 - `git diff --check` reported no whitespace errors.
