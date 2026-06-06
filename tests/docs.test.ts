@@ -42,3 +42,32 @@ test("artifact reference guide includes checked JSON examples", async () => {
     }
   }
 });
+
+test("artifact reference guide documents ledger event schemas", async () => {
+  const artifactGuide = await readFile(resolve(process.cwd(), "docs", "ARTIFACTS.md"), "utf8");
+  const requiredSections = [
+    "## Ledger Event Schemas",
+    "### Planning Events",
+    "### Task Events",
+    "### Patch Events",
+    "### Run Events",
+  ];
+  const requiredEvents = [
+    "`plan_created`",
+    "`task_started`",
+    "`task_reconciled`",
+    "`task_patch_application`",
+    "`task_finished`",
+    "`run_finished`",
+    "`run_stopped`",
+    "`run_blocked`",
+  ];
+
+  for (const section of requiredSections) {
+    expect(artifactGuide).toContain(section);
+  }
+
+  for (const event of requiredEvents) {
+    expect(artifactGuide).toContain(event);
+  }
+});

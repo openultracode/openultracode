@@ -41,6 +41,7 @@ Status: source-ready after local verification. Final package release is still bl
 - Package publishing guide with release-note, tag, tarball, and npm handoff steps.
 - Copy-ready run examples for planning, fake execution, stopped runs, local CLI smokes, OpenRouter opt-in, and patch application.
 - Artifact reference guide for run directories, plans, ledgers, worker outputs, reconciliation, patch application, final reports, and checked JSON/JSONL examples.
+- Ledger event schema tables for planning, task, patch application, and run events.
 - Fixture-backed planner tests for mixed source/test/docs goals, docs-only goals, and audit routing through the real repo inspector.
 - Integration fixture repo for git-backed clean patch application tests.
 - Status/report malformed plan artifact handling with focused CLI coverage.
@@ -58,16 +59,16 @@ Status: source-ready after local verification. Final package release is still bl
 Latest local release gate:
 
 - `npm run verify`: passed.
-- `npm test`: 16 files, 70 tests passed.
+- `npm test`: 16 files, 71 tests passed.
 - `npm test -- tests/package.test.ts`: 1 file, 2 tests passed.
-- `npm test -- tests/docs.test.ts`: 1 file, 2 tests passed.
+- `npm test -- tests/docs.test.ts`: 1 file, 3 tests passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file, 3 tests passed.
 - `npm test -- tests/config.test.ts`: 1 file, 5 tests passed.
 - `npm test -- tests/cli.test.ts`: 1 file, 28 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: passed with 34 files and package size `41.4 kB`.
-- `npm publish --dry-run`: passed with 34 files and package size `41.4 kB`.
+- `npm pack --dry-run`: passed with 34 files and package size `42.0 kB`.
+- `npm publish --dry-run`: passed with 34 files and package size `42.0 kB`.
 - Built CLI `--help`, `plan --json`, fake `run --json`, bad-config, and malformed-plan smokes passed.
 - Secret-prefix scan excluding `.env` found no matches.
 - Shell history/session secret scan found no matches.

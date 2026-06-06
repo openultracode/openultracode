@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 21:53 EDT
+Last updated: 2026-06-05 21:56 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -80,7 +80,7 @@ Implemented:
 - Package publishing guide in `docs/PUBLISHING.md`.
 - Release decision record in `docs/RELEASE_DECISIONS.md`.
 - Architecture guide in `docs/ARCHITECTURE.md` covering runtime flow, module boundaries, artifact contracts, safety model, and extension points.
-- Artifact reference guide in `docs/ARTIFACTS.md` covering run directories, plans, ledgers, worker outputs, reconciliation, patch application, final reports, and checked JSON/JSONL examples.
+- Artifact reference guide in `docs/ARTIFACTS.md` covering run directories, plans, ledgers, ledger event schemas, worker outputs, reconciliation, patch application, final reports, and checked JSON/JSONL examples.
 - Completion audit in `docs/COMPLETION_AUDIT.md` mapping the active objective to concrete artifacts and blockers.
 - Copy-ready config examples in `examples/` for safe fake, local CLI, and OpenRouter budget profiles.
 - Release audit in `docs/RELEASE_AUDIT.md`.
@@ -135,16 +135,16 @@ Latest known result:
 
 - 16 test files passed.
 - `npm run verify` passed.
-- 70 tests passed.
+- 71 tests passed.
 - Package script tests passed with `npm test -- tests/package.test.ts`: 1 file and 2 tests.
-- Docs artifact example tests passed with `npm test -- tests/docs.test.ts`: 1 file and 2 tests.
+- Docs artifact example and ledger schema tests passed with `npm test -- tests/docs.test.ts`: 1 file and 3 tests.
 - Config tests passed with `npm test -- tests/config.test.ts`: 1 file and 5 tests.
 - CLI tests passed with `npm test -- tests/cli.test.ts`: 1 file and 28 tests.
 - Planner fixture tests passed with `npm test -- tests/planner-fixtures.test.ts`: 1 file and 3 tests.
 - CLI integration tests passed with `npm test -- tests/cli.test.ts`: 1 file and 28 tests.
 - Typecheck passed.
 - Build passed.
-- Package dry-run passed for `openultracode@0.1.0`, 34 files, package size `41.4 kB`.
+- Package dry-run passed for `openultracode@0.1.0`, 34 files, package size `42.0 kB`.
 - `npm publish --dry-run` passed with examples, run examples, and publishing docs included in the 33-file tarball and no bin metadata correction.
 - GitHub workflow YAML parsed successfully.
 - Model routing docs commit `a6c2ebc5eb999afa53ac53568e682522ddfbdf45` was pushed to `origin/main`.
@@ -209,6 +209,8 @@ Latest known result:
 - Artifact examples fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_artifact_examples_fake_20260605_2143 --json`.
 - Verify script plan smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_verify_script_20260605_2150 --json`.
 - Verify script fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_verify_script_fake_20260605_2150 --json`.
+- Ledger schema plan smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_ledger_schema_20260605_2156 --json`.
+- Ledger schema fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_ledger_schema_fake_20260605_2156 --json`.
 - Built CLI blocked-run smoke against a temporary fixture returned status `blocked` with exit 1 when `limits.maxTasks` was exceeded.
 - Built CLI stopped-run smoke returned status `stopped`, succeeded 1 task, and left 1 task remaining.
 - Built CLI success and stopped smokes passed through the worker-pool path.

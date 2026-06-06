@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 21:53 EDT
+Timestamp: 2026-06-05 21:56 EDT
 
 ## Completed
 
@@ -372,14 +372,22 @@ Timestamp: 2026-06-05 21:53 EDT
 - Committed and pushed the unified verify script as `f2c589e185312c41a207a6ec9e8f98a7e0f4dc72`.
 - Checked GitHub Actions run `27049327312`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - Updated `BLOCKED.md`, `PROJECT_STATUS.md`, `docs/RELEASE_AUDIT.md`, and `docs/COMPLETION_AUDIT.md` with the current push and CI blocker evidence.
+- Started ledger event schema documentation work from the contributor task list.
+- Added a red docs test requiring ledger event schema sections; the red run failed because `## Ledger Event Schemas` was missing.
+- Added ledger event schema tables for planning, task, patch application, and run events in `docs/ARTIFACTS.md`.
+- Corrected the artifact guide to use the emitted `task_patch_application` event name.
+- Removed the completed task-level ledger event schema item from `CONTRIBUTING.md`.
+- Verified the green docs test with `npm test -- tests/docs.test.ts`: 1 file and 3 tests passed.
+- Verified `npm run verify`: tests passed with 16 files and 71 tests, typecheck passed, build passed, and package dry-run passed with 34 files and package size `42.0 kB`.
+- Verified `npm publish --dry-run`, workflow and Dependabot YAML parsing, built help smoke, plan smoke `run_ledger_schema_20260605_2156`, fake-run smoke `run_ledger_schema_fake_20260605_2156`, repo secret-prefix scan excluding `.env`, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode.
 
 ## Current In-Progress State
 
-- None. Unified verify script is pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- Ledger event schema docs are implemented and locally verified. Push and remote CI blocker refresh are next. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
+- Commit and push the ledger event schema docs slice, inspect the created GitHub Actions run, then refresh blocker docs if the billing lock still prevents runner startup.
 
 ## Human Decisions Needed
 

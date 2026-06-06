@@ -53,15 +53,53 @@ Current event names:
 | `plan_created` | After a plan is written. |
 | `task_started` | Before a worker task starts. |
 | `task_reconciled` | After reconciliation metadata is captured. |
-| `patch_applied` | After a clean patch is applied to the main checkout. |
-| `patch_skipped` | When patch application is intentionally skipped. |
-| `patch_failed` | When patch application fails. |
+| `task_patch_application` | After patch application is evaluated for a task. |
 | `task_finished` | After a worker result is written. |
 | `run_finished` | After all tasks complete. |
 | `run_stopped` | After cancellation, stop-after-task, or actual cost cap stopping. |
 | `run_blocked` | Before workers run when a preflight limit blocks the run. |
 
 Use the ledger to reconstruct what happened without trusting only the final report.
+
+## Ledger Event Schemas
+
+Every ledger event includes an `event` string and `runId`. Timestamps are ISO strings. Optional fields may be absent when the related subsystem did not run.
+
+### Planning Events
+
+| Event | Required fields |
+| --- | --- |
+| `plan_created` | `createdAt`, `taskCount`, `fileOwnership`, `estimatedCostUsd` |
+
+`fileOwnership` matches the `plan.json` ownership report and is used to explain pre-worker blocks for overlapping edit scopes.
+
+### Task Events
+
+| Event | Required fields | Optional fields |
+| --- | --- | --- |
+| `task_started` | `taskId`, `modelTier`, `startedAt` | `worktreePath` |
+| `task_reconciled` | `taskId`, `status`, `changedFiles`, `reconciledAt` | `diffPath` |
+| `task_finished` | `taskId`, `status`, `attemptCount`, `totalTokens`, `costUsd`, `finishedAt` | none |
+
+Task events are emitted in task order. A stopped run can end after a `task_finished` event and before later tasks start.
+
+### Patch Events
+
+| Event | Required fields | Optional fields |
+| --- | --- | --- |
+| `task_patch_application` | `taskId`, `status`, `changedFiles`, `appliedAt` | `patchPath`, `reason` |
+
+Patch application statuses mirror `patch-application.json`: `applied`, `skipped`, or `failed`.
+
+### Run Events
+
+| Event | Required fields |
+| --- | --- |
+| `run_finished` | `backend`, `status`, `taskCount`, `succeeded`, `failed`, `totalCostUsd`, `totalTokens`, `finishedAt` |
+| `run_stopped` | `status`, `reason`, `taskCount`, `succeeded`, `failed`, `remaining`, `totalCostUsd`, `totalTokens`, `stoppedAt` |
+| `run_blocked` | `status`, `reason`, `limit`, `taskCount`, `estimatedCostUsd`, `blockedAt` |
+
+`run_blocked` is written before workers run. `run_stopped` preserves partial totals from completed worker results.
 
 ## Worker Artifacts
 
