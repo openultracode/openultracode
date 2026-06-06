@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 21:26 EDT
+Timestamp: 2026-06-05 21:27 EDT
 
 ## Completed
 
@@ -336,14 +336,18 @@ Timestamp: 2026-06-05 21:26 EDT
 - Verified full local gate: `npm test` passed with 15 files and 67 tests, `npm run typecheck` passed, `npm run build` passed, workflow and Dependabot YAML parsed, `npm pack --dry-run` passed with 33 files and package size `38.6 kB`, and `npm publish --dry-run` passed.
 - Verified built CLI smokes: `node dist/bin/ouc.js --help`, plan smoke `run_status_report_artifacts_20260605_2124`, fake-run smoke `run_status_report_artifacts_fake_20260605_2124`, and malformed-plan smoke against a temporary fixture passed.
 - Verified hygiene gates so far: public-doc dash scan and `git diff --check`.
+- Committed and pushed malformed plan artifact handling as `a8a1a2f1aa882dc9d0c019ec0ac24f9d4de69da7`.
+- Checked GitHub Actions run `27048737944`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- Updated `BLOCKED.md`, `PROJECT_STATUS.md`, `docs/RELEASE_AUDIT.md`, and `docs/COMPLETION_AUDIT.md` with the current push and CI blocker evidence.
+- Reverified the tracker refresh with `npm pack --dry-run`, `npm publish --dry-run`, repo secret-prefix scan excluding `.env`, public-doc dash scan, and `git diff --check`.
 
 ## Current In-Progress State
 
-- Status/report malformed plan artifact handling is implemented, documented, and locally verified. Commit, push, and CI blocker refresh are still in progress. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- None. Malformed plan artifact handling is pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Run final secret and `.env` checks, commit and push status/report malformed plan artifact handling, then check the new GitHub Actions run and refresh blockers.
+- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
 
 ## Human Decisions Needed
 
