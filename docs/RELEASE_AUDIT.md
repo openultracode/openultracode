@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 22:51 EDT
+Timestamp: 2026-06-05 22:59 EDT
 
 ## Objective
 
@@ -119,11 +119,12 @@ The repo is ready for collaborator-oriented source use, but final package releas
 
 ## Completion Audit Refresh
 
-Timestamp: 2026-06-05 22:51 EDT
+Timestamp: 2026-06-05 22:59 EDT
 
 Fresh checks on the current release-readiness state:
 
 - `npm run verify`: passed.
+- Fresh continuation `npm run verify`: 17 test files and 77 tests passed, then typecheck, build, and package dry-run passed with package `openultracode@0.1.0`, 44 files, package size `46.4 kB`.
 - `npm test -- tests/package.test.ts`: 1 file and 2 tests passed.
 - `npm test -- tests/docs.test.ts`: 1 file and 5 tests passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file and 3 tests passed.
@@ -136,10 +137,12 @@ Fresh checks on the current release-readiness state:
 - `npm run build`: passed.
 - `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `46.1 kB`.
 - `npm publish --dry-run`: passed with the same 44-file tarball, package size `46.1 kB`, and no bin metadata correction.
+- Fresh continuation `npm publish --dry-run`: passed with the same 44-file tarball, package size `46.4 kB`, and no bin metadata correction.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
 - `gh run view 27050545771 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
-- `git rev-parse HEAD` and `git rev-parse origin/main` confirmed the routing safety docs push reached `origin/main` at commit `3fd95e7c0e385cc5dc58b9814624f4a32e2e86e1`.
+- `git rev-parse HEAD` and `git rev-parse origin/main` confirmed local and remote state matched at status-only tracker commit `ae8a4153ca040b04c03fe4bafb640134c7a7bc4e`.
 - `node dist/bin/ouc.js --help`: passed.
+- Fresh built CLI smokes passed: `node dist/bin/ouc.js --help`, plan smoke `run_fresh_audit_20260605_2258`, and fake-run smoke `run_fresh_audit_fake_20260605_2258`.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_planner_fixtures_final2_20260605_2051 --json`: passed.
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_planner_fixtures_final2_fake_20260605_2051 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_integration_fixture_20260605_2100 --json`: passed.
@@ -174,7 +177,9 @@ Fresh checks on the current release-readiness state:
 - `npm publish --dry-run` initially exposed bin auto-correction for `./dist/bin/ouc.js`; after normalizing both bin paths to `dist/bin/ouc.js`, `npm publish --dry-run` passed without bin auto-correction.
 - The package test now asserts `ouc` uses `dist/bin/ouc.js` and `openultracode` points to the same built CLI.
 - Repeated packaged install smoke passed with packaged `./node_modules/.bin/ouc --help`, packaged `./node_modules/.bin/openultracode --help`, and packaged `./node_modules/.bin/ouc plan "audit this repo for TODOs" --run-id package_smoke_bin_fix --json`.
+- Fresh packaged install smoke passed with packaged `./node_modules/.bin/ouc --help`, packaged `./node_modules/.bin/openultracode --help`, and packaged `./node_modules/.bin/ouc plan "audit this package smoke" --run-id package_smoke_fresh --json`.
 - `gh repo view AryaVora621/openultracode --json nameWithOwner,description,homepageUrl,repositoryTopics,visibility,viewerPermission` confirmed description `Local CLI for parallel coding agents with adaptive model routing.`, README homepage, public visibility, admin access, and topics `agentic-coding`, `ai-agents`, `cli`, `codex`, `coding-agents`, `openrouter`, `orchestration`, and `worktrees`.
+- `gh pr list --repo AryaVora621/openultracode --state open --limit 20` returned no open PRs.
 - `docs/ARCHITECTURE.md` is present and linked from `README.md` plus `CONTRIBUTING.md`.
 - `npm pack --dry-run` confirmed `docs/ARCHITECTURE.md` is included in the 23-file package tarball.
 - `CODE_OF_CONDUCT.md` is present, linked from `README.md` plus `CONTRIBUTING.md`, and included in the package allowlist.

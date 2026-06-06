@@ -1,6 +1,6 @@
 # Completion Audit
 
-Timestamp: 2026-06-05 22:51 EDT
+Timestamp: 2026-06-05 22:59 EDT
 
 ## Objective
 
@@ -19,7 +19,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Continue implementation work from project context | `AGENTS.md`, `PROJECT_STATUS.md`, `TASK_QUEUE.md`, and `CHECKPOINT_LAST.md` were read before selecting new work | Complete |
 | Research current project state | GitHub repo metadata, community profile, CI runs, open PRs, local task trackers, and blocker files were inspected | Complete |
 | Test the project locally | `npm run verify`, targeted example tests, hygiene scans, and package smokes have current recorded evidence | Complete |
-| Push changes to the public repo | Routing safety docs commit `3fd95e7c0e385cc5dc58b9814624f4a32e2e86e1` was pushed to `origin/main` | Complete |
+| Push changes to the public repo | Routing safety docs commit `3fd95e7c0e385cc5dc58b9814624f4a32e2e86e1` and status-only tracker commit `ae8a4153ca040b04c03fe4bafb640134c7a7bc4e` are on `origin/main` | Complete |
 | Preserve the OpenRouter key only locally | `.env` is ignored, has `0600` permissions, and secret-prefix scans outside `.env` found no matches | Complete |
 | Improve contributor readiness | README, CONTRIBUTING, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, integration fixtures, package-safe fake-run artifacts, local install docs, model routing docs with safety matrix, run examples docs, publishing docs, release docs, Dependabot, labels, and community profile are in place | Complete |
 | Make package contents release-shaped | `npm pack --dry-run` includes README, LICENSE, CHANGELOG, CODE_OF_CONDUCT, `docs/`, `examples/`, and built CLI files | Complete |
@@ -62,6 +62,7 @@ This audit maps that objective to concrete repository artifacts and verification
 ## Current Verification Evidence
 
 - `npm run verify`: passed.
+- Fresh continuation `npm run verify`: 17 test files and 77 tests passed, then typecheck, build, and package dry-run passed with package `openultracode@0.1.0`, 44 files, package size `46.4 kB`.
 - `npm test -- tests/package.test.ts`: 1 file, 2 tests passed.
 - `npm test -- tests/docs.test.ts`: 1 file, 5 tests passed.
 - `npm test -- tests/fake-run-artifacts.test.ts`: 1 file, 1 test passed.
@@ -75,8 +76,10 @@ This audit maps that objective to concrete repository artifacts and verification
 - `npm run build`: passed.
 - `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `46.1 kB`.
 - `npm publish --dry-run`: passed with the same 44-file tarball, package size `46.1 kB`, and no bin metadata correction.
+- Fresh continuation `npm publish --dry-run`: passed with the same 44-file tarball, package size `46.4 kB`, and no bin metadata correction.
 - `npm publish --dry-run`: passed after bin metadata normalization.
 - Clean temporary package install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed.
+- Fresh packaged install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed from a temporary consumer project.
 - Run examples plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_examples_docs_20260605_2036 --json` passed.
 - Run examples fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_examples_fake_20260605_2036 --json` passed.
 - Publishing guide plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_publishing_final_20260605_2028 --json` passed.
@@ -118,6 +121,7 @@ This audit maps that objective to concrete repository artifacts and verification
 - `gh pr list --repo AryaVora621/openultracode --state open --limit 20`: no open PRs.
 - Local and remote state check confirmed the routing safety docs push reached `origin/main` at commit `3fd95e7c0e385cc5dc58b9814624f4a32e2e86e1`.
 - GitHub Actions run `27050545771`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- Fresh remote state check: local `HEAD` and `origin/main` both point to `ae8a4153ca040b04c03fe4bafb640134c7a7bc4e`; there are no open PRs; run `27050545771` remains the latest CI-triggering run and is blocked by the same billing issue.
 
 ## Missing Or Blocked Requirements
 
