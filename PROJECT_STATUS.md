@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 21:56 EDT
+Last updated: 2026-06-05 21:59 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -96,7 +96,7 @@ Implemented:
 Not implemented yet:
 
 - Human license decision before package release.
-- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27049327312` and documented in `BLOCKED.md`.
+- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27049448478` and documented in `BLOCKED.md`.
 
 ## Verification Snapshot
 
@@ -152,8 +152,8 @@ Latest known result:
 - Integration fixture coverage commit `017578210fd077f2ec4c5991831d24527ede159c` was pushed to `origin/main`.
 - Config validation hardening commit `7fd249d0651dfad7ba946c4122ab390e863c8e17` was pushed to `origin/main`.
 - Malformed plan artifact handling commit `a8a1a2f1aa882dc9d0c019ec0ac24f9d4de69da7` was pushed to `origin/main`.
-- Unified verify script commit `f2c589e185312c41a207a6ec9e8f98a7e0f4dc72` was pushed to `origin/main`.
-- GitHub Actions run `27049327312` for that commit failed before Node 20, 22, and 24 jobs started because the GitHub account is locked due to a billing issue.
+- Ledger event schema commit `824689c9ce045e77f6e2096e2da3365183ef155a` was pushed to `origin/main`.
+- GitHub Actions run `27049448478` for that commit failed before Node 20, 22, and 24 jobs started because the GitHub account is locked due to a billing issue.
 - Repo secret-prefix scan excluding `.env` had no matches.
 - Em dash scan had no matches.
 - `git diff --check` reported no whitespace errors.
