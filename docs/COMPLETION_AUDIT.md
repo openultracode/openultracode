@@ -19,7 +19,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Continue implementation work from project context | `AGENTS.md`, `PROJECT_STATUS.md`, `TASK_QUEUE.md`, and `CHECKPOINT_LAST.md` were read before selecting new work | Complete |
 | Research current project state | GitHub repo metadata, community profile, CI runs, open PRs, local task trackers, and blocker files were inspected | Complete |
 | Test the project locally | `npm run verify`, targeted example tests, hygiene scans, and package smokes have current recorded evidence | Complete |
-| Push changes to the public repo | Routing safety docs commit `3fd95e7c0e385cc5dc58b9814624f4a32e2e86e1` and status-only tracker commit `ae8a4153ca040b04c03fe4bafb640134c7a7bc4e` are on `origin/main` | Complete |
+| Push changes to the public repo | Contributor starter map commit `a928e1aa334652e1e9e79cf47a4230c561f2556a` is on `origin/main` | Complete |
 | Preserve the OpenRouter key only locally | `.env` is ignored, has `0600` permissions, and secret-prefix scans outside `.env` found no matches | Complete |
 | Improve contributor readiness | README, CONTRIBUTING, contributor starter map, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, integration fixtures, package-safe fake-run artifacts, local install docs, model routing docs with safety matrix, run examples docs, publishing docs, release docs, Dependabot, labels, and community profile are in place | Complete |
 | Make package contents release-shaped | `npm pack --dry-run` includes README, LICENSE, CHANGELOG, CODE_OF_CONDUCT, `docs/`, `examples/`, and built CLI files | Complete |
@@ -117,6 +117,8 @@ This audit maps that objective to concrete repository artifacts and verification
 - Fake-run artifact fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_fake_artifacts_fake_20260605_2213 --json` passed.
 - Contributor starter map plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_contributor_starter_map_20260605_2323 --json` passed.
 - Contributor starter map fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_contributor_starter_map_fake_20260605_2323 --json` passed.
+- Contributor starter map push reached `origin/main` at commit `a928e1aa334652e1e9e79cf47a4230c561f2556a`.
+- GitHub Actions run `27051308707`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - Repo secret-prefix scan excluding `.env`, `node_modules`, `dist`, `.ouc`, and `.git`: no matches.
 - Shell history/session secret scan: no matches.
 - Public-doc dash scan: no disallowed dash characters.

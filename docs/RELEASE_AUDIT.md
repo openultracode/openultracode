@@ -55,7 +55,7 @@ Concrete success criteria:
 | Contributor CI exists | `.github/workflows/ci.yml` runs tests, typecheck, build, and package dry-run on Node 20, 22, and 24 for pushes, pull requests, and manual dispatch | Configured |
 | Unified local verification gate exists | `package.json` exposes `npm run verify`, and `.github/workflows/ci.yml` runs the same command | Complete |
 | Local release preflight gate exists | `package.json` exposes `npm run release:check`, and release docs point to it before tagging or publishing | Complete |
-| Remote CI run starts | `gh run list --repo AryaVora621/openultracode --limit 5` and `gh run view 27050545771 --repo AryaVora621/openultracode` | Blocked by GitHub billing/account lock |
+| Remote CI run starts | `gh run list --repo AryaVora621/openultracode --limit 5` and `gh run view 27051308707 --repo AryaVora621/openultracode` | Blocked by GitHub billing/account lock |
 | Release checklist exists | `docs/RELEASE_CHECKLIST.md` | Complete |
 | Release decision record exists | `docs/RELEASE_DECISIONS.md` | Complete |
 | Changelog exists | `CHANGELOG.md` records the `0.1.0` release candidate notes and known blockers | Complete |
@@ -146,6 +146,7 @@ Fresh checks on the current release-readiness state:
 - `gh run view 27050545771 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - `gh run view 27050873954 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - `gh run view 27051019645 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- `gh run view 27051308707 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - `git rev-parse HEAD` and `git rev-parse origin/main` confirmed local and remote state matched at status-only tracker commit `ae8a4153ca040b04c03fe4bafb640134c7a7bc4e`.
 - `node dist/bin/ouc.js --help`: passed.
 - Fresh built CLI smokes passed: `node dist/bin/ouc.js --help`, plan smoke `run_fresh_audit_20260605_2258`, and fake-run smoke `run_fresh_audit_fake_20260605_2258`.

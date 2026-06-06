@@ -1,9 +1,12 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 23:23 EDT
+Timestamp: 2026-06-05 23:27 EDT
 
 ## Completed
 
+- Committed and pushed the contributor starter map slice as `a928e1aa334652e1e9e79cf47a4230c561f2556a`.
+- Checked GitHub Actions run `27051308707`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- Updated `BLOCKED.md`, `PROJECT_STATUS.md`, `docs/COMPLETION_AUDIT.md`, `docs/RELEASE_AUDIT.md`, and this checkpoint with the current push and CI blocker evidence.
 - Verified full contributor starter map gate with `npm run verify`: 17 test files, 80 tests, typecheck, build, and package dry-run passed with 45 files and package size `48.5 kB`.
 - Verified release-adjacent checks: `npm publish --dry-run`, workflow and Dependabot YAML parsing, built help, plan smoke `run_contributor_starter_map_20260605_2323`, fake-run smoke `run_contributor_starter_map_fake_20260605_2323`, repo secret-prefix scan excluding ignored local files, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode checks.
 - Updated `CHANGELOG.md`, `PROJECT_STATUS.md`, `TASK_QUEUE.md`, `docs/COMPLETION_AUDIT.md`, `docs/RELEASE_AUDIT.md`, and this checkpoint for the contributor starter map slice.
@@ -472,11 +475,11 @@ Timestamp: 2026-06-05 23:23 EDT
 
 ## Current In-Progress State
 
-- Contributor starter map slice is locally verified and ready to commit and push. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- None. The contributor starter map slice is pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Commit and push the contributor starter map slice, then record the expected GitHub Actions billing-lock blocker if the new run cannot start.
+- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
 
 ## Human Decisions Needed
 
