@@ -39,6 +39,8 @@ npm run build
 - Improve docs around routing and safety.
 - Improve module docs and artifact schema examples.
 
+Planner heuristic fixtures live in `tests/fixtures/planner/`. Extend those fixtures when changing deterministic task decomposition.
+
 Issue templates are available for bugs, feature requests, and scoped task proposals. Pull requests use `.github/PULL_REQUEST_TEMPLATE.md` so verification and safety checks stay visible in review.
 
 Project conduct expectations are documented in `CODE_OF_CONDUCT.md`.

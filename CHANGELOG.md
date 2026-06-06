@@ -39,6 +39,7 @@ Status: source-ready after local verification. Final package release is still bl
 - Model routing and backend safety guide.
 - Package publishing guide with release-note, tag, tarball, and npm handoff steps.
 - Copy-ready run examples for planning, fake execution, stopped runs, local CLI smokes, OpenRouter opt-in, and patch application.
+- Fixture-backed planner tests for mixed source/test/docs goals, docs-only goals, and audit routing through the real repo inspector.
 
 ### Changed
 
@@ -50,10 +51,11 @@ Status: source-ready after local verification. Final package release is still bl
 
 Latest local release gate:
 
-- `npm test`: 14 files, 60 tests passed.
+- `npm test`: 15 files, 63 tests passed.
+- `npm test -- tests/planner-fixtures.test.ts`: 1 file, 3 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: passed with 33 files and package size `37.0 kB`.
+- `npm pack --dry-run`: passed with 33 files and package size `37.3 kB`.
 - Built CLI `--help`, `plan --json`, and fake `run --json` smokes passed.
 - Secret-prefix scan excluding `.env` found no matches.
 - Shell history/session secret scan found no matches.

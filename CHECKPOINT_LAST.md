@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 20:38 EDT
+Timestamp: 2026-06-05 20:51 EDT
 
 ## Completed
 
@@ -285,14 +285,24 @@ Timestamp: 2026-06-05 20:38 EDT
 - Pushed the run examples guide slice as `76d96d8`.
 - Verified local and remote `main` both point to `76d96d88ed1dd43b1e0890083094c0f4b0cc3a7a`.
 - Verified there are no open PRs, and no newer CI run was created because the run examples commit used `[skip ci]`.
+- Added fixture-backed planner tests for mixed source/test/docs goals, docs-only goals, and audit routing.
+- Added small planner fixture repos under `tests/fixtures/planner/`.
+- Verified the red state first with `npm test -- tests/planner-fixtures.test.ts`; it failed because the fixture repos did not exist yet.
+- Verified the green state with `npm test -- tests/planner-fixtures.test.ts`: 1 file and 3 tests passed.
+- Reverified existing inline planner coverage with `npm test -- tests/planner.test.ts`: 1 file and 4 tests passed.
+- Updated README help wanted, CONTRIBUTING, changelog, project status, release audit, completion audit, task queue, and fixture docs for the planner fixture slice.
+- Excluded `tests/fixtures/**` from Vitest discovery so fixture repo internals are planner inputs, not project test suites.
+- Verified final local gate: `npm test` passed with 15 files and 63 tests, `npm run typecheck` passed, `npm run build` passed, workflow and Dependabot YAML parsed, `npm pack --dry-run` passed with 33 files and package size `37.3 kB`, and `npm publish --dry-run` passed.
+- Verified built CLI smokes: `node dist/bin/ouc.js --help`, plan smoke `run_planner_fixtures_final2_20260605_2051`, and fake-run smoke `run_planner_fixtures_final2_fake_20260605_2051` passed.
+- Verified hygiene gates: repo secret-prefix scan excluding `.env`, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode.
 
 ## Current In-Progress State
 
-- None. Completion audit, code of conduct, architecture guide, package-shipped examples, local install guide, model routing guide, run examples guide, publishing guide, npm metadata, changelog, public repo metadata, community profile, publish dry-run, packaged install smoke, release decision record, package allowlist, manual CI dispatch, and tracker evidence are current. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- None. Fixture-backed planner coverage is complete locally and ready to push. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
+- Commit and push the fixture-backed planner coverage slice, then record any GitHub Actions billing-lock evidence if a remote run is created.
 
 ## Human Decisions Needed
 

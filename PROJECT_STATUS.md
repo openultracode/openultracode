@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 20:38 EDT
+Last updated: 2026-06-05 20:49 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, contributor issue templates plus a PR template, architecture guide, code of conduct, local install guide, model routing guide, run examples guide, publishing guide, release checklist, completion audit, and copy-ready config examples are present, issue-template labels exist on GitHub, GitHub repo discovery metadata is set, a security policy directs private reports, Dependabot is configured, and the final release audit plus release decision record are recorded.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, fixture-backed planner heuristic coverage is present, contributor issue templates plus a PR template, architecture guide, code of conduct, local install guide, model routing guide, run examples guide, publishing guide, release checklist, completion audit, and copy-ready config examples are present, issue-template labels exist on GitHub, GitHub repo discovery metadata is set, a security policy directs private reports, Dependabot is configured, and the final release audit plus release decision record are recorded.
 
 Implemented:
 
@@ -19,6 +19,7 @@ Implemented:
 - Deterministic dry-run planning.
 - Mixed implementation, test, and docs task decomposition.
 - Documentation-only goals scoped to contributor docs.
+- Fixture-backed planner heuristic tests under `tests/fixtures/planner/`.
 - Edit-task file ownership metadata and overlap detection in plan artifacts.
 - Model-tier routing.
 - `ouc plan`, `ouc run`, `ouc status`, and `ouc report`.
@@ -126,11 +127,12 @@ node --input-type=module -e 'import { CodexCliBackend, ClaudeCliBackend } from "
 
 Latest known result:
 
-- 14 test files passed.
-- 60 tests passed.
+- 15 test files passed.
+- 63 tests passed.
+- Planner fixture tests passed with `npm test -- tests/planner-fixtures.test.ts`: 1 file and 3 tests.
 - Typecheck passed.
 - Build passed.
-- Package dry-run passed for `openultracode@0.1.0`, 33 files, package size `37.0 kB`.
+- Package dry-run passed for `openultracode@0.1.0`, 33 files, package size `37.3 kB`.
 - `npm publish --dry-run` passed with examples, run examples, and publishing docs included in the 33-file tarball and no bin metadata correction.
 - GitHub workflow YAML parsed successfully.
 - Model routing docs commit `a6c2ebc5eb999afa53ac53568e682522ddfbdf45` was pushed to `origin/main`.
@@ -176,6 +178,8 @@ Latest known result:
 - `npm publish --dry-run` confirmed examples remain in the current 33-file tarball.
 - Model routing docs smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_model_routing_docs_20260605_2015 --json`.
 - Model routing fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_model_routing_fake_20260605_2015 --json`.
+- Planner fixture plan smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_planner_fixtures_final2_20260605_2051 --json`.
+- Planner fixture fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_planner_fixtures_final2_fake_20260605_2051 --json`.
 - Built CLI blocked-run smoke against a temporary fixture returned status `blocked` with exit 1 when `limits.maxTasks` was exceeded.
 - Built CLI stopped-run smoke returned status `stopped`, succeeded 1 task, and left 1 task remaining.
 - Built CLI success and stopped smokes passed through the worker-pool path.

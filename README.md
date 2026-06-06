@@ -300,7 +300,6 @@ The high-level module map, runtime flow, artifact contract, backend boundaries, 
 
 Useful contributions right now:
 
-- Add fixture repos that stress deterministic planning heuristics.
 - Add fixture repos for integration tests.
 - Harden config validation and error messages.
 - Keep CI green across Node 20, 22, and 24.
