@@ -1,6 +1,6 @@
 # Completion Audit
 
-Timestamp: 2026-06-05 20:18 EDT
+Timestamp: 2026-06-05 20:28 EDT
 
 ## Objective
 
@@ -21,7 +21,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Test the project locally | `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, targeted example tests, hygiene scans, and package smokes have current recorded evidence | Complete |
 | Push changes to the public repo | Model routing documentation commit `a6c2ebc5eb999afa53ac53568e682522ddfbdf45` was pushed to `origin/main` | Complete |
 | Preserve the OpenRouter key only locally | `.env` is ignored, has `0600` permissions, and secret-prefix scans outside `.env` found no matches | Complete |
-| Improve contributor readiness | README, CONTRIBUTING, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, local install docs, model routing docs, release docs, Dependabot, labels, and community profile are in place | Complete |
+| Improve contributor readiness | README, CONTRIBUTING, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, local install docs, model routing docs, publishing docs, release docs, Dependabot, labels, and community profile are in place | Complete |
 | Make package contents release-shaped | `npm pack --dry-run` includes README, LICENSE, CHANGELOG, CODE_OF_CONDUCT, `docs/`, `examples/`, and built CLI files | Complete |
 | Verify remote CI | GitHub Actions workflow exists, but jobs cannot start because the GitHub account is locked due to a billing issue | Blocked |
 | Finalize release decisions | `docs/RELEASE_DECISIONS.md` records the license, CI, release channel, tag, and npm publication decisions still needed | Blocked |
@@ -43,6 +43,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Copy-ready examples | `examples/` | Safe fake, local CLI, and OpenRouter budget configs load through the real config parser |
 | Local install handoff | `docs/LOCAL_INSTALL.md` | Source checkout, local command linking, package tarball smoke, config examples, and release boundaries are documented |
 | Model routing handoff | `docs/MODEL_ROUTING.md` | Tier rules, fallback behavior, backend selection, config examples, and safety controls are documented |
+| Publishing handoff | `docs/PUBLISHING.md` | Release modes, package smoke, release notes, tagging, npm publish, and stop conditions are documented |
 | Release handoff | `docs/RELEASE_CHECKLIST.md`, `docs/RELEASE_AUDIT.md`, `docs/RELEASE_DECISIONS.md`, `CHANGELOG.md` | Release gates, known blockers, audit evidence, and release notes are recorded |
 | Community readiness | `CODE_OF_CONDUCT.md`, GitHub community profile | GitHub community profile reports `health_percentage` `100` |
 | Dependency hygiene | `.github/dependabot.yml` | Weekly npm and GitHub Actions dependency update checks are configured |
@@ -55,10 +56,12 @@ This audit maps that objective to concrete repository artifacts and verification
 - `npm test -- tests/config.test.ts tests/package.test.ts`: 2 files, 5 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 31 files, package size `33.4 kB`.
-- `npm publish --dry-run`: passed with the same 31-file tarball and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 32 files, package size `35.5 kB`.
+- `npm publish --dry-run`: passed with the same 32-file tarball and no bin metadata correction.
 - `npm publish --dry-run`: passed after bin metadata normalization.
 - Clean temporary package install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed.
+- Publishing guide plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_publishing_final_20260605_2028 --json` passed.
+- Publishing guide fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_publishing_final_fake_20260605_2028 --json` passed.
 - Model routing docs smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_model_routing_docs_20260605_2015 --json` passed.
 - Model routing fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_model_routing_fake_20260605_2015 --json` passed.
 - Repo secret-prefix scan excluding `.env`, `node_modules`, `dist`, `.ouc`, and `.git`: no matches.

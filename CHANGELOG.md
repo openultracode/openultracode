@@ -37,6 +37,7 @@ Status: source-ready after local verification. Final package release is still bl
 - Copy-ready local config examples for fake, local CLI, and OpenRouter budget profiles.
 - Local install and package tarball smoke instructions.
 - Model routing and backend safety guide.
+- Package publishing guide with release-note, tag, tarball, and npm handoff steps.
 
 ### Changed
 
@@ -51,7 +52,7 @@ Latest local release gate:
 - `npm test`: 14 files, 60 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: passed with 31 files and package size `33.4 kB`.
+- `npm pack --dry-run`: passed with 32 files and package size `35.5 kB`.
 - Built CLI `--help`, `plan --json`, and fake `run --json` smokes passed.
 - Secret-prefix scan excluding `.env` found no matches.
 - Shell history/session secret scan found no matches.

@@ -14,9 +14,10 @@ OpenUltraCode is early. The best contributions are small, tested slices that mak
 8. Check `examples/README.md` if the change affects local config or backend routing examples.
 9. Check `docs/COMPLETION_AUDIT.md` when evaluating release completeness.
 10. Check `docs/RELEASE_DECISIONS.md` before release or package work.
-11. Pick one narrow behavior.
-12. Write the test first for behavior changes.
-13. Run the full verification commands before opening a PR.
+11. Check `docs/PUBLISHING.md` before tagging, package-smoke, or npm publish work.
+12. Pick one narrow behavior.
+13. Write the test first for behavior changes.
+14. Run the full verification commands before opening a PR.
 
 ## Development Setup
 

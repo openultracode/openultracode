@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 20:18 EDT
+Timestamp: 2026-06-05 20:28 EDT
 
 ## Completed
 
@@ -265,20 +265,24 @@ Timestamp: 2026-06-05 20:18 EDT
 - Verified local and remote `main` both point to `8721a1c7bf5d4448539ba8427ca68bb0c01bfed5`.
 - Added `docs/MODEL_ROUTING.md` with tier rules, fallback behavior, backend selection, config examples, and safety controls.
 - Linked the model routing guide from `README.md` and `CONTRIBUTING.md`.
-- Refreshed release and completion audit evidence for the 31-file package dry-run.
+- Refreshed release and completion audit evidence for the then-current package dry-run.
 - Verified the model routing docs slice with `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, `npm publish --dry-run`, YAML parsing, built help smoke, built plan smoke, built fake-run smoke, repo secret-prefix scan excluding `.env`, shell history/session secret scan, em dash scan, `git diff --check`, and `.env` ignore plus mode checks.
 - Pushed the model routing docs slice as `a6c2ebc`.
 - Verified local and remote `main` both point to `a6c2ebc5eb999afa53ac53568e682522ddfbdf45`.
 - Checked GitHub Actions run `27046966434`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - Updated `BLOCKED.md` with the latest CI blocker evidence.
+- Added `docs/PUBLISHING.md` with release modes, package smoke, release notes, tagging, npm publish, and stop conditions.
+- Linked the publishing guide from `README.md`, `CONTRIBUTING.md`, `docs/RELEASE_CHECKLIST.md`, and `docs/RELEASE_DECISIONS.md`.
+- Verified the publishing docs slice with `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, `npm publish --dry-run`, YAML parsing, built help smoke, built plan smoke, built fake-run smoke, repo secret-prefix scan excluding `.env`, shell history/session secret scan, em dash scan, `git diff --check`, and `.env` ignore plus mode checks.
+- Confirmed `npm pack --dry-run` includes `docs/PUBLISHING.md`, 32 total files, and package size `35.5 kB`.
 
 ## Current In-Progress State
 
-- None. Completion audit, code of conduct, architecture guide, package-shipped examples, local install guide, model routing guide, npm metadata, changelog, public repo metadata, community profile, publish dry-run, packaged install smoke, release decision record, package allowlist, manual CI dispatch, and tracker evidence are current. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- Publishing docs slice is verified locally and ready to commit and push.
 
 ## Next Action
 
-- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
+- Commit and push the publishing docs slice, then resolve the public release license decision and GitHub account billing lock before rerunning GitHub Actions through manual workflow dispatch.
 
 ## Human Decisions Needed
 

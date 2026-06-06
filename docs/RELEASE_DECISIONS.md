@@ -2,6 +2,8 @@
 
 This document records the decisions that must be explicit before tagging or publishing OpenUltraCode.
 
+The concrete tag, package-smoke, and npm publish handoff lives in `docs/PUBLISHING.md`.
+
 ## Current Recommendation
 
 Keep the current source release as a public collaborator-ready release candidate until the two human-owned blockers are resolved.

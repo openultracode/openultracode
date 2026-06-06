@@ -4,6 +4,8 @@ Use this checklist before tagging or publishing OpenUltraCode.
 
 For the current release decision status, read `docs/RELEASE_DECISIONS.md`.
 
+For package publishing, tag, and release-note handoff steps, read `docs/PUBLISHING.md`.
+
 ## Human Decisions
 
 - Confirm the package license for public release.

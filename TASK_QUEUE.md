@@ -59,3 +59,4 @@
 - [Codex] Added package-shipped copy-ready config examples with parser coverage.
 - [Codex] Added `docs/LOCAL_INSTALL.md` with source install, local link, config example, and package smoke instructions.
 - [Codex] Added `docs/MODEL_ROUTING.md` with tier rules, fallback behavior, backend selection, and safety controls.
+- [Codex] Added `docs/PUBLISHING.md` with tag, package-smoke, release-note, npm publish, and stop-condition guidance.

@@ -147,6 +147,12 @@ For the current release blockers and recommended release channel, read:
 cat docs/RELEASE_DECISIONS.md
 ```
 
+For package publishing and release-note handoff steps, read:
+
+```bash
+cat docs/PUBLISHING.md
+```
+
 For local install, linking, and package tarball smoke instructions, read:
 
 ```bash
@@ -291,7 +297,6 @@ Useful contributions right now:
 - Add fixture repos that stress deterministic planning heuristics.
 - Add fixture repos for integration tests.
 - Harden config validation and error messages.
-- Add more release examples and package publishing notes.
 - Add more copy-ready config and run examples.
 - Keep CI green across Node 20, 22, and 24.
 - Review `docs/RELEASE_DECISIONS.md` once the license and CI blockers are resolved.
