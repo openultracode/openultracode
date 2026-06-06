@@ -2,14 +2,15 @@
 
 ## GitHub Actions Remote Verification
 
-Timestamp: 2026-06-05 22:27 EDT
+Timestamp: 2026-06-05 22:37 EDT
 
 Status: blocked by external GitHub account state.
 
 Evidence:
 
 - Workflow: `.github/workflows/ci.yml`.
-- Latest push CI run checked this session: `27050043100` for commit `b45331591083600e91701383a84b9b5ed8d5828b`.
+- Latest push CI run checked this session: `27050257635` for commit `db4eeec1b88fd5aee3259f8a82541e271bf6d1f7`.
+- Previous push CI run checked this session: `27050043100` for commit `b45331591083600e91701383a84b9b5ed8d5828b`.
 - Previous push CI run checked this session: `27049868384` for commit `fa480921564e33b490af8988244d8b5a7c5ec149`.
 - Previous push CI run checked this session: `27049585091` for commit `f671e3445a2a0a5801e132d3eac014b08e7919cc`.
 - Previous push CI run checked this session: `27049448478` for commit `824689c9ce045e77f6e2096e2da3365183ef155a`.
@@ -25,7 +26,7 @@ Evidence:
 - Dependabot PR CI runs checked: `27044654614` for PR `#1`, `27044658334` for PR `#2`.
 - Earlier runs checked: `27043729557`, `27043801167`, `27044021893`, `27044221945`, `27044510315`, `27044620755`, `27044818874`, `27045092200`.
 - Recheck command: `gh run list --repo AryaVora621/openultracode --limit 5`, then `gh run view <latest-run-id> --repo AryaVora621/openultracode`.
-- GitHub created the Node 20, 22, and 24 jobs.
+- Run `27050257635` created the Node 20, 22, and 24 jobs.
 - Each job failed before starting with: `The job was not started because your account is locked due to a billing issue.`
 
 Local verification already run:
@@ -34,6 +35,7 @@ Local verification already run:
 - `npm test`
 - `npm test -- tests/config.test.ts`
 - `npm test -- tests/fake-run-artifacts.test.ts`
+- `npm test -- tests/cli.test.ts -t "ownership|stop after a fake task"`
 - `npm run typecheck`
 - `npm run build`
 - `npm pack --dry-run`
@@ -47,6 +49,8 @@ Local verification already run:
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_fake_artifacts_final_fake_20260605_2217 --json`
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_config_edges_20260605_2226 --json`
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_config_edges_fake_20260605_2226 --json`
+- `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_integration_edges_20260605_2236 --json`
+- `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_integration_edges_fake_20260605_2236 --json`
 - Artifact reference docs link and checked example tests.
 
 Best hypothesis:

@@ -1,6 +1,6 @@
 # Completion Audit
 
-Timestamp: 2026-06-05 22:32 EDT
+Timestamp: 2026-06-05 22:37 EDT
 
 ## Objective
 
@@ -19,7 +19,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Continue implementation work from project context | `AGENTS.md`, `PROJECT_STATUS.md`, `TASK_QUEUE.md`, and `CHECKPOINT_LAST.md` were read before selecting new work | Complete |
 | Research current project state | GitHub repo metadata, community profile, CI runs, open PRs, local task trackers, and blocker files were inspected | Complete |
 | Test the project locally | `npm run verify`, targeted example tests, hygiene scans, and package smokes have current recorded evidence | Complete |
-| Push changes to the public repo | Advanced config edge coverage commit `b45331591083600e91701383a84b9b5ed8d5828b` was pushed to `origin/main` | Complete |
+| Push changes to the public repo | Integration edge fixture commit `db4eeec1b88fd5aee3259f8a82541e271bf6d1f7` was pushed to `origin/main` | Complete |
 | Preserve the OpenRouter key only locally | `.env` is ignored, has `0600` permissions, and secret-prefix scans outside `.env` found no matches | Complete |
 | Improve contributor readiness | README, CONTRIBUTING, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, integration fixtures, package-safe fake-run artifacts, local install docs, model routing docs, run examples docs, publishing docs, release docs, Dependabot, labels, and community profile are in place | Complete |
 | Make package contents release-shaped | `npm pack --dry-run` includes README, LICENSE, CHANGELOG, CODE_OF_CONDUCT, `docs/`, `examples/`, and built CLI files | Complete |
@@ -68,12 +68,13 @@ This audit maps that objective to concrete repository artifacts and verification
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file, 3 tests passed.
 - `npm test -- tests/config.test.ts`: 1 file, 8 tests passed.
 - `npm test -- tests/cli.test.ts`: 1 file, 28 tests passed.
+- `npm test -- tests/cli.test.ts -t "ownership|stop after a fake task"`: 1 file and 2 selected tests passed.
 - `npm test`: 17 files, 76 tests passed.
 - `npm test -- tests/config.test.ts tests/package.test.ts`: 2 files, 7 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 43 files, package size `45.4 kB`.
-- `npm publish --dry-run`: passed with the same 43-file tarball, package size `45.4 kB`, and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 43 files, package size `45.6 kB`.
+- `npm publish --dry-run`: passed with the same 43-file tarball, package size `45.6 kB`, and no bin metadata correction.
 - `npm publish --dry-run`: passed after bin metadata normalization.
 - Clean temporary package install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed.
 - Run examples plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_examples_docs_20260605_2036 --json` passed.
@@ -86,6 +87,8 @@ This audit maps that objective to concrete repository artifacts and verification
 - Planner fixture fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_planner_fixtures_final2_fake_20260605_2051 --json` passed.
 - Integration fixture plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_integration_fixture_20260605_2100 --json` passed.
 - Integration fixture fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_integration_fixture_fake_20260605_2100 --json` passed.
+- Integration edge plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_integration_edges_20260605_2236 --json` passed.
+- Integration edge fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_integration_edges_fake_20260605_2236 --json` passed.
 - Config validation plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_config_validation_20260605_2113 --json` passed.
 - Config validation fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_config_validation_fake_20260605_2113 --json` passed.
 - Built bad-config smoke against a temporary fixture returned exit 1 with file-aware stderr, empty stdout, and no run artifacts.
@@ -111,8 +114,8 @@ This audit maps that objective to concrete repository artifacts and verification
 - `.env`: ignored by `.gitignore` and mode `0600`.
 - `gh api repos/AryaVora621/openultracode/community/profile`: `health_percentage` `100`.
 - `gh pr list --repo AryaVora621/openultracode --state open --limit 20`: no open PRs.
-- Local and remote state check confirmed the advanced config edge coverage push reached `origin/main` at commit `b45331591083600e91701383a84b9b5ed8d5828b`.
-- GitHub Actions run `27050043100`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- Local and remote state check confirmed the integration edge fixture push reached `origin/main` at commit `db4eeec1b88fd5aee3259f8a82541e271bf6d1f7`.
+- GitHub Actions run `27050257635`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 
 ## Missing Or Blocked Requirements
 

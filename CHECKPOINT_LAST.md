@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 22:27 EDT
+Timestamp: 2026-06-05 22:37 EDT
 
 ## Completed
 
@@ -424,14 +424,18 @@ Timestamp: 2026-06-05 22:27 EDT
 - Added `tests/fixtures/integration/stopped-run-app/` and `tests/fixtures/integration/conflict-file-ownership-app/`.
 - Updated the integration fixture README matrix and contributor docs for the new fixture coverage.
 - Verified the green focused test with `npm test -- tests/cli.test.ts -t "ownership|stop after a fake task"`: 1 file and 2 selected tests passed.
+- Verified `npm run verify`: tests passed with 17 files and 76 tests, typecheck passed, build passed, and package dry-run passed with 43 files and package size `45.6 kB`.
+- Verified `npm publish --dry-run`, workflow and Dependabot YAML parsing, built help smoke, plan smoke `run_integration_edges_20260605_2236`, fake-run smoke `run_integration_edges_fake_20260605_2236`, repo secret-prefix scan excluding `.env`, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode.
+- Committed and pushed integration edge fixtures as `db4eeec1b88fd5aee3259f8a82541e271bf6d1f7`.
+- Checked GitHub Actions run `27050257635`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 
 ## Current In-Progress State
 
-- Integration fixture expansion is locally green at the focused-test level. Full verification, commit, push, and remote CI blocker inspection are still in progress.
+- None. Integration fixture expansion is pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Run full verification and hygiene checks for the integration fixture slice, then commit and push if clean.
+- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
 
 ## Human Decisions Needed
 

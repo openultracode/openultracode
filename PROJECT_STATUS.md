@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 22:32 EDT
+Last updated: 2026-06-05 22:37 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -99,7 +99,7 @@ Implemented:
 Not implemented yet:
 
 - Human license decision before package release.
-- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27050043100` and documented in `BLOCKED.md`.
+- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27050257635` and documented in `BLOCKED.md`.
 
 ## Verification Snapshot
 
@@ -148,7 +148,7 @@ Latest known result:
 - CLI integration tests passed with `npm test -- tests/cli.test.ts`: 1 file and 28 tests.
 - Typecheck passed.
 - Build passed.
-- Package dry-run passed for `openultracode@0.1.0`, 43 files, package size `45.4 kB`.
+- Package dry-run passed for `openultracode@0.1.0`, 43 files, package size `45.6 kB`.
 - `npm publish --dry-run` passed with examples, fake-run artifacts, run examples, and publishing docs included in the 43-file tarball and no bin metadata correction.
 - GitHub workflow YAML parsed successfully.
 - Model routing docs commit `a6c2ebc5eb999afa53ac53568e682522ddfbdf45` was pushed to `origin/main`.
@@ -159,7 +159,8 @@ Latest known result:
 - Backend module guide commit `f671e3445a2a0a5801e132d3eac014b08e7919cc` was pushed to `origin/main`.
 - Fake-run artifact examples commit `fa480921564e33b490af8988244d8b5a7c5ec149` was pushed to `origin/main`.
 - Advanced config edge coverage commit `b45331591083600e91701383a84b9b5ed8d5828b` was pushed to `origin/main`.
-- GitHub Actions run `27050043100` for that commit failed before Node 20, 22, and 24 jobs started because the GitHub account is locked due to a billing issue.
+- Integration edge fixture commit `db4eeec1b88fd5aee3259f8a82541e271bf6d1f7` was pushed to `origin/main`.
+- GitHub Actions run `27050257635` for that commit failed before Node 20, 22, and 24 jobs started because the GitHub account is locked due to a billing issue.
 - Repo secret-prefix scan excluding `.env` had no matches.
 - Em dash scan had no matches.
 - `git diff --check` reported no whitespace errors.
@@ -223,6 +224,9 @@ Latest known result:
 - Fake-run artifact fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_fake_artifacts_final_fake_20260605_2217 --json`.
 - Config edge-case plan smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_config_edges_20260605_2226 --json`.
 - Config edge-case fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_config_edges_fake_20260605_2226 --json`.
+- Integration edge focused test passed with `npm test -- tests/cli.test.ts -t "ownership|stop after a fake task"`.
+- Integration edge plan smoke passed with `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_integration_edges_20260605_2236 --json`.
+- Integration edge fake-run smoke passed with `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_integration_edges_fake_20260605_2236 --json`.
 - Built CLI blocked-run smoke against a temporary fixture returned status `blocked` with exit 1 when `limits.maxTasks` was exceeded.
 - Built CLI stopped-run smoke returned status `stopped`, succeeded 1 task, and left 1 task remaining.
 - Built CLI success and stopped smokes passed through the worker-pool path.
@@ -247,7 +251,7 @@ Latest known result:
 - Built file-ownership block smoke returned exit 1 with status `blocked`, `limit` `fileOwnership`, and no worker result artifacts.
 - CLI usage parsing tests verified Codex JSONL usage events, Claude JSON result usage, cost mapping, and plain-text fallback behavior.
 - Built CLI usage parsing smoke mapped mocked Codex and Claude structured output into worker usage and cost totals.
-- GitHub Actions run `27045180433` created the Node 20, 22, and 24 jobs, but each job failed before starting because the GitHub account is locked due to a billing issue.
+- GitHub Actions run `27050257635` created the Node 20, 22, and 24 jobs, but each job failed before starting because the GitHub account is locked due to a billing issue.
 - `gh label list --repo AryaVora621/openultracode --limit 100` showed the labels referenced by issue templates exist: `bug`, `enhancement`, and `good first issue`.
 - `.github/PULL_REQUEST_TEMPLATE.md` now asks contributors for exact verification results, CLI smoke output when relevant, and safety checks for secrets, live backends, generated folders, and final-report preservation.
 - `SECURITY.md` directs sensitive reports to GitHub Security Advisories and names project-specific safety areas.
