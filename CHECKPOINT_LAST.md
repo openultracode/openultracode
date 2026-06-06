@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 22:03 EDT
+Timestamp: 2026-06-05 22:05 EDT
 
 ## Completed
 
@@ -391,14 +391,17 @@ Timestamp: 2026-06-05 22:03 EDT
 - Verified the green docs test with `npm test -- tests/docs.test.ts`: 1 file and 4 tests passed.
 - Verified `npm run verify`: tests passed with 16 files and 72 tests, typecheck passed, build passed, and package dry-run passed with 35 files and package size `43.6 kB`.
 - Verified `npm publish --dry-run`, workflow and Dependabot YAML parsing, built help smoke, plan smoke `run_backend_docs_20260605_2202`, fake-run smoke `run_backend_docs_fake_20260605_2202`, repo secret-prefix scan excluding `.env`, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode.
+- Committed and pushed backend module docs as `f671e3445a2a0a5801e132d3eac014b08e7919cc`.
+- Checked GitHub Actions run `27049585091`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- Updated `BLOCKED.md`, `PROJECT_STATUS.md`, `docs/RELEASE_AUDIT.md`, and `docs/COMPLETION_AUDIT.md` with the current push and CI blocker evidence.
 
 ## Current In-Progress State
 
-- Backend module docs are implemented and locally verified. Push and remote CI blocker refresh are next. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- None. Backend module docs are pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Commit and push the backend module docs slice, inspect the created GitHub Actions run, then refresh blocker docs if the billing lock still prevents runner startup.
+- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
 
 ## Human Decisions Needed
 
