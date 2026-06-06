@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 21:50 EDT
+Timestamp: 2026-06-05 21:53 EDT
 
 ## Objective
 
@@ -50,7 +50,7 @@ Concrete success criteria:
 | Dependabot PRs reviewed | PRs `#1` and `#2` passed isolated local verification, the combined dev dependency update was applied to `main`, and both PRs were closed as superseded | Complete |
 | Contributor CI exists | `.github/workflows/ci.yml` runs tests, typecheck, build, and package dry-run on Node 20, 22, and 24 for pushes, pull requests, and manual dispatch | Configured |
 | Unified local verification gate exists | `package.json` exposes `npm run verify`, and `.github/workflows/ci.yml` runs the same command | Complete |
-| Remote CI run starts | `gh run list --repo AryaVora621/openultracode --limit 5` and `gh run view 27049174031 --repo AryaVora621/openultracode` | Blocked by GitHub billing/account lock |
+| Remote CI run starts | `gh run list --repo AryaVora621/openultracode --limit 5` and `gh run view 27049327312 --repo AryaVora621/openultracode` | Blocked by GitHub billing/account lock |
 | Release checklist exists | `docs/RELEASE_CHECKLIST.md` | Complete |
 | Release decision record exists | `docs/RELEASE_DECISIONS.md` | Complete |
 | Changelog exists | `CHANGELOG.md` records the `0.1.0` release candidate notes and known blockers | Complete |
@@ -115,7 +115,7 @@ The repo is ready for collaborator-oriented source use, but final package releas
 
 ## Completion Audit Refresh
 
-Timestamp: 2026-06-05 21:50 EDT
+Timestamp: 2026-06-05 21:53 EDT
 
 Fresh checks on the current release-readiness state:
 
@@ -131,8 +131,8 @@ Fresh checks on the current release-readiness state:
 - `npm pack --dry-run`: package `openultracode@0.1.0`, 34 files, package size `41.4 kB`.
 - `npm publish --dry-run`: passed with the same 34-file tarball, package size `41.4 kB`, and no bin metadata correction.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
-- `gh run view 27049174031 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
-- `git rev-parse HEAD` and `git rev-parse origin/main` confirmed the artifact examples push reached `origin/main` at commit `482523b4c7f3eaeafb44c24e78846a1dd07f453e`.
+- `gh run view 27049327312 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- `git rev-parse HEAD` and `git rev-parse origin/main` confirmed the unified verify script push reached `origin/main` at commit `f2c589e185312c41a207a6ec9e8f98a7e0f4dc72`.
 - `node dist/bin/ouc.js --help`: passed.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_planner_fixtures_final2_20260605_2051 --json`: passed.
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_planner_fixtures_final2_fake_20260605_2051 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
