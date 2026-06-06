@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 21:59 EDT
+Timestamp: 2026-06-05 22:03 EDT
 
 ## Objective
 
@@ -37,6 +37,7 @@ Concrete success criteria:
 | Strict config validation exists | `src/config.ts`, `src/cli.ts`, `tests/config.test.ts`, and `tests/cli.test.ts` reject unknown config keys with file-aware stderr before artifacts are created | Complete |
 | Local install guide exists | `docs/LOCAL_INSTALL.md` covers source checkout, local linking, package tarball smoke, config examples, and release boundaries | Complete |
 | Model routing guide exists | `docs/MODEL_ROUTING.md` covers tier rules, fallback behavior, backend selection, and routing safety controls | Complete |
+| Backend module guide exists | `docs/BACKENDS.md` covers worker result contracts, fake backend, OpenRouter, CLI adapters, reconciliation, and patch application boundaries | Complete |
 | Run examples guide exists | `docs/RUN_EXAMPLES.md` covers plan, fake run, stopped run, config, local CLI, OpenRouter opt-in, model override, patch application, and troubleshooting examples | Complete |
 | Publishing guide exists | `docs/PUBLISHING.md` covers release modes, package smoke, release notes, tagging, npm publish, and stop conditions | Complete |
 | Planner heuristic fixtures exist | `tests/fixtures/planner/` and `tests/planner-fixtures.test.ts` exercise mixed, docs-only, and audit planning through the real repo inspector | Complete |
@@ -60,10 +61,10 @@ Concrete success criteria:
 | Fake run works | `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id release_audit_fake_20260605_1831 --json` | Complete |
 | Help output works | `node dist/bin/ouc.js --help` | Complete |
 | Status/report artifact errors are handled | `tests/cli.test.ts` covers malformed `plan.json` for `ouc status` and `ouc report` | Complete |
-| Test suite passes | `npm test`: 16 files, 71 tests | Complete |
+| Test suite passes | `npm test`: 16 files, 72 tests | Complete |
 | Typecheck passes | `npm run typecheck` | Complete |
 | Build passes | `npm run build` | Complete |
-| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 34 files, package size `42.0 kB`, including release docs and changelog | Complete |
+| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 35 files, package size `43.6 kB`, including release docs and changelog | Complete |
 | Packaged install smoke works | Temporary consumer project installed packed tarball and ran packaged `ouc --help` plus packaged `ouc plan --json` | Complete |
 | Publish dry-run works | `npm publish --dry-run` passes without bin auto-correction after normalizing bin paths | Complete |
 | Secret is not committed | `git check-ignore -v .env`, `ls -l .env`, repo secret scan excluding `.env`, shell history scan | Complete |
@@ -87,6 +88,7 @@ Concrete success criteria:
 - Copy-ready local config examples with parser coverage.
 - Local install guide for source checkout, local linking, and package tarball smoke.
 - Model routing guide for task tiering, fallback behavior, backend selection, and safety controls.
+- Backend module guide for worker result contracts, backend adapters, reconciliation, and patch application boundaries.
 - Run examples guide for copy-ready planning, fake execution, stopped runs, backend opt-in, patch application, and troubleshooting commands.
 - Artifact reference guide for package-shipped run artifact schema notes, event names, ledger event schemas, and checked JSON/JSONL examples.
 - Publishing guide for tag, package-smoke, release-note, npm publish, and stop-condition handoff.
@@ -115,21 +117,21 @@ The repo is ready for collaborator-oriented source use, but final package releas
 
 ## Completion Audit Refresh
 
-Timestamp: 2026-06-05 21:59 EDT
+Timestamp: 2026-06-05 22:03 EDT
 
 Fresh checks on the current release-readiness state:
 
 - `npm run verify`: passed.
 - `npm test -- tests/package.test.ts`: 1 file and 2 tests passed.
-- `npm test -- tests/docs.test.ts`: 1 file and 3 tests passed.
+- `npm test -- tests/docs.test.ts`: 1 file and 4 tests passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file and 3 tests passed.
 - `npm test -- tests/config.test.ts`: 1 file and 5 tests passed.
 - `npm test -- tests/cli.test.ts`: 1 file and 28 tests passed.
-- `npm test`: 16 files, 71 tests passed.
+- `npm test`: 16 files, 72 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 34 files, package size `42.0 kB`.
-- `npm publish --dry-run`: passed with the same 34-file tarball, package size `42.0 kB`, and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 35 files, package size `43.6 kB`.
+- `npm publish --dry-run`: passed with the same 35-file tarball, package size `43.6 kB`, and no bin metadata correction.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
 - `gh run view 27049448478 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - `git rev-parse HEAD` and `git rev-parse origin/main` confirmed the ledger schema docs push reached `origin/main` at commit `824689c9ce045e77f6e2096e2da3365183ef155a`.
@@ -152,6 +154,8 @@ Fresh checks on the current release-readiness state:
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_verify_script_fake_20260605_2150 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_ledger_schema_20260605_2156 --json`: passed.
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_ledger_schema_fake_20260605_2156 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
+- `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_backend_docs_20260605_2202 --json`: passed.
+- `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_backend_docs_fake_20260605_2202 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_completion_audit_20260605_1924 --json`: passed.
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_completion_fake_20260605_1924 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_release_dispatch_20260605_1929 --json`: passed.

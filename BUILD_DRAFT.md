@@ -1,6 +1,6 @@
 # Build Draft
 
-Timestamp: 2026-06-05 21:56 EDT
+Timestamp: 2026-06-05 22:03 EDT
 
 GitHub: https://github.com/AryaVora621/openultracode
 
@@ -71,24 +71,25 @@ Included:
 - GitHub issue templates for bugs, feature requests, and scoped task proposals.
 - GitHub Actions CI for `npm run verify` on Node 20, 22, and 24.
 - `npm run verify` script for tests, typecheck, build, and package dry-run.
+- Backend module guide for worker result contracts, backend adapters, reconciliation, and patch application boundaries.
 - Artifact reference guide with ledger event schemas plus checked JSON/JSONL examples for `plan.json`, `ledger.jsonl`, and worker `result.json`.
 - Release-readiness checklist in `docs/RELEASE_CHECKLIST.md`.
 - Release audit in `docs/RELEASE_AUDIT.md`.
 
 ## Verification Evidence
 
-Latest refresh on 2026-06-05 21:56 EDT:
+Latest refresh on 2026-06-05 22:03 EDT:
 
 - `npm run verify`: passed.
-- `npm test`: 16 files and 71 tests passed.
+- `npm test`: 16 files and 72 tests passed.
 - `npm test -- tests/package.test.ts`: 1 file and 2 tests passed.
-- `npm test -- tests/docs.test.ts`: 1 file and 3 tests passed.
+- `npm test -- tests/docs.test.ts`: 1 file and 4 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
 - Workflow and Dependabot YAML parsed.
-- `npm pack --dry-run`: 34 files, package size `42.0 kB`.
+- `npm pack --dry-run`: 35 files, package size `43.6 kB`.
 - `npm publish --dry-run`: passed.
-- Built CLI smokes passed for `--help`, plan `run_ledger_schema_20260605_2156`, fake run `run_ledger_schema_fake_20260605_2156`, and previous malformed-plan validation.
+- Built CLI smokes passed for `--help`, plan `run_backend_docs_20260605_2202`, fake run `run_backend_docs_fake_20260605_2202`, and previous malformed-plan validation.
 - Secret-prefix, shell-history, public-doc dash, whitespace, and `.env` ignore/mode checks passed.
 
 Commands run on 2026-06-05:

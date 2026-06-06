@@ -67,6 +67,8 @@ Current backend modes:
 
 New backends should implement the existing worker-result shape, include attempt metadata when retrying, and keep live external calls behind explicit backend selection.
 
+Detailed backend adapter, worker-result, and reconciliation boundaries live in `docs/BACKENDS.md`.
+
 ## Safety Model
 
 OpenUltraCode is designed around visible and reversible work:

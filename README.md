@@ -165,6 +165,12 @@ For model-tier routing and backend safety rules, read:
 cat docs/MODEL_ROUTING.md
 ```
 
+For backend module contracts and reconciliation boundaries, read:
+
+```bash
+cat docs/BACKENDS.md
+```
+
 For copy-ready run examples, read:
 
 ```bash
@@ -300,7 +306,7 @@ OpenUltraCode is intentionally modular:
 - `Ledger`: records run and task events.
 - `Reporter`: creates human and machine-readable outputs.
 
-The high-level module map, runtime flow, artifact contract, backend boundaries, and extension points live in `docs/ARCHITECTURE.md`.
+The high-level module map, runtime flow, artifact contract, backend boundaries, and extension points live in `docs/ARCHITECTURE.md`. Backend adapter and reconciliation details live in `docs/BACKENDS.md`.
 
 ## Help Wanted
 

@@ -11,15 +11,16 @@ OpenUltraCode is early. The best contributions are small, tested slices that mak
 5. Check `docs/RELEASE_CHECKLIST.md` if the change affects packaging or release readiness.
 6. Check `docs/LOCAL_INSTALL.md` if the change affects installation or packaging.
 7. Check `docs/MODEL_ROUTING.md` if the change affects planning, routing, model tiers, or backend safety.
-8. Check `examples/README.md` if the change affects local config or backend routing examples.
-9. Check `docs/RUN_EXAMPLES.md` if the change affects command examples or run artifact workflows.
-10. Check `docs/ARTIFACTS.md` if the change affects run files, ledgers, reports, reconciliation, or patch application artifacts.
-11. Check `docs/COMPLETION_AUDIT.md` when evaluating release completeness.
-12. Check `docs/RELEASE_DECISIONS.md` before release or package work.
-13. Check `docs/PUBLISHING.md` before tagging, package-smoke, or npm publish work.
-14. Pick one narrow behavior.
-15. Write the test first for behavior changes.
-16. Run the full verification commands before opening a PR.
+8. Check `docs/BACKENDS.md` if the change affects backend modules, worker results, CLI adapters, or reconciliation boundaries.
+9. Check `examples/README.md` if the change affects local config or backend routing examples.
+10. Check `docs/RUN_EXAMPLES.md` if the change affects command examples or run artifact workflows.
+11. Check `docs/ARTIFACTS.md` if the change affects run files, ledgers, reports, reconciliation, or patch application artifacts.
+12. Check `docs/COMPLETION_AUDIT.md` when evaluating release completeness.
+13. Check `docs/RELEASE_DECISIONS.md` before release or package work.
+14. Check `docs/PUBLISHING.md` before tagging, package-smoke, or npm publish work.
+15. Pick one narrow behavior.
+16. Write the test first for behavior changes.
+17. Run the full verification commands before opening a PR.
 
 ## Development Setup
 
@@ -34,7 +35,6 @@ npm run verify
 - Add fake-backend run artifacts.
 - Extend integration fixtures for conflict and stopped-run scenarios.
 - Improve docs around routing and safety.
-- Improve module docs for worker backends and reconciliation.
 
 Planner heuristic fixtures live in `tests/fixtures/planner/`. Extend those fixtures when changing deterministic task decomposition.
 

@@ -1,6 +1,6 @@
 # Completion Audit
 
-Timestamp: 2026-06-05 21:59 EDT
+Timestamp: 2026-06-05 22:03 EDT
 
 ## Objective
 
@@ -46,6 +46,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Status/report malformed artifacts | `src/cli.ts`, `tests/cli.test.ts` | Malformed `plan.json` artifacts produce controlled stderr and exit 1 for `ouc status` and `ouc report` |
 | Local install handoff | `docs/LOCAL_INSTALL.md` | Source checkout, local command linking, package tarball smoke, config examples, and release boundaries are documented |
 | Model routing handoff | `docs/MODEL_ROUTING.md` | Tier rules, fallback behavior, backend selection, config examples, and safety controls are documented |
+| Backend module handoff | `docs/BACKENDS.md` | Worker result contracts, backend adapters, reconciliation, patch application boundaries, and test expectations are documented |
 | Run examples handoff | `docs/RUN_EXAMPLES.md` | Planning, fake execution, stopped runs, status/report inspection, local CLI smokes, OpenRouter opt-in, model override, patch application, and troubleshooting commands are documented |
 | Publishing handoff | `docs/PUBLISHING.md` | Release modes, package smoke, release notes, tagging, npm publish, and stop conditions are documented |
 | Planner heuristic fixtures | `tests/fixtures/planner/`, `tests/planner-fixtures.test.ts` | Mixed source/test/docs, docs-only, and audit planning are covered through the real repo inspector |
@@ -61,16 +62,16 @@ This audit maps that objective to concrete repository artifacts and verification
 
 - `npm run verify`: passed.
 - `npm test -- tests/package.test.ts`: 1 file, 2 tests passed.
-- `npm test -- tests/docs.test.ts`: 1 file, 3 tests passed.
+- `npm test -- tests/docs.test.ts`: 1 file, 4 tests passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file, 3 tests passed.
 - `npm test -- tests/config.test.ts`: 1 file, 5 tests passed.
 - `npm test -- tests/cli.test.ts`: 1 file, 28 tests passed.
-- `npm test`: 16 files, 71 tests passed.
+- `npm test`: 16 files, 72 tests passed.
 - `npm test -- tests/config.test.ts tests/package.test.ts`: 2 files, 7 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 34 files, package size `42.0 kB`.
-- `npm publish --dry-run`: passed with the same 34-file tarball, package size `42.0 kB`, and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 35 files, package size `43.6 kB`.
+- `npm publish --dry-run`: passed with the same 35-file tarball, package size `43.6 kB`, and no bin metadata correction.
 - `npm publish --dry-run`: passed after bin metadata normalization.
 - Clean temporary package install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed.
 - Run examples plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_examples_docs_20260605_2036 --json` passed.
@@ -97,6 +98,8 @@ This audit maps that objective to concrete repository artifacts and verification
 - Verify script fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_verify_script_fake_20260605_2150 --json` passed.
 - Ledger schema plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_ledger_schema_20260605_2156 --json` passed.
 - Ledger schema fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_ledger_schema_fake_20260605_2156 --json` passed.
+- Backend docs plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_backend_docs_20260605_2202 --json` passed.
+- Backend docs fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_backend_docs_fake_20260605_2202 --json` passed.
 - Repo secret-prefix scan excluding `.env`, `node_modules`, `dist`, `.ouc`, and `.git`: no matches.
 - Shell history/session secret scan: no matches.
 - Public-doc dash scan: no disallowed dash characters.

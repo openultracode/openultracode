@@ -11,6 +11,36 @@ test("artifact reference guide is package-linked from contributor entrypoints", 
   expect(contributing).toContain("docs/ARTIFACTS.md");
 });
 
+test("backend module guide is package-linked from contributor entrypoints", async () => {
+  const backendGuidePath = resolve(process.cwd(), "docs", "BACKENDS.md");
+  const backendGuide = await readFile(backendGuidePath, "utf8");
+  const readme = await readFile(resolve(process.cwd(), "README.md"), "utf8");
+  const contributing = await readFile(resolve(process.cwd(), "CONTRIBUTING.md"), "utf8");
+  const requiredSections = [
+    "## Worker Backend Contract",
+    "## Fake Backend",
+    "## OpenRouter Backend",
+    "## CLI Backends",
+    "## Reconciliation Boundary",
+  ];
+  const requiredPaths = [
+    "src/backends/fake.ts",
+    "src/backends/openrouter.ts",
+    "src/backends/cli-command.ts",
+    "src/worker-pool.ts",
+    "src/worktree-reconciler.ts",
+  ];
+
+  expect(readme).toContain("docs/BACKENDS.md");
+  expect(contributing).toContain("docs/BACKENDS.md");
+  for (const section of requiredSections) {
+    expect(backendGuide).toContain(section);
+  }
+  for (const path of requiredPaths) {
+    expect(backendGuide).toContain(path);
+  }
+});
+
 test("artifact reference guide includes checked JSON examples", async () => {
   const artifactGuide = await readFile(resolve(process.cwd(), "docs", "ARTIFACTS.md"), "utf8");
   const expectedSections = [

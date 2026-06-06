@@ -38,6 +38,7 @@ Status: source-ready after local verification. Final package release is still bl
 - Copy-ready local config examples for fake, local CLI, and OpenRouter budget profiles.
 - Local install and package tarball smoke instructions.
 - Model routing and backend safety guide.
+- Backend module guide covering worker result contracts, fake backend, OpenRouter, CLI adapters, reconciliation, and patch application boundaries.
 - Package publishing guide with release-note, tag, tarball, and npm handoff steps.
 - Copy-ready run examples for planning, fake execution, stopped runs, local CLI smokes, OpenRouter opt-in, and patch application.
 - Artifact reference guide for run directories, plans, ledgers, worker outputs, reconciliation, patch application, final reports, and checked JSON/JSONL examples.
@@ -59,16 +60,16 @@ Status: source-ready after local verification. Final package release is still bl
 Latest local release gate:
 
 - `npm run verify`: passed.
-- `npm test`: 16 files, 71 tests passed.
+- `npm test`: 16 files, 72 tests passed.
 - `npm test -- tests/package.test.ts`: 1 file, 2 tests passed.
-- `npm test -- tests/docs.test.ts`: 1 file, 3 tests passed.
+- `npm test -- tests/docs.test.ts`: 1 file, 4 tests passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file, 3 tests passed.
 - `npm test -- tests/config.test.ts`: 1 file, 5 tests passed.
 - `npm test -- tests/cli.test.ts`: 1 file, 28 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: passed with 34 files and package size `42.0 kB`.
-- `npm publish --dry-run`: passed with 34 files and package size `42.0 kB`.
+- `npm pack --dry-run`: passed with 35 files and package size `43.6 kB`.
+- `npm publish --dry-run`: passed with 35 files and package size `43.6 kB`.
 - Built CLI `--help`, `plan --json`, fake `run --json`, bad-config, and malformed-plan smokes passed.
 - Secret-prefix scan excluding `.env` found no matches.
 - Shell history/session secret scan found no matches.
