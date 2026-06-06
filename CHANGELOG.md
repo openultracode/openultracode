@@ -9,7 +9,7 @@ Status: source-ready after local verification. Final package release is still bl
 ### Added
 
 - TypeScript Node CLI package with `ouc` and `openultracode` binaries.
-- Local config loading and validation.
+- Local config loading with strict validation, unknown-key rejection, and file-aware error messages.
 - Repo inspection and deterministic planning.
 - `ouc plan`, `ouc run`, `ouc status`, and `ouc report`.
 - JSON output for plan, run, and status commands.
@@ -45,6 +45,7 @@ Status: source-ready after local verification. Final package release is still bl
 ### Changed
 
 - Project identity, package name, binary names, docs, and local artifact directory were standardized around OpenUltraCode and `ouc`.
+- `ouc plan` and `ouc run` now print config validation errors to stderr and stop before creating run artifacts.
 - Dev dependency toolchain was updated to `typescript` `^6.0.3` and `@types/node` `^25.9.2`.
 - Package allowlist now includes `docs/` and `CHANGELOG.md` so README-linked release materials ship with package dry runs.
 
@@ -52,13 +53,15 @@ Status: source-ready after local verification. Final package release is still bl
 
 Latest local release gate:
 
-- `npm test`: 15 files, 63 tests passed.
+- `npm test`: 15 files, 65 tests passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file, 3 tests passed.
-- `npm test -- tests/cli.test.ts`: 1 file, 25 tests passed.
+- `npm test -- tests/config.test.ts`: 1 file, 5 tests passed.
+- `npm test -- tests/cli.test.ts`: 1 file, 26 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: passed with 33 files and package size `37.6 kB`.
-- Built CLI `--help`, `plan --json`, and fake `run --json` smokes passed.
+- `npm pack --dry-run`: passed with 33 files and package size `38.3 kB`.
+- `npm publish --dry-run`: passed with 33 files and package size `38.3 kB`.
+- Built CLI `--help`, `plan --json`, fake `run --json`, and bad-config smokes passed.
 - Secret-prefix scan excluding `.env` found no matches.
 - Shell history/session secret scan found no matches.
 - Public-doc dash scan found no matches.

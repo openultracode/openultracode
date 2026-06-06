@@ -64,6 +64,8 @@ Other examples:
 - `examples/config.local-cli.json`: routes through local Codex and Claude CLI backends.
 - `examples/config.openrouter-budget.json`: routes through OpenRouter with a small cost cap.
 
+Unknown config keys are rejected with file-aware errors. If a run fails while reading `.ouc/config.json`, fix the config before expecting new `.ouc/runs/` artifacts.
+
 ## Package Tarball Smoke
 
 Before publishing, inspect and smoke-test the package tarball locally:

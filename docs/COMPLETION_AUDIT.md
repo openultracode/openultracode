@@ -1,6 +1,6 @@
 # Completion Audit
 
-Timestamp: 2026-06-05 21:02 EDT
+Timestamp: 2026-06-05 21:11 EDT
 
 ## Objective
 
@@ -41,6 +41,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Security path | `SECURITY.md` | Private report path and project-specific safety areas are documented |
 | Architecture handoff | `docs/ARCHITECTURE.md` | Runtime flow, module map, artifact contract, safety model, and extension points are documented |
 | Copy-ready examples | `examples/` | Safe fake, local CLI, and OpenRouter budget configs load through the real config parser |
+| Strict config validation | `src/config.ts`, `src/cli.ts`, `tests/config.test.ts`, `tests/cli.test.ts` | Unknown config keys are rejected with file-aware errors, and CLI plan/run stops before creating artifacts |
 | Local install handoff | `docs/LOCAL_INSTALL.md` | Source checkout, local command linking, package tarball smoke, config examples, and release boundaries are documented |
 | Model routing handoff | `docs/MODEL_ROUTING.md` | Tier rules, fallback behavior, backend selection, config examples, and safety controls are documented |
 | Run examples handoff | `docs/RUN_EXAMPLES.md` | Planning, fake execution, stopped runs, status/report inspection, local CLI smokes, OpenRouter opt-in, model override, patch application, and troubleshooting commands are documented |
@@ -56,13 +57,14 @@ This audit maps that objective to concrete repository artifacts and verification
 ## Current Verification Evidence
 
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file, 3 tests passed.
-- `npm test -- tests/cli.test.ts`: 1 file, 25 tests passed.
-- `npm test`: 15 files, 63 tests passed.
+- `npm test -- tests/config.test.ts`: 1 file, 5 tests passed.
+- `npm test -- tests/cli.test.ts`: 1 file, 26 tests passed.
+- `npm test`: 15 files, 65 tests passed.
 - `npm test -- tests/config.test.ts tests/package.test.ts`: 2 files, 5 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 33 files, package size `37.6 kB`.
-- `npm publish --dry-run`: passed with the same 33-file tarball and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 33 files, package size `38.3 kB`.
+- `npm publish --dry-run`: passed with the same 33-file tarball, package size `38.3 kB`, and no bin metadata correction.
 - `npm publish --dry-run`: passed after bin metadata normalization.
 - Clean temporary package install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed.
 - Run examples plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_examples_docs_20260605_2036 --json` passed.
@@ -75,6 +77,9 @@ This audit maps that objective to concrete repository artifacts and verification
 - Planner fixture fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_planner_fixtures_final2_fake_20260605_2051 --json` passed.
 - Integration fixture plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_integration_fixture_20260605_2100 --json` passed.
 - Integration fixture fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_integration_fixture_fake_20260605_2100 --json` passed.
+- Config validation plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_config_validation_20260605_2113 --json` passed.
+- Config validation fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_config_validation_fake_20260605_2113 --json` passed.
+- Built bad-config smoke against a temporary fixture returned exit 1 with file-aware stderr, empty stdout, and no run artifacts.
 - Repo secret-prefix scan excluding `.env`, `node_modules`, `dist`, `.ouc`, and `.git`: no matches.
 - Shell history/session secret scan: no matches.
 - Public-doc dash scan: no disallowed dash characters.

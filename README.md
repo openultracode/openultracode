@@ -4,7 +4,7 @@ OpenUltraCode is an open-source local CLI for parallel coding agents with adapti
 
 The goal is simple: make multi-agent coding workflows cheaper, safer, and more controllable than sending every worker to the same expensive premium model.
 
-Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, enforce file ownership for mutating tasks, capture per-worker reconciliation metadata, apply clean patches only after explicit opt-in, parse structured usage from local CLI backends when available, enforce actual cost caps, stop cleanly on cancellation, and expose status/report commands. Contributor issue templates, labels, a PR template, a security policy, Dependabot, a release checklist, and a release audit are in place.
+Today, OpenUltraCode is an early TypeScript CLI foundation. It can inspect a repo, create deterministic dry-run plans, route tasks across model tiers, validate local config strictly, execute safe fake-backend runs through a worker-pool abstraction, preserve local run artifacts, enforce file ownership for mutating tasks, capture per-worker reconciliation metadata, apply clean patches only after explicit opt-in, parse structured usage from local CLI backends when available, enforce actual cost caps, stop cleanly on cancellation, and expose status/report commands. Contributor issue templates, labels, a PR template, a security policy, Dependabot, a release checklist, and a release audit are in place.
 
 ## Why This Should Exist
 
@@ -33,7 +33,8 @@ Current implemented surface:
 - Binary aliases:
   - `ouc`
   - `openultracode`
-- Config loading with typed schemas and safe defaults.
+- Config loading with strict typed schemas, safe defaults, and file-aware validation errors.
+- Unknown config keys are rejected before run artifacts are created.
 - Local run directories under `.ouc/runs/<run-id>/`.
 - Deterministic repo inspection.
 - Dry-run planning with task routing.
@@ -301,7 +302,7 @@ The high-level module map, runtime flow, artifact contract, backend boundaries, 
 Useful contributions right now:
 
 - Add conflict and stopped-run scenarios to integration fixtures.
-- Harden config validation and error messages.
+- Expand config examples for advanced routing and provider profiles.
 - Keep CI green across Node 20, 22, and 24.
 - Review `docs/RELEASE_DECISIONS.md` once the license and CI blockers are resolved.
 
@@ -333,7 +334,7 @@ npm run build
 npm pack --dry-run
 ```
 
-For behavior changes, write or update the test first. The current test suite uses Vitest and covers config, routing, planning, artifacts, fake backend output, and CLI behavior.
+For behavior changes, write or update the test first. The current test suite uses Vitest and covers strict config validation, routing, planning, artifacts, fake backend output, and CLI behavior.
 
 ## Project Files For Contributors
 

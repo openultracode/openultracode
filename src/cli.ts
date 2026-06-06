@@ -99,7 +99,10 @@ async function runPlan(args: string[], runtime: CliRuntime): Promise<number> {
     return 1;
   }
 
-  const config = await loadConfig(runtime.cwd);
+  const config = await loadConfigForCli(runtime);
+  if (!config) {
+    return 1;
+  }
   const inspection = await inspectRepository(runtime.cwd);
   const artifacts = await createRunArtifacts(runtime.cwd, parsed.runId);
   const plan = createDryRunPlan({
@@ -156,7 +159,10 @@ async function runRun(args: string[], runtime: CliRuntime): Promise<number> {
     return 1;
   }
 
-  const config = await loadConfig(runtime.cwd);
+  const config = await loadConfigForCli(runtime);
+  if (!config) {
+    return 1;
+  }
   const runner = createRunTaskRunner(parsed, config, runtime);
   if (runner.error) {
     runtime.stderr(runner.error);
@@ -1075,6 +1081,15 @@ function shouldApplyCleanPatches(
   config: CucConfig
 ): boolean {
   return parsed.applyCleanPatches || config.patchApplication.applyCleanPatches;
+}
+
+async function loadConfigForCli(runtime: CliRuntime): Promise<CucConfig | undefined> {
+  try {
+    return await loadConfig(runtime.cwd);
+  } catch (error) {
+    runtime.stderr(error instanceof Error ? error.message : "Failed to load config.");
+    return undefined;
+  }
 }
 
 function parseStatusArgs(args: string[]): { runId?: string; json: boolean } {

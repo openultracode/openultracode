@@ -79,7 +79,38 @@ test("loadConfig rejects invalid backend names", async () => {
     })
   );
 
-  await expect(loadConfig(projectRoot)).rejects.toThrow(/Invalid config/);
+  await expect(loadConfig(projectRoot)).rejects.toThrow(
+    /Invalid config at .*\.ouc\/config\.json/
+  );
+  await expect(loadConfig(projectRoot)).rejects.toThrow(
+    /profiles\.balanced\.free\.backend/
+  );
+});
+
+test("loadConfig rejects unknown config keys with the nested path", async () => {
+  const projectRoot = await makeTempProject();
+  const configDir = join(projectRoot, ".ouc");
+  await mkdir(configDir, { recursive: true });
+  await writeFile(
+    join(configDir, "config.json"),
+    JSON.stringify({
+      limits: {
+        maxWorker: 4
+      },
+      unknownTopLevel: true
+    })
+  );
+
+  await expect(loadConfig(projectRoot)).rejects.toThrow(
+    /Invalid config at .*\.ouc\/config\.json/
+  );
+  await expect(loadConfig(projectRoot)).rejects.toThrow(
+    /Unrecognized key: "unknownTopLevel"/
+  );
+  await expect(loadConfig(projectRoot)).rejects.toThrow(
+    /Unrecognized key: "maxWorker"/
+  );
+  await expect(loadConfig(projectRoot)).rejects.toThrow(/at limits/);
 });
 
 test("example config files load through the real config parser", async () => {

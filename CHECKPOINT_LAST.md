@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 21:02 EDT
+Timestamp: 2026-06-05 21:14 EDT
 
 ## Completed
 
@@ -311,14 +311,26 @@ Timestamp: 2026-06-05 21:02 EDT
 - Committed and pushed integration fixture coverage as `017578210fd077f2ec4c5991831d24527ede159c`.
 - Checked GitHub Actions run `27048125954`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - Updated `BLOCKED.md`, `PROJECT_STATUS.md`, `docs/RELEASE_AUDIT.md`, and `docs/COMPLETION_AUDIT.md` with the current push and CI blocker evidence.
+- Started config validation and error-message hardening.
+- Added red tests for file-aware schema errors, unknown config key rejection, and CLI plan failure without run artifact creation.
+- Verified the red state with `npm test -- tests/config.test.ts` and `npm test -- tests/cli.test.ts -t "config validation errors"`; failures showed unknown keys were ignored and schema errors lacked the config path.
+- Made config schemas strict, added the config path to schema validation errors, and routed plan/run config load failures to CLI stderr with exit code 1.
+- Verified the green state with `npm test -- tests/config.test.ts`: 1 file and 5 tests passed.
+- Verified `npm test -- tests/cli.test.ts -t "config validation errors"`: 1 file passed, 1 test passed, and 25 tests were skipped by the filter.
+- Verified `npm test -- tests/cli.test.ts`: 1 file and 26 tests passed.
+- Verified `npm test`: 15 files and 65 tests passed.
+- Updated README, CONTRIBUTING, CHANGELOG, BUILD_DRAFT, examples, local install docs, model routing docs, run examples, project status, release audit, and completion audit for strict config validation.
+- Verified full local gate: `npm test` passed with 15 files and 65 tests, `npm run typecheck` passed, `npm run build` passed, workflow and Dependabot YAML parsed, `npm pack --dry-run` passed with 33 files and package size `38.3 kB`, and `npm publish --dry-run` passed.
+- Verified built CLI smokes: `node dist/bin/ouc.js --help`, plan smoke `run_config_validation_20260605_2113`, fake-run smoke `run_config_validation_fake_20260605_2113`, and bad-config smoke against a temporary fixture passed.
+- Verified hygiene gates: repo secret-prefix scan excluding `.env`, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode.
 
 ## Current In-Progress State
 
-- None. Integration fixture coverage is pushed. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- Config validation hardening is implemented, documented, and locally verified. Commit, push, and remote CI blocker refresh are still in progress. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
+- Commit and push config validation hardening, check the new GitHub Actions run, then refresh blockers and trackers.
 
 ## Human Decisions Needed
 

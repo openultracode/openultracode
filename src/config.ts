@@ -6,17 +6,17 @@ import type { BackendKind, CucConfig } from "./types.js";
 
 const backendSchema = z.enum(["openrouter", "claude-cli", "codex-cli", "fake"]);
 
-const singleModelEndpointSchema = z.object({
+const singleModelEndpointSchema = z.strictObject({
   backend: backendSchema,
   model: z.string().min(1)
 });
 
-const multiModelEndpointSchema = z.object({
+const multiModelEndpointSchema = z.strictObject({
   backend: backendSchema,
   models: z.array(z.string().min(1)).min(1)
 });
 
-const profileSchema = z.object({
+const profileSchema = z.strictObject({
   orchestrator: singleModelEndpointSchema,
   critical: singleModelEndpointSchema,
   strong: singleModelEndpointSchema,
@@ -24,19 +24,19 @@ const profileSchema = z.object({
   free: multiModelEndpointSchema
 });
 
-const limitsSchema = z.object({
+const limitsSchema = z.strictObject({
   maxWorkers: z.number().int().positive(),
   maxCostUsd: z.number().nonnegative(),
   maxTasks: z.number().int().positive(),
   requirePlanApproval: z.boolean()
 });
 
-const patchApplicationSchema = z.object({
+const patchApplicationSchema = z.strictObject({
   applyCleanPatches: z.boolean()
 });
 
 export const configSchema = z
-  .object({
+  .strictObject({
     activeProfile: z.string().min(1),
     profiles: z.record(z.string(), profileSchema),
     limits: limitsSchema,
@@ -102,7 +102,7 @@ export async function loadConfig(projectRoot: string): Promise<CucConfig> {
   const parsed = configSchema.safeParse(merged);
 
   if (!parsed.success) {
-    throw new Error(`Invalid config: ${z.prettifyError(parsed.error)}`);
+    throw new Error(`Invalid config at ${configPath}: ${z.prettifyError(parsed.error)}`);
   }
 
   return parsed.data;

@@ -143,6 +143,46 @@ test("runCli plan rejects a missing run id value", async () => {
   expect(stderr.join("\n")).toContain("--run-id requires a value");
 });
 
+test("runCli plan prints config validation errors without creating artifacts", async () => {
+  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-plan-bad-config-"));
+  await mkdir(join(projectRoot, ".ouc"), { recursive: true });
+  await writeFile(
+    join(projectRoot, ".ouc", "config.json"),
+    JSON.stringify({
+      limits: {
+        maxWorker: 4
+      }
+    })
+  );
+  const stdout: string[] = [];
+  const stderr: string[] = [];
+
+  const exitCode = await runCli(
+    [
+      "node",
+      "ouc",
+      "plan",
+      "audit this repo",
+      "--run-id",
+      "run_bad_config"
+    ],
+    {
+      cwd: projectRoot,
+      stdout: (line) => stdout.push(line),
+      stderr: (line) => stderr.push(line)
+    }
+  );
+
+  expect(exitCode).toBe(1);
+  expect(stdout).toEqual([]);
+  expect(stderr.join("\n")).toContain("Invalid config at");
+  expect(stderr.join("\n")).toContain(".ouc/config.json");
+  expect(stderr.join("\n")).toContain('Unrecognized key: "maxWorker"');
+  await expect(
+    stat(join(projectRoot, ".ouc", "runs", "run_bad_config"))
+  ).rejects.toMatchObject({ code: "ENOENT" });
+});
+
 test("runCli status summarizes an existing local run artifact", async () => {
   const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-status-"));
   await writeFile(join(projectRoot, "README.md"), "# Fixture");

@@ -152,6 +152,7 @@ Use this only after reading the generated reconciliation artifacts:
 If a run is blocked:
 
 - Check `limits.maxTasks` and `limits.maxCostUsd` in `.ouc/config.json`.
+- Check for strict config validation errors such as unknown keys or typoed nested keys.
 - Check file ownership metadata in `.ouc/runs/<run-id>/plan.json`.
 - Read `.ouc/runs/<run-id>/final-report.md`.
 

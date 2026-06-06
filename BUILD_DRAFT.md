@@ -1,6 +1,6 @@
 # Build Draft
 
-Timestamp: 2026-06-05 18:35 EDT
+Timestamp: 2026-06-05 21:11 EDT
 
 GitHub: https://github.com/AryaVora621/openultracode
 
@@ -15,6 +15,7 @@ Included:
 - TypeScript build and typecheck configuration.
 - Vitest test setup.
 - Typed config loading with safe defaults and zod validation.
+- Strict config validation that rejects unknown keys with file-aware errors before run artifacts are created.
 - Local run artifact directory helper for `.ouc/runs/<run-id>/`.
 - Initial task classification and model routing.
 - Edit-task file ownership metadata and overlap detection in plan artifacts.
@@ -73,6 +74,17 @@ Included:
 - Release audit in `docs/RELEASE_AUDIT.md`.
 
 ## Verification Evidence
+
+Latest refresh on 2026-06-05 21:14 EDT:
+
+- `npm test`: 15 files and 65 tests passed.
+- `npm run typecheck`: passed.
+- `npm run build`: passed.
+- Workflow and Dependabot YAML parsed.
+- `npm pack --dry-run`: 33 files, package size `38.3 kB`.
+- `npm publish --dry-run`: passed.
+- Built CLI smokes passed for `--help`, plan `run_config_validation_20260605_2113`, fake run `run_config_validation_fake_20260605_2113`, and temporary bad-config validation.
+- Secret-prefix, shell-history, public-doc dash, whitespace, and `.env` ignore/mode checks passed.
 
 Commands run on 2026-06-05:
 

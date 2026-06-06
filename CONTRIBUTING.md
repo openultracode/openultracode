@@ -31,7 +31,7 @@ npm run build
 
 ## Good First Contributions
 
-- Improve `ouc plan` error messages.
+- Add config edge-case tests for advanced routing profiles.
 - Add status/report edge-case tests.
 - Add task-level ledger event schemas.
 - Add fake-backend run artifacts.
