@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 20:15 EDT
+Last updated: 2026-06-05 20:18 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -88,7 +88,7 @@ Implemented:
 Not implemented yet:
 
 - Human license decision before package release.
-- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27045180433` and documented in `BLOCKED.md`.
+- Remote CI execution is blocked by a GitHub account billing lock, confirmed again on run `27046966434` and documented in `BLOCKED.md`.
 
 ## Verification Snapshot
 
@@ -131,6 +131,8 @@ Latest known result:
 - Package dry-run passed for `openultracode@0.1.0`, 31 files, package size `33.4 kB`.
 - `npm publish --dry-run` passed with examples included in the tarball and no bin metadata correction.
 - GitHub workflow YAML parsed successfully.
+- Model routing docs commit `a6c2ebc5eb999afa53ac53568e682522ddfbdf45` was pushed to `origin/main`.
+- GitHub Actions run `27046966434` for that commit failed before Node 20, 22, and 24 jobs started because the GitHub account is locked due to a billing issue.
 - Repo secret-prefix scan excluding `.env` had no matches.
 - Em dash scan had no matches.
 - `git diff --check` reported no whitespace errors.

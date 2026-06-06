@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 20:15 EDT
+Timestamp: 2026-06-05 20:18 EDT
 
 ## Completed
 
@@ -267,14 +267,18 @@ Timestamp: 2026-06-05 20:15 EDT
 - Linked the model routing guide from `README.md` and `CONTRIBUTING.md`.
 - Refreshed release and completion audit evidence for the 31-file package dry-run.
 - Verified the model routing docs slice with `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, `npm publish --dry-run`, YAML parsing, built help smoke, built plan smoke, built fake-run smoke, repo secret-prefix scan excluding `.env`, shell history/session secret scan, em dash scan, `git diff --check`, and `.env` ignore plus mode checks.
+- Pushed the model routing docs slice as `a6c2ebc`.
+- Verified local and remote `main` both point to `a6c2ebc5eb999afa53ac53568e682522ddfbdf45`.
+- Checked GitHub Actions run `27046966434`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- Updated `BLOCKED.md` with the latest CI blocker evidence.
 
 ## Current In-Progress State
 
-- Model routing docs slice is verified locally and ready to commit and push.
+- None. Completion audit, code of conduct, architecture guide, package-shipped examples, local install guide, model routing guide, npm metadata, changelog, public repo metadata, community profile, publish dry-run, packaged install smoke, release decision record, package allowlist, manual CI dispatch, and tracker evidence are current. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Commit and push the model routing docs slice, then resolve the public release license decision and GitHub account billing lock before rerunning GitHub Actions through manual workflow dispatch.
+- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
 
 ## Human Decisions Needed
 
