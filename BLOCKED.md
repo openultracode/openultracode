@@ -2,14 +2,15 @@
 
 ## GitHub Actions Remote Verification
 
-Timestamp: 2026-06-05 21:35 EDT
+Timestamp: 2026-06-05 21:46 EDT
 
 Status: blocked by external GitHub account state.
 
 Evidence:
 
 - Workflow: `.github/workflows/ci.yml`.
-- Latest push CI run checked this session: `27048925740` for commit `e5f994ced7df271c9aceeaf634a08a972c4e0325`.
+- Latest push CI run checked this session: `27049174031` for commit `482523b4c7f3eaeafb44c24e78846a1dd07f453e`.
+- Previous push CI run checked this session: `27048925740` for commit `e5f994ced7df271c9aceeaf634a08a972c4e0325`.
 - Previous push CI run checked this session: `27048737944` for commit `a8a1a2f1aa882dc9d0c019ec0ac24f9d4de69da7`.
 - Previous push CI run checked this session: `27048514566` for commit `7fd249d0651dfad7ba946c4122ab390e863c8e17`.
 - Previous push CI run checked this session: `27048125954` for commit `017578210fd077f2ec4c5991831d24527ede159c`.
@@ -33,7 +34,9 @@ Local verification already run:
 - `node dist/bin/ouc.js --help`
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_artifact_reference_20260605_2133 --json`
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_artifact_reference_fake_20260605_2133 --json`
-- Artifact reference docs link test.
+- `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_artifact_examples_20260605_2143 --json`
+- `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_artifact_examples_fake_20260605_2143 --json`
+- Artifact reference docs link and checked example tests.
 
 Best hypothesis:
 
