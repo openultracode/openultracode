@@ -147,6 +147,12 @@ For the current release blockers and recommended release channel, read:
 cat docs/RELEASE_DECISIONS.md
 ```
 
+For local install, linking, and package tarball smoke instructions, read:
+
+```bash
+cat docs/LOCAL_INSTALL.md
+```
+
 For the current prompt-to-artifact completion audit, read:
 
 ```bash
@@ -248,7 +254,6 @@ Status: contributor issue templates, labels, PR template, security policy, Depen
 
 - Richer docs and examples.
 - Better default config.
-- Local install docs.
 - More integration tests.
 - Contributor-friendly issue templates.
 - Contributor-friendly PR template.

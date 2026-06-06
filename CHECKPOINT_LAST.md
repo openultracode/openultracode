@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 20:02 EDT
+Timestamp: 2026-06-05 20:05 EDT
 
 ## Completed
 
@@ -254,14 +254,18 @@ Timestamp: 2026-06-05 20:02 EDT
 - Pushed the examples slice as `9bf9b71`.
 - Verified local and remote `main` both point to `9bf9b71406b42111a1e38fabf4e0b45a9e02d9fe`.
 - Verified there are no open PRs, and the latest listed CI failure remains the documented GitHub billing lock.
+- Added `docs/LOCAL_INSTALL.md` with source checkout, local command linking, package tarball smoke, config examples, and release boundary guidance.
+- Linked the local install guide from `README.md` and `CONTRIBUTING.md`.
+- Verified the local install docs slice with full `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, `npm publish --dry-run`, repo secret-prefix scan excluding `.env`, shell history secret scan, em dash scan, `git diff --check`, and `.env` ignore plus mode checks.
+- `npm pack --dry-run` now includes `docs/LOCAL_INSTALL.md`, 30 total files, and package size `31.9 kB`.
 
 ## Current In-Progress State
 
-- None. Completion audit, code of conduct, architecture guide, package-shipped examples, npm metadata, changelog, public repo metadata, community profile, publish dry-run, packaged install smoke, release decision record, package allowlist, and manual CI dispatch are verified and pushed. Dependabot PRs are resolved, and package release remains blocked on license confirmation plus the GitHub account billing lock.
+- Local install docs slice is verified locally. Commit and push are still pending.
 
 ## Next Action
 
-- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
+- Commit and push the local install docs slice, then resolve the public release license decision and GitHub account billing lock before rerunning GitHub Actions through manual workflow dispatch.
 
 ## Human Decisions Needed
 

@@ -57,3 +57,4 @@
 - [Codex] Added `CODE_OF_CONDUCT.md` and included it in package dry-run contents.
 - [Codex] Added `docs/COMPLETION_AUDIT.md` mapping the active objective to artifacts, verification evidence, and remaining blockers.
 - [Codex] Added package-shipped copy-ready config examples with parser coverage.
+- [Codex] Added `docs/LOCAL_INSTALL.md` with source install, local link, config example, and package smoke instructions.
