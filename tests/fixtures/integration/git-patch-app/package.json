@@ -1,0 +1,5 @@
+{
+  "name": "git-patch-app",
+  "private": true,
+  "type": "module"
+}

@@ -1,11 +1,13 @@
 import { runCli } from "../src/cli.js";
 import { execFile } from "node:child_process";
-import { mkdir, mkdtemp, readFile, stat, writeFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, stat, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
+const integrationFixtureRoot = (name: string): string =>
+  join(process.cwd(), "tests", "fixtures", "integration", name);
 
 test("runCli prints help with primary commands", async () => {
   const lines: string[] = [];
@@ -1452,11 +1454,9 @@ test("runCli run applies clean worker patches when project config opts in", asyn
 
 async function createGitPatchFixture(prefix: string): Promise<string> {
   const projectRoot = await mkdtemp(join(tmpdir(), prefix));
-  await mkdir(join(projectRoot, "src"), { recursive: true });
-  await mkdir(join(projectRoot, "tests"), { recursive: true });
-  await writeFile(join(projectRoot, "package.json"), "{}");
-  await writeFile(join(projectRoot, "src", "cli.ts"), "export {};\n");
-  await writeFile(join(projectRoot, "tests", "cli.test.ts"), "test('ok', () => {});\n");
+  await cp(integrationFixtureRoot("git-patch-app"), projectRoot, {
+    recursive: true
+  });
   await execFileAsync("git", ["init"], { cwd: projectRoot });
   await execFileAsync("git", ["config", "user.email", "ouc@example.test"], {
     cwd: projectRoot

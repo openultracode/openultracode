@@ -63,3 +63,5 @@
 - [Codex] Added `docs/RUN_EXAMPLES.md` with copy-ready plan, fake run, stopped run, local CLI, OpenRouter opt-in, and patch application examples.
 - [Codex] Added fixture-backed planner tests for mixed source/test/docs goals, docs-only goals, and audit routing.
 - [Codex] Documented, verified, and prepared fixture-backed planner heuristic coverage for push.
+- [Codex] Added an integration fixture repo for git-backed clean patch application tests.
+- [Codex] Documented, verified, and prepared integration fixture coverage for push.

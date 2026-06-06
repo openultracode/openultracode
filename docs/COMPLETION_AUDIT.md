@@ -1,6 +1,6 @@
 # Completion Audit
 
-Timestamp: 2026-06-05 20:54 EDT
+Timestamp: 2026-06-05 21:00 EDT
 
 ## Objective
 
@@ -46,6 +46,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Run examples handoff | `docs/RUN_EXAMPLES.md` | Planning, fake execution, stopped runs, status/report inspection, local CLI smokes, OpenRouter opt-in, model override, patch application, and troubleshooting commands are documented |
 | Publishing handoff | `docs/PUBLISHING.md` | Release modes, package smoke, release notes, tagging, npm publish, and stop conditions are documented |
 | Planner heuristic fixtures | `tests/fixtures/planner/`, `tests/planner-fixtures.test.ts` | Mixed source/test/docs, docs-only, and audit planning are covered through the real repo inspector |
+| Integration fixtures | `tests/fixtures/integration/git-patch-app/`, `tests/cli.test.ts` | Clean patch application CLI tests now copy a checked-in git fixture repo |
 | Release handoff | `docs/RELEASE_CHECKLIST.md`, `docs/RELEASE_AUDIT.md`, `docs/RELEASE_DECISIONS.md`, `CHANGELOG.md` | Release gates, known blockers, audit evidence, and release notes are recorded |
 | Community readiness | `CODE_OF_CONDUCT.md`, GitHub community profile | GitHub community profile reports `health_percentage` `100` |
 | Dependency hygiene | `.github/dependabot.yml` | Weekly npm and GitHub Actions dependency update checks are configured |
@@ -55,11 +56,12 @@ This audit maps that objective to concrete repository artifacts and verification
 ## Current Verification Evidence
 
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file, 3 tests passed.
+- `npm test -- tests/cli.test.ts`: 1 file, 25 tests passed.
 - `npm test`: 15 files, 63 tests passed.
 - `npm test -- tests/config.test.ts tests/package.test.ts`: 2 files, 5 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 33 files, package size `37.3 kB`.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 33 files, package size `37.5 kB`.
 - `npm publish --dry-run`: passed with the same 33-file tarball and no bin metadata correction.
 - `npm publish --dry-run`: passed after bin metadata normalization.
 - Clean temporary package install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed.
@@ -71,6 +73,8 @@ This audit maps that objective to concrete repository artifacts and verification
 - Model routing fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_model_routing_fake_20260605_2015 --json` passed.
 - Planner fixture plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_planner_fixtures_final2_20260605_2051 --json` passed.
 - Planner fixture fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_planner_fixtures_final2_fake_20260605_2051 --json` passed.
+- Integration fixture plan smoke: `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_integration_fixture_20260605_2100 --json` passed.
+- Integration fixture fake-run smoke: `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_integration_fixture_fake_20260605_2100 --json` passed.
 - Repo secret-prefix scan excluding `.env`, `node_modules`, `dist`, `.ouc`, and `.git`: no matches.
 - Shell history/session secret scan: no matches.
 - Public-doc dash scan: no disallowed dash characters.

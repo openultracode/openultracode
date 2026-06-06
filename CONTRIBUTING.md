@@ -35,11 +35,13 @@ npm run build
 - Add status/report edge-case tests.
 - Add task-level ledger event schemas.
 - Add fake-backend run artifacts.
-- Add fixture repos for integration tests.
+- Extend integration fixtures for conflict and stopped-run scenarios.
 - Improve docs around routing and safety.
 - Improve module docs and artifact schema examples.
 
 Planner heuristic fixtures live in `tests/fixtures/planner/`. Extend those fixtures when changing deterministic task decomposition.
+
+CLI integration fixtures live in `tests/fixtures/integration/`. Extend those fixtures when changing git-backed patch application behavior.
 
 Issue templates are available for bugs, feature requests, and scoped task proposals. Pull requests use `.github/PULL_REQUEST_TEMPLATE.md` so verification and safety checks stay visible in review.
 

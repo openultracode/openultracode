@@ -272,7 +272,7 @@ Status: contributor issue templates, labels, PR template, security policy, Depen
 
 - Richer docs and examples.
 - Better default config.
-- More integration tests.
+- More integration fixture scenarios.
 - Contributor-friendly issue templates.
 - Contributor-friendly PR template.
 - Security policy for private reports.
@@ -300,7 +300,7 @@ The high-level module map, runtime flow, artifact contract, backend boundaries, 
 
 Useful contributions right now:
 
-- Add fixture repos for integration tests.
+- Add conflict and stopped-run scenarios to integration fixtures.
 - Harden config validation and error messages.
 - Keep CI green across Node 20, 22, and 24.
 - Review `docs/RELEASE_DECISIONS.md` once the license and CI blockers are resolved.

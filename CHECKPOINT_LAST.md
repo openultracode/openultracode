@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 20:54 EDT
+Timestamp: 2026-06-05 21:01 EDT
 
 ## Completed
 
@@ -299,14 +299,23 @@ Timestamp: 2026-06-05 20:54 EDT
 - Checked GitHub Actions run `27047901172`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - Updated `BLOCKED.md`, `PROJECT_STATUS.md`, `docs/RELEASE_AUDIT.md`, and `docs/COMPLETION_AUDIT.md` with the current push and CI blocker evidence.
 - Pushed the tracker-only CI blocker refresh with `[skip ci]`.
+- Started integration fixture coverage for patch application tests.
+- Changed the clean-patch CLI fixture helper to copy `tests/fixtures/integration/git-patch-app/` instead of creating an ad hoc repo in code.
+- Verified the red state with `npm test -- tests/cli.test.ts -t "clean worker patches"`; it failed because `tests/fixtures/integration/git-patch-app` did not exist.
+- Added the `git-patch-app` integration fixture and fixture README.
+- Verified the green state with `npm test -- tests/cli.test.ts -t "clean worker patches"`: 1 file passed, 3 tests passed, and 22 tests were skipped by the filter.
+- Verified `npm test -- tests/cli.test.ts`: 1 file and 25 tests passed.
+- Verified final local gate: `npm test` passed with 15 files and 63 tests, `npm run typecheck` passed, `npm run build` passed, workflow and Dependabot YAML parsed, `npm pack --dry-run` passed with 33 files and package size `37.5 kB`, and `npm publish --dry-run` passed.
+- Verified built CLI smokes: `node dist/bin/ouc.js --help`, plan smoke `run_integration_fixture_20260605_2100`, and fake-run smoke `run_integration_fixture_fake_20260605_2100` passed.
+- Verified hygiene gates: repo secret-prefix scan excluding `.env`, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode.
 
 ## Current In-Progress State
 
-- None. Fixture-backed planner coverage is pushed. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- None. Integration fixture coverage is complete locally and ready to push. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
+- Commit and push the integration fixture coverage slice, then record any GitHub Actions billing-lock evidence if a remote run is created.
 
 ## Human Decisions Needed
 

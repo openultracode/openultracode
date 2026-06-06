@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 20:54 EDT
+Timestamp: 2026-06-05 21:00 EDT
 
 ## Objective
 
@@ -38,6 +38,7 @@ Concrete success criteria:
 | Run examples guide exists | `docs/RUN_EXAMPLES.md` covers plan, fake run, stopped run, config, local CLI, OpenRouter opt-in, model override, patch application, and troubleshooting examples | Complete |
 | Publishing guide exists | `docs/PUBLISHING.md` covers release modes, package smoke, release notes, tagging, npm publish, and stop conditions | Complete |
 | Planner heuristic fixtures exist | `tests/fixtures/planner/` and `tests/planner-fixtures.test.ts` exercise mixed, docs-only, and audit planning through the real repo inspector | Complete |
+| Integration fixture exists | `tests/fixtures/integration/git-patch-app/` backs git clean patch application CLI tests | Complete |
 | GitHub community profile is complete | `gh api repos/AryaVora621/openultracode/community/profile` reported `health_percentage` `100` | Complete |
 | Issue templates exist | `.github/ISSUE_TEMPLATE/{bug_report,feature_request,task_proposal,config}.yml` | Complete |
 | Issue-template labels exist | `gh label list --repo AryaVora621/openultracode --limit 100` showed `bug`, `enhancement`, and `good first issue` | Complete |
@@ -58,7 +59,7 @@ Concrete success criteria:
 | Test suite passes | `npm test`: 15 files, 63 tests | Complete |
 | Typecheck passes | `npm run typecheck` | Complete |
 | Build passes | `npm run build` | Complete |
-| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 33 files, package size `37.3 kB`, including release docs and changelog | Complete |
+| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 33 files, package size `37.5 kB`, including release docs and changelog | Complete |
 | Packaged install smoke works | Temporary consumer project installed packed tarball and ran packaged `ouc --help` plus packaged `ouc plan --json` | Complete |
 | Publish dry-run works | `npm publish --dry-run` passes without bin auto-correction after normalizing bin paths | Complete |
 | Secret is not committed | `git check-ignore -v .env`, `ls -l .env`, repo secret scan excluding `.env`, shell history scan | Complete |
@@ -94,6 +95,7 @@ Concrete success criteria:
 - GitHub Actions CI for contributor verification.
 - Manual CI rerun through `workflow_dispatch` after the GitHub account billing lock is resolved.
 - Fixture-backed planner heuristic coverage for mixed source/test/docs goals, docs-only goals, and audit routing.
+- Integration fixture coverage for git-backed clean patch application tests.
 
 ## Remaining Blocker
 
@@ -105,15 +107,16 @@ The repo is ready for collaborator-oriented source use, but final package releas
 
 ## Completion Audit Refresh
 
-Timestamp: 2026-06-05 20:54 EDT
+Timestamp: 2026-06-05 21:00 EDT
 
 Fresh checks on the current release-readiness state:
 
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file and 3 tests passed.
+- `npm test -- tests/cli.test.ts`: 1 file and 25 tests passed.
 - `npm test`: 15 files, 63 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 33 files, package size `37.3 kB`.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 33 files, package size `37.5 kB`.
 - `npm publish --dry-run`: passed with the same 33-file tarball and no bin metadata correction.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
 - `gh run view 27047901172 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
@@ -121,6 +124,8 @@ Fresh checks on the current release-readiness state:
 - `node dist/bin/ouc.js --help`: passed.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_planner_fixtures_final2_20260605_2051 --json`: passed.
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_planner_fixtures_final2_fake_20260605_2051 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
+- `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_integration_fixture_20260605_2100 --json`: passed.
+- `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_integration_fixture_fake_20260605_2100 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_completion_audit_20260605_1924 --json`: passed.
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_completion_fake_20260605_1924 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_release_dispatch_20260605_1929 --json`: passed.
