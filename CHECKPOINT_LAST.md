@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 20:28 EDT
+Timestamp: 2026-06-05 20:29 EDT
 
 ## Completed
 
@@ -274,15 +274,18 @@ Timestamp: 2026-06-05 20:28 EDT
 - Added `docs/PUBLISHING.md` with release modes, package smoke, release notes, tagging, npm publish, and stop conditions.
 - Linked the publishing guide from `README.md`, `CONTRIBUTING.md`, `docs/RELEASE_CHECKLIST.md`, and `docs/RELEASE_DECISIONS.md`.
 - Verified the publishing docs slice with `npm test`, `npm run typecheck`, `npm run build`, `npm pack --dry-run`, `npm publish --dry-run`, YAML parsing, built help smoke, built plan smoke, built fake-run smoke, repo secret-prefix scan excluding `.env`, shell history/session secret scan, em dash scan, `git diff --check`, and `.env` ignore plus mode checks.
-- Confirmed `npm pack --dry-run` includes `docs/PUBLISHING.md`, 32 total files, and package size `35.5 kB`.
+- Confirmed `npm pack --dry-run` includes `docs/PUBLISHING.md`, 32 total files, and package size `35.6 kB`.
+- Pushed the publishing guide slice as `ac1f1f7`.
+- Verified local and remote `main` both point to `ac1f1f7b1a4e2e8a6ecf1a62a4a2d13c86bd324f`.
+- Verified there are no open PRs, and no newer CI run was created because the publishing guide commit used `[skip ci]`.
 
 ## Current In-Progress State
 
-- Publishing docs slice is verified locally and ready to commit and push.
+- None. Completion audit, code of conduct, architecture guide, package-shipped examples, local install guide, model routing guide, publishing guide, npm metadata, changelog, public repo metadata, community profile, publish dry-run, packaged install smoke, release decision record, package allowlist, manual CI dispatch, and tracker evidence are current. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 
-- Commit and push the publishing docs slice, then resolve the public release license decision and GitHub account billing lock before rerunning GitHub Actions through manual workflow dispatch.
+- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
 
 ## Human Decisions Needed
 

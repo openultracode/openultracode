@@ -52,7 +52,7 @@ Latest local release gate:
 - `npm test`: 14 files, 60 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: passed with 32 files and package size `35.5 kB`.
+- `npm pack --dry-run`: passed with 32 files and package size `35.6 kB`.
 - Built CLI `--help`, `plan --json`, and fake `run --json` smokes passed.
 - Secret-prefix scan excluding `.env` found no matches.
 - Shell history/session secret scan found no matches.

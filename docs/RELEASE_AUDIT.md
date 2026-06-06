@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 20:28 EDT
+Timestamp: 2026-06-05 20:29 EDT
 
 ## Objective
 
@@ -56,7 +56,7 @@ Concrete success criteria:
 | Test suite passes | `npm test`: 14 files, 60 tests | Complete |
 | Typecheck passes | `npm run typecheck` | Complete |
 | Build passes | `npm run build` | Complete |
-| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 32 files, package size `35.5 kB`, including release docs and changelog | Complete |
+| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 32 files, package size `35.6 kB`, including release docs and changelog | Complete |
 | Packaged install smoke works | Temporary consumer project installed packed tarball and ran packaged `ouc --help` plus packaged `ouc plan --json` | Complete |
 | Publish dry-run works | `npm publish --dry-run` passes without bin auto-correction after normalizing bin paths | Complete |
 | Secret is not committed | `git check-ignore -v .env`, `ls -l .env`, repo secret scan excluding `.env`, shell history scan | Complete |
@@ -108,10 +108,11 @@ Fresh checks on the current release-readiness state:
 - `npm test`: 14 files, 60 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 32 files, package size `35.5 kB`.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 32 files, package size `35.6 kB`.
 - `npm publish --dry-run`: passed with the same 32-file tarball and no bin metadata correction.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
 - `gh run view 27046966434 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- `git rev-parse HEAD` and `git rev-parse origin/main`: both returned `ac1f1f7b1a4e2e8a6ecf1a62a4a2d13c86bd324f` after the publishing guide push.
 - `node dist/bin/ouc.js --help`: passed.
 - `node dist/bin/ouc.js plan "audit this repo for TODOs" --run-id run_completion_audit_20260605_1924 --json`: passed.
 - `node dist/bin/ouc.js run "implement a small change and test it" --backend fake --run-id run_completion_fake_20260605_1924 --json`: passed with status `succeeded`, 2 succeeded tasks, and 0 failed tasks.

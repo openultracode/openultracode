@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: 2026-06-05 20:28 EDT
+Last updated: 2026-06-05 20:29 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
@@ -129,10 +129,11 @@ Latest known result:
 - 60 tests passed.
 - Typecheck passed.
 - Build passed.
-- Package dry-run passed for `openultracode@0.1.0`, 32 files, package size `35.5 kB`.
+- Package dry-run passed for `openultracode@0.1.0`, 32 files, package size `35.6 kB`.
 - `npm publish --dry-run` passed with examples and publishing docs included in the 32-file tarball and no bin metadata correction.
 - GitHub workflow YAML parsed successfully.
 - Model routing docs commit `a6c2ebc5eb999afa53ac53568e682522ddfbdf45` was pushed to `origin/main`.
+- Publishing guide commit `ac1f1f7b1a4e2e8a6ecf1a62a4a2d13c86bd324f` was pushed to `origin/main` with CI skipped because the GitHub billing lock remains documented.
 - GitHub Actions run `27046966434` for that commit failed before Node 20, 22, and 24 jobs started because the GitHub account is locked due to a billing issue.
 - Repo secret-prefix scan excluding `.env` had no matches.
 - Em dash scan had no matches.
