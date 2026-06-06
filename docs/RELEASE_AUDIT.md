@@ -66,7 +66,7 @@ Concrete success criteria:
 | Test suite passes | `npm test`: 17 files, 78 tests | Complete |
 | Typecheck passes | `npm run typecheck` | Complete |
 | Build passes | `npm run build` | Complete |
-| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `46.1 kB`, including release docs, changelog, config examples, and fake-run artifact examples | Complete |
+| Package dry-run passes | `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `47.0 kB`, including release docs, changelog, config examples, and fake-run artifact examples | Complete |
 | Packaged install smoke works | Temporary consumer project installed packed tarball and ran packaged `ouc --help` plus packaged `ouc plan --json` | Complete |
 | Publish dry-run works | `npm publish --dry-run` passes without bin auto-correction after normalizing bin paths | Complete |
 | Secret is not committed | `git check-ignore -v .env`, `ls -l .env`, repo secret scan excluding `.env`, shell history scan | Complete |
@@ -125,7 +125,7 @@ Timestamp: 2026-06-05 22:59 EDT
 Fresh checks on the current release-readiness state:
 
 - `npm run verify`: passed.
-- Fresh continuation `npm run verify`: 17 test files and 78 tests passed, then typecheck, build, and package dry-run passed with package `openultracode@0.1.0`, 44 files, package size `46.8 kB`.
+- Fresh continuation `npm run verify`: 17 test files and 78 tests passed, then typecheck, build, and package dry-run passed with package `openultracode@0.1.0`, 44 files, package size `47.0 kB`.
 - `npm test -- tests/package.test.ts`: 1 file and 2 tests passed.
 - `npm test -- tests/docs.test.ts`: 1 file and 6 tests passed.
 - `npm test -- tests/planner-fixtures.test.ts`: 1 file and 3 tests passed.
@@ -136,11 +136,12 @@ Fresh checks on the current release-readiness state:
 - `npm test -- tests/fake-run-artifacts.test.ts`: 1 file, 1 test passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `46.1 kB`.
-- `npm publish --dry-run`: passed with the same 44-file tarball, package size `46.1 kB`, and no bin metadata correction.
-- Fresh continuation `npm publish --dry-run`: passed with the same 44-file tarball, package size `46.8 kB`, and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `47.0 kB`.
+- `npm publish --dry-run`: passed with the same 44-file tarball, package size `47.0 kB`, and no bin metadata correction.
+- Fresh continuation `npm publish --dry-run`: passed with the same 44-file tarball, package size `47.0 kB`, and no bin metadata correction.
 - `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/ci.yml"); YAML.load_file(".github/dependabot.yml"); puts "yaml ok"'`: passed.
 - `gh run view 27050545771 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
+- `gh run view 27050873954 --repo AryaVora621/openultracode`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - `git rev-parse HEAD` and `git rev-parse origin/main` confirmed local and remote state matched at status-only tracker commit `ae8a4153ca040b04c03fe4bafb640134c7a7bc4e`.
 - `node dist/bin/ouc.js --help`: passed.
 - Fresh built CLI smokes passed: `node dist/bin/ouc.js --help`, plan smoke `run_fresh_audit_20260605_2258`, and fake-run smoke `run_fresh_audit_fake_20260605_2258`.
@@ -181,6 +182,7 @@ Fresh checks on the current release-readiness state:
 - Fresh packaged install smoke passed with packaged `./node_modules/.bin/ouc --help`, packaged `./node_modules/.bin/openultracode --help`, and packaged `./node_modules/.bin/ouc plan "audit this package smoke" --run-id package_smoke_fresh --json`.
 - `gh repo view AryaVora621/openultracode --json nameWithOwner,description,homepageUrl,repositoryTopics,visibility,viewerPermission` confirmed description `Local CLI for parallel coding agents with adaptive model routing.`, README homepage, public visibility, admin access, and topics `agentic-coding`, `ai-agents`, `cli`, `codex`, `coding-agents`, `openrouter`, `orchestration`, and `worktrees`.
 - `gh pr list --repo AryaVora621/openultracode --state open --limit 20` returned no open PRs.
+- Post-billing CI handoff docs commit `cbe5c294d1fa39dc309f4a9425503538b60b5b3e` was pushed to `origin/main`.
 - `docs/ARCHITECTURE.md` is present and linked from `README.md` plus `CONTRIBUTING.md`.
 - `npm pack --dry-run` confirmed `docs/ARCHITECTURE.md` is included in the 23-file package tarball.
 - `CODE_OF_CONDUCT.md` is present, linked from `README.md` plus `CONTRIBUTING.md`, and included in the package allowlist.

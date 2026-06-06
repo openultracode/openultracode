@@ -1,6 +1,6 @@
 # Checkpoint Last
 
-Timestamp: 2026-06-05 23:04 EDT
+Timestamp: 2026-06-05 23:07 EDT
 
 ## Completed
 
@@ -448,12 +448,14 @@ Timestamp: 2026-06-05 23:04 EDT
 - Added `## After Billing Unlock` to `docs/PUBLISHING.md` with `gh workflow run`, `gh run list`, `gh run watch`, and `gh run view` commands.
 - Linked the post-billing handoff from `docs/RELEASE_DECISIONS.md`.
 - Verified the green targeted docs test with `npm test -- tests/docs.test.ts`: 1 file and 6 tests passed.
-- Verified full post-handoff docs gate with `npm run verify`: 17 test files, 78 tests, typecheck, build, and package dry-run passed with package size `46.8 kB`.
+- Verified full post-handoff docs gate with `npm run verify`: 17 test files, 78 tests, typecheck, build, and package dry-run passed with package size `47.0 kB`.
 - Verified `npm publish --dry-run`, workflow and Dependabot YAML parsing, built help, plan smoke `run_post_billing_handoff_20260605_2305`, fake-run smoke `run_post_billing_handoff_fake_20260605_2305`, repo secret-prefix scan excluding ignored local files, shell history/session secret scan, public-doc dash scan, `git diff --check`, and `.env` ignore plus `0600` mode checks.
+- Committed and pushed post-billing CI handoff docs as `cbe5c294d1fa39dc309f4a9425503538b60b5b3e`.
+- Checked GitHub Actions run `27050873954`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 
 ## Current In-Progress State
 
-- Post-billing CI rerun handoff docs are implemented and fully verified. Push is next.
+- None. Post-billing CI rerun handoff docs are pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
 
 ## Next Action
 

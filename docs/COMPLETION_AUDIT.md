@@ -63,7 +63,7 @@ This audit maps that objective to concrete repository artifacts and verification
 ## Current Verification Evidence
 
 - `npm run verify`: passed.
-- Fresh continuation `npm run verify`: 17 test files and 78 tests passed, then typecheck, build, and package dry-run passed with package `openultracode@0.1.0`, 44 files, package size `46.8 kB`.
+- Fresh continuation `npm run verify`: 17 test files and 78 tests passed, then typecheck, build, and package dry-run passed with package `openultracode@0.1.0`, 44 files, package size `47.0 kB`.
 - `npm test -- tests/package.test.ts`: 1 file, 2 tests passed.
 - `npm test -- tests/docs.test.ts`: 1 file, 6 tests passed.
 - `npm test -- tests/fake-run-artifacts.test.ts`: 1 file, 1 test passed.
@@ -75,9 +75,9 @@ This audit maps that objective to concrete repository artifacts and verification
 - `npm test -- tests/config.test.ts tests/package.test.ts`: 2 files, 7 tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed.
-- `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `46.1 kB`.
-- `npm publish --dry-run`: passed with the same 44-file tarball, package size `46.1 kB`, and no bin metadata correction.
-- Fresh continuation `npm publish --dry-run`: passed with the same 44-file tarball, package size `46.8 kB`, and no bin metadata correction.
+- `npm pack --dry-run`: package `openultracode@0.1.0`, 44 files, package size `47.0 kB`.
+- `npm publish --dry-run`: passed with the same 44-file tarball, package size `47.0 kB`, and no bin metadata correction.
+- Fresh continuation `npm publish --dry-run`: passed with the same 44-file tarball, package size `47.0 kB`, and no bin metadata correction.
 - `npm publish --dry-run`: passed after bin metadata normalization.
 - Clean temporary package install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed.
 - Fresh packaged install smoke: packaged `ouc --help`, packaged `openultracode --help`, and packaged `ouc plan --json` passed from a temporary consumer project.
@@ -123,6 +123,7 @@ This audit maps that objective to concrete repository artifacts and verification
 - Local and remote state check confirmed the routing safety docs push reached `origin/main` at commit `3fd95e7c0e385cc5dc58b9814624f4a32e2e86e1`.
 - GitHub Actions run `27050545771`: Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - Fresh remote state check: local `HEAD` and `origin/main` both point to `ae8a4153ca040b04c03fe4bafb640134c7a7bc4e`; there are no open PRs; run `27050545771` remains the latest CI-triggering run and is blocked by the same billing issue.
+- Post-billing CI handoff push: local `HEAD` and `origin/main` matched at commit `cbe5c294d1fa39dc309f4a9425503538b60b5b3e` before the status refresh; run `27050873954` remains blocked by the same billing issue before any Node job starts.
 
 ## Missing Or Blocked Requirements
 
