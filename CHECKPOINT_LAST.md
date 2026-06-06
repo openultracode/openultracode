@@ -418,14 +418,20 @@ Timestamp: 2026-06-05 22:27 EDT
 - Committed and pushed advanced config edge coverage as `b45331591083600e91701383a84b9b5ed8d5828b`.
 - Checked GitHub Actions run `27050043100`; Node 20, 22, and 24 jobs failed before startup because the GitHub account is locked due to a billing issue.
 - Updated `BLOCKED.md`, `PROJECT_STATUS.md`, `docs/RELEASE_AUDIT.md`, `docs/COMPLETION_AUDIT.md`, and this checkpoint with the current push and CI blocker evidence.
+- Started integration fixture coverage for stopped fake runs and overlapping file ownership conflicts.
+- Added red CLI tests by switching the stopped-run and ownership-conflict tests to copy checked fixture repos that did not exist yet.
+- Verified the red state with `npm test -- tests/cli.test.ts -t "ownership|stop after a fake task"`; both selected tests failed because the fixture directories were missing.
+- Added `tests/fixtures/integration/stopped-run-app/` and `tests/fixtures/integration/conflict-file-ownership-app/`.
+- Updated the integration fixture README matrix and contributor docs for the new fixture coverage.
+- Verified the green focused test with `npm test -- tests/cli.test.ts -t "ownership|stop after a fake task"`: 1 file and 2 selected tests passed.
 
 ## Current In-Progress State
 
-- None. Advanced config edge coverage is pushed and locally verified. Package release remains blocked on license confirmation plus the GitHub account billing lock.
+- Integration fixture expansion is locally green at the focused-test level. Full verification, commit, push, and remote CI blocker inspection are still in progress.
 
 ## Next Action
 
-- Resolve the public release license decision and GitHub account billing lock, then rerun GitHub Actions through manual workflow dispatch.
+- Run full verification and hygiene checks for the integration fixture slice, then commit and push if clean.
 
 ## Human Decisions Needed
 

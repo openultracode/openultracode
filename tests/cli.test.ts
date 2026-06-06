@@ -1046,8 +1046,10 @@ test("runCli run refuses to overwrite an existing final report", async () => {
 });
 
 test("runCli run blocks overlapping edit file ownership before worker execution", async () => {
-  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-ownership-"));
-  await writeFile(join(projectRoot, "README.md"), "# Fixture\n");
+  const projectRoot = await createIntegrationFixture(
+    "conflict-file-ownership-app",
+    "ouc-cli-run-ownership-"
+  );
   const stdout: string[] = [];
   const stderr: string[] = [];
 
@@ -1236,12 +1238,10 @@ test("runCli run blocks plans that exceed maxCostUsd before worker execution", a
 });
 
 test("runCli run can stop after a fake task and report partial execution", async () => {
-  const projectRoot = await mkdtemp(join(tmpdir(), "ouc-cli-run-stopped-"));
-  await mkdir(join(projectRoot, "src"), { recursive: true });
-  await mkdir(join(projectRoot, "tests"), { recursive: true });
-  await writeFile(join(projectRoot, "package.json"), "{}");
-  await writeFile(join(projectRoot, "src", "cli.ts"), "export {};");
-  await writeFile(join(projectRoot, "tests", "cli.test.ts"), "test('ok', () => {});");
+  const projectRoot = await createIntegrationFixture(
+    "stopped-run-app",
+    "ouc-cli-run-stopped-"
+  );
 
   const stdout: string[] = [];
   const stderr: string[] = [];
@@ -1537,10 +1537,7 @@ test("runCli run applies clean worker patches when project config opts in", asyn
 });
 
 async function createGitPatchFixture(prefix: string): Promise<string> {
-  const projectRoot = await mkdtemp(join(tmpdir(), prefix));
-  await cp(integrationFixtureRoot("git-patch-app"), projectRoot, {
-    recursive: true
-  });
+  const projectRoot = await createIntegrationFixture("git-patch-app", prefix);
   await execFileAsync("git", ["init"], { cwd: projectRoot });
   await execFileAsync("git", ["config", "user.email", "ouc@example.test"], {
     cwd: projectRoot
@@ -1550,6 +1547,17 @@ async function createGitPatchFixture(prefix: string): Promise<string> {
   });
   await execFileAsync("git", ["add", "."], { cwd: projectRoot });
   await execFileAsync("git", ["commit", "-m", "fixture"], { cwd: projectRoot });
+  return projectRoot;
+}
+
+async function createIntegrationFixture(
+  name: string,
+  prefix: string
+): Promise<string> {
+  const projectRoot = await mkdtemp(join(tmpdir(), prefix));
+  await cp(integrationFixtureRoot(name), projectRoot, {
+    recursive: true
+  });
   return projectRoot;
 }
 

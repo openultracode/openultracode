@@ -1,12 +1,12 @@
 # Project Status
 
-Last updated: 2026-06-05 22:27 EDT
+Last updated: 2026-06-05 22:32 EDT
 
 Public repo: https://github.com/AryaVora621/openultracode
 
 ## Current State
 
-OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, local config is strictly validated before artifacts are created, status/report commands fail cleanly on malformed plan artifacts, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, advanced routing profile config edge cases are covered, fixture-backed planner heuristic coverage and git patch integration fixtures are present, contributor issue templates plus a PR template, architecture guide, backend module guide, artifact reference guide with checked JSON/JSONL examples, code of conduct, local install guide, model routing guide, run examples guide, publishing guide, release checklist, completion audit, copy-ready config examples, and package-safe fake-run artifact examples are present, issue-template labels exist on GitHub, GitHub repo discovery metadata is set, a security policy directs private reports, Dependabot is configured, `npm run verify` mirrors the CI release gate, and the final release audit plus release decision record are recorded.
+OpenUltraCode is an early local CLI foundation. Fake workers remain the safe default, external backends are explicit opt-in, local config is strictly validated before artifacts are created, status/report commands fail cleanly on malformed plan artifacts, edit tasks in git repos get ownership checks, isolated worktree and reconciliation artifacts, clean patch application is explicit opt-in, local CLI structured usage is parsed when available, cancellation preserves stopped-run artifacts, worker result accounting drives token and cost totals, advanced routing profile config edge cases are covered, fixture-backed planner heuristic coverage and integration fixtures for clean patch application, stopped fake runs, and file ownership conflicts are present, contributor issue templates plus a PR template, architecture guide, backend module guide, artifact reference guide with checked JSON/JSONL examples, code of conduct, local install guide, model routing guide, run examples guide, publishing guide, release checklist, completion audit, copy-ready config examples, and package-safe fake-run artifact examples are present, issue-template labels exist on GitHub, GitHub repo discovery metadata is set, a security policy directs private reports, Dependabot is configured, `npm run verify` mirrors the CI release gate, and the final release audit plus release decision record are recorded.
 
 Implemented:
 
@@ -22,7 +22,7 @@ Implemented:
 - Mixed implementation, test, and docs task decomposition.
 - Documentation-only goals scoped to contributor docs.
 - Fixture-backed planner heuristic tests under `tests/fixtures/planner/`.
-- Git-backed clean patch application fixture under `tests/fixtures/integration/`.
+- CLI integration fixtures under `tests/fixtures/integration/` for clean patch application, stopped fake runs, and file ownership conflicts.
 - Edit-task file ownership metadata and overlap detection in plan artifacts.
 - Model-tier routing.
 - `ouc plan`, `ouc run`, `ouc status`, and `ouc report`.

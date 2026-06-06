@@ -1,6 +1,6 @@
 # Build Draft
 
-Timestamp: 2026-06-05 22:23 EDT
+Timestamp: 2026-06-05 22:32 EDT
 
 GitHub: https://github.com/AryaVora621/openultracode
 
@@ -65,6 +65,7 @@ Included:
 - Deterministic edit-goal splitting into edit and dependent test tasks.
 - Mixed implementation, test, and docs goals split into dependent code, verification, and docs tasks.
 - Documentation-only goals stay scoped to README and `docs/` files.
+- Integration fixtures cover clean patch application, stopped fake runs, and file ownership conflicts.
 - Edit task source scopes prefer implementation files over docs and tracker files.
 - JSON output modes for `ouc plan ... --json` and `ouc status <run-id> --json`.
 - `ouc plan` rejects `--run-id` when the value is missing.
@@ -171,6 +172,7 @@ Observed results:
 - Built clean-patch application smoke applied a mocked worktree change to the main checkout only when `--apply-clean-patches` was present.
 - File ownership tests verified edit-task ownership metadata, conflict detection, `plan_created` ledger metadata, and pre-worker blocking for overlapping edit scopes.
 - Built file-ownership block smoke returned exit 1 with status `blocked`, `limit` `fileOwnership`, and no worker result artifacts.
+- Integration fixture tests now copy checked fixture repos for stopped fake runs and file ownership conflicts.
 - CLI usage parsing tests verified Codex JSONL usage events, Claude JSON result usage, cost mapping, and plain-text fallback behavior.
 - Built CLI usage parsing smoke mapped mocked Codex and Claude structured output into worker usage and cost totals.
 - `ouc plan` argument validation rejects a missing `--run-id` value.

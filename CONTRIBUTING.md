@@ -32,12 +32,11 @@ npm run verify
 
 ## Good First Contributions
 
-- Extend integration fixtures for conflict and stopped-run scenarios.
 - Improve docs around routing and safety.
 
 Planner heuristic fixtures live in `tests/fixtures/planner/`. Extend those fixtures when changing deterministic task decomposition.
 
-CLI integration fixtures live in `tests/fixtures/integration/`. Extend those fixtures when changing git-backed patch application behavior.
+CLI integration fixtures live in `tests/fixtures/integration/`. Extend those fixtures when changing git-backed patch application, stopped-run, or file-ownership behavior.
 
 Package-safe fake-backend artifact examples live in `examples/fake-run-artifacts/`. Extend those examples when changing fake-run artifact shapes.
 

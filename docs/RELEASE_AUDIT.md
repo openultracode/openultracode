@@ -1,6 +1,6 @@
 # Release Audit
 
-Timestamp: 2026-06-05 22:27 EDT
+Timestamp: 2026-06-05 22:32 EDT
 
 ## Objective
 
@@ -42,7 +42,7 @@ Concrete success criteria:
 | Run examples guide exists | `docs/RUN_EXAMPLES.md` covers plan, fake run, stopped run, config, local CLI, OpenRouter opt-in, model override, patch application, and troubleshooting examples | Complete |
 | Publishing guide exists | `docs/PUBLISHING.md` covers release modes, package smoke, release notes, tagging, npm publish, and stop conditions | Complete |
 | Planner heuristic fixtures exist | `tests/fixtures/planner/` and `tests/planner-fixtures.test.ts` exercise mixed, docs-only, and audit planning through the real repo inspector | Complete |
-| Integration fixture exists | `tests/fixtures/integration/git-patch-app/` backs git clean patch application CLI tests | Complete |
+| Integration fixtures exist | `tests/fixtures/integration/` backs clean patch application, stopped fake-run, and file ownership conflict CLI tests | Complete |
 | GitHub community profile is complete | `gh api repos/AryaVora621/openultracode/community/profile` reported `health_percentage` `100` | Complete |
 | Issue templates exist | `.github/ISSUE_TEMPLATE/{bug_report,feature_request,task_proposal,config}.yml` | Complete |
 | Issue-template labels exist | `gh label list --repo AryaVora621/openultracode --limit 100` showed `bug`, `enhancement`, and `good first issue` | Complete |
@@ -105,7 +105,7 @@ Concrete success criteria:
 - Unified local verification gate for tests, typecheck, build, and package dry-run.
 - Manual CI rerun through `workflow_dispatch` after the GitHub account billing lock is resolved.
 - Fixture-backed planner heuristic coverage for mixed source/test/docs goals, docs-only goals, and audit routing.
-- Integration fixture coverage for git-backed clean patch application tests.
+- Integration fixture coverage for git-backed clean patch application, stopped fake-run, and file ownership conflict tests.
 - Strict config validation with unknown-key rejection, missing active profile rejection, duplicate free-tier model rejection, file-aware errors, and CLI refusal before run artifact creation.
 - Malformed plan artifact handling for `ouc status` and `ouc report`.
 
@@ -119,7 +119,7 @@ The repo is ready for collaborator-oriented source use, but final package releas
 
 ## Completion Audit Refresh
 
-Timestamp: 2026-06-05 22:27 EDT
+Timestamp: 2026-06-05 22:32 EDT
 
 Fresh checks on the current release-readiness state:
 

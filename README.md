@@ -286,11 +286,11 @@ Status: isolated worktree creation, file ownership enforcement, diff capture, ch
 
 ### Milestone 5: Polish And Packaging
 
-Status: contributor issue templates, labels, PR template, security policy, Dependabot, release checklist, and release audit are implemented. Packaging polish remains open.
+Status: contributor issue templates, labels, PR template, security policy, Dependabot, integration fixtures, release checklist, and release audit are implemented. Packaging polish remains open.
 
 - Richer docs and examples.
 - Better default config.
-- More integration fixture scenarios.
+- Backend-specific integration fixtures for local CLI adapters.
 - Contributor-friendly issue templates.
 - Contributor-friendly PR template.
 - Security policy for private reports.
@@ -318,7 +318,6 @@ The high-level module map, runtime flow, artifact contract, backend boundaries, 
 
 Useful contributions right now:
 
-- Add conflict and stopped-run scenarios to integration fixtures.
 - Expand config examples for advanced routing and provider profiles.
 - Keep CI green across Node 20, 22, and 24.
 - Review `docs/RELEASE_DECISIONS.md` once the license and CI blockers are resolved.

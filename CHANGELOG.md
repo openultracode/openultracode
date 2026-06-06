@@ -47,6 +47,7 @@ Status: source-ready after local verification. Final package release is still bl
 - Ledger event schema tables for planning, task, patch application, and run events.
 - Fixture-backed planner tests for mixed source/test/docs goals, docs-only goals, and audit routing through the real repo inspector.
 - Integration fixture repo for git-backed clean patch application tests.
+- Integration fixtures for stopped fake runs and overlapping file ownership conflicts.
 - Status/report malformed plan artifact handling with focused CLI coverage.
 
 ### Changed

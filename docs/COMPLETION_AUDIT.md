@@ -1,6 +1,6 @@
 # Completion Audit
 
-Timestamp: 2026-06-05 22:27 EDT
+Timestamp: 2026-06-05 22:32 EDT
 
 ## Objective
 
@@ -21,7 +21,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Test the project locally | `npm run verify`, targeted example tests, hygiene scans, and package smokes have current recorded evidence | Complete |
 | Push changes to the public repo | Advanced config edge coverage commit `b45331591083600e91701383a84b9b5ed8d5828b` was pushed to `origin/main` | Complete |
 | Preserve the OpenRouter key only locally | `.env` is ignored, has `0600` permissions, and secret-prefix scans outside `.env` found no matches | Complete |
-| Improve contributor readiness | README, CONTRIBUTING, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, package-safe fake-run artifacts, local install docs, model routing docs, run examples docs, publishing docs, release docs, Dependabot, labels, and community profile are in place | Complete |
+| Improve contributor readiness | README, CONTRIBUTING, issue templates, PR template, SECURITY, CODE_OF_CONDUCT, ARCHITECTURE, examples, integration fixtures, package-safe fake-run artifacts, local install docs, model routing docs, run examples docs, publishing docs, release docs, Dependabot, labels, and community profile are in place | Complete |
 | Make package contents release-shaped | `npm pack --dry-run` includes README, LICENSE, CHANGELOG, CODE_OF_CONDUCT, `docs/`, `examples/`, and built CLI files | Complete |
 | Verify remote CI | GitHub Actions workflow exists, but jobs cannot start because the GitHub account is locked due to a billing issue | Blocked |
 | Finalize release decisions | `docs/RELEASE_DECISIONS.md` records the license, CI, release channel, tag, and npm publication decisions still needed | Blocked |
@@ -51,7 +51,7 @@ This audit maps that objective to concrete repository artifacts and verification
 | Run examples handoff | `docs/RUN_EXAMPLES.md` | Planning, fake execution, stopped runs, status/report inspection, local CLI smokes, OpenRouter opt-in, model override, patch application, and troubleshooting commands are documented |
 | Publishing handoff | `docs/PUBLISHING.md` | Release modes, package smoke, release notes, tagging, npm publish, and stop conditions are documented |
 | Planner heuristic fixtures | `tests/fixtures/planner/`, `tests/planner-fixtures.test.ts` | Mixed source/test/docs, docs-only, and audit planning are covered through the real repo inspector |
-| Integration fixtures | `tests/fixtures/integration/git-patch-app/`, `tests/cli.test.ts` | Clean patch application CLI tests now copy a checked-in git fixture repo |
+| Integration fixtures | `tests/fixtures/integration/`, `tests/cli.test.ts` | Clean patch application, stopped fake-run, and file ownership conflict CLI tests now copy checked-in fixture repos |
 | Release handoff | `docs/RELEASE_CHECKLIST.md`, `docs/RELEASE_AUDIT.md`, `docs/RELEASE_DECISIONS.md`, `CHANGELOG.md` | Release gates, known blockers, audit evidence, and release notes are recorded |
 | Community readiness | `CODE_OF_CONDUCT.md`, GitHub community profile | GitHub community profile reports `health_percentage` `100` |
 | Dependency hygiene | `.github/dependabot.yml` | Weekly npm and GitHub Actions dependency update checks are configured |
